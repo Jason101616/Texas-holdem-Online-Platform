@@ -1,5 +1,7 @@
 from channels.routing import route
+from texas.test_consumer import *
 
 channel_routing = [
-    route('websocket.receive','texas.test_consumer.ws_echo')
+    route('websocket.receive', ws_echo),
+    route('websocket.connect', ws_connect),
 ]
