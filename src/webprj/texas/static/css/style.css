@@ -7,13 +7,13 @@ html {
 }
 
 body {
-  background: #c1bdba;
+  background: rgb(219,233,172);
   font-family: 'Titillium Web', sans-serif;
 }
 
 a {
   text-decoration: none;
-  color: #1ab188;
+  color: rgb(250,246,191);
   -webkit-transition: .5s ease;
   transition: .5s ease;
 }
@@ -22,7 +22,7 @@ a:hover {
 }
 
 .form {
-  background: rgba(19, 35, 47, 0.9);
+  background: rgba(49,107,66, 0.9);;
   padding: 40px;
   max-width: 600px;
   margin: 40px auto;
@@ -44,8 +44,8 @@ a:hover {
   display: block;
   text-decoration: none;
   padding: 15px;
-  background: rgba(160, 179, 176, 0.25);
-  color: #a0b3b0;
+  background: rgba(219,234,172, 0.5);
+  color: #FFFFFF;
   font-size: 20px;
   float: left;
   width: 50%;
@@ -110,7 +110,6 @@ input, textarea {
   background: none;
   background-image: none;
   border: 1px solid #a0b3b0;
-  color: #ffffff;
   border-radius: 0;
   -webkit-transition: border-color .25s ease, box-shadow .25s ease;
   transition: border-color .25s ease, box-shadow .25s ease;
@@ -128,6 +127,13 @@ textarea {
 .field-wrap {
   position: relative;
   margin-bottom: 40px;
+}
+
+.field {
+  position: relative;
+  margin-bottom: 40px;
+  width: 300px;
+  color: rgb(51,23,12);
 }
 
 .top-row:after {

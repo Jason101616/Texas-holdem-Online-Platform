@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="This is a online Texas Hold'em application.">
+    <meta name="author" content="Du Zhang, Shuangning Liu, Yupeng Zhang">
+
+    <meta charset="UTF-8">
+    <title>Texas Hold'em</title>
+
+    <script src = "{% static "/js/jquery-3.2.1.min.js" %}"></script>
+    <script src = "{% static "/js/websocket_test.js" %}"></script>
+    <script src = "{% static "/js/bootstrap.min.js" %}"></script>
+    <script src = "{% static "/js/myjs.js" %}"></script>
+
+    <link rel = "stylesheet" href = "{% static "css/bootstrap.min.css" %}">
+    <link rel='stylesheet' href="{% static "css/googleapis.css" %}">
+    <link rel="stylesheet" href="{% static "css/normalize.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <link rel = "stylesheet" href = "{% static "css/mystyle.css" %}">
+</head>
+
+<body>
+
+    <ul class = "nbar">
+        <li class = "navtitle">Texas Hold'em</li>
+    </ul>
+    <ul class = "nbar">
+        <li class = "nav"><a class = "navhref" href = {% url 'home' %}>Log out</a></li>
+        <li class = "nav"><a class = "navhref" href = {% url 'tutorial' %}>Tutorial</a></li>
+        <li class = "nav"><a class = "navhref" href = {% url 'profile' %}><span class = "creamy">Profile</span></a></li>
+        <li class = "nav"><a class = "navhref" href = {% url 'lobby' %}>Game Lobby</a></li>
+    </ul>
+    <div class="row clearfix">
+        <div class = "col-1"></div>
+        <div class = "col-10">
+            <br><br>
+            <p><h2>User profile</h2></p>
+            <br>
+            <p>Username:</p>
+            <div class="field">
+                <input type="text" required autocomplete="off"/>
+            </div>
+
+            <p>Email:</p>
+            <div class="field">
+                <input type="email" required autocomplete="off"/>
+            </div>
+
+            <p>Password:</p>
+             <div class="field">
+                <input type="password" required autocomplete="off"/>
+            </div>
+
+            <br><br>
+            <button class="smallbtn"/>Edit profile</button>
+        </div>
+        <div class = "col-1"></div>
+    </div>
+</div>
+
+</body>
+
+</html>

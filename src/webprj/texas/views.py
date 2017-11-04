@@ -13,6 +13,18 @@ def signup(request):
     context = {}
     return render(request, 'signup.html', context)
 
-def dashboard(request):
+def lobby(request):
     context = {}
-    return render(request, 'dashboard.html', context)
+    return render(request, 'lobby.html', context)
+
+def profile(request):
+    context = {}
+    return render(request, 'profile.html', context)
+
+def tutorial(request):
+    context = {}
+    return render(request, 'tutorial.html', context)
+
+def playroom(request):
+    context = {}
+    return render(request, 'playroom.html', context)

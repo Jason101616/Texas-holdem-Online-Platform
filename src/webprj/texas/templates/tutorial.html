@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta name="description" content="This is a online Texas Hold'em application.">
+	<meta name="author" content="Du Zhang, Shuangning Liu, Yupeng Zhang">
+
+	<meta charset="UTF-8">
+	<title>Texas Hold'em</title>
+
+	<script src = "{% static "/js/jquery-3.2.1.min.js" %}"></script>
+	<script src = "{% static "/js/websocket_test.js" %}"></script>
+	<script src = "{% static "/js/bootstrap.min.js" %}"></script>
+	<script src = "{% static "/js/myjs.js" %}"></script>
+
+	<link rel = "stylesheet" href = "{% static "css/bootstrap.min.css" %}">
+	<link rel='stylesheet' href="{% static "css/googleapis.css" %}">
+	<link rel="stylesheet" href="{% static "css/normalize.min.css" %}">
+	<link rel="stylesheet" href="{% static "css/style.css" %}">
+	<link rel = "stylesheet" href = "{% static "css/mystyle.css" %}">
+</head>
+
+<body>
+
+	<ul class = "nbar">
+		<li class = "navtitle">Texas Hold'em</li>
+	</ul>
+	<ul class = "nbar">
+		<li class = "nav"><a class = "navhref" href = {% url 'home' %}>Log out</a></li>
+		<li class = "nav"><a class = "navhref" href = {% url 'tutorial' %}><span class = "creamy">Tutorial</span></a></li>
+		<li class = "nav"><a class = "navhref" href = {% url 'profile' %}>Profile</a></li>
+		<li class = "nav"><a class = "navhref" href = {% url 'lobby' %}>Game Lobby</a></li>
+	</ul>
+
+	<div class="row clearfix">
+		<div class = "col-1"></div>
+		<div class = "col-10">
+			<br><br>
+
+			<p>Texas Hold'em is a variation of poker in which the objective is to make the best five-card poker hand possible using any combination of a player's two hole cards and five community cards.</p>
+			<p>This is a quick breakdown of Poker hen ranking from lowest to highest.</p>
+
+			<table class = "table table-hover table-condensed center font15">
+				<tbody>
+					<tr>
+						<td>
+							<b>Name of Hand</b>
+						</td>
+						<td>
+							<b>Example</b>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Royal Flush
+						</td>
+						<td>
+							10♦ J♦ Q♦ K♦ A♦
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Straight Flush
+						</td>
+						<td>
+							7♦ 8♦ 9♦ 10♦ J♦
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Four of a Kind
+						</td>
+						<td>
+							3♦ 3♠ J♦ 3♣ 3♥
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Full House
+						</td>
+						<td>
+							9♣ 9♥ 4♣ 4♥ 4♦
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Flush
+						</td>
+						<td>
+							9♣ Q♣ 10♣ 4♣ 6♣
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Straight
+						</td>
+						<td>
+							6♣ 7♥ 8♣ 9♦ 10♠
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Three of a Kind
+						</td>
+						<td>
+							5♣ 5♥ 5♠ 9♦ 8♠
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Two Pair
+						</td>
+						<td>
+							4♣ 4♥ 7♣ 7♦ Q♠
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Pair
+						</td>
+						<td>
+							9♣ 9♥ 5♣ 4♦ 3♠
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class = "center">
+				<img class = "illust" src = "{% static "images/ranks.png" %}" alt = "rank of hands"/>
+			</div>
+
+			<p>Gameplay begins in a clockwise direction with the dealer whose position is marked by the dealer button. Derectly to the left of the dealer are two forced bets known as the small blind and the big blind. The big blind is double the amount of the small blind and is also the minimum bet at the table.</p>
+
+			<div class = "center">
+				<img class = "illust" src = "{% static "images/minimum.png" %}" alt = "minimum bet at the table"/>
+			</div>
+
+			<p>The table stakes define the small and big blind values. Once the blinds are posted, the players are dealt two card one at a time starting with the small blind position. These two cards are known as HOLE CARDS. </p>
+
+			<div class = "center">
+				<img class = "illust" src = "{% static "images/hole.png" %}" alt = "hole cards"/>
+			</div>
+
+			<p>Once the hole cards are dealt the first betting round called preflop begins and players make their first decision on whether or not to play their hand. Since the small and big blind have already commited chips to the post, the first action begins with the player seated left of the big blind position called under the gun. </p>
+
+			<div class = "center">
+				<img class = "illust" src = "{% static "images/preflop.png" %}" alt = "preflop"/>
+			</div>
+
+			<p>If a player wishes to play their hand, they must either call and match the previous bet amout or raise by at least doubling the last aggressive action. A player can also choose to raise all in, betting all of their chips in turn at any time. </p>
+			<p>If a player decides against playing their hand, they simply fold and forfeit their hand to the dealer without having to sacrifice any chips.</p>
+			<p>Once the preflop betting round is complete, the dealer reveals three cards face up at the center of the tables known as the flop. The flop consists of three community cards that all players can use in combination with their whole cards.</p>
+
+			<div class = "center">
+				<img class = "illust" src = "{% static "images/flop.png" %}" alt = "flop cards"/>
+			</div>
+
+			<p>After the flop is dealt, the post flop round betting begins. This round begins with the first remaining player to the left of the dealer button when a player is in the first position, they have three options: option 1 is to check and pass the opening action to the next player in turn. Option 2 is to bet an amount at least equivalent to the big blood and up to all of the players chips or all-in. Option 3, while not advisable, is to fold in first position and simply pass the action to the next player. </p>
+			<p>Should the first position make an opening bet all of the following players can elect to fold or they must either call a raise or turn to stay in the hand. If the first position and all following players in a round check in turn, then the post flop betting round is complete without an opening bet. At that time, the dealer then reveals the fourth community cause known as the turn. The post turn betting round begins thereafter and player actions are identical to the previous round.</p>
+
+			<div class = "center">
+				<img class = "illust" src = "{% static "images/turn.png" %}" alt = "turn"/>
+			</div>
+
+			<p>The dealer then reveals the fifth and last community card known as the river. The final betting round known as the showdown then takes place. </p>
+
+			<div class = "center">
+				<img class = "illust" src = "{% static "images/river.png" %}" alt = "river"/>
+			</div>
+
+			<p>Upon conclusion of all wagering, all remaining players in the hand reveal their cards in turn, beginning with the last aggressor. The winner is the player with the best five card hand made with any combination of the seven possible cards: the two hold cards and five community cards.</p>
+		</div>
+		<div class = "col-1"></div>
+	</div>
+</div>
+
+</body>
+
+</html>

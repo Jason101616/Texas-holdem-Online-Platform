@@ -1,0 +1,112 @@
+ul.nbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgba(49,107,66, 0.9);
+}
+
+li.nav {
+    float: right;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+li.navtitle {
+    float: left;
+    display: block;
+    color: white;
+    margin-left: 100px;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.creamy {
+    color:rgb(219,233,172);
+}
+
+a.navhref {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    margin-bottom: 0;
+    text-decoration: none;
+}
+
+a.navhref:hover {
+    background-color: #179b77;
+    color: white;
+}
+
+p {
+    font-size: 20px;
+    color: rgb(51,23,12);
+}
+
+.illust {
+    width: 70%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.center{
+    text-align: center;
+    margin: auto;
+}
+
+.font15 {
+    font-size: 15px;
+}
+
+.smallbtn {
+  border: 0;
+  outline: none;
+  border-radius: 0;
+  padding: 15px 15px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  background: #1ab188;
+  color: #ffffff;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  -webkit-appearance: none;
+}
+
+.smallbtn:hover, .smallbtn:focus {
+  background: #179b77;
+}
+
+.desk {
+    width: 600px;
+    height: 250px;
+    border-radius: 200px;
+    border: 3px solid #179b77;
+    background-color:  rgba(49,107,66, 0.9);
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.player {
+    height: 100px;
+    width: 100px;
+    padding: 20px;
+    margin-left: 40%;
+    color: rgb(51,23,12);
+}
+
+.card {
+    width: 45px;
+    height: 60px;
+    background-color: white;
+    border-radius: 5px;
+    border: 2px solid #179b77;
+    text-align: center;
+    margin: 15px;
+    padding: 2px;
+    color: rgb(51,23,12);
+}

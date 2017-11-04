@@ -25,10 +25,21 @@
 </head>
 
 <body>
+
+	<ul class = "nbar">
+		<li class = "navtitle">Texas Hold'em</li>
+	</ul>
+	<ul class = "nbar">
+		<li class = "nav"><a class = "navhref" href = "#news">News</a></li>
+		<li class = "nav"><a class = "navhref" href = "#contact">Contact</a></li>
+		<li class = "nav"><a class = "navhref" href = "#about">About</a></li>
+	</ul>
+
+	<br>
 	<div class="form"> 
 		<ul class="tab-group">
-			<li class="tab"><a href="signup">Sign Up</a></li>
-			<li class="tab active"><a href="login">Log In</a></li>
+			<li class="tab"><a href = {% url 'signup' %}>Sign Up</a></li>
+			<li class="tab active"><a href = {% url 'login' %}>Log In</a></li>
 		</ul>
 		<div class="tab-content">
 			<div id="login">   
@@ -48,6 +59,7 @@
 						<input type="password"required autocomplete="off"/>
 					</div>
 					<p class="forgot"><a href="#">Forgot Password?</a></p>
+					<br><br>
 					<button class="button button-block"/>Log In</button>
 				</form>
 			</div>
