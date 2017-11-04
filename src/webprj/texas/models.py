@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.utils import timezone
 import datetime
 
 # Create your models here.
@@ -18,6 +19,12 @@ class Game_info(models.Model):
 
     def __str__(self):
         return self.game_name
+
+class Desk_info(models.Model):
+    start_time = models.DateTimeField(default=timezone.now)
+    end_time = models.DateTimeField(default=timezone.now)
+    num_players = models.IntegerField()
+    current_status = models.CharField(max_length=50)
 
 class User_info(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -44,21 +51,17 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
-class Desk_info(models.Model):
-    start_time = models.DateTimeField(default=datetime.datetime.now())
-    end_time = models.DateTimeField(default=datetime.datetime.now())
-    num_players = models.IntegerField()
-    current_status = models.CharField()
+
 
 class Card_info(models.Model):
-    color = models.CharField()
-    number = models.CharField()
+    color = models.CharField(max_length=20)
+    number = models.CharField(max_length=20)
     in_deck = models.BooleanField()
     desk = models.ForeignKey(Desk_info, on_delete=models.CASCADE)
 
 class Game_play(models.Model):
-    start_time = models.DateTimeField(default=datetime.datetime.now())
-    end_time = models.DateTimeField(default=datetime.datetime.now())
+    start_time = models.DateTimeField(default=timezone.now)
+    end_time = models.DateTimeField(default=timezone.now)
     user = models.OneToOneField(User_info, on_delete=models.CASCADE)
-    action = models.CharField()
-    current_status = models.CharField() # user's status
+    action = models.CharField(max_length=20)
+    current_status = models.CharField(max_length=50) # user's status
