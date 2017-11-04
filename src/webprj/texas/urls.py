@@ -9,5 +9,4 @@ urlpatterns = [
     url(r'^tutorial/$', views.tutorial, name = 'tutorial'),
     url(r'^profile/$', views.profile, name = 'profile'),
     url(r'^playroom/$', views.playroom, name = 'playroom'),
-
 ]
