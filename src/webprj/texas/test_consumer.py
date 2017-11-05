@@ -2,6 +2,7 @@ from channels import Group
 import json
 from channels.sessions import channel_session
 from urllib.parse import parse_qs
+import random
 
 @channel_session
 def ws_msg(message):
@@ -10,7 +11,7 @@ def ws_msg(message):
     data = json.loads(message['text'])
     print(data)
     if data['message'] == 'click get_card':
-        card = get_card()
+        card = shuffle_card()
         message.channel_session['card'] = card
         content = {'card': card, 
                 'status': 'start',
@@ -44,12 +45,25 @@ def ws_msg(message):
                    'result': result}
         Group('test').send({'text': json.dumps(content)})
 
-# TODO finish this shuffle function
-def get_card():
-    return [1, 2, 3, 4, 5, 6, 7, 8, 9]
+def shuffle_card():
+    nums = []
+    for i in range(52):
+        nums.append(i)
+    ans = random.sample(nums, len(nums))
+    return ans
 
-def get_result():
-    return 1
+"""
+input:
+    card_A: [[Color, Num], ...,]
+    card_B: [[Color, Num], ...,]
+ret:
+    0: winner is A
+    1: winner is B
+"""
+
+# TODO: finish this function
+def decide_winner(card_A, card_B):
+    pass
 
 # Connected to websocket.connect
 @channel_session
