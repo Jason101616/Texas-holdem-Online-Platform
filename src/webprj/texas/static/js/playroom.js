@@ -1,50 +1,92 @@
 $(document).ready(function() {
-    console.log(window.location.pathname);
-    console.log(window.location.host);
-    socket = new WebSocket("ws://" + window.location.host + "/chat/");
+	console.log(window.location.pathname);
+	console.log(window.location.host);
+	socket = new WebSocket("ws://" + window.location.host + "/chat/");
 
-    // socket.onopen = function() {
-    //     socket.send("have opened");
-    // };
-    // Call onopen directly if socket is already open
-    if (socket.readyState === WebSocket.OPEN) socket.onopen();
+		// socket.onopen = function() {
+		//     socket.send("have opened");
+		// };
+		// Call onopen directly if socket is already open
+		if (socket.readyState === WebSocket.OPEN) socket.onopen();
 
-    $('#get_card').on('click', function(event) {
-        event.preventDefault(); // Prevent form from being submitted
-        // console.log("click get_card btn");
-        // socket.send("click get_card btn");
-        var message = {
-            message: 'click get_card'
-        };
-        socket.send(JSON.stringify(message));
-    });
+		$('#get_card').on('click', function(event) {
+				event.preventDefault(); // Prevent form from being submitted
+				var message = {
+					message: 'click get_card'
+				};
+				socket.send(JSON.stringify(message));
+			});
 
-    $('#game_hold').on('click', function(event) {
-        event.preventDefault(); // Prevent form from being submitted
-        // console.log("click get_card btn");
-        // socket.send("click get_card btn");
-        var message = {
-            message: 'click game_hold'
-        };
-        socket.send(JSON.stringify(message));
-    });
+		$('#game_hold').on('click', function(event) {
+				event.preventDefault(); // Prevent form from being submitted
+				var message = {
+					message: 'click game_hold'
+				};
+				socket.send(JSON.stringify(message));
+			});
 
-    socket.onmessage = function(message) {
-        console.log(message);
-      // var data = JSON.parse(message.data);
-      //   var chat = $("#chat")
-      //   var ele = $('<tr></tr>')
-      //
-      //   ele.append(
-      //       $("<td></td>").text(data.timestamp)
-      //   )
-      //   ele.append(
-      //       $("<td></td>").text(data.handle)
-      //   )
-      //   ele.append(
-      //       $("<td></td>").text(data.message)
-      //   )
-      //
-      //   chat.append(ele)
-    };
-});
+		$('#game_fold').on('click', function(event) {
+				event.preventDefault(); // Prevent form from being submitted
+				var message = {
+					message: 'click game_fold'
+				};
+				socket.send(JSON.stringify(message));
+			});
+
+		socket.onmessage = function(message) {
+			console.log(message);
+			var data = JSON.parse(message.data);
+
+			if (data.status == "start"){
+				var i = 1;
+				for (; i <= 5; i++){
+					$('#desk-' + i).html("X");
+				}
+				for (; i <= 7; i++){
+					$('#robot-' + (i - 5)).html("X");
+				}
+				for (; i <= 9; i++){
+					$('#me-' + (i - 7)).html(data.card[i - 1]);
+				}
+			}
+			else if (data.status == 'hold'){
+				switch(data.hold_click_cnt) {
+					case 1: 
+					var i = 1;
+					for (; i <= 3; i++){
+						$('#desk-' + i).html(data.card[i - 1]);
+					}
+					break;
+
+					case 2: 
+					$('#desk-' + 4).html(data.card[3]);
+					break;
+
+					case 3: 
+					$('#desk-' + 5).html(data.card[4]);
+					break;
+
+					default: 
+					var i = 6;
+					for (; i <= 7; i++){
+						$('#robot-' + (i - 5)).html(data.card[i - 1]);
+					}
+					$('#message').html(data.result);
+					break;
+				}
+			}
+			else if (data.status == 'fold') {
+				$('#message').html(data.result);
+				var i = 1;
+				for (; i <= 5; i++){
+					$('#desk-' + i).html(data.card[i - 1]);
+				}
+				for (; i <= 7; i++){
+					$('#robot-' + (i - 5)).html(data.card[i - 1]);
+				}
+				for (; i <= 9; i++){
+					$('#me-' + (i - 7)).html(data.card[i - 1]);
+				}
+			}
+		};
+	});

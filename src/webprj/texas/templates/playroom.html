@@ -14,7 +14,6 @@
 
     <script src = "{% static "/js/jquery-3.2.1.min.js" %}"></script>
     <script src = "{% static "/js/playroom.js" %}"></script>
-    <script src = "{% static "/js/bootstrap.min.js" %}"></script>
 
     <link rel = "stylesheet" href = "{% static "css/bootstrap.min.css" %}">
     <link rel='stylesheet' href="{% static "css/googleapis.css" %}">
@@ -37,13 +36,13 @@
 
     <div class="row clearfix">
         <div class = "col-1"></div>
-        <div class = "col-8 center">
+        <div class = "col-7 center">
             <div class = "player">
                 <table class = "center">
                     <tr>
                         <th><p>Robot</p></th>
-                        <th><div id = "robot-1" class = "card">X</div></th>
-                        <th><div id = "robot-2" class = "card">X</div></th>
+                        <th><div id = "robot-1" class = "card"></div></th>
+                        <th><div id = "robot-2" class = "card"></div></th>
                     </tr>
                 </table>
             </div>
@@ -51,11 +50,11 @@
                 <table class = "center">
                     <br><br><br>
                     <tr>
-                        <th><div id = "desk-1" class = "card">A♦</div></th>
-                        <th><div id = "desk-2" class = "card">10♥</div></th>
-                        <th><div id = "desk-3" class = "card">6♥</div></th>
-                        <th><div id = "desk-4" class = "card">X</div></th>
-                        <th><div id = "desk-5" class = "card">X</div></th>
+                        <th><div id = "desk-1" class = "card"></div></th>
+                        <th><div id = "desk-2" class = "card"></div></th>
+                        <th><div id = "desk-3" class = "card"></div></th>
+                        <th><div id = "desk-4" class = "card"></div></th>
+                        <th><div id = "desk-5" class = "card"></div></th>
                     </tr>
                 </table>
             </div>
@@ -63,19 +62,22 @@
                 <table class = "center">
                     <tr>
                         <th><p>Me</p></th>
-                        <th><div id = "me-1" class = "card">A♦</div></th>
-                        <th><div id = "me-2" class = "card">10♥</div></th>
+                        <th><div id = "me-1" class = "card"></div></th>
+                        <th><div id = "me-2" class = "card"></div></th>
                     </tr>
                 </table>
             </div>
             <br><br>
         </div>
-        <div class = "col-3 center"><br>
-            <button id = 'get_card' class = "smallbtn">Get Card</button><br><br>
-            <button id = 'game_hold' class = "smallbtn">Hold</button><br><br>
-            <button id = 'game_fold' class = "smallbtn">Fold</button><br><br>
+        <div class = "col-3"><br><br><br><br>
+            <div class = "boxes center">
+                <button id = 'get_card' class = "smallbtn button-block">Get Card</button><br><br>
+                <button id = 'game_hold' class = "smallbtn button-block">Hold</button><br><br>
+                <button id = 'game_fold' class = "smallbtn button-block">Fold</button><br><br>
+            </div>
+            <br>
+            <div id = "message" class = "message"></div>
         </div>
-    </div>
 
-</body>
-</html>
+    </body>
+    </html>
