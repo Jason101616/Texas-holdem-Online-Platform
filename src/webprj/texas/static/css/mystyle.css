@@ -1,3 +1,8 @@
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: rgba(180,180,180,0.8);
+  font-size: 18px;
+}
+
 ul.nbar {
     list-style-type: none;
     margin: 0;

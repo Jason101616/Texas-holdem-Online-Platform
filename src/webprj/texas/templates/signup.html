@@ -29,9 +29,9 @@
         <li class = "navtitle">Texas Hold'em</li>
     </ul>
     <ul class = "nbar">
-        <li class = "nav"><a class = "navhref" href = "#news">News</a></li>
-        <li class = "nav"><a class = "navhref" href = "#contact">Contact</a></li>
-        <li class = "nav"><a class = "navhref" href = "#about">About</a></li>
+        <li class = "nav"><a class = "navhref" href = {% url 'tutorial' %}>Tutorial</a></li>
+        <li class = "nav"><a class = "navhref" href = {% url 'profile' %}>Profile</a></li>
+        <li class = "nav"><a class = "navhref" href = {% url 'lobby' %}>Game Lobby</a></li>
     </ul>
 
     <br>
@@ -46,29 +46,20 @@
                 <form action="/" method="post">
                     <div class="top-row">
                         <div class="field-wrap">
-                            <label>
-                                First Name<span class="req">*</span>
-                            </label>
-                            <input type="text" required autocomplete="off" />
+                            <input type="text" placeholder = "First Name*"/>
                         </div>
                         <div class="field-wrap">
-                            <label>
-                                Last Name<span class="req">*</span>
-                            </label>
-                            <input type="text"required autocomplete="off"/>
+                            <input type="text" placeholder = "Last Name*"/>
                         </div>
                     </div>
                     <div class="field-wrap">
-                        <label>
-                            Email Address<span class="req">*</span>
-                        </label>
-                        <input type="email"required autocomplete="off"/>
+                        <input type="text" placeholder = "Username*" />
                     </div>
                     <div class="field-wrap">
-                        <label>
-                            Set A Password<span class="req">*</span>
-                        </label>
-                        <input type="password"required autocomplete="off"/>
+                        <input type="email" placeholder = "Email Address*" />
+                    </div>
+                    <div class="field-wrap">
+                        <input type="password" placeholder = "Set A Password*" />
                     </div>
                     <button type="submit" class="button button-block"/>Get Started</button>
                 </form>
