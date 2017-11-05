@@ -32,7 +32,7 @@ def ws_msg(message):
     Group("test").send({
         "text": json.dumps({
             "text": message["text"],
-            "username": message.channel_session["username"],
+            "username": message.channel_session["username"]
         }),
     })
 
