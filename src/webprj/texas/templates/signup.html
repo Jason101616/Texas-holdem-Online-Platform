@@ -44,6 +44,7 @@
             <div id="signup">   
                 <h1>Texas Hold'em</h1>
                 <form action="/" method="post">
+                    {% csrf_token %}
                     <div class="top-row">
                         <div class="field-wrap">
                             <input type="text" placeholder = "First Name*"/>
