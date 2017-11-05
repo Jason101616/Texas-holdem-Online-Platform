@@ -43,7 +43,7 @@ $(document).ready(function() {
     // Make it show an alert when a message is received
     ws.onmessage = function(message) {
         console.log(message);
-        console.log(message.data + 'hi!');
+        console.log(message.data + ' hi!');
     }
     // Send a new message when the WebSocket opens
     ws.onopen = function() {

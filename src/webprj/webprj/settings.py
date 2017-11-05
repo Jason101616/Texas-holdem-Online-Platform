@@ -122,8 +122,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 CHANNEL_LAYERS = {
-    'default':{
-        'BACKEND': 'asgiref.inmemory.ChannelLayer',
-        'ROUTING': 'routing.channel_routing',
-    }
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+        "ROUTING": "routing.channel_routing",
+    },
 }
