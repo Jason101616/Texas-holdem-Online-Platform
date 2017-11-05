@@ -43,13 +43,13 @@ $(document).ready(function() {
     // Make it show an alert when a message is received
     ws.onmessage = function(message) {
         console.log(message);
-        console.log(message.data + 'hi!');
-    }
+        console.log(message.data + ' hi!');
+    };
     // Send a new message when the WebSocket opens
     ws.onopen = function() {
         ws.send('Hello, world');
-    }
-    if (ws.readyState == WebSocket.OPEN) ws.onopen();
+    };
+    if (ws.readyState === WebSocket.OPEN) ws.onopen();
     console.log('ws finished!');
 
     $('#get_card').on('click', function(event) {
