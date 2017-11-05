@@ -19,16 +19,14 @@ def ws_msg(message):
         Group('test').send({'text': json.dumps(content)})
 
     elif data['message'] == 'click game_hold':
-        print("in click game_hold")
+        message.channel_session['hold_click_cnt'] += 1
         if (message.channel_session['hold_click_cnt'] < 3):
-            message.channel_session['hold_click_cnt'] += 1
             content = {'card': message.channel_session['card'],
                     'status': 'hold',
                    'hold_click_cnt': message.channel_session['hold_click_cnt'],
                    'result': ""}
         else:
-            result = "You win!"
-            message.channel_session['hold_click_cnt'] += 1
+            result = decide_winner(message.channel_session['card'])
             content = {'card': message.channel_session['card'],
                     'status': 'hold',
                    'hold_click_cnt': message.channel_session['hold_click_cnt'],
@@ -36,7 +34,6 @@ def ws_msg(message):
         Group('test').send({'text': json.dumps(content)})
 
     elif data['message'] == 'click game_fold':
-        print("in click game_fold")
         result = "You lose!"
         message.channel_session['hold_click_cnt'] += 1
         content = {'card': message.channel_session['card'],
@@ -49,8 +46,27 @@ def shuffle_card():
     nums = []
     for i in range(52):
         nums.append(i)
-    ans = random.sample(nums, len(nums))
-    return ans
+    ans = random.sample(nums, len(nums))[0:9]
+
+    names = []
+    for rand in ans:
+        color = (int)(rand - rand % 13) / 13
+        index = rand - color * 13
+        name = []
+
+        if index >=0 and index <= 9:
+            name.append(str(int(index + 1)))
+        elif index == 10:
+            name.append('J')
+        elif index == 11:
+            name.append('Q')
+        elif index == 12:
+            name.append('K')
+
+        name.append(color)
+        names.append(name)
+
+    return names
 
 """
 input:
@@ -59,11 +75,15 @@ input:
 ret:
     0: winner is A
     1: winner is B
+
+card[0-4]: public card
+card[5-6]: robot card
+card[7-8]: my card
 """
 
 # TODO: finish this function
-def decide_winner(card_A, card_B):
-    pass
+def decide_winner(card):
+    return "test"
 
 # Connected to websocket.connect
 @channel_session

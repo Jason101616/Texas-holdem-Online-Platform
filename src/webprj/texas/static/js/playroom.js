@@ -37,6 +37,22 @@ $(document).ready(function() {
 			console.log(message);
 			var data = JSON.parse(message.data);
 
+			for (var i = 0; i < 9; i++){
+				var name = data.card[i][0];
+				switch (data.card[i][1]) {
+					case 0:
+					name += '♥'; break;
+					case 1:
+					name += '♣'; break;
+					case 2:
+					name += '♦'; break;
+					case 3:
+					name += '♠'; break;
+					default: break;
+				}
+				data.card[i] = name;
+			}
+
 			if (data.status == "start"){
 				var i = 1;
 				for (; i <= 5; i++){
@@ -49,6 +65,7 @@ $(document).ready(function() {
 					$('#me-' + (i - 7)).html(data.card[i - 1]);
 				}
 			}
+
 			else if (data.status == 'hold'){
 				switch(data.hold_click_cnt) {
 					case 1: 
@@ -75,6 +92,7 @@ $(document).ready(function() {
 					break;
 				}
 			}
+
 			else if (data.status == 'fold') {
 				$('#message').html(data.result);
 				var i = 1;
