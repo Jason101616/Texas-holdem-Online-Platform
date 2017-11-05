@@ -1,9 +1,16 @@
-Please complete all your project development in this directory and 
-its subdirectories (which you may create as neeeded).
+# reference
 
+#### User interface:
 
-### UI
-https://codepen.io/ace-subido/pen/Cuiep
-https://www.w3schools.com/css/tryit.asp?filename=trycss_navbar_horizontal_black
-https://www.youtube.com/watch?v=cnm_V7A-G6c
-https://vegasclick.com/games/texasholdem
+- https://www.w3schools.com/css/tryit.asp?filename=trycss_navbar_horizontal_black
+
+#### Rules of Texas Hold'em
+
+- https://www.youtube.com/watch?v=cnm_V7A-G6c
+- https://vegasclick.com/games/texasholdem
+
+#### Django Channels
+
+- https://channels.readthedocs.io/en/stable/inshort.html
+- https://www.sourcelair.com/blog/articles/115/django-channels-chat
+
