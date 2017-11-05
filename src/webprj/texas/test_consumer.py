@@ -8,7 +8,10 @@ import random
 def ws_msg(message):
     # print(message['text'])
 
-    data = json.loads(message['text'])
+    try:
+        data = json.loads(message['text'])
+    except:
+        return
     print(data)
     if data['message'] == 'click get_card':
         card = shuffle_card()
@@ -70,15 +73,13 @@ def shuffle_card():
 
 """
 input:
-    card_A: [[Color, Num], ...,]
-    card_B: [[Color, Num], ...,]
-ret:
-    0: winner is A
-    1: winner is B
-
-card[0-4]: public card
-card[5-6]: robot card
-card[7-8]: my card
+    card: [[Num, Color], ...,]
+    card[0-4]: public card
+    card[5-6]: robot card
+    card[7-8]: my card
+return:
+    "You win!"
+    "You lose!"
 """
 
 # TODO: finish this function
