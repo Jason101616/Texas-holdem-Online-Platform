@@ -17,6 +17,7 @@ def ws_msg(message):
     if data['message'] == 'click get_card':
         card = shuffle_card()
         message.channel_session['card'] = card
+        message.channel_session['hold_click_cnt'] = 0
         content = {'card': card, 
                 'status': 'start',
                 'hold_click_cnt': message.channel_session['hold_click_cnt']}
@@ -40,6 +41,7 @@ def ws_msg(message):
     elif data['message'] == 'click game_fold':
         result = "You lose!"
         message.channel_session['hold_click_cnt'] += 1
+        message.channel_session['hold_click_cnt'] = 0
         content = {'card': message.channel_session['card'],
                     'status': 'fold',
                    'hold_click_cnt': message.channel_session['hold_click_cnt'],

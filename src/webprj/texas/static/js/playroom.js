@@ -64,6 +64,7 @@ $(document).ready(function() {
 				for (; i <= 9; i++){
 					$('#me-' + (i - 7)).html(data.card[i - 1]);
 				}
+				$('#message').html("");
 			}
 
 			else if (data.status == 'hold'){
