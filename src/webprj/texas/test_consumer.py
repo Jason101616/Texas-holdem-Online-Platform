@@ -100,11 +100,11 @@ def decide_winner(card):
     my_level, my_score, my_type = test_compare.highest(my)
     robot_level, robot_score, robot_type = test_compare.highest(robot)
     if (my_level > robot_level) or my_level == robot_level and my_score > robot_score:
-        return my_type + " V.S." + robot_type + " You win!"
+        return my_type + " V.S." + robot_type + "<br> You win!"
     elif my_level == robot_level and my_score == robot_score:
-        return my_type + " V.S." + robot_type + " Draw!"
+        return my_type + " V.S." + robot_type + "<br> Draw!"
     else:
-        return my_type + " V.S." + robot_type + " You lose!"
+        return my_type + " V.S." + robot_type + "<br> You lose!"
 
 # Connected to websocket.connect
 @channel_session
