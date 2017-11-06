@@ -166,6 +166,7 @@ def high(cards):
 # TWO_PAIRS      = 2  #两对
 # PAIR           = 1  #一对
 # HIGH           = 0  #高牌
+LEVEL = {8:"Straight Flush",7:"Four of a Kind",6:"Full House",5:" Flush", 4:"Straight",3:"Three of a Kind",2:"Two Pair",1:"Pair",0:"High"}
 
 def calculate_level(cards):
     if is_junko(cards)[0] and is_suited(cards)[0]:
@@ -199,8 +200,8 @@ def highest(all_cards):
             if score > max_score:
                 max_level = level
                 max_score = score
-    print (max_level, max_score)
-    return max_level, max_score
+    print (max_level, max_score, LEVEL[max_level])
+    return max_level, max_score, LEVEL[max_level]
 
 """
 print(calculate_level(cards1))
