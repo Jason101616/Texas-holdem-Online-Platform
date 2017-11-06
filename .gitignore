@@ -43,3 +43,7 @@ nosetests.xml
 src/webprj/db.sqlite3
 
 src/webprj/dump.rdb
+
+*.sqlite3
+
+*.rdb
