@@ -3,6 +3,7 @@ import json
 from channels.sessions import channel_session
 from urllib.parse import parse_qs
 import random
+from . import test_compare
 
 @channel_session
 def ws_msg(message):
@@ -45,11 +46,18 @@ def ws_msg(message):
                    'result': result}
         Group('test').send({'text': json.dumps(content)})
 
+
+"""
+output value:
+    names = [[num_1,color_1],[num_2,color_2],...[]]
+    card = '1',...,'10','J','Q','K'
+    color = 0,1,2,3
+"""
 def shuffle_card():
     nums = []
     for i in range(52):
         nums.append(i)
-    ans = random.sample(nums, len(nums))[0:9]
+    ans = random.sample(nums, len(nums))[0:9]#
 
     names = []
     for rand in ans:
@@ -84,7 +92,17 @@ return:
 
 # TODO: finish this function
 def decide_winner(card):
-    return "test"
+    print (card)
+    my = test_compare.transfer(card[0:5] + card[7:9])
+    robot = test_compare.transfer(card[0:7])
+    my_level, my_score = test_compare.highest(my)
+    robot_level, robot_score = test_compare.highest(robot)
+    if (my_level > robot_level) or my_level == robot_level and my_score > robot_score:
+        return "You win!"
+    elif my_level == robot_level and my_score == robot_score:
+        return "Draw!"
+    else:
+        return "You lose!"
 
 # Connected to websocket.connect
 @channel_session
