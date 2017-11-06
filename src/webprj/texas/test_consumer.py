@@ -97,8 +97,8 @@ def decide_winner(card):
     print (card)
     my = test_compare.transfer(card[0:5] + card[7:9])
     robot = test_compare.transfer(card[0:7])
-    my_level, my_score, my_type = test_compare.highest(my)
-    robot_level, robot_score, robot_type = test_compare.highest(robot)
+    my_level, my_score, my_type, my_card = test_compare.highest(my)
+    robot_level, robot_score, robot_type, robot_card = test_compare.highest(robot)
     if (my_level > robot_level) or my_level == robot_level and my_score > robot_score:
         return my_type + " V.S." + robot_type + " You win!"
     elif my_level == robot_level and my_score == robot_score:

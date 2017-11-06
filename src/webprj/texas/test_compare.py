@@ -191,17 +191,20 @@ def calculate_level(cards):
 
 def highest(all_cards):
     max_level, max_score = calculate_level(all_cards[0])
+    max_card = all_cards[0]
     for cards in all_cards[1:]:
         level, score = calculate_level(cards)
         if level > max_level:
             max_level = level
             max_score = score
+            max_card = cards
         elif level == max_level:
             if score > max_score:
                 max_level = level
                 max_score = score
-    print (max_level, max_score, LEVEL[max_level])
-    return max_level, max_score, LEVEL[max_level]
+                max_card = cards
+    print (max_level, max_score, LEVEL[max_level], max_card)
+    return max_level, max_score, LEVEL[max_level], max_card
 
 """
 print(calculate_level(cards1))
