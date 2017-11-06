@@ -47,6 +47,21 @@ def transfer(my):
         my_cards.append(sorted(list(c), key=second))
     return my_cards
 
+def transfer_reverse(my):
+    my_cards = []
+    for m in my:
+        if m[1] == 14:
+            my_cards.append(['1', m[0]])
+        elif m[1] == 13:
+            my_cards.append(['K', m[0]])
+        elif m[1] == 12:
+            my_cards.append(['Q', m[0]])
+        elif m[1] == 11:
+            my_cards.append(['J', m[0]])
+        else:
+            my_cards.append([str(m[1]), m[0]])
+    return my_cards
+
 
 # whether cards are suited
 def is_suited(cards):
@@ -203,8 +218,8 @@ def highest(all_cards):
                 max_level = level
                 max_score = score
                 max_card = cards
-    print (max_level, max_score, LEVEL[max_level], max_card)
-    return max_level, max_score, LEVEL[max_level], max_card
+    print (max_level, max_score, LEVEL[max_level], transfer_reverse(max_card))
+    return max_level, max_score, LEVEL[max_level], transfer_reverse(max_card)
 
 """
 print(calculate_level(cards1))
