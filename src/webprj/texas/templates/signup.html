@@ -42,26 +42,26 @@
         <div class="tab-content">
             <div id="signup">   
                 <h1>Texas Hold'em</h1>
-                <form action={% url 'lobby' %} method="post">
+                <form action="{% url 'signup' %}" method = "post">
                     {% csrf_token %}
                     <div class="top-row">
                         <div class="field-wrap">
-                            <input type="text" placeholder = "First Name*"/>
+                            <input type="text" placeholder = "First Name*" name="first_name"/>
                         </div>
                         <div class="field-wrap">
-                            <input type="text" placeholder = "Last Name*"/>
+                            <input type="text" placeholder = "Last Name*" name="last_name"/>
                         </div>
                     </div>
                     <div class="field-wrap">
-                        <input type="text" placeholder = "Username*" />
+                        <input type="text" placeholder = "Username*" name="username"/>
                     </div>
                     <div class="field-wrap">
-                        <input type="email" placeholder = "Email Address*" />
+                        <input type="email" placeholder = "Email Address*" name="email"/>
                     </div>
                     <div class="field-wrap">
-                        <input type="password" placeholder = "Set A Password*" />
+                        <input type="password" placeholder = "Set A Password*" name="password"/>
                     </div>
-                    <button type="submit" class="button button-block"/>Get Started</button>
+                    <button type="submit" class="button button-block">Get Started</button>
                     {% csrf_token %}
                 </form>
             </div>

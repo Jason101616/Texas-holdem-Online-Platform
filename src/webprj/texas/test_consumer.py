@@ -5,6 +5,7 @@ from urllib.parse import parse_qs
 import random
 from . import test_compare
 
+
 @channel_session
 def ws_msg(message):
     # print(message['text'])
@@ -18,34 +19,42 @@ def ws_msg(message):
         card = shuffle_card()
         message.channel_session['card'] = card
         message.channel_session['hold_click_cnt'] = 0
-        content = {'card': card, 
-                'status': 'start',
-                'hold_click_cnt': message.channel_session['hold_click_cnt']}
+        content = {
+            'card': card,
+            'status': 'start',
+            'hold_click_cnt': message.channel_session['hold_click_cnt']
+        }
         Group('test').send({'text': json.dumps(content)})
 
     elif data['message'] == 'click game_hold':
         message.channel_session['hold_click_cnt'] += 1
         if (message.channel_session['hold_click_cnt'] < 3):
-            content = {'card': message.channel_session['card'],
-                    'status': 'hold',
-                   'hold_click_cnt': message.channel_session['hold_click_cnt'],
-                   'result': ""}
+            content = {
+                'card': message.channel_session['card'],
+                'status': 'hold',
+                'hold_click_cnt': message.channel_session['hold_click_cnt'],
+                'result': ""
+            }
         else:
             result = decide_winner(message.channel_session['card'])
-            content = {'card': message.channel_session['card'],
-                    'status': 'hold',
-                   'hold_click_cnt': message.channel_session['hold_click_cnt'],
-                   'result': result}
+            content = {
+                'card': message.channel_session['card'],
+                'status': 'hold',
+                'hold_click_cnt': message.channel_session['hold_click_cnt'],
+                'result': result
+            }
         Group('test').send({'text': json.dumps(content)})
 
     elif data['message'] == 'click game_fold':
         result = "You lose!"
         message.channel_session['hold_click_cnt'] += 1
         message.channel_session['hold_click_cnt'] = 0
-        content = {'card': message.channel_session['card'],
-                    'status': 'fold',
-                   'hold_click_cnt': message.channel_session['hold_click_cnt'],
-                   'result': result}
+        content = {
+            'card': message.channel_session['card'],
+            'status': 'fold',
+            'hold_click_cnt': message.channel_session['hold_click_cnt'],
+            'result': result
+        }
         Group('test').send({'text': json.dumps(content)})
 
 
@@ -55,11 +64,13 @@ output value:
     card = '1',...,'10','J','Q','K'
     color = 0,1,2,3
 """
+
+
 def shuffle_card():
     nums = []
     for i in range(52):
         nums.append(i)
-    ans = random.sample(nums, len(nums))[0:9]#
+    ans = random.sample(nums, len(nums))[0:9]  #
 
     names = []
     for rand in ans:
@@ -67,7 +78,7 @@ def shuffle_card():
         index = rand - color * 13
         name = []
 
-        if index >=0 and index <= 9:
+        if index >= 0 and index <= 9:
             name.append(str(int(index + 1)))
         elif index == 10:
             name.append('J')
@@ -81,6 +92,7 @@ def shuffle_card():
 
     return names
 
+
 """
 input:
     card: [[Num, Color], ...,]
@@ -92,19 +104,23 @@ return:
     "You lose!"
 """
 
+
 # TODO: finish this function
 def decide_winner(card):
-    print (card)
+    print(card)
     my = test_compare.transfer(card[0:5] + card[7:9])
     robot = test_compare.transfer(card[0:7])
     my_level, my_score, my_type, my_card = test_compare.highest(my)
-    robot_level, robot_score, robot_type, robot_card = test_compare.highest(robot)
-    if (my_level > robot_level) or my_level == robot_level and my_score > robot_score:
+    robot_level, robot_score, robot_type, robot_card = test_compare.highest(
+        robot)
+    if (my_level >
+            robot_level) or my_level == robot_level and my_score > robot_score:
         return my_type + " V.S." + robot_type + "<br> You win!"
     elif my_level == robot_level and my_score == robot_score:
         return my_type + " V.S." + robot_type + "<br> Draw!"
     else:
         return my_type + " V.S." + robot_type + "<br> You lose!"
+
 
 # Connected to websocket.connect
 @channel_session

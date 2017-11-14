@@ -53,7 +53,7 @@ $(document).ready(function() {
 				data.card[i] = name;
 			}
 
-			if (data.status == "start"){
+			if (data.status === "start"){
 				var i = 1;
 				for (; i <= 5; i++){
 					$('#desk-' + i).html("X");
@@ -67,7 +67,7 @@ $(document).ready(function() {
 				$('#message').html("");
 			}
 
-			else if (data.status == 'hold'){
+			else if (data.status === 'hold'){
 				switch(data.hold_click_cnt) {
 					case 1: 
 					var i = 1;
@@ -94,7 +94,7 @@ $(document).ready(function() {
 				}
 			}
 
-			else if (data.status == 'fold') {
+			else if (data.status === 'fold') {
 				$('#message').html(data.result);
 				var i = 1;
 				for (; i <= 5; i++){
