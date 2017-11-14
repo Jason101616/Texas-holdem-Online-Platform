@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from texas.forms import SignupForm
+from texas.forms import SignupForm, LoginForm
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -39,6 +39,26 @@ def signup(request):
     else:
         return render(request, 'signup.html')
 
+def log_in(request):
+    print("in log_in")
+    if request.method == 'GET':
+        return render(request, 'homepage.html')
+
+    login_form = LoginForm(request.POST)
+    if not login_form.is_valid():
+        print(login_form.errors.as_data())
+        return render(request, 'homepage.html')
+
+    user = authenticate(
+        request,
+        username=login_form.cleaned_data['username'],
+        password=login_form.cleaned_data['password'])
+    if user is not None:
+        login(request, user)
+        return redirect(reverse('lobby'))
+    else:
+        return render(request, 'homepage.html')
+
 @login_required
 def lobby(request):
     context = {}
@@ -62,4 +82,4 @@ def playroom(request):
 @login_required
 def logout(request):
     logout(request)
-    return redirect(reverse('grumblr:login'))
+    return redirect(reverse('log_in'))
