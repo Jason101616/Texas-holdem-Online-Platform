@@ -4,6 +4,13 @@ from channels.sessions import channel_session
 from urllib.parse import parse_qs
 import random
 from . import test_compare
+from channels.auth import http_session_user, channel_session_user, channel_session_user_from_http
+
+# an global private group name array for each player
+private_group = ['1','2','3','4','5','6','7','8','9']
+
+# an public group name for all player
+public_name = 'test'
 
 
 @channel_session
@@ -24,7 +31,7 @@ def ws_msg(message):
             'status': 'start',
             'hold_click_cnt': message.channel_session['hold_click_cnt']
         }
-        Group('test').send({'text': json.dumps(content)})
+        Group(public_name).send({'text': json.dumps(content)})
 
     elif data['message'] == 'click game_hold':
         message.channel_session['hold_click_cnt'] += 1
@@ -43,7 +50,7 @@ def ws_msg(message):
                 'hold_click_cnt': message.channel_session['hold_click_cnt'],
                 'result': result
             }
-        Group('test').send({'text': json.dumps(content)})
+        Group(public_name).send({'text': json.dumps(content)})
 
     elif data['message'] == 'click game_fold':
         result = "You lose!"
@@ -55,7 +62,7 @@ def ws_msg(message):
             'hold_click_cnt': message.channel_session['hold_click_cnt'],
             'result': result
         }
-        Group('test').send({'text': json.dumps(content)})
+        Group(public_name).send({'text': json.dumps(content)})
 
 
 """
@@ -123,16 +130,33 @@ def decide_winner(card):
 
 
 # Connected to websocket.connect
-@channel_session
+@channel_session_user_from_http 
 def ws_add(message):
     # Accept the incoming connection
     message.reply_channel.send({"accept": True})
     message.channel_session['hold_click_cnt'] = 0
-    # Add them to the chat group
-    Group("test").add(message.reply_channel)
+    # Add them to the public group
+    Group(public_name).add(message.reply_channel)
+    # Add this user to the private Group
+    global private_group
+    private_group_num = private_group[0]
+    private_group = private_group[1:]
+    Group(private_group_num).add(message.reply_channel)
+
+
+
+    content = {
+        'private_group': private_group_num,
+        'user_name':message.user.username
+    }
+
+
+
+    #Group(public_name).send({'text': json.dumps(content)})
+    Group(private_group_num).send({'text':json.dumps(content)})
 
 
 # Connected to websocket.disconnect
 @channel_session
 def ws_disconnect(message):
-    Group("test").discard(message.reply_channel)
+    Group(public_name).discard(message.reply_channel)
