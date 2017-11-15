@@ -21,6 +21,9 @@ current_compacity = max_compacity
 # start flag of this playroom
 start_flag = False
 
+# owner of the playroom
+owner = ''
+
 @channel_session
 def ws_msg(message):
     # print(message['text'])
@@ -142,6 +145,9 @@ def decide_winner(card):
 def ws_add(message):
     global current_compacity
     global start_flag
+    global max_compacity
+    global owner
+    global private_group
 
     if start_flag:
         # Reject the incoming connection
@@ -154,18 +160,26 @@ def ws_add(message):
         message.reply_channel.send({"accept": False})
         return
 
+    if current_compacity == max_compacity:
+        owner = message.user.username
+
     current_compacity -= 1
 
     # Accept the incoming connection
     message.reply_channel.send({"accept": True})
     message.channel_session['hold_click_cnt'] = 0
+
     # Add them to the public group
     Group(public_name).add(message.reply_channel)
-    # Add this user to the private Group
-    global private_group
-    private_group_num = private_group[0]
+
+    # Allocate a postion to the user
+    position = private_group[0]
+
+    # 
     private_group = private_group[1:]
-    Group(private_group_num).add(message.reply_channel)
+
+    # Add the user to the private group
+    Group(position).add(message.reply_channel)
 
 
 
