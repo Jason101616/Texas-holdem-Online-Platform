@@ -12,6 +12,14 @@ private_group = ['1','2','3','4','5','6','7','8','9']
 # an public group name for all player
 public_name = 'test'
 
+# max compacity
+max_compacity = 9
+
+# current compacity
+current_compacity = max_compacity
+
+# start flag of this playroom
+start_flag = False
 
 @channel_session
 def ws_msg(message):
@@ -130,8 +138,24 @@ def decide_winner(card):
 
 
 # Connected to websocket.connect
-@channel_session_user_from_http 
+@channel_session_user_from_http
 def ws_add(message):
+    global current_compacity
+    global start_flag
+
+    if start_flag:
+        # Reject the incoming connection
+        message.reply_channel.send({"accept": False})
+        return
+
+
+    if current_compacity == 0:
+        # Reject the incoming connection
+        message.reply_channel.send({"accept": False})
+        return
+
+    current_compacity -= 1
+
     # Accept the incoming connection
     message.reply_channel.send({"accept": True})
     message.channel_session['hold_click_cnt'] = 0
