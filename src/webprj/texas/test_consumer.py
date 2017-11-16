@@ -1,10 +1,11 @@
 from channels import Group
 import json
 from channels.sessions import channel_session
-from urllib.parse import parse_qs
 import random
 from . import test_compare
 from channels.auth import http_session_user, channel_session_user, channel_session_user_from_http
+from texas.models import *
+
 
 # an global private group name array for each player
 private_group = ['1','2','3','4','5','6','7','8','9']
@@ -197,37 +198,29 @@ def ws_add(message):
 # Connected to websocket.disconnect
 @channel_session_user_from_http
 def ws_disconnect(message):
-    global current_compacity
-    global start_flag
-    global max_compacity
-    global owner
-    global private_group
-
-    postion = str(players[owner])
-
-    # remove player from player list
-    del player[owner]
-
-    # if the owner exit, transfer the owner
-    if owner == message.user.username:
-        if len(players) > 1:
-            owner = players.keys()[0]
-        elif len(players) == 1:
-            owner = players.keys()[0]
-            start_flag = False
-        else:
-            owner = ''
-
-    # return back the postion/private group to the list
-    private_group.append(postion)
-
-    # Boardcast to all player
-    content = {'leave_player':message.user.username}
-    Group(public_name).send({'text': json.dumps(content)})
-
     # Disconnect
-    Group(postion).discard(message.reply_channel)
+    desk = Desk_info.objects.get(desk_name='desk0')
+    # if full
+    if desk.current_capacity == 0:
+        Group('desk0').discard(message.reply_channel)
+        return
+    # if quit game
+    desk.current_capacity += 1
+    # decide is_start
+    if desk.current_capacity >= desk.capacity - 1:
+        desk.is_start = False
+    # decide owner
+    if desk.owner == message.user.User_info:
+        players = desk.user_Game_play_set.all()
+        if len(players) == 1:
+            # if this is the last user, desk.owner = None
+            desk.owner = None
+        else:
+            # if still have people in the current desk, give the owner to him
+            for player in players:
+                if player != message.user.User_info.User_Game_play:
+                    desk.owner = player.User_info
+                    break
+    # delete User_Game_play
+    User_Game_play.objects.get(user=message.user).delete()
     Group(public_name).discard(message.reply_channel)
-
-    # Update capacity
-    current_compacity += 1

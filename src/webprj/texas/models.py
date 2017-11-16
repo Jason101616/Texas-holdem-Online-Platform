@@ -34,6 +34,7 @@ def create_user_info(sender, instance, created, **kwargs):
 def save_user_info(sender, instance, **kwargs):
     instance.user_info.save()
 
+
 class Desk_info(models.Model):
     desk_name = models.CharField(max_length=40, default="test")
     owner = models.OneToOneField(User_info, on_delete=models.CASCADE, null=True)
@@ -52,6 +53,7 @@ class User_Game_play(models.Model):
     desk = models.ForeignKey(
         Desk_info, on_delete=models.CASCADE,
         null=True)  # a desk can have many users
+
 
 class Game_info(models.Model):
     game_name = models.CharField(max_length=50)
