@@ -70,6 +70,3 @@ class Card_info(models.Model):
     number = models.CharField(max_length=20)
     in_deck = models.BooleanField()
     desk = models.ForeignKey(Desk_info, on_delete=models.CASCADE)
-
-
-
