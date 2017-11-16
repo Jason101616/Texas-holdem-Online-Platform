@@ -24,6 +24,9 @@ start_flag = False
 # owner of the playroom
 owner = ''
 
+# list of players
+players = {}
+
 @channel_session
 def ws_msg(message):
     # print(message['text'])
@@ -174,27 +177,59 @@ def ws_add(message):
 
     # Allocate a postion to the user
     position = private_group[0]
-
-    # 
     private_group = private_group[1:]
+    players[message.user.username] = int(position)
 
     # Add the user to the private group
     Group(position).add(message.reply_channel)
+    Group(position).send({'text':'connected!'})
 
+    # Give owner signal
+    if owner == message.user.username:
+        Group(position).send({'text':'owner!'})
 
+    # Boardcast to all player
+    content = {'new_player':message.user.username}
+    Group(public_name).send({'text': json.dumps(content)})
 
-    content = {
-        'private_group': private_group_num,
-        'user_name':message.user.username
-    }
+    print ('c:%d,m:%d,f:%d,o:%s,p:%s'%(current_compacity, max_compacity, start_flag, owner, position))
 
-
-
-    #Group(public_name).send({'text': json.dumps(content)})
-    Group(private_group_num).send({'text':json.dumps(content)})
 
 
 # Connected to websocket.disconnect
-@channel_session
+@channel_session_user_from_http
 def ws_disconnect(message):
+    global current_compacity
+    global start_flag
+    global max_compacity
+    global owner
+    global private_group
+
+    postion = str(players[owner])
+
+    # remove player from player list
+    del player[owner]
+
+    # if the owner exit, transfer the owner
+    if owner == message.user.username:
+        if len(players) > 1:
+            owner = players.keys()[0]
+        elif len(players) == 1:
+            owner = players.keys()[0]
+            start_flag = False
+        else:
+            owner = ''
+
+    # return back the postion/private group to the list
+    private_group.append(postion)
+
+    # Boardcast to all player
+    content = {'leave_player':message.user.username}
+    Group(public_name).send({'text': json.dumps(content)})
+
+    # Disconnect
+    Group(postion).discard(message.reply_channel)
     Group(public_name).discard(message.reply_channel)
+
+    # Update capacity
+    current_compacity += 1
