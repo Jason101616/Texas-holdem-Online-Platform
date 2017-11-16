@@ -125,8 +125,6 @@ return:
     "You lose!"
 """
 
-
-# TODO: finish this function
 def decide_winner(card):
     print(card)
     my = test_compare.transfer(card[0:5] + card[7:9])
