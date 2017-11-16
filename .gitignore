@@ -37,13 +37,10 @@ nosetests.xml
 # idea
 .idea/
 
-# sqlite
-*.sqlite3
 
 src/webprj/db.sqlite3
 
 src/webprj/dump.rdb
 
-*.sqlite3
 
 *.rdb
