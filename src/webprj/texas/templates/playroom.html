@@ -36,48 +36,144 @@
 
     <div class="row clearfix">
         <div class = "col-1"></div>
-        <div class = "col-7 center">
-            <div class = "player">
+        <div class = "col-2">
+            <br><br>
+            <button id = 'leave_room' class = "smallbtn button-block pad">Leave Room</button>
+        </div>
+        <div class = "col-6"></div>
+        <div class = "col-2">
+            <br><br>
+            <button id = 'get_card' class = "smallbtn button-block pad">Get Card</button>
+        </div>
+        <div class = "col-1"></div>
+
+        <div class = "col-1"></div>
+        <div class = "col-10 center">
+            <div class = "center">
                 <table class = "center">
                     <tr>
-                        <th><p>Robot</p></th>
-                        <th><div id = "robot-1" class = "card"></div></th>
-                        <th><div id = "robot-2" class = "card"></div></th>
+                        <td class = "pad30">
+                            <table id = "player-3" class = "player">
+                                <tr><td class = "height70" colspan="2">id="player-3"</td></tr>
+                                <tr>
+                                    <td><div id = "card-3-1" class = "smallcard"></div></td>
+                                    <td><div id = "card-3-2" class = "smallcard"></div></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class = "pad30">
+                            <table id = "player-4" class = "player">
+                                <tr><td class = "height70" colspan="2"><p class = "job">[dealer]</p>id="player-4"</td></tr>
+                                <tr>
+                                    <td><div id = "card-4-1" class = "smallcard"></div></td>
+                                    <td><div id = "card-4-2" class = "smallcard"></div></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class = "pad30">
+                            <table id = "player-5" class = "player">
+                                <tr><td class = "height70" colspan="2"><p class = "job">[small blind]</p>id="player-5"</td></tr>
+                                <tr>
+                                    <td><div id = "card-5-1" class = "smallcard"></div></td>
+                                    <td><div id = "card-5-2" class = "smallcard"></div></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class = "pad30">
+                            <table id = "player-6" class = "player">
+                                <tr><td class = "height70" colspan="2"><p class = "job">[big blind]</p>id="player-6"</td></tr>
+                                <tr>
+                                    <td><div id = "card-6-1" class = "smallcard"></div></td>
+                                    <td><div id = "card-6-2" class = "smallcard"></div></td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                 </table>
             </div>
-            <div class = "desk">
-                <table class = "center">
-                    <br><br><br>
+            <table class = "center">
+                <tr>
+                    <td class = "pad30">
+                        <table id = "player-2" class = "player">
+                            <tr><td class = "height70" colspan="2">id="player-2"</td></tr>
+                            <tr>
+                                <td><div id = "card-2-1" class = "smallcard"></div></td>
+                                <td><div id = "card-2-2" class = "smallcard"></div></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <br>
+                    </td>
+                    <td rowspan = "2">
+                        <div class = "desk">  
+                            <div id = "message" class = "message">Ready to start</div>
+                            <table class = "center tablecards">
+                                <tr>
+                                    <th><div id = "desk-1" class = "card"></div></th>
+                                    <th><div id = "desk-2" class = "card"></div></th>
+                                    <th><div id = "desk-3" class = "card"></div></th>
+                                    <th><div id = "desk-4" class = "card"></div></th>
+                                    <th><div id = "desk-5" class = "card"></div></th>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                    <td class = "pad30">
+                        <table id = "player-7" class = "player">
+                            <tr><td class = "height70" colspan="2">id="player-7"</td></tr>
+                            <tr>
+                                <td><div id = "card-7-1" class = "smallcard"></div></td>
+                                <td><div id = "card-7-2" class = "smallcard"></div></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class = "pad30">
+                        <table id = "player-1" class = "player">
+                            <tr><td class = "height70" colspan="2">id="player-1"</td></tr>
+                            <tr>
+                                <td><div id = "card-1-1" class = "smallcard"></div></td>
+                                <td><div id = "card-1-2" class = "smallcard"></div></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td></td>
+                    <td class = "pad30">
+                        <table id = "player-8" class = "player">
+                            <tr><td class = "height70" colspan="2">id="player-8"</td></tr>
+                            <tr>
+                                <td><div id = "card-8-1" class = "smallcard"></div></td>
+                                <td><div id = "card-8-2" class = "smallcard"></div></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <div class = "center">
+                <table id = "player-0" class = "center">
                     <tr>
-                        <th><div id = "desk-1" class = "card"></div></th>
-                        <th><div id = "desk-2" class = "card"></div></th>
-                        <th><div id = "desk-3" class = "card"></div></th>
-                        <th><div id = "desk-4" class = "card"></div></th>
-                        <th><div id = "desk-5" class = "card"></div></th>
-                    </tr>
-                </table>
-            </div>
-            <div class = "player">
-                <table class = "center">
-                    <tr>
-                        <th><p>Me</p></th>
-                        <th><div id = "me-1" class = "card"></div></th>
-                        <th><div id = "me-2" class = "card"></div></th>
+                        <td><p>id="player-0"&nbsp;&nbsp;</p></td>
+                        <td><div id = "card-0-1" class = "card"></div></td>
+                        <td><div id = "card-0-2" class = "card"></div></td>
                     </tr>
                 </table>
             </div>
             <br><br>
         </div>
-        <div class = "col-3"><br><br><br><br>
-            <div class = "boxes center">
-                <button id = 'get_card' class = "smallbtn button-block">Get Card</button><br><br>
-                <button id = 'game_hold' class = "smallbtn button-block">Hold</button><br><br>
-                <button id = 'game_fold' class = "smallbtn button-block">Fold</button><br><br>
-            </div>
-            <br>
-            <div id = "message" class = "message"></div>
+        <div class = "col-1"></div>
+        <div class = "col-12 center">
+            <table class = "center">
+                <tr>
+                    <th><button id = 'game_hold' class = "smallbtn button-block pad50">Hold</button></th>
+                    <th class = "pad50"></th>
+                    <th><button id = 'game_fold' class = "smallbtn button-block pad50">Fold</button></th>
+                </tr>
+            </table>
         </div>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
-    </body>
-    </html>
+</body>
+</html>
