@@ -5,6 +5,11 @@ from urllib.parse import parse_qs
 import random
 from . import test_compare
 from channels.auth import http_session_user, channel_session_user, channel_session_user_from_http
+from django.db import transaction
+from texas.models import *
+from django.db import models
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect, get_object_or_404
 
 # an global private group name array for each player
 private_group = ['1','2','3','4','5','6','7','8','9']
@@ -142,29 +147,65 @@ def decide_winner(card):
 
 
 # Connected to websocket.connect
+@transaction.atomic
 @channel_session_user_from_http
 def ws_add(message):
-    global current_compacity
-    global start_flag
-    global max_compacity
-    global owner
-    global private_group
+    desk = Desk_info.objects.get(desk_name='desk0')
+    this_user = get_object_or_404(User, username=message.user.username)
+    this_user_info = User_info.objects.get(user=this_user)
+    print (this_user_info)
+    #User_Game_play.objects.get(user=this_user_info)
+    print (player)
+    # an global private group name array for each player
+    private_group = ['1','2','3','4','5','6','7','8','9']
 
-    if start_flag:
+    # an public group name for all player
+    public_name = desk.desk_name
+
+    # max compacity
+    max_capacity = desk.capacity
+
+    # current compacity
+    current_capacity = desk.current_capacity
+
+    # start flag of this playroom
+    start_flag = False
+
+    # owner of the playroom
+    owner = desk.owner
+
+    # list of players
+    players = {}
+
+    desk_name = desk.desk_name
+
+    #test
+    #desk.is_start = False
+    #desk.save()
+
+    # Add them to the public group
+    Group(desk_name).add(message.reply_channel)
+
+    if desk.is_start:
         # Reject the incoming connection
-        message.reply_channel.send({"accept": False})
+        message.reply_channel.send({"accept" : True})
+        content = {'is_start' : 'yes'}
+        Group(public_name).send({'text' : json.dumps(content)})
         return
 
 
-    if current_compacity == 0:
+    if current_capacity == 0:
         # Reject the incoming connection
-        message.reply_channel.send({"accept": False})
+        message.reply_channel.send({"accept": True})
+        content = {'is_full':'yes'}
+        Group(public_name).send({'text': json.dumps(content)})
         return
 
-    if current_compacity == max_compacity:
+    if current_capacity == max_capacity:
         owner = message.user.username
+        desk.owner = message.user
 
-    current_compacity -= 1
+    current_capacity -= 1
 
     # Accept the incoming connection
     message.reply_channel.send({"accept": True})
@@ -174,13 +215,12 @@ def ws_add(message):
     Group(public_name).add(message.reply_channel)
 
     # Allocate a postion to the user
-    position = private_group[0]
-    private_group = private_group[1:]
-    players[message.user.username] = int(position)
+    player.postion = max_capacity - current_capacity
+    position = str(player.position)
 
     # Add the user to the private group
     Group(position).add(message.reply_channel)
-    Group(position).send({'text':'connected!'})
+    Group(position).send({'text':desk.desk_name})
 
     # Give owner signal
     if owner == message.user.username:
@@ -190,7 +230,10 @@ def ws_add(message):
     content = {'new_player':message.user.username}
     Group(public_name).send({'text': json.dumps(content)})
 
-    print ('c:%d,m:%d,f:%d,o:%s,p:%s'%(current_compacity, max_compacity, start_flag, owner, position))
+    desk.save()
+    player.save()
+
+    print ('c:%d,m:%d,f:%d,o:%s,p:%s'%(desk.current_capacity, desk.capacity, desk.is_start, desk.owner.username, player.position))
 
 
 
