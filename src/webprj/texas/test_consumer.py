@@ -4,7 +4,28 @@ from channels.sessions import channel_session
 from urllib.parse import parse_qs
 import random
 from . import test_compare
+from channels.auth import http_session_user, channel_session_user, channel_session_user_from_http
 
+# an global private group name array for each player
+private_group = ['1','2','3','4','5','6','7','8','9']
+
+# an public group name for all player
+public_name = 'test'
+
+# max compacity
+max_compacity = 9
+
+# current compacity
+current_compacity = max_compacity
+
+# start flag of this playroom
+start_flag = False
+
+# owner of the playroom
+owner = ''
+
+# list of players
+players = {}
 
 @channel_session
 def ws_msg(message):
@@ -24,7 +45,7 @@ def ws_msg(message):
             'status': 'start',
             'hold_click_cnt': message.channel_session['hold_click_cnt']
         }
-        Group('test').send({'text': json.dumps(content)})
+        Group(public_name).send({'text': json.dumps(content)})
 
     elif data['message'] == 'click game_hold':
         message.channel_session['hold_click_cnt'] += 1
@@ -43,7 +64,7 @@ def ws_msg(message):
                 'hold_click_cnt': message.channel_session['hold_click_cnt'],
                 'result': result
             }
-        Group('test').send({'text': json.dumps(content)})
+        Group(public_name).send({'text': json.dumps(content)})
 
     elif data['message'] == 'click game_fold':
         result = "You lose!"
@@ -55,7 +76,7 @@ def ws_msg(message):
             'hold_click_cnt': message.channel_session['hold_click_cnt'],
             'result': result
         }
-        Group('test').send({'text': json.dumps(content)})
+        Group(public_name).send({'text': json.dumps(content)})
 
 
 """
@@ -121,16 +142,92 @@ def decide_winner(card):
 
 
 # Connected to websocket.connect
-@channel_session
+@channel_session_user_from_http
 def ws_add(message):
+    global current_compacity
+    global start_flag
+    global max_compacity
+    global owner
+    global private_group
+
+    if start_flag:
+        # Reject the incoming connection
+        message.reply_channel.send({"accept": False})
+        return
+
+
+    if current_compacity == 0:
+        # Reject the incoming connection
+        message.reply_channel.send({"accept": False})
+        return
+
+    if current_compacity == max_compacity:
+        owner = message.user.username
+
+    current_compacity -= 1
+
     # Accept the incoming connection
     message.reply_channel.send({"accept": True})
     message.channel_session['hold_click_cnt'] = 0
-    # Add them to the chat group
-    Group("test").add(message.reply_channel)
+
+    # Add them to the public group
+    Group(public_name).add(message.reply_channel)
+
+    # Allocate a postion to the user
+    position = private_group[0]
+    private_group = private_group[1:]
+    players[message.user.username] = int(position)
+
+    # Add the user to the private group
+    Group(position).add(message.reply_channel)
+    Group(position).send({'text':'connected!'})
+
+    # Give owner signal
+    if owner == message.user.username:
+        Group(position).send({'text':'owner!'})
+
+    # Boardcast to all player
+    content = {'new_player':message.user.username}
+    Group(public_name).send({'text': json.dumps(content)})
+
+    print ('c:%d,m:%d,f:%d,o:%s,p:%s'%(current_compacity, max_compacity, start_flag, owner, position))
+
 
 
 # Connected to websocket.disconnect
-@channel_session
+@channel_session_user_from_http
 def ws_disconnect(message):
-    Group("test").discard(message.reply_channel)
+    global current_compacity
+    global start_flag
+    global max_compacity
+    global owner
+    global private_group
+
+    postion = str(players[owner])
+
+    # remove player from player list
+    del player[owner]
+
+    # if the owner exit, transfer the owner
+    if owner == message.user.username:
+        if len(players) > 1:
+            owner = players.keys()[0]
+        elif len(players) == 1:
+            owner = players.keys()[0]
+            start_flag = False
+        else:
+            owner = ''
+
+    # return back the postion/private group to the list
+    private_group.append(postion)
+
+    # Boardcast to all player
+    content = {'leave_player':message.user.username}
+    Group(public_name).send({'text': json.dumps(content)})
+
+    # Disconnect
+    Group(postion).discard(message.reply_channel)
+    Group(public_name).discard(message.reply_channel)
+
+    # Update capacity
+    current_compacity += 1

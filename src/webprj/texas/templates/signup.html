@@ -13,7 +13,6 @@
     <title>Texas Hold'em</title>
 
     <script src = "{% static "/js/jquery-3.2.1.min.js" %}"></script>
-    <script src = "{% static "/js/websocket_test.js" %}"></script>
 
     <link rel = "stylesheet" href = "{% static "css/bootstrap.min.css" %}">
     <link rel = "stylesheet" href = "{% static "css/mystyle.css" %}">
@@ -34,13 +33,13 @@
     </ul>
 
     <br>
-    <div class="form"> 
+    <div class="form">
         <ul class="tab-group">
             <li class="tab active"><a href = {% url 'signup' %}>Sign Up</a></li>
             <li class="tab"><a href = {% url 'login' %}>Log In</a></li>
         </ul>
         <div class="tab-content">
-            <div id="signup">   
+            <div id="signup">
                 <h1>Texas Hold'em</h1>
                 <form action="{% url 'signup' %}" method = "post">
                     {% csrf_token %}
