@@ -9,27 +9,16 @@ from django.utils import timezone
 import datetime
 
 # Create your models here.
-
-class Desk_info(models.Model):
-    start_time = models.DateTimeField(default=timezone.now)
-    end_time = models.DateTimeField(default=timezone.now)
-    num_players = models.IntegerField()
-    current_status = models.CharField(max_length=50)
-
 class User_info(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-
     bio = models.TextField(max_length=420, blank=True)
     age = models.IntegerField(blank=True, default=0)
     profile_picture = models.FileField(
-        upload_to='profile_pictures/', default="profile_pictures/XXX.jpg")
+        upload_to='profile_pictures/', default="profile_pictures/king.jpeg")
     followings = models.ManyToManyField('self')
     followers = models.ManyToManyField('self')
     email_confirmed = models.BooleanField(default=False)
     gender = models.CharField(max_length=20, blank=True)
-    desk = models.ForeignKey(
-        Desk_info, on_delete=models.CASCADE,
-        null=True)  # a desk can have many users
 
     def __str__(self):
         return self.user.username
@@ -45,6 +34,24 @@ def create_user_info(sender, instance, created, **kwargs):
 def save_user_info(sender, instance, **kwargs):
     instance.user_info.save()
 
+class Desk_info(models.Model):
+    desk_name = models.CharField(max_length=40, default="test")
+    owner = models.OneToOneField(User_info, on_delete=models.CASCADE, null=True)
+    capacity = models.IntegerField(default=9)
+    current_capacity = models.IntegerField(default=9)
+    is_start = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.desk_name
+
+
+class User_Game_play(models.Model):
+    user = models.OneToOneField(User_info, on_delete=models.CASCADE)
+    position = models.IntegerField(default=0)
+    is_fold = models.BooleanField(default=False)
+    desk = models.ForeignKey(
+        Desk_info, on_delete=models.CASCADE,
+        null=True)  # a desk can have many users
 
 class Game_info(models.Model):
     game_name = models.CharField(max_length=50)
@@ -65,9 +72,4 @@ class Card_info(models.Model):
     desk = models.ForeignKey(Desk_info, on_delete=models.CASCADE)
 
 
-class Game_play(models.Model):
-    start_time = models.DateTimeField(default=timezone.now)
-    end_time = models.DateTimeField(default=timezone.now)
-    user = models.OneToOneField(User_info, on_delete=models.CASCADE)
-    action = models.CharField(max_length=20)
-    current_status = models.CharField(max_length=50)  # user's status
+
