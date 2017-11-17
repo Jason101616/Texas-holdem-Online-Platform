@@ -29,7 +29,6 @@ def diconnect_user(message, username):
     print(username)
     # get desk
     desk = Desk_info.objects.get(desk_name='desk0')
-    print(desk)
     #Group(public_name).discard(message.reply_channel)
     print('success')
     desk.current_capacity += 1
@@ -54,12 +53,29 @@ def diconnect_user(message, username):
                     desk.owner = player.user
                     break
 
+    # retrieve position queue
+    desk.position_queue += str(this_player.position)
+    print("after leave: ", desk)
     # delete User_Game_play
     User_Game_play.objects.get(user=this_user_info).delete()
     Group(desk.desk_name).discard(message.reply_channel)
+
     desk.save()
     return
 
+@transaction.atomic
+@channel_session_user
+def start_logic(message):
+    print('start signal received!')
+    pass
+    #TODO: let the owner be the dealer
+    #arrange dealer
+
+    #TODO: let the next two player be blinds
+    #arrange blind
+
+    #TODO: give every users 2 cards
+    #arrange card
 
 @transaction.atomic
 @channel_session_user
@@ -80,6 +96,11 @@ def ws_msg(message):
             Group(public_name).send({'text': json.dumps(content)})
             print('test_msg sent!')
             return
+
+    # The owner start the game
+    if 'start' in data:
+        start_logic(message)
+
 
     if data['message'] == 'click get_card':
         card = shuffle_card()
@@ -228,18 +249,23 @@ def ws_add(message):
 
     this_user = get_object_or_404(User, username=message.user.username)
     this_user_info = User_info.objects.get(user=this_user)
+
+    this_position = int(desk.position_queue[0])
+    desk.position_queue = desk.position_queue[1:]
     print(this_user_info)
-    player = User_Game_play(user=this_user_info, desk=desk)
+
+    player = User_Game_play(user=this_user_info, desk=desk, position=this_position)
     #player = User_Game_play.objects.get(user=this_user_info)
     player.desk = desk
-    #player.save()
-    #User_Game_play.objects.get(user=this_user_info)
+    player.save()
+    player = User_Game_play.objects.get(user=this_user_info)
     print(player)
 
     if desk.current_capacity == max_capacity:
         desk.owner = this_user_info
 
     desk.current_capacity -= 1
+    print (desk.current_capacity)
 
     # Accept the incoming connection
     message.reply_channel.send({"accept": True})
@@ -251,6 +277,7 @@ def ws_add(message):
     # Allocate a postion to the user
     player.postion = max_capacity - desk.current_capacity
     position = str(player.position)
+    print (max_capacity, desk.current_capacity, position)
 
     # Add the user to the private group
     Group(position).add(message.reply_channel)
@@ -264,11 +291,20 @@ def ws_add(message):
     content = {'new_player': message.user.username}
     Group(public_name).send({'text': json.dumps(content)})
 
+    # If current player is 2 or more, owner can start the game
+    if desk.current_capacity == max_capacity - 2:
+        content = {'can_start': 'yes'}
+        this_player = User_Game_play.objects.get(user=desk.owner)
+        print (this_player.position)
+        Group(str(this_player.position)).send({'text': json.dumps(content)})
+
+
     print('c:%d,m:%d,f:%d,o:%s,p:%s' % (
     desk.current_capacity, desk.capacity, desk.is_start, desk.owner.user.username, player.position))
 
     player.save()
     desk.save()
+    print("after enter: ", desk)
 
 
 
