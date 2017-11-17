@@ -8,6 +8,6 @@ urlpatterns = [
     url(r'lobby/$', views.lobby, name='lobby'),
     url(r'^tutorial/$', views.tutorial, name='tutorial'),
     url(r'^profile/$', views.profile, name='profile'),
-    url(r'^playroom/$', views.playroom, name='playroom'),
+    url(r'^playroom/(?P<deskname>\w+)$', views.playroom, name='playroom'),
     url(r'^logout/$', views.log_out, name='logout'),
 ]

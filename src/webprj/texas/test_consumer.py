@@ -7,7 +7,7 @@ from django.db import transaction
 
 from texas.models import *
 from texas.views import *
-from . import test_compare
+from . import test_compare, desk
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -127,69 +127,6 @@ def ws_msg(message):
         print('timeout')
 
 
-"""
-output value:
-    names = [[num_1,color_1],[num_2,color_2],...[]]
-    card = '1',...,'10','J','Q','K'
-    color = 0,1,2,3
-"""
-
-
-def shuffle_card():
-    nums = []
-    for i in range(52):
-        nums.append(i)
-    ans = random.sample(nums, len(nums))[0:9]  #
-
-    names = []
-    for rand in ans:
-        color = (int)(rand - rand % 13) / 13
-        index = rand - color * 13
-        name = []
-
-        if index >= 0 and index <= 9:
-            name.append(str(int(index + 1)))
-        elif index == 10:
-            name.append('J')
-        elif index == 11:
-            name.append('Q')
-        elif index == 12:
-            name.append('K')
-
-        name.append(color)
-        names.append(name)
-
-    return names
-
-
-"""
-input:
-    card: [[Num, Color], ...,]
-    card[0-4]: public card
-    card[5-6]: robot card
-    card[7-8]: my card
-return:
-    "You win!"
-    "You lose!"
-"""
-
-
-def decide_winner(card):
-    print(card)
-    my = test_compare.transfer(card[0:5] + card[7:9])
-    robot = test_compare.transfer(card[0:7])
-    my_level, my_score, my_type, my_card = test_compare.highest(my)
-    robot_level, robot_score, robot_type, robot_card = test_compare.highest(
-        robot)
-    if (my_level >
-            robot_level) or my_level == robot_level and my_score > robot_score:
-        return my_type + " V.S." + robot_type + "<br> You win!"
-    elif my_level == robot_level and my_score == robot_score:
-        return my_type + " V.S." + robot_type + "<br> Draw!"
-    else:
-        return my_type + " V.S." + robot_type + "<br> You lose!"
-
-
 # Connected to websocket.connect
 @transaction.atomic
 @channel_session_user_from_http
@@ -226,6 +163,7 @@ def ws_add(message):
         # Reject the incoming connection
         message.reply_channel.send({"accept": True})
         content = {'is_full': 'yes'}
+        disable_desk(desk);
         Group(public_name).send({'text': json.dumps(content)})
         return
 

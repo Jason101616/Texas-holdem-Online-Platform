@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
-from django.contrib.auth.models import User
-from texas.forms import SignupForm, LoginForm
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponseRedirect
-from django.contrib.auth import authenticate, login, logout
+
+from texas.forms import SignupForm, LoginForm
+from texas.models import *
 
 # Create your views here.
 def home(request):
     context = {}
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('lobby'))
     return render(request, 'homepage.html', context)
 
 def signup(request):
@@ -86,9 +89,18 @@ def tutorial(request):
     return render(request, 'tutorial.html', context)
 
 @login_required
-def playroom(request):
+def playroom(request, deskname):
     context = {}
-    return render(request, 'playroom.html', context)
+    desk = get_object_or_404(Desk_info, desk_name = deskname)
+    if desk.is_start == False:
+        return render(request, 'playroom.html', context)
+
+    user = User_Game_play.objects.filter(desk = desk)
+    if user:
+        return render(request, 'playroom.html', context)
+    else:
+        context['errors'] = 'Permission denied: there is an ongoing game in this room, please try another.'
+        return render(request, 'lobby.html', context)
 
 @login_required
 @transaction.atomic
@@ -96,3 +108,4 @@ def log_out(request):
     logout(request)
     context = {}
     return render(request, 'homepage.html', context)
+

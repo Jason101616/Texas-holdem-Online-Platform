@@ -27,10 +27,14 @@ $(document).ready(function () {
     // };
     // Call onopen directly if socket is already open
     if (socket.readyState === WebSocket.OPEN) {
-      socket.onopen();
-  }
+        socket.onopen();
+    }
 
-  $('#get_card').on('click', function (event) {
+    var start_game = document.getElementById("get_card"); 
+    start_game.disabled = true;
+
+    $('#get_card').on('click', function (event) {
+        console.log("get card");
         event.preventDefault(); // Prevent form from being submitted
         var message = {
             'message': 'get_card'
@@ -38,7 +42,7 @@ $(document).ready(function () {
         socket.send(JSON.stringify(message));
     });
 
-  $('#game_hold').on('click', function (event) {
+    $('#game_hold').on('click', function (event) {
         event.preventDefault(); // Prevent form from being submitted
         var message = {
             'message': 'hold'
@@ -46,7 +50,7 @@ $(document).ready(function () {
         socket.send(JSON.stringify(message));
     });
 
-  $('#game_fold').on('click', function (event) {
+    $('#game_fold').on('click', function (event) {
         event.preventDefault(); // Prevent form from being submitted
         var message = {
             'message': 'fold'
@@ -54,7 +58,7 @@ $(document).ready(function () {
         socket.send(JSON.stringify(message));
     });
 
-  $('#leave_room').on('click', function (event) {
+    $('#leave_room').on('click', function (event) {
         event.preventDefault(); // Prevent form from being submitted
         var message = {
             'command': 'leave'
@@ -63,13 +67,15 @@ $(document).ready(function () {
         window.location.replace('lobby');
     });
 
-  socket.onmessage = function (message) {
-    console.log(message.data);
-    var data = JSON.parse(message.data)
-    if (message.data['new_player']){
-        console.log('1')
-        return
+    socket.onmessage = function (message) {
+        console.log(message.data);
+        var data = JSON.parse(message.data)
+        if (message.data['new_player']){
+            console.log('1');
+            return;
+        }
     }
+
 
     if (data.card){
         for (var i = 0; i < 9; i++) {
@@ -77,7 +83,6 @@ $(document).ready(function () {
                 continue;
             }
             var name = data.card[i][0];
-            debugger;
             switch (data.card[i][1]) {
                 case 0:
                 name += '♥';
