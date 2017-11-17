@@ -29,6 +29,7 @@ def diconnect_user(message, username):
     print(username)
     # get desk
     desk = Desk_info.objects.get(desk_name='desk0')
+    max_capacity = desk.capacity
     #Group(public_name).discard(message.reply_channel)
     print('success')
     desk.current_capacity += 1
@@ -36,6 +37,7 @@ def diconnect_user(message, username):
     # decide is_start
     if desk.current_capacity >= desk.capacity - 1:
         desk.is_start = False
+
 
     # decide owner
     this_user_info = User_info.objects.get(user=message.user)
@@ -56,6 +58,14 @@ def diconnect_user(message, username):
     # retrieve position queue
     desk.position_queue += str(this_player.position)
     print("after leave: ", desk)
+
+    # If current player is 1, owner can not start the game
+    if desk.current_capacity == max_capacity - 1:
+        content = {'can_start': 'no'}
+        this_player = User_Game_play.objects.get(user=desk.owner)
+        print (this_player.position)
+        Group(str(this_player.position)).send({'text': json.dumps(content)})
+
     # delete User_Game_play
     User_Game_play.objects.get(user=this_user_info).delete()
     Group(desk.desk_name).discard(message.reply_channel)
