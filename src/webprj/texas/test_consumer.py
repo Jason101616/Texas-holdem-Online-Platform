@@ -25,15 +25,51 @@ current_compacity = max_compacity
 # start flag of this playroom
 start_flag = False
 
-# list of players
-players = {}
 
 
 @transaction.atomic
-@channel_session_user_from_http
+@channel_session_user
+def diconnect_user(message, username):
+    print('disconnect!')
+    # Disconnect
+    print(username)
+    # get desk
+    desk = Desk_info.objects.get(desk_name='desk0')
+    print(desk)
+    #Group(public_name).discard(message.reply_channel)
+    print('success')
+    desk.current_capacity += 1
+
+    # decide is_start
+    if desk.current_capacity >= desk.capacity - 1:
+        desk.is_start = False
+
+    # decide owner
+    this_user_info = User_info.objects.get(user=message.user)
+    this_player = User_Game_play.objects.get(user=this_user_info)
+    if desk.owner == this_user_info:
+        players = User_Game_play.objects.filter(desk=desk)
+        print(players)
+        if len(players) == 1:
+            # if this is the last user, desk.owner = None
+            desk.owner = None
+        else:
+            # if still have people in the current desk, give the owner to him
+            for player in players:
+                if player != this_player:
+                    desk.owner = player.user
+                    break
+    desk.save()
+    # delete User_Game_play
+    User_Game_play.objects.get(user=this_user_info).delete()
+    Group(public_name).discard(message.reply_channel)
+    return
+
+
+@transaction.atomic
+@channel_session_user
 def ws_msg(message):
     # print(message['text'])
-
     try:
         data = json.loads(message['text'])
     except:
@@ -43,7 +79,12 @@ def ws_msg(message):
     # The player click leave room
     if 'command' in data:
         if data['command'] == 'leave':
-            user_disconnect(message)
+            print(message.user.username)
+            diconnect_user(message, message.user.username)
+            content = {'test':'test'}
+            Group(public_name).send({'text': json.dumps(content)})
+            print('test_msg sent!')
+            return
 
 
     if data['message'] == 'click get_card':
@@ -194,11 +235,11 @@ def ws_add(message):
     this_user = get_object_or_404(User, username=message.user.username)
     this_user_info = User_info.objects.get(user=this_user)
     print(this_user_info)
-    #player = User_Game_play(user=this_user_info, desk=desk)
-    player = User_Game_play.objects.get(user=this_user_info)
+    player = User_Game_play(user=this_user_info, desk=desk)
+    #player = User_Game_play.objects.get(user=this_user_info)
     player.desk = desk
     #player.save()
-    # User_Game_play.objects.get(user=this_user_info)
+    #User_Game_play.objects.get(user=this_user_info)
     print(player)
 
     if desk.current_capacity == max_capacity:
@@ -243,31 +284,34 @@ def ws_add(message):
 def ws_disconnect(message):
     print('disconnect!')
     # Disconnect
-    print (message.user.username)
+    # get desk
     desk = Desk_info.objects.get(desk_name='desk0')
-    print (desk)
-    # if full
-    if desk.current_capacity == 0:
-        Group('desk0').discard(message.reply_channel)
-        return
-    # if quit game
+    print(desk)
+    #Group(public_name).discard(message.reply_channel)
+    print('success')
     desk.current_capacity += 1
+
     # decide is_start
     if desk.current_capacity >= desk.capacity - 1:
         desk.is_start = False
+
     # decide owner
-    if desk.owner == message.user.User_info:
-        players = desk.user_Game_play_set.all()
+    this_user_info = User_info.objects.get(user=message.user)
+    this_player = User_Game_play.objects.get(user=this_user_info)
+    if desk.owner == this_user_info:
+        players = User_Game_play.objects.filter(desk=desk)
+        print(players)
         if len(players) == 1:
             # if this is the last user, desk.owner = None
             desk.owner = None
         else:
             # if still have people in the current desk, give the owner to him
             for player in players:
-                if player != message.user.User_info.User_Game_play:
-                    desk.owner = player.User_info
+                if player != this_player:
+                    desk.owner = player.user
                     break
-    # delete User_Game_play
     desk.save()
-    User_Game_play.objects.get(user=message.user).delete()
+    # delete User_Game_play
+    User_Game_play.objects.get(user=this_user_info).delete()
     Group(public_name).discard(message.reply_channel)
+    return
