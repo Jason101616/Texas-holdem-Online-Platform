@@ -2,13 +2,18 @@ from channels import Group
 import json
 from channels.sessions import channel_session
 import random
-from . import test_compare
 from channels.auth import http_session_user, channel_session_user, channel_session_user_from_http
 from django.db import transaction
+
 from texas.models import *
+from texas.views import *
+from . import test_compare
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 # an global private group name array for each player
 private_group = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -85,7 +90,6 @@ def ws_msg(message):
             Group(public_name).send({'text': json.dumps(content)})
             print('test_msg sent!')
             return
-
 
     if data['message'] == 'click get_card':
         card = shuffle_card()
