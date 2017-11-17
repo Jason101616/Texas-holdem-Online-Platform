@@ -10,7 +10,7 @@ function timer_10sec() {
     else{
         timer = 10;
         $('#message').html('timeout!');
-        socket = new WebSocket("ws://" + window.location.host + "/chat/");
+        //socket = new WebSocket("ws://" + window.location.host + "/chat/");
         socket.send("timeout!");
     }
 }

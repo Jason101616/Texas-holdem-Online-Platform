@@ -10,22 +10,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 
+#global public name
+public_name = 'desk0'
+
 # an global private group name array for each player
 private_group = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-
-# an public group name for all player
-public_name = 'test'
-
-# max compacity
-max_compacity = 9
-
-# current compacity
-current_compacity = max_compacity
-
-# start flag of this playroom
-start_flag = False
-
-
 
 @transaction.atomic
 @channel_session_user
@@ -59,10 +48,11 @@ def diconnect_user(message, username):
                 if player != this_player:
                     desk.owner = player.user
                     break
-    desk.save()
+
     # delete User_Game_play
     User_Game_play.objects.get(user=this_user_info).delete()
-    Group(public_name).discard(message.reply_channel)
+    Group(desk.desk_name).discard(message.reply_channel)
+    desk.save()
     return
 
 
@@ -270,11 +260,11 @@ def ws_add(message):
     content = {'new_player': message.user.username}
     Group(public_name).send({'text': json.dumps(content)})
 
-    desk.save()
-    player.save()
-
     print('c:%d,m:%d,f:%d,o:%s,p:%s' % (
     desk.current_capacity, desk.capacity, desk.is_start, desk.owner.user.username, player.position))
+
+    player.save()
+    desk.save()
 
 
 
@@ -313,5 +303,5 @@ def ws_disconnect(message):
     desk.save()
     # delete User_Game_play
     User_Game_play.objects.get(user=this_user_info).delete()
-    Group(public_name).discard(message.reply_channel)
+    Group(desk.desk_name).discard(message.reply_channel)
     return
