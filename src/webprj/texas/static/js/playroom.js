@@ -10,8 +10,10 @@ function timer_10sec() {
     else{
         timer = 10;
         $('#message').html('timeout!');
-        //socket = new WebSocket("ws://" + window.location.host + "/chat/");
-        socket.send("timeout!");
+        var message = {
+            'message': 'timeout'
+        };
+        socket.send(JSON.stringify(message));
     }
 }
 
@@ -31,7 +33,7 @@ $(document).ready(function () {
   $('#get_card').on('click', function (event) {
         event.preventDefault(); // Prevent form from being submitted
         var message = {
-            message: 'click get_card'
+            'message': 'get_card'
         };
         socket.send(JSON.stringify(message));
     });
@@ -39,7 +41,7 @@ $(document).ready(function () {
   $('#game_hold').on('click', function (event) {
         event.preventDefault(); // Prevent form from being submitted
         var message = {
-            message: 'click game_hold'
+            'message': 'hold'
         };
         socket.send(JSON.stringify(message));
     });
@@ -47,7 +49,7 @@ $(document).ready(function () {
   $('#game_fold').on('click', function (event) {
         event.preventDefault(); // Prevent form from being submitted
         var message = {
-            message: 'click game_fold'
+            'message': 'fold'
         };
         socket.send(JSON.stringify(message));
     });

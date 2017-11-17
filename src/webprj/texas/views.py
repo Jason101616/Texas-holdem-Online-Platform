@@ -7,6 +7,8 @@ from texas.forms import SignupForm, LoginForm
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
+from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
@@ -22,17 +24,17 @@ def signup(request):
         return render(request, 'signup.html')
 
     new_user = User.objects.create_user(
-        username=signupform.cleaned_data['username'],
-        password=signupform.cleaned_data['password'],
-        first_name=signupform.cleaned_data['first_name'],
-        last_name=signupform.cleaned_data['last_name'],
-        email=signupform.cleaned_data['email'])
+        username = signupform.cleaned_data['username'],
+        password = signupform.cleaned_data['password'],
+        first_name = signupform.cleaned_data['first_name'],
+        last_name = signupform.cleaned_data['last_name'],
+        email = signupform.cleaned_data['email'])
     new_user.save()
 
     user = authenticate(
         request,
-        username=signupform.cleaned_data['username'],
-        password=signupform.cleaned_data['password'])
+        username = signupform.cleaned_data['username'],
+        password = signupform.cleaned_data['password'])
     if user is not None:
         login(request, user)
         return redirect(reverse('lobby'))
@@ -40,14 +42,16 @@ def signup(request):
         return render(request, 'signup.html')
 
 def log_in(request):
-    print("in log_in")
+    #print("in log_in")
+    context = {}
     if request.method == 'GET':
         return render(request, 'homepage.html')
 
     login_form = LoginForm(request.POST)
     if not login_form.is_valid():
-        print(login_form.errors.as_data())
-        return render(request, 'homepage.html')
+        context['errors'] = login_form.errors.as_data()['__all__'][0]
+        #print(login_form.errors.as_data())
+        return render(request, 'homepage.html', context)
 
     user = authenticate(
         request,
@@ -57,7 +61,8 @@ def log_in(request):
         login(request, user)
         return redirect(reverse('lobby'))
     else:
-        return render(request, 'homepage.html')
+        context['errors'] = ['Username and password do not match.']
+        return render(request, 'homepage.html', context)
 
 @login_required
 def lobby(request):
@@ -69,9 +74,15 @@ def profile(request):
     context = {}
     return render(request, 'profile.html', context)
 
-@login_required
+@transaction.atomic
 def tutorial(request):
     context = {}
+    print(request.user)
+    if request.user.is_authenticated():
+        context['logged_in'] = 1
+        print('user logged in')
+    else:
+        print('user not logged in')
     return render(request, 'tutorial.html', context)
 
 @login_required
@@ -80,6 +91,8 @@ def playroom(request):
     return render(request, 'playroom.html', context)
 
 @login_required
-def logout(request):
+@transaction.atomic
+def log_out(request):
     logout(request)
-    return redirect(reverse('log_in'))
+    context = {}
+    return render(request, 'homepage.html', context)

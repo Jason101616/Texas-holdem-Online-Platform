@@ -81,7 +81,7 @@ def ws_msg(message):
             print('test_msg sent!')
             return
 
-    if data['message'] == 'click get_card':
+    if data['message'] == 'get_card':
         card = shuffle_card()
         message.channel_session['card'] = card
         message.channel_session['hold_click_cnt'] = 0
@@ -92,7 +92,7 @@ def ws_msg(message):
         }
         Group(public_name).send({'text': json.dumps(content)})
 
-    elif data['message'] == 'click game_hold':
+    elif data['message'] == 'hold':
         message.channel_session['hold_click_cnt'] += 1
         if (message.channel_session['hold_click_cnt'] < 3):
             content = {
@@ -111,7 +111,7 @@ def ws_msg(message):
             }
         Group(public_name).send({'text': json.dumps(content)})
 
-    elif data['message'] == 'click game_fold':
+    elif data['message'] == 'fold':
         result = "You lose!"
         message.channel_session['hold_click_cnt'] += 1
         message.channel_session['hold_click_cnt'] = 0
@@ -122,6 +122,9 @@ def ws_msg(message):
             'result': result
         }
         Group(public_name).send({'text': json.dumps(content)})
+
+    elif data['message'] == 'timeout':
+        print('timeout')
 
 
 """
