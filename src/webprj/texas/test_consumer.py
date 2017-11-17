@@ -1,13 +1,17 @@
 from channels import Group
 import json
 from channels.sessions import channel_session
-from urllib.parse import parse_qs
 import random
 from . import test_compare
 from channels.auth import http_session_user, channel_session_user, channel_session_user_from_http
+from django.db import transaction
+from texas.models import *
+from django.db import models
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect, get_object_or_404
 
 # an global private group name array for each player
-private_group = ['1','2','3','4','5','6','7','8','9']
+private_group = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 # an public group name for all player
 public_name = 'test'
@@ -20,6 +24,8 @@ current_compacity = max_compacity
 
 # start flag of this playroom
 start_flag = False
+
+
 
 @transaction.atomic
 @channel_session_user
@@ -79,6 +85,7 @@ def ws_msg(message):
             Group(public_name).send({'text': json.dumps(content)})
             print('test_msg sent!')
             return
+
 
     if data['message'] == 'click get_card':
         card = shuffle_card()
@@ -169,6 +176,7 @@ return:
     "You lose!"
 """
 
+
 def decide_winner(card):
     print(card)
     my = test_compare.transfer(card[0:5] + card[7:9])
@@ -178,31 +186,50 @@ def decide_winner(card):
         robot)
     if (my_level >
             robot_level) or my_level == robot_level and my_score > robot_score:
-        return my_type + " V.S." + robot_type + " You win!"
+        return my_type + " V.S." + robot_type + "<br> You win!"
     elif my_level == robot_level and my_score == robot_score:
-        return my_type + " V.S." + robot_type + " Draw!"
+        return my_type + " V.S." + robot_type + "<br> Draw!"
     else:
-        return my_type + " V.S." + robot_type + " You lose!"
+        return my_type + " V.S." + robot_type + "<br> You lose!"
 
 
 # Connected to websocket.connect
+@transaction.atomic
 @channel_session_user_from_http
 def ws_add(message):
-    global current_compacity
-    global start_flag
-    global max_compacity
-    global owner
-    global private_group
+    desk = Desk_info.objects.get(desk_name='desk0')
 
-    if start_flag:
+    # an global private group name array for each player
+    private_group = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+
+    # an public group name for all player
+    public_name = desk.desk_name
+
+    # max compacity
+    max_capacity = desk.capacity
+
+    # list of players
+    players = {}
+
+    # test
+    # desk.is_start = False
+    # desk.save()
+
+    # Add them to the public group
+    Group(desk.desk_name).add(message.reply_channel)
+
+    if desk.is_start:
         # Reject the incoming connection
-        message.reply_channel.send({"accept": False})
+        message.reply_channel.send({"accept": True})
+        content = {'is_start': 'yes'}
+        Group(public_name).send({'text': json.dumps(content)})
         return
 
-
-    if current_compacity == 0:
+    if desk.current_capacity == 0:
         # Reject the incoming connection
-        message.reply_channel.send({"accept": False})
+        message.reply_channel.send({"accept": True})
+        content = {'is_full': 'yes'}
+        Group(public_name).send({'text': json.dumps(content)})
         return
 
     this_user = get_object_or_404(User, username=message.user.username)
@@ -218,7 +245,7 @@ def ws_add(message):
     if desk.current_capacity == max_capacity:
         desk.owner = this_user_info
 
-    current_compacity -= 1
+    desk.current_capacity -= 1
 
     # Accept the incoming connection
     message.reply_channel.send({"accept": True})
@@ -228,27 +255,31 @@ def ws_add(message):
     Group(public_name).add(message.reply_channel)
 
     # Allocate a postion to the user
-    position = private_group[0]
-    private_group = private_group[1:]
-    players[message.user.username] = int(position)
+    player.postion = max_capacity - desk.current_capacity
+    position = str(player.position)
 
     # Add the user to the private group
     Group(position).add(message.reply_channel)
-    Group(position).send({'text':'connected!'})
+    Group(position).send({'text': desk.desk_name})
 
     # Give owner signal
-    if owner == message.user.username:
-        Group(position).send({'text':'owner!'})
+    if desk.owner == this_user_info:
+        Group(position).send({'text': 'owner!'})
 
     # Boardcast to all player
-    content = {'new_player':message.user.username}
+    content = {'new_player': message.user.username}
     Group(public_name).send({'text': json.dumps(content)})
 
-    print ('c:%d,m:%d,f:%d,o:%s,p:%s'%(current_compacity, max_compacity, start_flag, owner, position))
+    desk.save()
+    player.save()
+
+    print('c:%d,m:%d,f:%d,o:%s,p:%s' % (
+    desk.current_capacity, desk.capacity, desk.is_start, desk.owner.user.username, player.position))
 
 
 
 # Connected to websocket.disconnect
+@transaction.atomic
 @channel_session_user_from_http
 def ws_disconnect(message):
     print('disconnect!')
