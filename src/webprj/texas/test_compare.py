@@ -1,4 +1,5 @@
 import itertools
+import random
 """
 cards1 = [[0, 2], [0, 3], [0, 4], [0, 5], [0, 6]]  # 8
 cards2 = [[0, 2], [0, 3], [0, 4], [0, 5], [0, 14]]  # 8
@@ -71,10 +72,10 @@ return:
 
 def decide_winner(card):
     print(card)
-    my = test_compare.transfer(card[0:5] + card[7:9])
-    robot = test_compare.transfer(card[0:7])
-    my_level, my_score, my_type, my_card = test_compare.highest(my)
-    robot_level, robot_score, robot_type, robot_card = test_compare.highest(
+    my = transfer(card[0:5] + card[7:9])
+    robot = transfer(card[0:7])
+    my_level, my_score, my_type, my_card = highest(my)
+    robot_level, robot_score, robot_type, robot_card = highest(
         robot)
     if (my_level >
             robot_level) or my_level == robot_level and my_score > robot_score:

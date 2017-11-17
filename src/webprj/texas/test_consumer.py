@@ -7,7 +7,7 @@ from django.db import transaction
 
 from texas.models import *
 from texas.views import *
-from . import test_compare, desk
+from . import test_compare, desk_manipulation
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -99,7 +99,7 @@ def ws_msg(message):
 
 
     if data['message'] == 'get_card':
-        card = shuffle_card()
+        card = test_compare.shuffle_card()
         message.channel_session['card'] = card
         message.channel_session['hold_click_cnt'] = 0
         content = {
@@ -119,7 +119,7 @@ def ws_msg(message):
                 'result': ""
             }
         else:
-            result = decide_winner(message.channel_session['card'])
+            result = test_compare.decide_winner(message.channel_session['card'])
             content = {
                 'card': message.channel_session['card'],
                 'status': 'hold',
@@ -180,7 +180,7 @@ def ws_add(message):
         # Reject the incoming connection
         message.reply_channel.send({"accept": True})
         content = {'is_full': 'yes'}
-        disable_desk(desk);
+        desk_manipulation.disable_desk(desk)
         Group(public_name).send({'text': json.dumps(content)})
         Group(public_name).discard(message.reply_channel)
         return
