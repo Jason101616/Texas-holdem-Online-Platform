@@ -172,7 +172,7 @@ return:
 
 
 def decide_winner(card):
-    print(card)
+    # print(card)
     my = test_compare.transfer(card[0:5] + card[7:9])
     robot = test_compare.transfer(card[0:7])
     my_level, my_score, my_type, my_card = test_compare.highest(my)
@@ -217,6 +217,7 @@ def ws_add(message):
         message.reply_channel.send({"accept": True})
         content = {'is_start': 'yes'}
         Group(public_name).send({'text': json.dumps(content)})
+        Group(public_name).discard(message.reply_channel)
         return
 
     if desk.current_capacity == 0:
@@ -224,17 +225,14 @@ def ws_add(message):
         message.reply_channel.send({"accept": True})
         content = {'is_full': 'yes'}
         Group(public_name).send({'text': json.dumps(content)})
+        Group(public_name).discard(message.reply_channel)
         return
 
     this_user = get_object_or_404(User, username=message.user.username)
     this_user_info = User_info.objects.get(user=this_user)
-    print(this_user_info)
+    # create User_Game_play model
     player = User_Game_play(user=this_user_info, desk=desk)
-    #player = User_Game_play.objects.get(user=this_user_info)
-    player.desk = desk
-    #player.save()
-    #User_Game_play.objects.get(user=this_user_info)
-    print(player)
+    # print(player)
 
     if desk.current_capacity == max_capacity:
         desk.owner = this_user_info
@@ -264,8 +262,8 @@ def ws_add(message):
     content = {'new_player': message.user.username}
     Group(public_name).send({'text': json.dumps(content)})
 
-    print('c:%d,m:%d,f:%d,o:%s,p:%s' % (
-    desk.current_capacity, desk.capacity, desk.is_start, desk.owner.user.username, player.position))
+    # print('c:%d,m:%d,f:%d,o:%s,p:%s' % (
+    # desk.current_capacity, desk.capacity, desk.is_start, desk.owner.user.username, player.position))
 
     player.save()
     desk.save()
@@ -279,22 +277,23 @@ def ws_disconnect(message):
     print('disconnect!')
     # Disconnect
     # get desk
+    # TODO: the desk_name can be dynamic when support multi-desk
     desk = Desk_info.objects.get(desk_name='desk0')
-    print(desk)
+    # print(desk)
     #Group(public_name).discard(message.reply_channel)
     print('success')
     desk.current_capacity += 1
 
-    # decide is_start
+    # decide how to change is_start
     if desk.current_capacity >= desk.capacity - 1:
         desk.is_start = False
 
-    # decide owner
+    # decide who is the next owner
     this_user_info = User_info.objects.get(user=message.user)
     this_player = User_Game_play.objects.get(user=this_user_info)
     if desk.owner == this_user_info:
         players = User_Game_play.objects.filter(desk=desk)
-        print(players)
+        # print(players)
         if len(players) == 1:
             # if this is the last user, desk.owner = None
             desk.owner = None

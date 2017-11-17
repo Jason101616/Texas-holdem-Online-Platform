@@ -40,7 +40,6 @@ def signup(request):
         return render(request, 'signup.html')
 
 def log_in(request):
-    print("in log_in")
     if request.method == 'GET':
         return render(request, 'homepage.html')
 

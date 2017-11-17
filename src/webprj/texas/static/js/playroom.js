@@ -31,7 +31,7 @@ $(document).ready(function () {
   $('#get_card').on('click', function (event) {
         event.preventDefault(); // Prevent form from being submitted
         var message = {
-            message: 'click get_card'
+            'message': 'click get_card'
         };
         socket.send(JSON.stringify(message));
     });
@@ -39,7 +39,7 @@ $(document).ready(function () {
   $('#game_hold').on('click', function (event) {
         event.preventDefault(); // Prevent form from being submitted
         var message = {
-            message: 'click game_hold'
+            'message': 'click game_hold'
         };
         socket.send(JSON.stringify(message));
     });
@@ -47,7 +47,7 @@ $(document).ready(function () {
   $('#game_fold').on('click', function (event) {
         event.preventDefault(); // Prevent form from being submitted
         var message = {
-            message: 'click game_fold'
+            'message': 'click game_fold'
         };
         socket.send(JSON.stringify(message));
     });
@@ -63,9 +63,9 @@ $(document).ready(function () {
 
   socket.onmessage = function (message) {
     console.log(message.data);
-    var data = JSON.parse(message.data)
+    var data = JSON.parse(message.data);
     if (message.data['new_player']){
-        console.log('1')
+        console.log('1');
         return
     }
 
