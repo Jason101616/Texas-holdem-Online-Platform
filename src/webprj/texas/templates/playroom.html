@@ -43,7 +43,7 @@
         <div class = "col-6"></div>
         <div class = "col-2">
             <br><br>
-            <button id = 'get_card' class = "smallbtn button-block pad">Start Game</button>
+            <button id = 'get_card' onclick = "start_game()" class = "smallbtn button-block pad">Start Game</button>
         </div>
         <div class = "col-1"></div>
 
@@ -166,9 +166,11 @@
         <div class = "col-12 center">
             <table class = "center">
                 <tr>
-                    <th><button id = 'game_hold' onclick="timer_10sec();" class = "smallbtn button-block pad50">Hold</button></th>
+                    <th><button id = 'game_hold' onclick="timer_10sec()" class = "smallbtn button-block pad50">Hold</button></th>
                     <th class = "pad50"></th>
                     <th><button id = 'game_fold' class = "smallbtn button-block pad50">Fold</button></th>
+                    <th class = "pad50"></th>
+                    <th><button id = 'game_raise' class = "smallbtn button-block pad50">Raise</button></th>
                 </tr>
             </table>
         </div>

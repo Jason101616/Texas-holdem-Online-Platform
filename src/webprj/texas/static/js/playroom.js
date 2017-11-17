@@ -17,6 +17,11 @@ function timer_10sec() {
     }
 }
 
+//
+function start_game() {
+
+}
+
 $(document).ready(function () {
     console.log(window.location.pathname);
     console.log(window.location.host);
@@ -70,6 +75,12 @@ $(document).ready(function () {
     socket.onmessage = function (message) {
         console.log(message.data);
         var data = JSON.parse(message.data);
+
+        if (message.data['is_full'] == 'yes') {
+            start_game = document.getElementById("get_card"); 
+            start_game.disabled = true;
+        }
+
         if (message.data['new_player']) {
             console.log('1');
             return
@@ -114,7 +125,8 @@ $(document).ready(function () {
                 $('#me-' + (i - 7)).html(data.card[i - 1]);
             }
             $('#message').html("");
-        } else if (data.status === 'hold') {
+        } 
+        else if (data.status === 'hold') {
             switch (data.hold_click_cnt) {
                 case 1:
                     var i = 1;

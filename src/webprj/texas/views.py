@@ -97,7 +97,9 @@ def tutorial(request):
 @login_required
 def playroom(request, deskname):
     context = {}
-    desk = get_object_or_404(Desk_info, desk_name = deskname)
+    desk = Desk_info.objects.filter(desk_name = deskname)
+    if not desk:
+        return render(request, 'playroom.html', context)
     if desk.is_start == False:
         return render(request, 'playroom.html', context)
 
