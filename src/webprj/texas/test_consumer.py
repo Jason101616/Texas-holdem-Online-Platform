@@ -1,17 +1,13 @@
 from channels import Group
 import json
 from channels.sessions import channel_session
+from urllib.parse import parse_qs
 import random
 from . import test_compare
 from channels.auth import http_session_user, channel_session_user, channel_session_user_from_http
-from django.db import transaction
-from texas.models import *
-from django.db import models
-from django.contrib.auth.models import User
-from django.shortcuts import render, redirect, get_object_or_404
 
 # an global private group name array for each player
-private_group = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+private_group = ['1','2','3','4','5','6','7','8','9']
 
 # an public group name for all player
 public_name = 'test'
@@ -25,12 +21,13 @@ current_compacity = max_compacity
 # start flag of this playroom
 start_flag = False
 
+# owner of the playroom
+owner = ''
+
 # list of players
 players = {}
 
-
-@transaction.atomic
-@channel_session_user_from_http
+@channel_session
 def ws_msg(message):
     # print(message['text'])
 
@@ -39,13 +36,6 @@ def ws_msg(message):
     except:
         return
     print(data)
-
-    # The player click leave room
-    if 'command' in data:
-        if data['command'] == 'leave':
-            user_disconnect(message)
-
-
     if data['message'] == 'click get_card':
         card = shuffle_card()
         message.channel_session['card'] = card
@@ -135,7 +125,6 @@ return:
     "You lose!"
 """
 
-
 def decide_winner(card):
     print(card)
     my = test_compare.transfer(card[0:5] + card[7:9])
@@ -145,66 +134,37 @@ def decide_winner(card):
         robot)
     if (my_level >
             robot_level) or my_level == robot_level and my_score > robot_score:
-        return my_type + " V.S." + robot_type + "<br> You win!"
+        return my_type + " V.S." + robot_type + " You win!"
     elif my_level == robot_level and my_score == robot_score:
-        return my_type + " V.S." + robot_type + "<br> Draw!"
+        return my_type + " V.S." + robot_type + " Draw!"
     else:
-        return my_type + " V.S." + robot_type + "<br> You lose!"
+        return my_type + " V.S." + robot_type + " You lose!"
 
 
 # Connected to websocket.connect
-@transaction.atomic
 @channel_session_user_from_http
 def ws_add(message):
-    desk = Desk_info.objects.get(desk_name='desk0')
+    global current_compacity
+    global start_flag
+    global max_compacity
+    global owner
+    global private_group
 
-    # an global private group name array for each player
-    private_group = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-
-    # an public group name for all player
-    public_name = desk.desk_name
-
-    # max compacity
-    max_capacity = desk.capacity
-
-    # list of players
-    players = {}
-
-    # test
-    # desk.is_start = False
-    # desk.save()
-
-    # Add them to the public group
-    Group(desk.desk_name).add(message.reply_channel)
-
-    if desk.is_start:
+    if start_flag:
         # Reject the incoming connection
-        message.reply_channel.send({"accept": True})
-        content = {'is_start': 'yes'}
-        Group(public_name).send({'text': json.dumps(content)})
+        message.reply_channel.send({"accept": False})
         return
 
-    if desk.current_capacity == 0:
+
+    if current_compacity == 0:
         # Reject the incoming connection
-        message.reply_channel.send({"accept": True})
-        content = {'is_full': 'yes'}
-        Group(public_name).send({'text': json.dumps(content)})
+        message.reply_channel.send({"accept": False})
         return
 
-    this_user = get_object_or_404(User, username=message.user.username)
-    this_user_info = User_info.objects.get(user=this_user)
-    print(this_user_info)
-    #player = User_Game_play(user=this_user_info, desk=desk)
-    player = User_Game_play.objects.get(user=this_user_info)
-    player.desk = desk
-    #player.save()
-    # User_Game_play.objects.get(user=this_user_info)
-    print(player)
+    if current_compacity == max_compacity:
+        owner = message.user.username
 
-    if desk.current_capacity == max_capacity:
-        desk.owner = this_user_info
-
-    desk.current_capacity -= 1
+    current_compacity -= 1
 
     # Accept the incoming connection
     message.reply_channel.send({"accept": True})
@@ -214,60 +174,60 @@ def ws_add(message):
     Group(public_name).add(message.reply_channel)
 
     # Allocate a postion to the user
-    player.postion = max_capacity - desk.current_capacity
-    position = str(player.position)
+    position = private_group[0]
+    private_group = private_group[1:]
+    players[message.user.username] = int(position)
 
     # Add the user to the private group
     Group(position).add(message.reply_channel)
-    Group(position).send({'text': desk.desk_name})
+    Group(position).send({'text':'connected!'})
 
     # Give owner signal
-    if desk.owner == this_user_info:
-        Group(position).send({'text': 'owner!'})
+    if owner == message.user.username:
+        Group(position).send({'text':'owner!'})
 
     # Boardcast to all player
-    content = {'new_player': message.user.username}
+    content = {'new_player':message.user.username}
     Group(public_name).send({'text': json.dumps(content)})
 
-    desk.save()
-    player.save()
-
-    print('c:%d,m:%d,f:%d,o:%s,p:%s' % (
-    desk.current_capacity, desk.capacity, desk.is_start, desk.owner.user.username, player.position))
+    print ('c:%d,m:%d,f:%d,o:%s,p:%s'%(current_compacity, max_compacity, start_flag, owner, position))
 
 
 
 # Connected to websocket.disconnect
-@transaction.atomic
 @channel_session_user_from_http
 def ws_disconnect(message):
-    print('disconnect!')
-    # Disconnect
-    print (message.user.username)
-    desk = Desk_info.objects.get(desk_name='desk0')
-    print (desk)
-    # if full
-    if desk.current_capacity == 0:
-        Group('desk0').discard(message.reply_channel)
-        return
-    # if quit game
-    desk.current_capacity += 1
-    # decide is_start
-    if desk.current_capacity >= desk.capacity - 1:
-        desk.is_start = False
-    # decide owner
-    if desk.owner == message.user.User_info:
-        players = desk.user_Game_play_set.all()
-        if len(players) == 1:
-            # if this is the last user, desk.owner = None
-            desk.owner = None
+    global current_compacity
+    global start_flag
+    global max_compacity
+    global owner
+    global private_group
+
+    postion = str(players[owner])
+
+    # remove player from player list
+    del player[owner]
+
+    # if the owner exit, transfer the owner
+    if owner == message.user.username:
+        if len(players) > 1:
+            owner = players.keys()[0]
+        elif len(players) == 1:
+            owner = players.keys()[0]
+            start_flag = False
         else:
-            # if still have people in the current desk, give the owner to him
-            for player in players:
-                if player != message.user.User_info.User_Game_play:
-                    desk.owner = player.User_info
-                    break
-    # delete User_Game_play
-    desk.save()
-    User_Game_play.objects.get(user=message.user).delete()
+            owner = ''
+
+    # return back the postion/private group to the list
+    private_group.append(postion)
+
+    # Boardcast to all player
+    content = {'leave_player':message.user.username}
+    Group(public_name).send({'text': json.dumps(content)})
+
+    # Disconnect
+    Group(postion).discard(message.reply_channel)
     Group(public_name).discard(message.reply_channel)
+
+    # Update capacity
+    current_compacity += 1

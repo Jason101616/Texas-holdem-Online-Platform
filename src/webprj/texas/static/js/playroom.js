@@ -1,3 +1,20 @@
+var timer = 10;
+function timer_10sec() {
+    if (timer >= 0) {
+        var time_str = '0' + timer;
+        timer--;
+        time_str = time_str.substring(time_str.length - 2, time_str.length)
+        $('#message').html('00:' + time_str);
+        setTimeout(timer_10sec, 1000);
+    }
+    else{
+        timer = 10;
+        $('#message').html('timeout!');
+        socket = new WebSocket("ws://" + window.location.host + "/chat/");
+        socket.send("timeout!");
+    }
+}
+
 $(document).ready(function () {
     console.log(window.location.pathname);
     console.log(window.location.host);
