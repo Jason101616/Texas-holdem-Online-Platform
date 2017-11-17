@@ -12,12 +12,14 @@ from django.http import HttpResponseRedirect
 from texas.forms import SignupForm, LoginForm
 from texas.models import *
 
+
 # Create your views here.
 def home(request):
     context = {}
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse('lobby'))
     return render(request, 'homepage.html', context)
+
 
 def signup(request):
     if request.method == 'GET':
@@ -27,25 +29,25 @@ def signup(request):
         return render(request, 'signup.html')
 
     new_user = User.objects.create_user(
-        username = signupform.cleaned_data['username'],
-        password = signupform.cleaned_data['password'],
-        first_name = signupform.cleaned_data['first_name'],
-        last_name = signupform.cleaned_data['last_name'],
-        email = signupform.cleaned_data['email'])
+        username=signupform.cleaned_data['username'],
+        password=signupform.cleaned_data['password'],
+        first_name=signupform.cleaned_data['first_name'],
+        last_name=signupform.cleaned_data['last_name'],
+        email=signupform.cleaned_data['email'])
     new_user.save()
 
     user = authenticate(
         request,
-        username = signupform.cleaned_data['username'],
-        password = signupform.cleaned_data['password'])
+        username=signupform.cleaned_data['username'],
+        password=signupform.cleaned_data['password'])
     if user is not None:
         login(request, user)
         return redirect(reverse('lobby'))
     else:
         return render(request, 'signup.html')
 
+
 def log_in(request):
-    #print("in log_in")
     context = {}
     if request.method == 'GET':
         return render(request, 'homepage.html')
@@ -67,15 +69,18 @@ def log_in(request):
         context['errors'] = ['Username and password do not match.']
         return render(request, 'homepage.html', context)
 
+
 @login_required
 def lobby(request):
     context = {}
     return render(request, 'lobby.html', context)
 
+
 @login_required
 def profile(request):
     context = {}
     return render(request, 'profile.html', context)
+
 
 @transaction.atomic
 def tutorial(request):
@@ -87,6 +92,7 @@ def tutorial(request):
     else:
         print('user not logged in')
     return render(request, 'tutorial.html', context)
+
 
 @login_required
 def playroom(request, deskname):
@@ -101,6 +107,7 @@ def playroom(request, deskname):
     else:
         context['errors'] = 'Permission denied: there is an ongoing game in this room, please try another.'
         return render(request, 'lobby.html', context)
+
 
 @login_required
 @transaction.atomic

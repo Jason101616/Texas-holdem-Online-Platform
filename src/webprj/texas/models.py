@@ -40,18 +40,25 @@ class Desk_info(models.Model):
     capacity = models.IntegerField(default=9)
     current_capacity = models.IntegerField(default=9)
     is_start = models.BooleanField(default=False)
+    position_queue = models.CharField(max_length=40,default="012345678")
 
     def __str__(self):
-        return self.desk_name
+        return "desk_name: %s, owner: %s, capacity: %d, current: %d, is_start: %d, position_queue: %s"%\
+               (self.desk_name, self.owner, self.capacity, self.current_capacity, self.is_start, self.position_queue)
 
 
 class User_Game_play(models.Model):
     user = models.OneToOneField(User_info, on_delete=models.CASCADE)
-    position = models.IntegerField(default=0)
+    position = models.IntegerField(default=10)
     is_fold = models.BooleanField(default=False)
     desk = models.ForeignKey(
         Desk_info, on_delete=models.CASCADE,
         null=True)  # a desk can have many users
+
+    def __str__(self):
+        return "desk_name: %s, username: %s, position: %d"%\
+               (self.desk.desk_name, self.user.user.username, self.position)
+
 
 class Game_info(models.Model):
     game_name = models.CharField(max_length=50)
