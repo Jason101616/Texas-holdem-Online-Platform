@@ -41,6 +41,11 @@
 			<div id="login">
 				<h1>Welcome Back!</h1>
 				<form action= "{% url 'login' %}" method="post">
+					{% if errors %}
+						{% for e in errors %}
+							<p class = "error">* &nbsp;{{ e }}</p>
+						{% endfor %}
+					{% endif %}
 					<div class="field-wrap">
 						<input type="text" placeholder = "Username" name="username"/>
 					</div>
