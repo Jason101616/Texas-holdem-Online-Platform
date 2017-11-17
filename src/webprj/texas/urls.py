@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^tutorial/$', views.tutorial, name='tutorial'),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^playroom/$', views.playroom, name='playroom'),
-    url(r'^logout/$', views.logout, name='logout'),
+    url(r'^logout/$', views.log_out, name='logout'),
 ]

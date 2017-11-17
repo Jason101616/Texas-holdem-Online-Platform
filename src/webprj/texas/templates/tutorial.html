@@ -27,10 +27,16 @@
 		<li class = "navtitle">Texas Hold'em</li>
 	</ul>
 	<ul class = "nbar">
-		<li class = "nav"><a class = "navhref" href = {% url 'home' %}>Log out</a></li>
-		<li class = "nav"><a class = "navhref" href = {% url 'tutorial' %}><span class = "creamy">Tutorial</span></a></li>
-		<li class = "nav"><a class = "navhref" href = {% url 'profile' %}>Profile</a></li>
-		<li class = "nav"><a class = "navhref" href = {% url 'lobby' %}>Game Lobby</a></li>
+		{% if logged_in %}
+			<li class = "nav"><a class = "navhref" href = {% url 'logout' %}>Log out</a></li>
+			<li class = "nav"><a class = "navhref" href = {% url 'tutorial' %}><span class = "creamy">Tutorial</span></a></li>
+			<li class = "nav"><a class = "navhref" href = {% url 'profile' %}>Profile</a></li>
+			<li class = "nav"><a class = "navhref" href = {% url 'lobby' %}>Game Lobby</a></li>
+		{% else %}
+			<li class = "nav"><a class = "navhref" href = {% url 'tutorial' %}><span class = "creamy">Tutorial</span></a></li>
+			<li class = "nav"><a class = "navhref" href = "#About">About</a></li>
+			<li class = "nav"><a class = "navhref" href = {% url 'home' %}>Home</a></li>
+		{% endif %}
 	</ul>
 
 	<div class="row clearfix">
