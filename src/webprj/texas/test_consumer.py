@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 
 # an global private group name array for each player
-private_group = ['1','2','3','4','5','6','7','8','9']
+private_group = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 # an public group name for all player
 public_name = 'test'
@@ -25,13 +25,12 @@ current_compacity = max_compacity
 # start flag of this playroom
 start_flag = False
 
-# owner of the playroom
-owner = ''
-
 # list of players
 players = {}
 
-@channel_session
+
+@transaction.atomic
+@channel_session_user_from_http
 def ws_msg(message):
     # print(message['text'])
 
@@ -40,6 +39,13 @@ def ws_msg(message):
     except:
         return
     print(data)
+
+    # The player click leave room
+    if 'command' in data:
+        if data['command'] == 'leave':
+            user_disconnect(message)
+
+
     if data['message'] == 'click get_card':
         card = shuffle_card()
         message.channel_session['card'] = card
@@ -129,6 +135,7 @@ return:
     "You lose!"
 """
 
+
 def decide_winner(card):
     print(card)
     my = test_compare.transfer(card[0:5] + card[7:9])
@@ -150,13 +157,9 @@ def decide_winner(card):
 @channel_session_user_from_http
 def ws_add(message):
     desk = Desk_info.objects.get(desk_name='desk0')
-    this_user = get_object_or_404(User, username=message.user.username)
-    this_user_info = User_info.objects.get(user=this_user)
-    print (this_user_info)
-    #User_Game_play.objects.get(user=this_user_info)
-    print (player)
+
     # an global private group name array for each player
-    private_group = ['1','2','3','4','5','6','7','8','9']
+    private_group = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
     # an public group name for all player
     public_name = desk.desk_name
@@ -164,47 +167,44 @@ def ws_add(message):
     # max compacity
     max_capacity = desk.capacity
 
-    # current compacity
-    current_capacity = desk.current_capacity
-
-    # start flag of this playroom
-    start_flag = False
-
-    # owner of the playroom
-    owner = desk.owner
-
     # list of players
     players = {}
 
-    desk_name = desk.desk_name
-
-    #test
-    #desk.is_start = False
-    #desk.save()
+    # test
+    # desk.is_start = False
+    # desk.save()
 
     # Add them to the public group
-    Group(desk_name).add(message.reply_channel)
+    Group(desk.desk_name).add(message.reply_channel)
 
     if desk.is_start:
         # Reject the incoming connection
-        message.reply_channel.send({"accept" : True})
-        content = {'is_start' : 'yes'}
-        Group(public_name).send({'text' : json.dumps(content)})
-        return
-
-
-    if current_capacity == 0:
-        # Reject the incoming connection
         message.reply_channel.send({"accept": True})
-        content = {'is_full':'yes'}
+        content = {'is_start': 'yes'}
         Group(public_name).send({'text': json.dumps(content)})
         return
 
-    if current_capacity == max_capacity:
-        owner = message.user.username
-        desk.owner = message.user
+    if desk.current_capacity == 0:
+        # Reject the incoming connection
+        message.reply_channel.send({"accept": True})
+        content = {'is_full': 'yes'}
+        Group(public_name).send({'text': json.dumps(content)})
+        return
 
-    current_capacity -= 1
+    this_user = get_object_or_404(User, username=message.user.username)
+    this_user_info = User_info.objects.get(user=this_user)
+    print(this_user_info)
+    #player = User_Game_play(user=this_user_info, desk=desk)
+    player = User_Game_play.objects.get(user=this_user_info)
+    player.desk = desk
+    #player.save()
+    # User_Game_play.objects.get(user=this_user_info)
+    print(player)
+
+    if desk.current_capacity == max_capacity:
+        desk.owner = this_user_info
+
+    desk.current_capacity -= 1
 
     # Accept the incoming connection
     message.reply_channel.send({"accept": True})
@@ -214,33 +214,38 @@ def ws_add(message):
     Group(public_name).add(message.reply_channel)
 
     # Allocate a postion to the user
-    player.postion = max_capacity - current_capacity
+    player.postion = max_capacity - desk.current_capacity
     position = str(player.position)
 
     # Add the user to the private group
     Group(position).add(message.reply_channel)
-    Group(position).send({'text':desk.desk_name})
+    Group(position).send({'text': desk.desk_name})
 
     # Give owner signal
-    if owner == message.user.username:
-        Group(position).send({'text':'owner!'})
+    if desk.owner == this_user_info:
+        Group(position).send({'text': 'owner!'})
 
     # Boardcast to all player
-    content = {'new_player':message.user.username}
+    content = {'new_player': message.user.username}
     Group(public_name).send({'text': json.dumps(content)})
 
     desk.save()
     player.save()
 
-    print ('c:%d,m:%d,f:%d,o:%s,p:%s'%(desk.current_capacity, desk.capacity, desk.is_start, desk.owner.username, player.position))
+    print('c:%d,m:%d,f:%d,o:%s,p:%s' % (
+    desk.current_capacity, desk.capacity, desk.is_start, desk.owner.user.username, player.position))
 
 
 
 # Connected to websocket.disconnect
+@transaction.atomic
 @channel_session_user_from_http
 def ws_disconnect(message):
+    print('disconnect!')
     # Disconnect
+    print (message.user.username)
     desk = Desk_info.objects.get(desk_name='desk0')
+    print (desk)
     # if full
     if desk.current_capacity == 0:
         Group('desk0').discard(message.reply_channel)
@@ -263,5 +268,6 @@ def ws_disconnect(message):
                     desk.owner = player.User_info
                     break
     # delete User_Game_play
+    desk.save()
     User_Game_play.objects.get(user=message.user).delete()
     Group(public_name).discard(message.reply_channel)

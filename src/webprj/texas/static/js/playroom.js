@@ -35,9 +35,22 @@ $(document).ready(function () {
         socket.send(JSON.stringify(message));
     });
 
+    $('#leave_room').on('click', function (event) {
+        event.preventDefault(); // Prevent form from being submitted
+        var message = {
+            'command': 'leave'
+        };
+        socket.send(JSON.stringify(message));
+    });
+
     socket.onmessage = function (message) {
-        console.log(message);
-        var data = JSON.parse(message.data);
+        console.log(message.data);
+        var data = JSON.parse(message.data)
+        if (message.data['new_player']){
+            console.log('1')
+            return
+        }
+
 
         for (var i = 0; i < 9; i++) {
             var name = data.card[i][0];
