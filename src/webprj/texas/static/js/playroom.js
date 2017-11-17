@@ -30,7 +30,7 @@ $(document).ready(function () {
         socket.onopen();
     }
 
-    var start_game = document.getElementById("get_card"); 
+    var start_game = document.getElementById("get_card");
     start_game.disabled = true;
 
     $('#get_card').on('click', function (event) {
