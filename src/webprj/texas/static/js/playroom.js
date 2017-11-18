@@ -132,7 +132,7 @@ $(document).ready(function () {
 
         var data = JSON.parse(message.data);
 
-        if (data['can_start'] == 'yes') {
+        if (data['can_start'] === 'yes') {
             document.getElementById("start_game").disabled = false;
         }
 
@@ -156,7 +156,7 @@ $(document).ready(function () {
 
         if (data['user_cards']) {
             values = data['user_cards'].split(" ");
-            if (values.length == 2){
+            if (values.length === 2){
                 for (i = 0; i < 2; i++){
                     num = values[i] % 13;
                     color = (values[i] - num++) / 13;

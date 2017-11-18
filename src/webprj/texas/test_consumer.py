@@ -233,8 +233,7 @@ def ws_msg(message):
         this_desk.player_queue_pointer -= 1
 
     elif data['message'] == 'raise':
-        #TODO: this line must be compatible with front end
-        chips_add = data['chips_add']
+        chips_add = data['value']
         # current user put more chips
         this_user_info.chips -= chips_add
         this_user_game_play.chips_pay_in_this_game += chips_add
