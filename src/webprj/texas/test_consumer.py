@@ -173,6 +173,7 @@ def find_next_player(desk):
     desk.player_queue_pointer = get_next_pos(desk.player_queue_pointer, len(desk.player_queue))
     next_player = User_Game_play.objects.get(desk=desk, position=int(desk.player_queue[desk.player_queue_pointer]))
     desk.player_queue_pointer = get_next_pos(desk.player_queue_pointer, len(desk.player_queue))
+    desk.save()
     return next_player
 
 
@@ -226,14 +227,26 @@ def winner_logic(cur_desk):
         #assign_winner(user)
 
     # TODO: continue the game to next phase
-    return next_phase()
+    return next_phase(cur_desk)
 
 
-def next_phase():
+def next_phase(cur_desk):
     pass
     # TODO: Server send another public card to the table
 
     # TODO: Server let next player to move, wait for signal
+    # let the player next to the dealer to move
+    first_user = 0
+    for i in cur_desk.player_queue:
+        user = User_Game_play.objects.get(desk=cur_desk,position=i)
+        if user.status != -1:
+            user.status = 0
+            user.save()
+            if first_user == 0:
+                first_user = 1
+                next_user = user
+
+    give_control(next_user.position)
 
 
 @transaction.atomic

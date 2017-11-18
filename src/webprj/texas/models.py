@@ -24,7 +24,7 @@ class User_info(models.Model):
     chips = models.IntegerField(default=10000)
 
     def __str__(self):
-        return "username: %s, chips: %d", self.user.username, self.chips
+        return "username: %s, chips: %d" % (self.user.username, self.chips)
 
 
 @receiver(post_save, sender=User)
