@@ -24,7 +24,7 @@ class User_info(models.Model):
     chips = models.IntegerField(default=10000)
 
     def __str__(self):
-        return "username: %s, chips: %d", self.user.username, self.chips
+        return "username: %s, chips: %d" %(self.user.username, self.chips)
 
 
 @receiver(post_save, sender=User)
@@ -53,16 +53,8 @@ class Desk_info(models.Model):
     current_largest_chips_this_game = models.IntegerField(default=0)
     pool = models.IntegerField(default=0)
 
-
     def __str__(self):
-        return "desk_name: %s, owner: %s, capacity: %d, current: %d," \
-               " is_start: %d, position_queue: %s, player_queue: %s, " \
-               "player_queue_pointer: %d, five_cards_of_desk: %s, " \
-               "current_largest_chips_this_game: %d, pool: %d" %\
-               (self.desk_name, self.owner, self.capacity, self.current_capacity,
-                self.is_start, self.position_queue,
-                self.player_queue, self.player_queue_pointer, self.five_cards_of_desk,
-                self.current_largest_chips_this_game, self.pool)
+        return "desk_name: %s, owner: %s, capacity: %d, current: %d, is_start: %d, position_queue: %s, player_queue: %s, player_queue_pointer: %d, five_cards_of_desk: %s, current_largest_chips_this_game: %d, pool: %d" %(self.desk_name, self.owner, self.capacity, self.current_capacity,self.is_start, self.position_queue,self.player_queue, self.player_queue_pointer, self.five_cards_of_desk, self.current_largest_chips_this_game, self.pool)
 
 
 class User_Game_play(models.Model):

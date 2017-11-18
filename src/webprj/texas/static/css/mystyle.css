@@ -96,8 +96,8 @@ p {
 	border: 3px solid #179b77;
 	background-color:  rgba(49,107,66, 0.9);
 	margin: auto;
-	margin-top: 20px;
-	margin-bottom: 10px;
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 
 .player {
@@ -106,7 +106,7 @@ p {
 	margin-left: 20%;
 	margin-right: 40%;
 	color: rgb(51,23,12);
-	padding: 10px;
+	padding: 0px;
 }
 
 .card {
@@ -166,7 +166,17 @@ p {
 	font-size: 15px;
 }
 
+.chips {
+	color: rgb(165,67,42);
+	font-size: 15px;
+	line-height:60%;
+}
+
 .height70 {
 	height: 70px;
 	vertical-align: bottom;
+}
+
+.left {
+	text-align: left;
 }

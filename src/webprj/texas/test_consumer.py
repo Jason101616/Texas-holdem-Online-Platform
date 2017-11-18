@@ -353,7 +353,7 @@ def ws_add(message):
 
     this_position = int(desk.position_queue[0])
     desk.position_queue = desk.position_queue[1:]
-    print(this_user_info)
+    #print(this_user_info)
 
     # Allocate a postion to the user
     player = User_Game_play(

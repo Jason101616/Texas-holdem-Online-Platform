@@ -9,12 +9,11 @@ function timer_10sec() {
         setTimeout(timer_10sec, 1000);
     } else {
         timer = 10;
-        /*$('#message').html('timeout!');
+        $('#message').html('timeout!');
         var message = {
             'message': 'timeout'
         };
-        socket.send(JSON.stringify(message));*/
-        click_fold();
+        socket.send(JSON.stringify(message));
     }
 }
 
@@ -90,7 +89,7 @@ $(document).ready(function () {
 
 
     for (i = 1; i < 9; i++) {
-        document.getElementById("player-" + i).style.visibility = 'hidden';
+        //document.getElementById("player-" + i).style.visibility = 'hidden';
         //visibility = 'visible'
     }
 
