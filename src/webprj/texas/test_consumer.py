@@ -172,17 +172,22 @@ def find_next_player(desk):
     # update pointer and get next player
     desk.player_queue_pointer = get_next_pos(desk.player_queue_pointer, len(desk.player_queue))
     next_player = User_Game_play.objects.get(desk=desk, position=int(desk.player_queue[desk.player_queue_pointer]))
-    desk.player_queue_pointer = get_next_pos(desk.player_queue_pointer, len(desk.player_queue))
+    # desk.player_queue_pointer = get_next_pos(desk.player_queue_pointer, len(desk.player_queue))
+    desk.save()
     return next_player
 
 
 def judge_logic(next_player, desk):
     pass
+    if len(desk.player_queue) == 1:
+        # assign_winner(next_player)
+        return
 
     status = next_player.status
     # TODO: if next player hasn't moved in this turn, give control to him
     if status == 0:
         give_control(next_player.position)
+        return
 
     # TODO: if his status is fold: skip this player
     # find_next_player()
@@ -200,23 +205,17 @@ def judge_logic(next_player, desk):
             return winner_logic(desk)
         else:
             give_control(next_player.position)
+            return
 
 
 def winner_logic(cur_desk):
     pass
     # TODO: if there's only one player whose status is other than fold
         # winner(this_player)
-    count_not_fold = 0
-    users_of_desk = User_Game_play.objects.filter(
-        desk=cur_desk).order_by('position')
-    for user in users_of_desk:
-        if user.status != -1:
-            count_not_fold += 1
-        else:
-            winner = user
-    if count_not_fold == 1:
-        pass
-        #return assign_winner(user)
+    if len(cur_desk.player_queue) == 1:
+        winner = User_Game_play.objects.get(desk=cur_desk, position=int(cur_desk.player_queue[0]))
+        #assign_winner(winner)
+        return
 
     # TODO: if this is the end of river phase
     if cur_desk.phase == 'river':
@@ -226,14 +225,26 @@ def winner_logic(cur_desk):
         #assign_winner(user)
 
     # TODO: continue the game to next phase
-    return next_phase()
+    return next_phase(cur_desk)
 
 
-def next_phase():
+def next_phase(cur_desk):
     pass
     # TODO: Server send another public card to the table
 
     # TODO: Server let next player to move, wait for signal
+    # let the player next to the dealer to move
+    first_user = 0
+    for i in cur_desk.player_queue:
+        user = User_Game_play.objects.get(desk=cur_desk,position=i)
+        if user.status != -1:
+            user.status = 0
+            user.save()
+            if first_user == 0:
+                first_user = 1
+                next_user = user
+
+    give_control(next_user.position)
 
 
 @transaction.atomic
@@ -294,16 +305,22 @@ def ws_msg(message):
 
     # find next move person position
     next_pos_queue = get_next_pos(this_desk.player_queue_pointer,
-                                  len(this_desk.player_queue))
+                                   len(this_desk.player_queue))
     this_desk.player_queue_pointer = next_pos_queue
     next_pos_desk = int(this_desk.player_queue[next_pos_queue])
-    content = {'next_mov_pos': next_pos_desk}
+
+    next_user = User_Game_play.objects.get(desk=this_desk,position=next_pos_desk)
+    # content = {'next_mov_pos': next_pos_desk}
+    # Group(public_name).send({'text': json.dumps(content)})
+
+    content = {'next_mov_pos': next_pos_desk, 'cur_user_pos': this_user_game_play.position, 'cur_user_chips': this_user_info.chips}
+
     # save the modified model, send the public group which user should move the next round
     this_user_info.save()
     this_user_game_play.save()
     this_desk.save()
-    Group(public_name).send({'text': json.dumps(content)})
-    #judge_logic(next_pos_desk, this_desk.player_queue)
+
+    judge_logic(next_user, this_desk)
 
 
 # Connected to websocket.connect
