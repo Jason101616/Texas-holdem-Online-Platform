@@ -144,6 +144,7 @@ def start_logic(message):
 
     cur_desk.save()
     print("desk after start: ",cur_desk)
+    return cur_desk.player_queue[cur_desk.player_queue_pointer]
 
 
 # player_queue is a cyclic queue, the next pos of the last pos is 0
@@ -164,7 +165,9 @@ def ws_msg(message):
 
     if 'start_game' in data:
         print('start_game')
-        start_logic(message)
+        first_player_position = start_logic(message)
+        content = {'move': first_player_position}
+        Group(public_name).send({'text': json.dumps(content)})
         return
 
     # The player click leave room
