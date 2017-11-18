@@ -150,7 +150,7 @@ def start_logic(message):
     Group(cur_desk.desk_name).send({'text': json.dumps(content)})
 
     cur_desk.save()
-    
+
     print("desk after start: ",cur_desk)
     return cur_desk.player_queue[cur_desk.player_queue_pointer]
 
@@ -160,6 +160,28 @@ def get_next_pos(cur_pos, len_queue):
     if cur_pos <= len_queue - 2:
         return cur_pos + 1
     return 0
+
+
+def give_control(player_position):
+    content = {'move': player_position}
+    Group(public_name).send({'text': json.dumps(content)})
+    return
+
+
+def judge_logic(next_player_position, player_position_queue):
+    pass
+    #TODO: if next player hasn't moved in this turn, give control to him
+    # give_control(next_player)
+
+    #TODO: if his status is fold: skip this player
+    # find_next_player()
+
+    #TODO: if his stutas is not fold
+        #TODO: if his bet is the highest bet in the table
+        # go to next phase
+        #TODO: if his bet is not the highest bet in the table
+        # give_control(next_player)
+
 
 
 @transaction.atomic
@@ -195,6 +217,7 @@ def ws_msg(message):
         this_user_game_play = User_Game_play.objects
         # set current user status 1
         content = {}
+
         Group(public_name).send({'text': json.dumps(content)})
         judge_logic(next_move_person_pos, desk_info.player_queue)
     elif data['message'] == 'check':
