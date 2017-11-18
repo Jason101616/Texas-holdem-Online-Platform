@@ -247,11 +247,12 @@ def ws_add(message):
     desk.position_queue = desk.position_queue[1:]
     print(this_user_info)
 
+    # Allocate a postion to the user
     player = User_Game_play(
         user=this_user_info, desk=desk, position=this_position)
-    #player = User_Game_play.objects.get(user=this_user_info)
     player.desk = desk
     player.save()
+
     player = User_Game_play.objects.get(user=this_user_info)
     print(player)
 
@@ -268,12 +269,8 @@ def ws_add(message):
     # Add them to the public group
     Group(public_name).add(message.reply_channel)
 
-    # Allocate a postion to the user
-    player.postion = max_capacity - desk.current_capacity
-    position = str(player.position)
-    print(max_capacity, desk.current_capacity, position)
-
     # Add the user to the private group
+    position = str(player.position)
     Group(position).add(message.reply_channel)
     Group(position).send({'text': desk.desk_name})
 
@@ -282,7 +279,7 @@ def ws_add(message):
         Group(position).send({'text': 'owner!'})
 
     # Boardcast to all player
-    content = {'new_player': message.user.username}
+    content = {'new_player': message.user.username,'position': player.position}
     Group(public_name).send({'text': json.dumps(content)})
 
     # If current player is 2 or more, owner can start the game
