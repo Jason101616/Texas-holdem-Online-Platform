@@ -9,17 +9,18 @@ function timer_10sec() {
         setTimeout(timer_10sec, 1000);
     } else {
         timer = 10;
-        $('#message').html('timeout!');
+        /*$('#message').html('timeout!');
         var message = {
             'message': 'timeout'
         };
-        socket.send(JSON.stringify(message));
+        socket.send(JSON.stringify(message));*/
+        click_fold();
     }
 }
 
 //
 function click_hold() {
-    timer_10sec();
+    //timer_10sec();
     var message = {
         'message': 'hold'
     };
@@ -217,78 +218,8 @@ $(document).ready(function () {
          })
         }
 
-        if (data.card) {
-            for (var i = 0; i < 9; i++) {
-                var name = data.card[i][0];
-                switch (data.card[i][1]) {
-                    case 0:
-                        name += '♥';
-                        break;
-                    case 1:
-                        name += '♣';
-                        break;
-                    case 2:
-                        name += '♦';
-                        break;
-                    case 3:
-                        name += '♠';
-                        break;
-                    default:
-                        break;
-                }
-                data.card[i] = name;
-            }
-        }
-
-        if (data.status === "start") {
-            var i = 1;
-            for (; i <= 5; i++) {
-                $('#desk-' + i).html("X");
-            }
-            for (; i <= 7; i++) {
-                $('#robot-' + (i - 5)).html("X");
-            }
-            for (; i <= 9; i++) {
-                $('#me-' + (i - 7)).html(data.card[i - 1]);
-            }
-            $('#message').html("");
-        } else if (data.status === 'hold') {
-            switch (data.hold_click_cnt) {
-                case 1:
-                    var i = 1;
-                    for (; i <= 3; i++) {
-                        $('#desk-' + i).html(data.card[i - 1]);
-                    }
-                    break;
-
-                case 2:
-                    $('#desk-' + 4).html(data.card[3]);
-                    break;
-
-                case 3:
-                    $('#desk-' + 5).html(data.card[4]);
-                    break;
-
-                default:
-                    var i = 6;
-                    for (; i <= 7; i++) {
-                        $('#robot-' + (i - 5)).html(data.card[i - 1]);
-                    }
-                    $('#message').html(data.result);
-                    break;
-            }
-        } else if (data.status === 'fold') {
-            $('#message').html(data.result);
-            var i = 1;
-            for (; i <= 5; i++) {
-                $('#desk-' + i).html(data.card[i - 1]);
-            }
-            for (; i <= 7; i++) {
-                $('#robot-' + (i - 5)).html(data.card[i - 1]);
-            }
-            for (; i <= 9; i++) {
-                $('#me-' + (i - 7)).html(data.card[i - 1]);
-            }
+        if (data['start_timer']) {
+            timer_10sec();
         }
     };
 });
