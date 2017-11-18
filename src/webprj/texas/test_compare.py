@@ -92,6 +92,11 @@ def decide_winner(card):
     else:
         return my_type + " V.S." + robot_type + "<br> You lose!"
 
+
+# def decide_winner(desk):
+#
+
+
 def second(elem):
     return elem[1]
 
