@@ -93,14 +93,17 @@ def tutorial(request):
 @login_required
 def playroom(request, deskname):
     context = {}
-    context['user'] = request.user
-
     desk = get_object_or_404(Desk_info, desk_name=deskname)
+    user_info = get_object_or_404(User_info, user = request.user)
+    user_game = User_Game_play.objects.filter(desk = desk, user = user_info)
+
+    context['user'] = request.user
+    context['user_chips'] = user_info.chips
+
     if desk.is_start == False:
         return render(request, 'playroom.html', context)
 
-    user = User_Game_play.objects.filter(desk=desk)
-    if user:
+    if user_game:
         return render(request, 'playroom.html', context)
     else:
         context['errors'] = [
@@ -135,7 +138,7 @@ def addplayer(request):
             pos = player.position - loguser.position
             if pos < 0:
                 pos = pos + 9
-            player_info = {'username': username, 'position': pos}
+            player_info = {'username': username, 'position': pos, 'chips': player.user.chips}
             context_players.append(player_info)
 
     context['players'] = context_players
@@ -165,3 +168,18 @@ def getjob(request, pos_big, pos_small, pos_dealer):
     context = {'big_blind': pos1, 'small_blind': pos2, 'dealer': pos3}
 
     return render(request, 'json/getjob.json', context, content_type = 'application/json')
+
+@login_required
+@transaction.atomic
+def get_position(request, position):
+    loguser_mod = get_object_or_404(User_info, user = request.user)
+    loguser = get_object_or_404(User_Game_play, user = loguser_mod)
+    context = {}
+
+    pos = int(position) - 1 - loguser.position
+    if pos < 0:
+        pos = pos + 9
+
+    context = {'position': pos}
+
+    return render(request, 'json/position.json', context, content_type = 'application/json')
