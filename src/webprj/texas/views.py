@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -55,7 +55,6 @@ def log_in(request):
     login_form = LoginForm(request.POST)
     if not login_form.is_valid():
         context['errors'] = login_form.errors.as_data()['__all__'][0]
-        #print(login_form.errors.as_data())
         return render(request, 'homepage.html', context)
 
     user = authenticate(
@@ -88,28 +87,22 @@ def tutorial(request):
     print(request.user)
     if request.user.is_authenticated():
         context['logged_in'] = 1
-        print('user logged in')
-    else:
-        print('user not logged in')
     return render(request, 'tutorial.html', context)
 
 
 @login_required
 def playroom(request, deskname):
     context = {}
-    desk = Desk_info.objects.filter(desk_name = deskname)
-    if not desk:
-        return render(request, 'playroom.html', context)
+    desk = get_object_or_404(Desk_info, desk_name=deskname)
     if desk.is_start == False:
         return render(request, 'playroom.html', context)
 
-    user = User_Game_play.objects.filter(desk = desk)
+    user = User_Game_play.objects.filter(desk=desk)
     if user:
         return render(request, 'playroom.html', context)
     else:
         context['errors'] = 'Permission denied: there is an ongoing game in this room, please try another.'
         return render(request, 'lobby.html', context)
-
 
 @login_required
 @transaction.atomic
@@ -118,3 +111,22 @@ def log_out(request):
     context = {}
     return render(request, 'homepage.html', context)
 
+@login_required
+@transaction.atomic
+def addplayer(request, username):
+    newplayer_user = get_object_or_404(User, username = username)
+    newplayer_mod = get_object_or_404(User_info, user = newplayer_user)
+    newplayer = get_object_or_404(User_Game_play, user = newplayer_mod)
+    loguser = get_object_or_404(User_Game_play, user = request.user)
+
+    context = {}
+
+    if newplayer == loguser:
+        return render(request, 'json/newplayer.json', context, content_type = 'application/json')
+
+    pos = newplayer.position - loguser.position
+    if pos < 0:
+        pos = pos + 9
+
+    context = {'user': newplayer, 'position': pos}
+    return render(request, 'json/newplayer.json', context, content_type = 'application/json')

@@ -21,6 +21,7 @@ public_name = 'desk0'
 # an global private group name array for each player
 private_group = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
+
 @transaction.atomic
 @channel_session_user
 def diconnect_user(message, username):
@@ -29,6 +30,7 @@ def diconnect_user(message, username):
     print(username)
     # get desk
     desk = Desk_info.objects.get(desk_name='desk0')
+    max_capacity = desk.capacity
     #Group(public_name).discard(message.reply_channel)
     print('success')
     desk.current_capacity += 1
@@ -56,12 +58,21 @@ def diconnect_user(message, username):
     # retrieve position queue
     desk.position_queue += str(this_player.position)
     print("after leave: ", desk)
+
+    # If current player is 1, owner can not start the game
+    if desk.current_capacity == max_capacity - 1:
+        content = {'can_start': 'no'}
+        this_player = User_Game_play.objects.get(user=desk.owner)
+        print(this_player.position)
+        Group(str(this_player.position)).send({'text': json.dumps(content)})
+
     # delete User_Game_play
     User_Game_play.objects.get(user=this_user_info).delete()
     Group(desk.desk_name).discard(message.reply_channel)
 
     desk.save()
     return
+
 
 @transaction.atomic
 @channel_session_user
@@ -76,6 +87,7 @@ def start_logic(message):
 
     #TODO: give every users 2 cards
     #arrange card
+
 
 @transaction.atomic
 @channel_session_user
@@ -92,11 +104,10 @@ def ws_msg(message):
         if data['command'] == 'leave':
             print(message.user.username)
             diconnect_user(message, message.user.username)
-            content = {'test':'test'}
+            content = {'test': 'test'}
             Group(public_name).send({'text': json.dumps(content)})
             print('test_msg sent!')
             return
-
 
     if data['message'] == 'get_card':
         card = test_compare.shuffle_card()
@@ -119,7 +130,8 @@ def ws_msg(message):
                 'result': ""
             }
         else:
-            result = test_compare.decide_winner(message.channel_session['card'])
+            result = test_compare.decide_winner(
+                message.channel_session['card'])
             content = {
                 'card': message.channel_session['card'],
                 'status': 'hold',
@@ -142,6 +154,7 @@ def ws_msg(message):
 
     elif data['message'] == 'timeout':
         print('timeout')
+
 
 # Connected to websocket.connect
 @transaction.atomic
@@ -192,18 +205,20 @@ def ws_add(message):
     desk.position_queue = desk.position_queue[1:]
     print(this_user_info)
 
-    player = User_Game_play(user=this_user_info, desk=desk, position=this_position)
+    player = User_Game_play(
+        user=this_user_info, desk=desk, position=this_position)
     #player = User_Game_play.objects.get(user=this_user_info)
     player.desk = desk
     player.save()
     player = User_Game_play.objects.get(user=this_user_info)
+    print("created player")
     print(player)
 
     if desk.current_capacity == max_capacity:
         desk.owner = this_user_info
 
     desk.current_capacity -= 1
-    print (desk.current_capacity)
+    print(desk.current_capacity)
 
     # Accept the incoming connection
     message.reply_channel.send({"accept": True})
@@ -215,7 +230,7 @@ def ws_add(message):
     # Allocate a postion to the user
     player.postion = max_capacity - desk.current_capacity
     position = str(player.position)
-    print (max_capacity, desk.current_capacity, position)
+    print(max_capacity, desk.current_capacity, position)
 
     # Add the user to the private group
     Group(position).add(message.reply_channel)
@@ -229,22 +244,20 @@ def ws_add(message):
     content = {'new_player': message.user.username}
     Group(public_name).send({'text': json.dumps(content)})
 
-
     # If current player is 2 or more, owner can start the game
     if desk.current_capacity == max_capacity - 2:
         content = {'can_start': 'yes'}
         this_player = User_Game_play.objects.get(user=desk.owner)
-        print (this_player.position)
+        print(this_player.position)
         Group(str(this_player.position)).send({'text': json.dumps(content)})
 
-
-    print('c:%d,m:%d,f:%d,o:%s,p:%s' % (
-    desk.current_capacity, desk.capacity, desk.is_start, desk.owner.user.username, player.position))
+    print('c:%d,m:%d,f:%d,o:%s,p:%s' %
+          (desk.current_capacity, desk.capacity, desk.is_start,
+           desk.owner.user.username, player.position))
 
     player.save()
     desk.save()
     print("after enter: ", desk)
-
 
 
 # Connected to websocket.disconnect

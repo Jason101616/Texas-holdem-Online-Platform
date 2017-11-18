@@ -8,6 +8,7 @@ from django.db.models.signals import post_save
 from django.utils import timezone
 import datetime
 
+
 # Create your models here.
 class User_info(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -34,13 +35,17 @@ def create_user_info(sender, instance, created, **kwargs):
 def save_user_info(sender, instance, **kwargs):
     instance.user_info.save()
 
+
 class Desk_info(models.Model):
     desk_name = models.CharField(max_length=40, default="test")
-    owner = models.OneToOneField(User_info, on_delete=models.CASCADE, null=True)
+    owner = models.OneToOneField(
+        User_info, on_delete=models.CASCADE, null=True)
     capacity = models.IntegerField(default=9)
     current_capacity = models.IntegerField(default=9)
     is_start = models.BooleanField(default=False)
-    position_queue = models.CharField(max_length=40,default="012345678")
+    position_queue = models.CharField(max_length=40, default="012345678")
+    player_queue = models.CharField(max_length=20, default="")
+    player_queue_pointer = models.IntegerField(default=0)
 
     def __str__(self):
         return "desk_name: %s, owner: %s, capacity: %d, current: %d, is_start: %d, position_queue: %s"%\

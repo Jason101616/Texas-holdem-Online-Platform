@@ -35,8 +35,45 @@ $(document).ready(function () {
         socket.onopen();
     }
 
-    var start_game = document.getElementById("get_card"); 
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                        }
+                }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+            }
+    });
+
+    //initialize the page
+    start_game = document.getElementById("get_card");
     start_game.disabled = true;
+
+
+    for (i = 1; i < 9; i++) {
+        document.getElementById("player-" + i).style.visibility = 'hidden';
+        //visibility = 'visible'
+    }
 
     $('#get_card').on('click', function (event) {
         console.log("get card");
@@ -76,13 +113,22 @@ $(document).ready(function () {
         console.log(message.data);
         var data = JSON.parse(message.data);
 
-        if (message.data['is_full'] == 'yes') {
+        if (data['is_full'] == 'yes') {
             start_game = document.getElementById("get_card"); 
             start_game.disabled = true;
         }
 
-        if (message.data['new_player']) {
-            console.log('1');
+        if (data['new_player']) {
+            console.log('newplayer');
+            debugger;
+            $.ajax({
+                type: 'post',
+                url: 'addplayer/' + data['new_player'],
+                data: data['new_player'],
+                success: function(data) {
+                    debugger;
+                }
+            })
             return
         }
 
@@ -151,7 +197,8 @@ $(document).ready(function () {
                     $('#message').html(data.result);
                     break;
             }
-        } else if (data.status === 'fold') {
+        } 
+        else if (data.status === 'fold') {
             $('#message').html(data.result);
             var i = 1;
             for (; i <= 5; i++) {
