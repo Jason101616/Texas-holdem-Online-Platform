@@ -27,6 +27,7 @@ def refresh_desk(desk):
     desk = Desk_info(desk_name=public_name)
     desk.save()
 
+
 @transaction.atomic
 @channel_session_user
 def diconnect_user(message, username):
@@ -89,24 +90,28 @@ def start_logic(message):
     #TODO: let the lowest position the dealer
     #arrange dealer
     cur_desk = Desk_info.objects.get(desk_name='desk0')
-    users_of_cur_desk = User_Game_play.objects.filter(desk=cur_desk).order_by('position')
-    print (users_of_cur_desk)
+    users_of_cur_desk = User_Game_play.objects.filter(
+        desk=cur_desk).order_by('position')
+    print(users_of_cur_desk)
     active_users_queue = ''
     for user in users_of_cur_desk:
         active_users_queue += str(user.position)
     cur_desk.player_queue = active_users_queue
-    print (active_users_queue)#test
+    print(active_users_queue)  #test
     # the first person in the queue is initialized as dealer
-    dealer = User_Game_play.objects.get(desk=cur_desk,
-                                        position=int(cur_desk.player_queue[0]))
+    dealer = User_Game_play.objects.get(
+        desk=cur_desk, position=int(cur_desk.player_queue[0]))
     #TODO: let the next two player be blinds
     #arrange blind
     next_pos_in_queue = get_next_pos(0, len(users_of_cur_desk))
-    small_blind = User_Game_play.objects.get(desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
+    small_blind = User_Game_play.objects.get(
+        desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
     next_pos_in_queue = get_next_pos(next_pos_in_queue, len(users_of_cur_desk))
-    big_blind = User_Game_play.objects.get(desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
+    big_blind = User_Game_play.objects.get(
+        desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
     # the person move next is the next position of big_blind
-    cur_desk.player_queue_pointer = get_next_pos(big_blind.position, len(users_of_cur_desk))
+    cur_desk.player_queue_pointer = get_next_pos(big_blind.position,
+                                                 len(users_of_cur_desk))
 
     #TODO: give every users 2 cards
     #arrange card
@@ -115,7 +120,7 @@ def start_logic(message):
     desk_cards = ''
     for card in cards[:5]:
         desk_cards += str(card) + ' '
-    desk_cards = desk_cards[:-1] # delete the last space character
+    desk_cards = desk_cards[:-1]  # delete the last space character
     cur_desk.five_cards_of_desk = desk_cards
 
     #Group(cur_desk.desk_name).send({'desk_cards': cur_desk.five_cards_of_desk})
@@ -124,7 +129,7 @@ def start_logic(message):
     start_index = 5
     for user in users_of_cur_desk:
         cur_user_cards = ''
-        for card in cards[start_index: start_index + 2]:
+        for card in cards[start_index:start_index + 2]:
             cur_user_cards += str(card) + ' '
         cur_user_cards = cur_user_cards[:-1]
         start_index += 2
@@ -137,12 +142,15 @@ def start_logic(message):
         Group(str(user.position)).send({'text': json.dumps(content)})
 
     # tell the public channel, who is dealer, who is big blind, who is small blind
-    content = {'dealer':[dealer.user.user.username, dealer.position],
-               'big_blind': [big_blind.user.user.username, big_blind.position],
-               'small_blind': [small_blind.user.user.username, small_blind.position]}
+    content = {
+        'dealer': [dealer.user.user.username, dealer.position],
+        'big_blind': [big_blind.user.user.username, big_blind.position],
+        'small_blind': [small_blind.user.user.username, small_blind.position]
+    }
     Group(cur_desk.desk_name).send({'text': json.dumps(content)})
 
     cur_desk.save()
+    
     print("desk after start: ",cur_desk)
     return cur_desk.player_queue[cur_desk.player_queue_pointer]
 
@@ -152,6 +160,7 @@ def get_next_pos(cur_pos, len_queue):
     if cur_pos <= len_queue - 2:
         return cur_pos + 1
     return 0
+
 
 @transaction.atomic
 @channel_session_user
@@ -307,12 +316,15 @@ def ws_add(message):
     # Give owner signal
     if desk.owner == this_user_info:
         Group(position).send({'text': 'owner!'})
-        
+
     player.save()
     desk.save()
 
     # Boardcast to all player
-    content = {'new_player': message.user.username,'position': player.position}
+    content = {
+        'new_player': message.user.username,
+        'position': player.position
+    }
     Group(public_name).send({'text': json.dumps(content)})
 
     # If current player is 2 or more, owner can start the game
@@ -323,8 +335,8 @@ def ws_add(message):
         Group(str(this_player.position)).send({'text': json.dumps(content)})
 
     print('c:%d,m:%d,f:%d,o:%s,p:%s' %
-          (desk.current_capacity, desk.capacity, desk.is_start,
-           desk.owner, player.position))
+          (desk.current_capacity, desk.capacity, desk.is_start, desk.owner,
+           player.position))
 
     print("after enter: ", desk)
 
