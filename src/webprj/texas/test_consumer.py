@@ -87,8 +87,7 @@ def diconnect_user(message, username):
 @channel_session_user
 def start_logic(message):
     print('start signal received!')
-    # TODO: let the lowest position the dealer
-    # arrange dealer
+    # let the user in lowest position be the dealer
     cur_desk = Desk_info.objects.get(desk_name='desk0')
     users_of_cur_desk = User_Game_play.objects.filter(
         desk=cur_desk).order_by('position')
@@ -98,32 +97,32 @@ def start_logic(message):
         active_users_queue += str(user.position)
     cur_desk.player_queue = active_users_queue
     print(active_users_queue)  # test
+
     # the first person in the queue is initialized as dealer
     dealer = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[0]))
-    # TODO: let the next two player be blinds
-    # arrange blind
+
+    # let the next two player be blinds
     next_pos_in_queue = get_next_pos(0, len(users_of_cur_desk))
     small_blind = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
     next_pos_in_queue = get_next_pos(next_pos_in_queue, len(users_of_cur_desk))
     big_blind = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
+
     # the person move next is the next position of big_blind
     cur_desk.player_queue_pointer = get_next_pos(next_pos_in_queue,
                                                  len(users_of_cur_desk))
 
-    # TODO: give every users 2 cards
-    # arrange card
+    # give every users 2 cards
     cards = test_compare.shuffle_card(len(users_of_cur_desk))
+
     # first 5 random cards give desk
     desk_cards = ''
     for card in cards[:5]:
         desk_cards += str(card) + ' '
     desk_cards = desk_cards[:-1]  # delete the last space character
     cur_desk.five_cards_of_desk = desk_cards
-
-    # Group(cur_desk.desk_name).send({'desk_cards': cur_desk.five_cards_of_desk})
 
     # giver each users his cards and store it in the User_Game_play
     start_index = 5
@@ -165,7 +164,6 @@ def get_next_pos(cur_pos, len_queue):
 def give_control(player_position):
     content = {'move': player_position}
     Group(public_name).send({'text': json.dumps(content)})
-    return
 
 
 def find_next_player(desk):
@@ -178,61 +176,90 @@ def find_next_player(desk):
 
 
 def judge_logic(next_player, desk):
-    pass
     if len(desk.player_queue) == 1:
         # assign_winner(next_player)
         return
 
     status = next_player.status
-    # TODO: if next player hasn't moved in this turn, give control to him
+    # if next player hasn't moved in this turn, give control to him
     if status == 0:
         give_control(next_player.position)
         return
 
-    # TODO: if his status is fold: skip this player
+    # if his status is fold: skip this player
     # find_next_player()
     if status == -1:
         next_player = find_next_player(desk)
         return judge_logic(next_player, desk)
 
-    # TODO: if his stutas is not fold
-        # TODO: if his bet is the highest bet in the table
-        # go to next phase
-        # TODO: if his bet is not the highest bet in the table
-        # give_control(next_player)
+    # if his stutas is not fold
     if status == 1:
+        # if his bet is the highest bet in the table
         if next_player.chips_pay_in_this_game == desk.current_largest_chips_this_game:
+            # go to winner_logic
             return winner_logic(desk)
         else:
+            # if his bet is not the highest bet in the table
+            # give_control(next_player)
             give_control(next_player.position)
-            return
+
+
+def assign_winner(winner):
+    # assign the winner, and show all the cards to all users
+    cur_desk_users = User_Game_play.objects.filter(desk=winner.desk)
+    all_user_cards = {}
+    for user in cur_desk_users:
+        all_user_cards[user.position] = user.user_cards
+        # reset all users' chips_pay_in_this_game
+        user.chips_pay_in_this_game = 0
+        # reset status
+        user.status = 0
+        # reset is_fold
+        user.is_fold = False
+    content = {'winner': winner.position, 'cards': all_user_cards}
+    Group(public_name).send({'text': json.dumps(content)})
+    # reset the phase of the current desk
+    winner.desk.phase = 'pre_flop'
+    winner.desk.current_largest_chips_this_game = 0
+
 
 
 def winner_logic(cur_desk):
-    pass
-    # TODO: if there's only one player whose status is other than fold
-        # winner(this_player)
+    # if there's only one player whose status is other than fold
     if len(cur_desk.player_queue) == 1:
         winner = User_Game_play.objects.get(desk=cur_desk, position=int(cur_desk.player_queue[0]))
-        #assign_winner(winner)
+        assign_winner(winner)
         return
 
-    # TODO: if this is the end of river phase
+    # if this is the end of river phase
     if cur_desk.phase == 'river':
-        pass
-        # TODO: compare all players's cards
-        #user = compare(users_of_desk)
-        #assign_winner(user)
+        # TODO: modify decide_winner function
+        winner = test_compare.decide_winner(cur_desk)
+        assign_winner(winner)
 
-    # TODO: continue the game to next phase
+    # continue the game to next phase
     return next_phase(cur_desk)
 
 
 def next_phase(cur_desk):
-    pass
-    # TODO: Server send another public card to the table
+    if cur_desk.phase == 'pre_flop':
+        # show all users the first three cards of the desk
+        cur_desk.phase = 'flop'
+        content = {'desk_cards': cur_desk.five_cards_of_desk[:3]}
 
-    # TODO: Server let next player to move, wait for signal
+    elif cur_desk.phase == 'flop':
+        # show all users the first four cards of the desk
+        cur_desk.phase = 'turn'
+        content = {'desk_cards': cur_desk.five_cards_of_desk[:4]}
+
+    elif cur_desk.phase == 'turn':
+        # show all users the first five cards of the desk
+        cur_desk.phase = 'river'
+        content = {'desk_cards': cur_desk.five_cards_of_desk}
+
+    Group(public_name).send({'text': json.dumps(content)})
+
+
     # let the player next to the dealer to move
     first_user = 0
     for i in cur_desk.player_queue:
