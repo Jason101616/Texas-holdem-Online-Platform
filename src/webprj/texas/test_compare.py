@@ -1,5 +1,5 @@
 import itertools
-import random
+from random import randint
 """
 cards1 = [[0, 2], [0, 3], [0, 4], [0, 5], [0, 6]]  # 8
 cards2 = [[0, 2], [0, 3], [0, 4], [0, 5], [0, 14]]  # 8
@@ -31,32 +31,39 @@ output value:
 """
 
 
-def shuffle_card():
-    nums = []
+# def shuffle_card(num_player):
+#     nums = []
+#     for i in range(52):
+#         nums.append(i)
+#     ans = random.sample(nums, len(nums))[0:num_player * 2 + 5]  #
+#
+#     names = []
+#     for rand in ans:
+#         color = (int)(rand - rand % 13) / 13
+#         index = rand - color * 13
+#         name = []
+#
+#         if index >= 0 and index <= 9:
+#             name.append(str(int(index + 1)))
+#         elif index == 10:
+#             name.append('J')
+#         elif index == 11:
+#             name.append('Q')
+#         elif index == 12:
+#             name.append('K')
+#
+#         name.append(color)
+#         names.append(name)
+#
+#     return names
+
+# shuffle the numbers of [0, 1,... , 51]
+def shuffle_card(num_player):
+    all_cards = [i for i in range(52)]
     for i in range(52):
-        nums.append(i)
-    ans = random.sample(nums, len(nums))[0:9]  #
-
-    names = []
-    for rand in ans:
-        color = (int)(rand - rand % 13) / 13
-        index = rand - color * 13
-        name = []
-
-        if index >= 0 and index <= 9:
-            name.append(str(int(index + 1)))
-        elif index == 10:
-            name.append('J')
-        elif index == 11:
-            name.append('Q')
-        elif index == 12:
-            name.append('K')
-
-        name.append(color)
-        names.append(name)
-
-    return names
-
+        shuffle_pos = randint(0, i)
+        all_cards[i], all_cards[shuffle_pos] = all_cards[shuffle_pos], all_cards[i]
+    return all_cards[: num_player * 2 + 5]
 
 """
 input:

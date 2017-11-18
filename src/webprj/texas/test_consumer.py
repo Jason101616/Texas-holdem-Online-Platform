@@ -78,16 +78,58 @@ def diconnect_user(message, username):
 @channel_session_user
 def start_logic(message):
     print('start signal received!')
-    pass
     #TODO: let the owner be the dealer
     #arrange dealer
-
+    cur_desk = Desk_info.objects.get(desk_name='desk0')
+    users_of_cur_desk = User_Game_play.objects.filter(desk='desk0')
+    active_users_queue = ''
+    for user in users_of_cur_desk:
+        active_users_queue += str(user.position)
+    cur_desk.player_queue = active_users_queue
+    # the first person in the queue is initialized as dealer
+    dealer = User_Game_play.objects.get(desk='desk0',
+                                        position=int(cur_desk.player_queue[0]))
     #TODO: let the next two player be blinds
     #arrange blind
-
+    next_pos_in_queue = get_next_pos(0, len(users_of_cur_desk))
+    small_blind = User_Game_play.objects.get(desk='desk0', position=int(cur_desk.player_queue[next_pos_in_queue]))
+    next_pos_in_queue = get_next_pos(next_pos_in_queue, len(users_of_cur_desk))
+    big_blind = User_Game_play.objects.get(desk='desk0', position=int(cur_desk.player_queue[next_pos_in_queue]))
+    # the person move next is the next position of big_blind
+    cur_desk.player_queue_pointer = get_next_pos(big_blind.position, len(users_of_cur_desk))
     #TODO: give every users 2 cards
     #arrange card
+    cards = test_compare.shuffle_card(len(users_of_cur_desk))
+    # first 5 random cards give desk
+    desk_cards = ''
+    for card in cards[:5]:
+        desk_cards += str(card) + ' '
+    desk_cards = desk_cards[:-1] # delete the last space character
+    cur_desk.five_cards_of_desk = desk_cards
+    Group(cur_desk.desk_name).send({'desk_cards': cur_desk.five_cards_of_desk})
+    # giver each users his cards and store it in the User_Game_play
+    start_index = 5
+    for user in users_of_cur_desk:
+        cur_user_cards = ''
+        for card in cards[start_index: start_index + 2]:
+            cur_user_cards += str(card) + ' '
+        cur_user_cards = cur_user_cards[:-1]
+        start_index += 2
+        user.user_cards = cur_user_cards
 
+    for user in users_of_cur_desk:
+        Group(user.position).send({'user_cards': user.user_cards})
+    # tell the public channel, who is dealer, who is big blind, who is small blind
+    Group(cur_desk.desk_name).send({'dealer':[dealer.user.user.username, dealer.position],
+                                    'big_blind': [big_blind.user.user.username, big_blind.position],
+                                    'small_blind': [small_blind.user.user.username, small_blind.position]})
+
+
+# player_queue is a cyclic queue, the next pos of the last pos is 0
+def get_next_pos(cur_pos, len_queue):
+    if cur_pos <= len_queue - 2:
+        return cur_pos + 1
+    return 0
 
 @transaction.atomic
 @channel_session_user
@@ -110,7 +152,7 @@ def ws_msg(message):
             return
 
     if data['message'] == 'get_card':
-        card = test_compare.shuffle_card()
+        card = test_compare.shuffle_card(2)
         message.channel_session['card'] = card
         message.channel_session['hold_click_cnt'] = 0
         content = {
