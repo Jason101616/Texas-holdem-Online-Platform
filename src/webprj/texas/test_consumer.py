@@ -291,7 +291,7 @@ def ws_add(message):
 
     print('c:%d,m:%d,f:%d,o:%s,p:%s' %
           (desk.current_capacity, desk.capacity, desk.is_start,
-           desk.owner.user.username, player.position))
+           desk.owner, player.position))
 
     player.save()
     desk.save()
