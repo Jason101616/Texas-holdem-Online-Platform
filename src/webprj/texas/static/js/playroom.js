@@ -18,8 +18,35 @@ function timer_10sec() {
 }
 
 //
-function start_game() {
+function click_hold() {
+    timer_10sec();
+    var message = {
+        'message': 'hold'
+    };
+    socket.send(JSON.stringify(message));
+}
 
+function click_fold() {
+    var message = {
+        'message': 'fold'
+    };
+    socket.send(JSON.stringify(message));
+}
+
+function click_raise100() {
+    var message = {
+        'message': 'raise',
+        'value': 100
+    };
+    socket.send(JSON.stringify(message));
+}
+
+function click_raise200() {
+    var message = {
+        'message': 'raise',
+        'value': 200
+    };
+    socket.send(JSON.stringify(message));
 }
 
 $(document).ready(function () {
@@ -66,8 +93,7 @@ $(document).ready(function () {
     });
 
     //initialize the page
-    start_game = document.getElementById("get_card");
-    //start_game.disabled = true;
+    document.getElementById("start_game").disabled = true;
 
 
     for (i = 1; i < 9; i++) {
@@ -109,27 +135,26 @@ $(document).ready(function () {
     });
 
     socket.onmessage = function (message) {
+
         console.log(message.data);
+
         var data = JSON.parse(message.data);
 
-        if (data['is_full'] == 'yes') {
-            start_game = document.getElementById("get_card"); 
-            start_game.disabled = true;
+        if (data['can_start'] == 'yes') {
+            document.getElementById("start_game").disabled = false;
         }
 
         if (data['new_player']) {
-            debugger;
             $.ajax({
                 type: 'post',
                 url: 'addplayer',
                 data: data['new_player'],
                 success: function(data) {
-                    debugger;
                     if (data.players){
                         for (i = 0; i < data.players.length; i++){
                             username = data.players[0]['username'];
                             position = data.players[0]['position'];
-                            $('#player-' + position)[0].children[0].children[0].children[0].innerHTML = username;
+                            $('#player-' + position)[0].children[0].children[0].children[0].children[1].innerHTML = username;
                             $('#player-' + position)[0].style.visibility = "visible";
                         }
                     }
@@ -137,13 +162,72 @@ $(document).ready(function () {
             })
         }
 
+        if (data['user_cards']) {
+            values = data['user_cards'].split(" ");
+            if (values.length == 2){
+                for (i = 0; i < 2; i++){
+                    num = values[i] % 13;
+                    color = (values[i] - num++) / 13;
+                    switch (color){
+                        case 0:
+                        values[i] = '♥';
+                        break;
+                        case 1:
+                        values[i] = '♣';
+                        break;
+                        case 2:
+                        values[i] = '♦';
+                        break;
+                        case 3:
+                        values[i] = '♠';
+                        break;
+                        default:
+                        break;
+                    }
+                    switch (num){
+                        case 11:
+                        values[i] = 'J' + values[i];
+                        break;
+                        case 12:
+                        values[i] = 'Q' + values[i];
+                        break;
+                        case 13:
+                        values[i] = 'K' + values[i];
+                        default:
+                        values[i] = num + values[i];
+                        break;
+                    }
+                    $("#card-0-" + (i + 1)).html("<p>" + values[i] + "</p>");
+                }
+            }
+            for (i = 1; i < 9; i++){
+                $("#card-" + i + "-1").html("<p>*</p>");
+                $("#card-" + i + "-2").html("<p>*</p>");
+                $('#player-' + i)[0].children[0].children[0].children[0].children[0].innerHTML = "";
+            }
+        }
+
+        if (data['big_blind'] && data['small_blind'] && data['dealer']) {
+            $.ajax({
+                type: 'post',
+                url: 'getjob/' + data['big_blind'][1] + '/' + data['small_blind'][1] + '/' + data['dealer'][1],
+                data: "",
+                success: function(data) {
+                 pos1 = data['big_blind'];
+                 $('#player-' + pos1)[0].children[0].children[0].children[0].children[0].innerHTML += "[big blind]<br>\n";
+
+                 pos2 = data['small_blind'];
+                 $('#player-' + pos2)[0].children[0].children[0].children[0].children[0].innerHTML += "[small blind]<br>\n";
+
+                 pos3 = data['dealer'];
+                 $('#player-' + pos3)[0].children[0].children[0].children[0].children[0].innerHTML += "[dealer]<br>\n";
+             }
+         })
+        }
+
         if (data.card) {
             for (var i = 0; i < 9; i++) {
-                if (!data.card[i]) {
-                    continue;
-                }
                 var name = data.card[i][0];
-                debugger;
                 switch (data.card[i][1]) {
                     case 0:
                     name += '♥';
