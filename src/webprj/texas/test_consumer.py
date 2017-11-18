@@ -110,7 +110,8 @@ def start_logic(message):
     big_blind = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
     # the person move next is the next position of big_blind
-    cur_desk.player_queue_pointer = get_next_pos(next_pos_in_queue, len(users_of_cur_desk))
+    cur_desk.player_queue_pointer = get_next_pos(next_pos_in_queue,
+                                                 len(users_of_cur_desk))
 
     #TODO: give every users 2 cards
     #arrange card
@@ -149,8 +150,8 @@ def start_logic(message):
     Group(cur_desk.desk_name).send({'text': json.dumps(content)})
 
     cur_desk.save()
-    
-    print("desk after start: ",cur_desk)
+
+    print("desk after start: ", cur_desk)
     return cur_desk.player_queue[cur_desk.player_queue_pointer]
 
 
@@ -159,6 +160,27 @@ def get_next_pos(cur_pos, len_queue):
     if cur_pos <= len_queue - 2:
         return cur_pos + 1
     return 0
+
+
+def give_control(player_position):
+    content = {'move': player_position}
+    Group(public_name).send({'text': json.dumps(content)})
+    return
+
+
+def judge_logic(next_player_position, player_position_queue):
+    pass
+    #TODO: if next player hasn't moved in this turn, give control to him
+    # give_control(next_player)
+
+    #TODO: if his status is fold: skip this player
+    # find_next_player()
+
+    #TODO: if his stutas is not fold
+    #TODO: if his bet is the highest bet in the table
+    # go to next phase
+    #TODO: if his bet is not the highest bet in the table
+    # give_control(next_player)
 
 
 @transaction.atomic
@@ -196,11 +218,12 @@ def ws_msg(message):
     # set current user status 1: have moved in this round
     this_user_game_play.status = 1
     if data['message'] == 'hold':
+        # no need to handle this situation
         pass
-
     elif data['message'] == 'check':
         # current user put more chips
-        this_user_info.chips -= (this_desk.current_largest_chips_this_game - this_user_game_play.chips_pay_in_this_game)
+        this_user_info.chips -= (this_desk.current_largest_chips_this_game -
+                                 this_user_game_play.chips_pay_in_this_game)
         this_user_game_play.chips_pay_in_this_game = this_desk.current_largest_chips_this_game
 
     elif data['message'] == 'fold' or data['message'] == 'timeout':
@@ -218,7 +241,8 @@ def ws_msg(message):
         this_desk.current_largest_chips_this_game = this_user_game_play.chips_pay_in_this_game
 
     # find next move person position
-    next_pos_queue = get_next_pos(this_desk.player_queue_pointer, len(this_desk.player_queue))
+    next_pos_queue = get_next_pos(this_desk.player_queue_pointer,
+                                  len(this_desk.player_queue))
     this_desk.player_queue_pointer = next_pos_queue
     next_pos_desk = int(this_desk.player_queue[next_pos_queue])
     content = {'next_mov_pos': next_pos_desk}
@@ -228,7 +252,6 @@ def ws_msg(message):
     this_desk.save()
     Group(public_name).send({'text': json.dumps(content)})
     judge_logic(next_pos_desk, this_desk.player_queue)
-
 
 
 # Connected to websocket.connect

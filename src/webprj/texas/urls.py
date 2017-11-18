@@ -11,7 +11,6 @@ urlpatterns = [
     url(r'^profile/$', views.profile, name='profile'),
 
     url(r'addplayer', views.addplayer, name = 'addplayer'),
+    url(r'getjob/(?P<pos_big>\w+)/(?P<pos_small>\w+)/(?P<pos_dealer>\w+)', views.getjob, name = 'getjob'),
     url(r'^playroom/(?P<deskname>\w+)$', views.playroom, name='playroom'),
-
-    #url(r'addplayer/(?P<username>\w+)$', views.addplayer, name = 'addplayer'),
 ]
