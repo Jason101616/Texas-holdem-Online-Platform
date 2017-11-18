@@ -299,7 +299,8 @@ def ws_msg(message):
     if 'start_game' in data:
         print('start_game')
         first_player_position = start_logic(message)
-        content = {'move': first_player_position}
+        # '+1' added by lsn
+        content = {'move': int(first_player_position) + 1}
         Group(public_name).send({'text': json.dumps(content)})
         return
 
@@ -454,7 +455,7 @@ def ws_add(message):
     Group(public_name).send({'text': json.dumps(content)})
 
     # If current player is 2 or more, owner can start the game
-    if desk.current_capacity == max_capacity - 2:
+    if desk.current_capacity <= max_capacity - 2:
         content = {'can_start': 'yes'}
         this_player = User_Game_play.objects.get(user=desk.owner)
         print(this_player.position)
