@@ -33,18 +33,10 @@ function click_fold() {
     socket.send(JSON.stringify(message));
 }
 
-function click_raise100() {
+function click_raise(val) {
     var message = {
         'message': 'raise',
-        'value': 100
-    };
-    socket.send(JSON.stringify(message));
-}
-
-function click_raise200() {
-    var message = {
-        'message': 'raise',
-        'value': 200
+        'value': val
     };
     socket.send(JSON.stringify(message));
 }
