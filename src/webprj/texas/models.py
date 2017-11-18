@@ -46,10 +46,15 @@ class Desk_info(models.Model):
     position_queue = models.CharField(max_length=40, default="012345678")
     player_queue = models.CharField(max_length=20, default="")
     player_queue_pointer = models.IntegerField(default=0)
+    five_cards_of_desk = models.CharField(max_length=50, default='')
 
     def __str__(self):
-        return "desk_name: %s, owner: %s, capacity: %d, current: %d, is_start: %d, position_queue: %s"%\
-               (self.desk_name, self.owner, self.capacity, self.current_capacity, self.is_start, self.position_queue)
+        return "desk_name: %s, owner: %s, capacity: %d, current: %d," \
+               " is_start: %d, position_queue: %s, player_queue: %s, " \
+               "player_queue_pointer: %d, five_cards_of_desk: %s"%\
+               (self.desk_name, self.owner, self.capacity, self.current_capacity,
+                self.is_start, self.position_queue,
+                self.player_queue, self.player_queue_pointer, self.five_cards_of_desk)
 
 
 class User_Game_play(models.Model):
@@ -59,10 +64,11 @@ class User_Game_play(models.Model):
     desk = models.ForeignKey(
         Desk_info, on_delete=models.CASCADE,
         null=True)  # a desk can have many users
+    user_cards = models.CharField(max_length=30, default='')
 
     def __str__(self):
-        return "desk_name: %s, username: %s, position: %d"%\
-               (self.desk.desk_name, self.user.user.username, self.position)
+        return "desk_name: %s, username: %s, position: %d, user_cards: %s"%\
+               (self.desk.desk_name, self.user.user.username, self.position, self.user_cards)
 
 
 class Game_info(models.Model):
