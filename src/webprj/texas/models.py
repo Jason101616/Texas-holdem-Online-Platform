@@ -21,8 +21,10 @@ class User_info(models.Model):
     email_confirmed = models.BooleanField(default=False)
     gender = models.CharField(max_length=20, blank=True)
 
+    chips = models.IntegerField(default=10000)
+
     def __str__(self):
-        return self.user.username
+        return "username: %s, chips: %d", self.user.username, self.chips
 
 
 @receiver(post_save, sender=User)
@@ -48,13 +50,19 @@ class Desk_info(models.Model):
     player_queue_pointer = models.IntegerField(default=0)
     five_cards_of_desk = models.CharField(max_length=50, default='')
 
+    current_largest_chips_this_game = models.IntegerField(default=0)
+    pool = models.IntegerField(default=0)
+
+
     def __str__(self):
         return "desk_name: %s, owner: %s, capacity: %d, current: %d," \
                " is_start: %d, position_queue: %s, player_queue: %s, " \
-               "player_queue_pointer: %d, five_cards_of_desk: %s"%\
+               "player_queue_pointer: %d, five_cards_of_desk: %s, " \
+               "current_largest_chips_this_game: %d, pool: %d" %\
                (self.desk_name, self.owner, self.capacity, self.current_capacity,
                 self.is_start, self.position_queue,
-                self.player_queue, self.player_queue_pointer, self.five_cards_of_desk)
+                self.player_queue, self.player_queue_pointer, self.five_cards_of_desk,
+                self.current_largest_chips_this_game, self.pool)
 
 
 class User_Game_play(models.Model):
@@ -66,9 +74,12 @@ class User_Game_play(models.Model):
         null=True)  # a desk can have many users
     user_cards = models.CharField(max_length=30, default='')
 
+    # -1: fold, 0: have not moved in this round, 1: have moved in this round
+    status = models.IntegerField(default=0)
+
     def __str__(self):
-        return "desk_name: %s, username: %s, position: %d, user_cards: %s"%\
-               (self.desk.desk_name, self.user.user.username, self.position, self.user_cards)
+        return "desk_name: %s, username: %s, position: %d, user_cards: %s, status: %d"%\
+               (self.desk.desk_name, self.user.user.username, self.position, self.user_cards, self.status)
 
 
 class Game_info(models.Model):
@@ -76,7 +87,7 @@ class Game_info(models.Model):
     current_version = models.CharField(max_length=50)
     process_name = models.CharField(max_length=50)
     is_maintain = models.BooleanField()
-    max_num_players = models.IntegerField(default=8)
+    max_num_players = models.IntegerField(default=9)
     min_num_players = models.IntegerField(default=2)
 
     def __str__(self):

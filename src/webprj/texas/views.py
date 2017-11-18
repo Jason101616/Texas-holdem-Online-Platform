@@ -103,8 +103,11 @@ def playroom(request, deskname):
     if user:
         return render(request, 'playroom.html', context)
     else:
-        context['errors'] = ['Permission denied: there is an ongoing game in this room, please try another.']
+        context['errors'] = [
+            'Permission denied: there is an ongoing game in this room, please try another.'
+        ]
         return render(request, 'lobby.html', context)
+
 
 @login_required
 @transaction.atomic
@@ -113,6 +116,7 @@ def log_out(request):
     context = {}
     return render(request, 'homepage.html', context)
 
+
 @login_required
 @transaction.atomic
 def addplayer(request):
@@ -120,10 +124,10 @@ def addplayer(request):
     context = {}
     context_players = []
 
-    loguser_mod = get_object_or_404(User_info, user = request.user)
-    loguser = get_object_or_404(User_Game_play, user = loguser_mod)
+    loguser_mod = get_object_or_404(User_info, user=request.user)
+    loguser = get_object_or_404(User_Game_play, user=loguser_mod)
 
-    players = User_Game_play.objects.filter(desk = loguser.desk)
+    players = User_Game_play.objects.filter(desk=loguser.desk)
 
     for player in players:
         if player != loguser:

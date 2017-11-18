@@ -68,24 +68,24 @@ $(document).ready(function () {
             var cookies = document.cookie.split(';');
             for (var i = 0; i < cookies.length; i++) {
                 var cookie = jQuery.trim(cookies[i]);
-                        // Does this cookie string begin with the name we want?
-                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                            break;
-                        }
-                    }
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
                 }
-                return cookieValue;
             }
+        }
+        return cookieValue;
+    }
 
-            var csrftoken = getCookie('csrftoken');
+    var csrftoken = getCookie('csrftoken');
 
-            function csrfSafeMethod(method) {
+    function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     }
     $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
+        beforeSend: function (xhr, settings) {
             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             }
@@ -230,19 +230,19 @@ $(document).ready(function () {
                 var name = data.card[i][0];
                 switch (data.card[i][1]) {
                     case 0:
-                    name += '♥';
-                    break;
+                        name += '♥';
+                        break;
                     case 1:
-                    name += '♣';
-                    break;
+                        name += '♣';
+                        break;
                     case 2:
-                    name += '♦';
-                    break;
+                        name += '♦';
+                        break;
                     case 3:
-                    name += '♠';
-                    break;
+                        name += '♠';
+                        break;
                     default:
-                    break;
+                        break;
                 }
                 data.card[i] = name;
             }
@@ -260,34 +260,32 @@ $(document).ready(function () {
                 $('#me-' + (i - 7)).html(data.card[i - 1]);
             }
             $('#message').html("");
-        } 
-        else if (data.status === 'hold') {
+        } else if (data.status === 'hold') {
             switch (data.hold_click_cnt) {
                 case 1:
-                var i = 1;
-                for (; i <= 3; i++) {
-                    $('#desk-' + i).html(data.card[i - 1]);
-                }
-                break;
+                    var i = 1;
+                    for (; i <= 3; i++) {
+                        $('#desk-' + i).html(data.card[i - 1]);
+                    }
+                    break;
 
                 case 2:
-                $('#desk-' + 4).html(data.card[3]);
-                break;
+                    $('#desk-' + 4).html(data.card[3]);
+                    break;
 
                 case 3:
-                $('#desk-' + 5).html(data.card[4]);
-                break;
+                    $('#desk-' + 5).html(data.card[4]);
+                    break;
 
                 default:
-                var i = 6;
-                for (; i <= 7; i++) {
-                    $('#robot-' + (i - 5)).html(data.card[i - 1]);
-                }
-                $('#message').html(data.result);
-                break;
+                    var i = 6;
+                    for (; i <= 7; i++) {
+                        $('#robot-' + (i - 5)).html(data.card[i - 1]);
+                    }
+                    $('#message').html(data.result);
+                    break;
             }
-        } 
-        else if (data.status === 'fold') {
+        } else if (data.status === 'fold') {
             $('#message').html(data.result);
             var i = 1;
             for (; i <= 5; i++) {
