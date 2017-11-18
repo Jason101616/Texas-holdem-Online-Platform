@@ -74,8 +74,10 @@ class User_Game_play(models.Model):
         null=True)  # a desk can have many users
     user_cards = models.CharField(max_length=30, default='')
 
+    #TODO: reset following variables in winner logic
     # -1: fold, 0: have not moved in this round, 1: have moved in this round
     status = models.IntegerField(default=0)
+    chips_pay_in_this_game = models.IntegerField(default=0)
 
     def __str__(self):
         return "desk_name: %s, username: %s, position: %d, user_cards: %s, status: %d"%\

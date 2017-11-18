@@ -15,7 +15,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-#global public name
+# global public name
 public_name = 'desk0'
 
 # an global private group name array for each player
@@ -37,7 +37,7 @@ def diconnect_user(message, username):
     # get desk
     desk = Desk_info.objects.get(desk_name='desk0')
     max_capacity = desk.capacity
-    #Group(public_name).discard(message.reply_channel)
+    # Group(public_name).discard(message.reply_channel)
     print('success')
     desk.current_capacity += 1
 
@@ -87,8 +87,8 @@ def diconnect_user(message, username):
 @channel_session_user
 def start_logic(message):
     print('start signal received!')
-    #TODO: let the lowest position the dealer
-    #arrange dealer
+    # TODO: let the lowest position the dealer
+    # arrange dealer
     cur_desk = Desk_info.objects.get(desk_name='desk0')
     users_of_cur_desk = User_Game_play.objects.filter(
         desk=cur_desk).order_by('position')
@@ -97,12 +97,12 @@ def start_logic(message):
     for user in users_of_cur_desk:
         active_users_queue += str(user.position)
     cur_desk.player_queue = active_users_queue
-    print(active_users_queue)  #test
+    print(active_users_queue)  # test
     # the first person in the queue is initialized as dealer
     dealer = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[0]))
-    #TODO: let the next two player be blinds
-    #arrange blind
+    # TODO: let the next two player be blinds
+    # arrange blind
     next_pos_in_queue = get_next_pos(0, len(users_of_cur_desk))
     small_blind = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
@@ -110,11 +110,11 @@ def start_logic(message):
     big_blind = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
     # the person move next is the next position of big_blind
-    cur_desk.player_queue_pointer = get_next_pos(big_blind.position,
+    cur_desk.player_queue_pointer = get_next_pos(next_pos_in_queue,
                                                  len(users_of_cur_desk))
 
-    #TODO: give every users 2 cards
-    #arrange card
+    # TODO: give every users 2 cards
+    # arrange card
     cards = test_compare.shuffle_card(len(users_of_cur_desk))
     # first 5 random cards give desk
     desk_cards = ''
@@ -123,7 +123,7 @@ def start_logic(message):
     desk_cards = desk_cards[:-1]  # delete the last space character
     cur_desk.five_cards_of_desk = desk_cards
 
-    #Group(cur_desk.desk_name).send({'desk_cards': cur_desk.five_cards_of_desk})
+    # Group(cur_desk.desk_name).send({'desk_cards': cur_desk.five_cards_of_desk})
 
     # giver each users his cards and store it in the User_Game_play
     start_index = 5
@@ -151,7 +151,7 @@ def start_logic(message):
 
     cur_desk.save()
 
-    print("desk after start: ",cur_desk)
+    print("desk after start: ", cur_desk)
     return cur_desk.player_queue[cur_desk.player_queue_pointer]
 
 
@@ -168,20 +168,72 @@ def give_control(player_position):
     return
 
 
-def judge_logic(next_player_position, player_position_queue):
+def find_next_player(desk):
+    # update pointer and get next player
+    desk.player_queue_pointer = get_next_pos(desk.player_queue_pointer, len(desk.player_queue))
+    next_player = User_Game_play.objects.get(desk=desk, position=int(desk.player_queue[desk.player_queue_pointer]))
+    desk.player_queue_pointer = get_next_pos(desk.player_queue_pointer, len(desk.player_queue))
+    return next_player
+
+
+def judge_logic(next_player, desk):
     pass
-    #TODO: if next player hasn't moved in this turn, give control to him
-    # give_control(next_player)
 
-    #TODO: if his status is fold: skip this player
+    status = next_player.status
+    # TODO: if next player hasn't moved in this turn, give control to him
+    if status == 0:
+        give_control(next_player.position)
+
+    # TODO: if his status is fold: skip this player
     # find_next_player()
+    if status == -1:
+        next_player = find_next_player(desk)
+        return judge_logic(next_player, desk)
 
-    #TODO: if his stutas is not fold
-        #TODO: if his bet is the highest bet in the table
+    # TODO: if his stutas is not fold
+        # TODO: if his bet is the highest bet in the table
         # go to next phase
-        #TODO: if his bet is not the highest bet in the table
+        # TODO: if his bet is not the highest bet in the table
         # give_control(next_player)
+    if status == 1:
+        if next_player.chips_pay_in_this_game == desk.current_largest_chips_this_game:
+            return winner_logic(desk)
+        else:
+            give_control(next_player.position)
 
+
+def winner_logic(cur_desk):
+    pass
+    # TODO: if there's only one player whose status is other than fold
+        # winner(this_player)
+    count_not_fold = 0
+    users_of_desk = User_Game_play.objects.filter(
+        desk=cur_desk).order_by('position')
+    for user in users_of_desk:
+        if user.status != -1:
+            count_not_fold += 1
+        else:
+            winner = user
+    if count_not_fold == 1:
+        pass
+        #return assign_winner(user)
+
+    # TODO: if this is the end of river phase
+    if cur_desk.phase == 'river':
+        pass
+        # TODO: compare all players's cards
+        #user = compare(users_of_desk)
+        #assign_winner(user)
+
+    # TODO: continue the game to next phase
+    return next_phase()
+
+
+def next_phase():
+    pass
+    # TODO: Server send another public card to the table
+
+    # TODO: Server let next player to move, wait for signal
 
 
 @transaction.atomic
@@ -211,26 +263,47 @@ def ws_msg(message):
             print('test_msg sent!')
             return
 
+    # get this_user, this_user_info, this_user_game_play, this_desk
+    this_user = get_object_or_404(User, username=message.user.username)
+    this_user_info = User_info.objects.get(user=this_user)
+    this_user_game_play = User_Game_play.objects.get(user=this_user_info)
+    this_desk = this_user_game_play.desk
+    # set current user status 1: have moved in this round
+    this_user_game_play.status = 1
     if data['message'] == 'hold':
-        this_user = get_object_or_404(User, username=message.user.username)
-        this_user_info = User_info.objects.get(user=this_user)
-        this_user_game_play = User_Game_play.objects
-        # set current user status 1
-        content = {}
-
-        Group(public_name).send({'text': json.dumps(content)})
-        judge_logic(next_move_person_pos, desk_info.player_queue)
+        # no need to handle this situation
+        pass
     elif data['message'] == 'check':
-        content = {}
-        Group(public_name).send({'text': json.dumps(content)})
-    elif data['message'] == 'fold':
-        content = {}
-        Group(public_name).send({'text': json.dumps(content)})
+        # current user put more chips
+        this_user_info.chips -= (this_desk.current_largest_chips_this_game -
+                                 this_user_game_play.chips_pay_in_this_game)
+        this_user_game_play.chips_pay_in_this_game = this_desk.current_largest_chips_this_game
+
+    elif data['message'] == 'fold' or data['message'] == 'timeout':
+        # update the queue
+        this_desk.player_queue = this_desk.player_queue[:this_desk.player_queue_pointer] + \
+                                 this_desk.player_queue[this_desk.player_queue_pointer + 1:]
+        this_desk.player_queue_pointer -= 1
+
     elif data['message'] == 'raise':
-        content = {}
-        Group(public_name).send({'text': json.dumps(content)})
-    elif data['message'] == 'timeout':
-        print('timeout')
+        chips_add = data['value']
+        # current user put more chips
+        this_user_info.chips -= chips_add
+        this_user_game_play.chips_pay_in_this_game += chips_add
+        this_desk.current_largest_chips_this_game = this_user_game_play.chips_pay_in_this_game
+
+    # find next move person position
+    next_pos_queue = get_next_pos(this_desk.player_queue_pointer,
+                                  len(this_desk.player_queue))
+    this_desk.player_queue_pointer = next_pos_queue
+    next_pos_desk = int(this_desk.player_queue[next_pos_queue])
+    content = {'next_mov_pos': next_pos_desk}
+    # save the modified model, send the public group which user should move the next round
+    this_user_info.save()
+    this_user_game_play.save()
+    this_desk.save()
+    Group(public_name).send({'text': json.dumps(content)})
+    #judge_logic(next_pos_desk, this_desk.player_queue)
 
 
 # Connected to websocket.connect
@@ -348,7 +421,7 @@ def ws_disconnect(message):
     # TODO: the desk_name can be dynamic when support multi-desk
     desk = Desk_info.objects.get(desk_name='desk0')
     # print(desk)
-    #Group(public_name).discard(message.reply_channel)
+    # Group(public_name).discard(message.reply_channel)
     print('success')
     desk.current_capacity += 1
 
