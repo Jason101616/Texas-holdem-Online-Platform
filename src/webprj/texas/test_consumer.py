@@ -189,49 +189,23 @@ def ws_msg(message):
             print('test_msg sent!')
             return
 
-    if data['message'] == 'get_card':
-        card = test_compare.shuffle_card(2)
-        message.channel_session['card'] = card
-        message.channel_session['hold_click_cnt'] = 0
-        content = {
-            'card': card,
-            'status': 'start',
-            'hold_click_cnt': message.channel_session['hold_click_cnt']
-        }
+    if data['message'] == 'hold':
+        this_user = get_object_or_404(User, username=message.user.username)
+        this_user_info = User_info.objects.get(user=this_user)
+        this_user_game_play = User_Game_play.objects
+        # set current user status 1
+        content = {}
         Group(public_name).send({'text': json.dumps(content)})
-
-    elif data['message'] == 'hold':
-        message.channel_session['hold_click_cnt'] += 1
-        if (message.channel_session['hold_click_cnt'] < 3):
-            content = {
-                'card': message.channel_session['card'],
-                'status': 'hold',
-                'hold_click_cnt': message.channel_session['hold_click_cnt'],
-                'result': ""
-            }
-        else:
-            result = test_compare.decide_winner(
-                message.channel_session['card'])
-            content = {
-                'card': message.channel_session['card'],
-                'status': 'hold',
-                'hold_click_cnt': message.channel_session['hold_click_cnt'],
-                'result': result
-            }
+        judge_logic(next_move_person_pos, desk_info.player_queue)
+    elif data['message'] == 'check':
+        content = {}
         Group(public_name).send({'text': json.dumps(content)})
-
     elif data['message'] == 'fold':
-        result = "You lose!"
-        message.channel_session['hold_click_cnt'] += 1
-        message.channel_session['hold_click_cnt'] = 0
-        content = {
-            'card': message.channel_session['card'],
-            'status': 'fold',
-            'hold_click_cnt': message.channel_session['hold_click_cnt'],
-            'result': result
-        }
+        content = {}
         Group(public_name).send({'text': json.dumps(content)})
-
+    elif data['message'] == 'raise':
+        content = {}
+        Group(public_name).send({'text': json.dumps(content)})
     elif data['message'] == 'timeout':
         print('timeout')
 

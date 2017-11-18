@@ -112,7 +112,7 @@ $(document).ready(function () {
         console.log(message.data);
         var data = JSON.parse(message.data);
 
-        if (data['is_full'] == 'yes') {
+        if (data['is_full'] === 'yes') {
             start_game = document.getElementById("get_card");
             start_game.disabled = true;
         }
