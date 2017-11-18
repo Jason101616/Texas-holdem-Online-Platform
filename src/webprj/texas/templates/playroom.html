@@ -54,7 +54,7 @@
                     <tr>
                         <td class = "pad30">
                             <table id = "player-3" class = "player">
-                                <tr><td class = "height70" colspan="2">id="player-3"</td></tr>
+                                <tr><td class = "height70" colspan="2"><p class = "job"></p><div>id="player-3"</div></td></tr>
                                 <tr>
                                     <td><div id = "card-3-1" class = "smallcard"></div></td>
                                     <td><div id = "card-3-2" class = "smallcard"></div></td>
@@ -63,7 +63,7 @@
                         </td>
                         <td class = "pad30">
                             <table id = "player-4" class = "player">
-                                <tr><td class = "height70" colspan="2"><p class = "job">[dealer]</p>id="player-4"</td></tr>
+                                <tr><td class = "height70" colspan="2"><p class = "job"></p><div>id="player-4"</div></td></tr>
                                 <tr>
                                     <td><div id = "card-4-1" class = "smallcard"></div></td>
                                     <td><div id = "card-4-2" class = "smallcard"></div></td>
@@ -72,7 +72,7 @@
                         </td>
                         <td class = "pad30">
                             <table id = "player-5" class = "player">
-                                <tr><td class = "height70" colspan="2"><p class = "job">[small blind]</p>id="player-5"</td></tr>
+                                <tr><td class = "height70" colspan="2"><p class = "job"></p><div>id="player-5"</div></td></tr>
                                 <tr>
                                     <td><div id = "card-5-1" class = "smallcard"></div></td>
                                     <td><div id = "card-5-2" class = "smallcard"></div></td>
@@ -81,7 +81,7 @@
                         </td>
                         <td class = "pad30">
                             <table id = "player-6" class = "player">
-                                <tr><td class = "height70" colspan="2"><p class = "job">[big blind]</p>id="player-6"</td></tr>
+                                <tr><td class = "height70" colspan="2"><p class = "job"></p><div>id="player-6"</div></td></tr>
                                 <tr>
                                     <td><div id = "card-6-1" class = "smallcard"></div></td>
                                     <td><div id = "card-6-2" class = "smallcard"></div></td>
@@ -95,7 +95,7 @@
                 <tr>
                     <td class = "pad30">
                         <table id = "player-2" class = "player">
-                            <tr><td class = "height70" colspan="2">id="player-2"</td></tr>
+                            <tr><td class = "height70" colspan="2"><p class = "job"></p><div>id="player-2"</div></td></tr>
                             <tr>
                                 <td><div id = "card-2-1" class = "smallcard"></div></td>
                                 <td><div id = "card-2-2" class = "smallcard"></div></td>
@@ -121,7 +121,7 @@
                     </td>
                     <td class = "pad30">
                         <table id = "player-7" class = "player">
-                            <tr><td class = "height70" colspan="2">id="player-7"</td></tr>
+                            <tr><td class = "height70" colspan="2"><p class = "job"></p><div>id="player-7"</div></td></tr>
                             <tr>
                                 <td><div id = "card-7-1" class = "smallcard"></div></td>
                                 <td><div id = "card-7-2" class = "smallcard"></div></td>
@@ -132,7 +132,7 @@
                 <tr>
                     <td class = "pad30">
                         <table id = "player-1" class = "player">
-                            <tr><td class = "height70" colspan="2">id="player-1"</td></tr>
+                            <tr><td class = "height70" colspan="2"><p class = "job"></p><div>id="player-1"</div></td></tr>
                             <tr>
                                 <td><div id = "card-1-1" class = "smallcard"></div></td>
                                 <td><div id = "card-1-2" class = "smallcard"></div></td>
@@ -142,7 +142,7 @@
                     <td></td>
                     <td class = "pad30">
                         <table id = "player-8" class = "player">
-                            <tr><td class = "height70" colspan="2">id="player-8"</td></tr>
+                            <tr><td class = "height70" colspan="2"><p class = "job"></p><div>id="player-8"</div></td></tr>
                             <tr>
                                 <td><div id = "card-8-1" class = "smallcard"></div></td>
                                 <td><div id = "card-8-2" class = "smallcard"></div></td>
@@ -154,7 +154,10 @@
             <div class = "center">
                 <table id = "player-0" class = "center">
                     <tr>
-                        <td><p>id="player-0"&nbsp;&nbsp;</p></td>
+                        <td>
+                            <p class = "job"></p>
+                            <p class = "font30">{{ user }}</p>&nbsp;&nbsp;
+                        </td>
                         <td><div id = "card-0-1" class = "card"></div></td>
                         <td><div id = "card-0-2" class = "card"></div></td>
                     </tr>
@@ -166,11 +169,12 @@
         <div class = "col-12 center">
             <table class = "center">
                 <tr>
-                    <th><button id = 'game_hold' onclick="timer_10sec()" class = "smallbtn button-block pad50">Hold</button></th>
+                    <th><button id = 'game_hold' onclick="click_hold()" class = "smallbtn button-block pad50">Hold</button></th>
                     <th class = "pad50"></th>
-                    <th><button id = 'game_fold' class = "smallbtn button-block pad50">Fold</button></th>
+                    <th><button id = 'game_fold' onclick="click_fold()" class = "smallbtn button-block pad50">Fold</button></th>
                     <th class = "pad50"></th>
-                    <th><button id = 'game_raise' class = "smallbtn button-block pad50">Raise</button></th>
+                    <th><button id = 'game_raise' onclick="click_raise(100)" class = "smallbtn button-block pad50">Raise 100</button></th>
+                    <th><button id = 'game_raise' onclick="click_raise(200)" class = "smallbtn button-block pad50">Raise 200</button></th>
                 </tr>
             </table>
         </div>

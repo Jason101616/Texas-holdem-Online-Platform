@@ -93,6 +93,8 @@ def tutorial(request):
 @login_required
 def playroom(request, deskname):
     context = {}
+    context['user'] = request.user
+
     desk = get_object_or_404(Desk_info, desk_name=deskname)
     if desk.is_start == False:
         return render(request, 'playroom.html', context)
@@ -138,8 +140,28 @@ def addplayer(request):
 
     context['players'] = context_players
 
-    return render(
-        request,
-        'json/newplayers.json',
-        context,
-        content_type='application/json')
+    return render(request, 'json/newplayers.json', context, content_type = 'application/json')
+
+@login_required
+@transaction.atomic
+def getjob(request, pos_big, pos_small, pos_dealer):
+
+    loguser_mod = get_object_or_404(User_info, user = request.user)
+    loguser = get_object_or_404(User_Game_play, user = loguser_mod)
+    context = {}
+
+    pos1 = int(pos_big) - loguser.position
+    if pos1 < 0:
+        pos1 = pos1 + 9
+
+    pos2 = int(pos_small) - loguser.position
+    if pos2 < 0:
+        pos2 = pos2 + 9
+
+    pos3 = int(pos_dealer) - loguser.position
+    if pos3 < 0:
+        pos3 = pos3 + 9
+
+    context = {'big_blind': pos1, 'small_blind': pos2, 'dealer': pos3}
+
+    return render(request, 'json/getjob.json', context, content_type = 'application/json')

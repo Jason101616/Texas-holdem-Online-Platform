@@ -187,7 +187,7 @@ def judge_logic(next_player, desk):
     # TODO: if his status is fold: skip this player
     # find_next_player()
     if status == -1:
-        next_player = find_next_player(next_player, desk)
+        next_player = find_next_player(desk)
         return judge_logic(next_player, desk)
 
     # TODO: if his stutas is not fold
@@ -197,7 +197,7 @@ def judge_logic(next_player, desk):
         # give_control(next_player)
     if status == 1:
         if next_player.chips_pay_in_this_game == desk.current_largest_chips_this_game:
-            return winner_logic()
+            return winner_logic(desk)
         else:
             give_control(next_player.position)
 
@@ -234,8 +234,6 @@ def next_phase():
     # TODO: Server send another public card to the table
 
     # TODO: Server let next player to move, wait for signal
-    
-
 
 
 @transaction.atomic
@@ -265,26 +263,47 @@ def ws_msg(message):
             print('test_msg sent!')
             return
 
+    # get this_user, this_user_info, this_user_game_play, this_desk
+    this_user = get_object_or_404(User, username=message.user.username)
+    this_user_info = User_info.objects.get(user=this_user)
+    this_user_game_play = User_Game_play.objects.get(user=this_user_info)
+    this_desk = this_user_game_play.desk
+    # set current user status 1: have moved in this round
+    this_user_game_play.status = 1
     if data['message'] == 'hold':
-        this_user = get_object_or_404(User, username=message.user.username)
-        this_user_info = User_info.objects.get(user=this_user)
-        this_user_game_play = User_Game_play.objects
-        # set current user status 1
-        content = {}
-
-        Group(public_name).send({'text': json.dumps(content)})
-        judge_logic(next_move_person_pos, desk_info.player_queue)
+        # no need to handle this situation
+        pass
     elif data['message'] == 'check':
-        content = {}
-        Group(public_name).send({'text': json.dumps(content)})
-    elif data['message'] == 'fold':
-        content = {}
-        Group(public_name).send({'text': json.dumps(content)})
+        # current user put more chips
+        this_user_info.chips -= (this_desk.current_largest_chips_this_game -
+                                 this_user_game_play.chips_pay_in_this_game)
+        this_user_game_play.chips_pay_in_this_game = this_desk.current_largest_chips_this_game
+
+    elif data['message'] == 'fold' or data['message'] == 'timeout':
+        # update the queue
+        this_desk.player_queue = this_desk.player_queue[:this_desk.player_queue_pointer] + \
+                                 this_desk.player_queue[this_desk.player_queue_pointer + 1:]
+        this_desk.player_queue_pointer -= 1
+
     elif data['message'] == 'raise':
-        content = {}
-        Group(public_name).send({'text': json.dumps(content)})
-    elif data['message'] == 'timeout':
-        print('timeout')
+        chips_add = data['value']
+        # current user put more chips
+        this_user_info.chips -= chips_add
+        this_user_game_play.chips_pay_in_this_game += chips_add
+        this_desk.current_largest_chips_this_game = this_user_game_play.chips_pay_in_this_game
+
+    # find next move person position
+    next_pos_queue = get_next_pos(this_desk.player_queue_pointer,
+                                  len(this_desk.player_queue))
+    this_desk.player_queue_pointer = next_pos_queue
+    next_pos_desk = int(this_desk.player_queue[next_pos_queue])
+    content = {'next_mov_pos': next_pos_desk}
+    # save the modified model, send the public group which user should move the next round
+    this_user_info.save()
+    this_user_game_play.save()
+    this_desk.save()
+    Group(public_name).send({'text': json.dumps(content)})
+    #judge_logic(next_pos_desk, this_desk.player_queue)
 
 
 # Connected to websocket.connect

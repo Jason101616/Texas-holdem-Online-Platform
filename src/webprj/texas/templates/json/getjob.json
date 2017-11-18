@@ -1,0 +1,5 @@
+{
+    "big_blind" : "{{big_blind}}",
+    "small_blind" : "{{small_blind}}",
+    "dealer" : "{{dealer}}"
+}
