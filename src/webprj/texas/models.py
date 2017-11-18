@@ -52,6 +52,8 @@ class Desk_info(models.Model):
 
     current_largest_chips_this_game = models.IntegerField(default=0)
     pool = models.IntegerField(default=0)
+    # pre-flop, flop, turn, river
+    phase = models.CharField(max_length=10, default='pre_flop')
 
     def __str__(self):
         return "desk_name: %s, owner: %s, capacity: %d, current: %d, is_start: %d, position_queue: %s, player_queue: %s, player_queue_pointer: %d, five_cards_of_desk: %s, current_largest_chips_this_game: %d, pool: %d" %(self.desk_name, self.owner, self.capacity, self.current_capacity,self.is_start, self.position_queue,self.player_queue, self.player_queue_pointer, self.five_cards_of_desk, self.current_largest_chips_this_game, self.pool)
@@ -60,16 +62,16 @@ class Desk_info(models.Model):
 class User_Game_play(models.Model):
     user = models.OneToOneField(User_info, on_delete=models.CASCADE)
     position = models.IntegerField(default=10)
-    is_fold = models.BooleanField(default=False)
     desk = models.ForeignKey(
         Desk_info, on_delete=models.CASCADE,
         null=True)  # a desk can have many users
     user_cards = models.CharField(max_length=30, default='')
 
-    #TODO: reset following variables in winner logic
+    # reset following variables in winner logic
     # -1: fold, 0: have not moved in this round, 1: have moved in this round
     status = models.IntegerField(default=0)
     chips_pay_in_this_game = models.IntegerField(default=0)
+    is_fold = models.BooleanField(default=False)
 
     def __str__(self):
         return "desk_name: %s, username: %s, position: %d, user_cards: %s, status: %d"%\
