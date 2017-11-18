@@ -308,9 +308,12 @@ def ws_msg(message):
                                    len(this_desk.player_queue))
     this_desk.player_queue_pointer = next_pos_queue
     next_pos_desk = int(this_desk.player_queue[next_pos_queue])
+
     next_user = User_Game_play.objects.get(desk=this_desk,position=next_pos_desk)
     # content = {'next_mov_pos': next_pos_desk}
     # Group(public_name).send({'text': json.dumps(content)})
+
+    content = {'next_mov_pos': next_pos_desk, 'cur_user_pos': this_user_game_play.position, 'cur_user_chips': this_user_info.chips}
 
     # save the modified model, send the public group which user should move the next round
     this_user_info.save()
