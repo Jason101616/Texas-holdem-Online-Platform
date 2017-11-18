@@ -43,3 +43,5 @@ src/webprj/dump.rdb
 *.rdb
 
 src/webprj/db.sqlite3
+
+src/webprj/db.sqlite3
