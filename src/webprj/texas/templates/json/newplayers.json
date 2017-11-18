@@ -1,0 +1,3 @@
+{
+    "players": [{% for player in players %}{% include 'json/newplayer.json' %}{% if not forloop.last %}, {% endif %}{% endfor %}]
+}

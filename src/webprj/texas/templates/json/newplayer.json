@@ -1,4 +1,4 @@
 {
-    "user": "{{user}}",
-    "position": "{{position}}"
+    "username" : "{{player.username}}",
+    "position" : "{{player.position}}"
 }

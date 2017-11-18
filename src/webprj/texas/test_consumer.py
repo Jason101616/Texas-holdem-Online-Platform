@@ -236,6 +236,9 @@ def ws_add(message):
     # Give owner signal
     if desk.owner == this_user_info:
         Group(position).send({'text': 'owner!'})
+        
+    player.save()
+    desk.save()
 
     # Boardcast to all player
     content = {'new_player': message.user.username,'position': player.position}
@@ -250,10 +253,8 @@ def ws_add(message):
 
     print('c:%d,m:%d,f:%d,o:%s,p:%s' %
           (desk.current_capacity, desk.capacity, desk.is_start,
-           desk.owner.user.username, player.position))
+           desk.owner, player.position))
 
-    player.save()
-    desk.save()
     print("after enter: ", desk)
 
 
