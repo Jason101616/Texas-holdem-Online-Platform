@@ -208,7 +208,10 @@ def assign_winner(winner):
     # assign the winner, and show all the cards to all users
     cur_desk_users = User_Game_play.objects.filter(desk=winner.desk)
     all_user_cards = {}
+    pools = 0
     for user in cur_desk_users:
+        if user != winner:
+            pools += user.chips_pay_in_this_game
         all_user_cards[user.position] = user.user_cards
         # reset all users' chips_pay_in_this_game
         user.chips_pay_in_this_game = 0
@@ -216,11 +219,20 @@ def assign_winner(winner):
         user.status = 0
         # reset is_fold
         user.is_fold = False
+        if user != winner:
+            user.save()
+
     content = {'winner': winner.position, 'cards': all_user_cards}
     Group(public_name).send({'text': json.dumps(content)})
     # reset the phase of the current desk
     winner.desk.phase = 'pre_flop'
     winner.desk.current_largest_chips_this_game = 0
+    winner.desk.pool = 0
+    # winner gain all the chips in current game
+    winner.user.chips += pools
+    winner.save()
+    winner.user.save()
+    winner.desk.save()
 
 
 
