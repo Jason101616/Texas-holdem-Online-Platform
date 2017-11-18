@@ -30,17 +30,8 @@ $(document).ready(function () {
         socket.onopen();
     }
 
-    var start_game = document.getElementById("get_card");
-    start_game.disabled = true;
-
-    $('#get_card').on('click', function (event) {
-        console.log("get card");
-        event.preventDefault(); // Prevent form from being submitted
-        var message = {
-            'message': 'get_card'
-        };
-        socket.send(JSON.stringify(message));
-    });
+    var start_game = document.getElementById("start_game");
+    //start_game.disabled = true;
 
     $('#game_hold').on('click', function (event) {
         event.preventDefault(); // Prevent form from being submitted
@@ -65,6 +56,14 @@ $(document).ready(function () {
         };
         socket.send(JSON.stringify(message));
         window.location.replace('lobby');
+    });
+
+    $('#start_game').on('click', function (event) {
+        event.preventDefault(); // Prevent form from being submitted
+        var message = {
+            'start_game': 'yes'
+        };
+        socket.send(JSON.stringify(message));
     });
 
     socket.onmessage = function (message) {

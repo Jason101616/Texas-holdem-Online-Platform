@@ -22,6 +22,11 @@ public_name = 'desk0'
 private_group = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 
+def refresh_desk(desk):
+    desk.delete()
+    desk = Desk_info(desk_name=public_name)
+    desk.save()
+
 @transaction.atomic
 @channel_session_user
 def diconnect_user(message, username):
@@ -71,6 +76,9 @@ def diconnect_user(message, username):
     Group(desk.desk_name).discard(message.reply_channel)
 
     desk.save()
+
+    if desk.current_capacity == desk.capacity:
+        refresh_desk(desk)
     return
 
 
@@ -78,25 +86,28 @@ def diconnect_user(message, username):
 @channel_session_user
 def start_logic(message):
     print('start signal received!')
-    #TODO: let the owner be the dealer
+    #TODO: let the lowest position the dealer
     #arrange dealer
     cur_desk = Desk_info.objects.get(desk_name='desk0')
-    users_of_cur_desk = User_Game_play.objects.filter(desk='desk0')
+    users_of_cur_desk = User_Game_play.objects.filter(desk=cur_desk).order_by('position')
+    print (users_of_cur_desk)
     active_users_queue = ''
     for user in users_of_cur_desk:
         active_users_queue += str(user.position)
     cur_desk.player_queue = active_users_queue
+    print (active_users_queue)#test
     # the first person in the queue is initialized as dealer
-    dealer = User_Game_play.objects.get(desk='desk0',
+    dealer = User_Game_play.objects.get(desk=cur_desk,
                                         position=int(cur_desk.player_queue[0]))
     #TODO: let the next two player be blinds
     #arrange blind
     next_pos_in_queue = get_next_pos(0, len(users_of_cur_desk))
-    small_blind = User_Game_play.objects.get(desk='desk0', position=int(cur_desk.player_queue[next_pos_in_queue]))
+    small_blind = User_Game_play.objects.get(desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
     next_pos_in_queue = get_next_pos(next_pos_in_queue, len(users_of_cur_desk))
-    big_blind = User_Game_play.objects.get(desk='desk0', position=int(cur_desk.player_queue[next_pos_in_queue]))
+    big_blind = User_Game_play.objects.get(desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
     # the person move next is the next position of big_blind
     cur_desk.player_queue_pointer = get_next_pos(big_blind.position, len(users_of_cur_desk))
+
     #TODO: give every users 2 cards
     #arrange card
     cards = test_compare.shuffle_card(len(users_of_cur_desk))
@@ -106,7 +117,9 @@ def start_logic(message):
         desk_cards += str(card) + ' '
     desk_cards = desk_cards[:-1] # delete the last space character
     cur_desk.five_cards_of_desk = desk_cards
-    Group(cur_desk.desk_name).send({'desk_cards': cur_desk.five_cards_of_desk})
+
+    #Group(cur_desk.desk_name).send({'desk_cards': cur_desk.five_cards_of_desk})
+
     # giver each users his cards and store it in the User_Game_play
     start_index = 5
     for user in users_of_cur_desk:
@@ -118,11 +131,19 @@ def start_logic(message):
         user.user_cards = cur_user_cards
 
     for user in users_of_cur_desk:
-        Group(user.position).send({'user_cards': user.user_cards})
+        user.save()
+        print("user after start: ", user)
+        content = {'user_cards': user.user_cards}
+        Group(str(user.position)).send({'text': json.dumps(content)})
+
     # tell the public channel, who is dealer, who is big blind, who is small blind
-    Group(cur_desk.desk_name).send({'dealer':[dealer.user.user.username, dealer.position],
-                                    'big_blind': [big_blind.user.user.username, big_blind.position],
-                                    'small_blind': [small_blind.user.user.username, small_blind.position]})
+    content = {'dealer':[dealer.user.user.username, dealer.position],
+               'big_blind': [big_blind.user.user.username, big_blind.position],
+               'small_blind': [small_blind.user.user.username, small_blind.position]}
+    Group(cur_desk.desk_name).send({'text': json.dumps(content)})
+
+    cur_desk.save()
+    print("desk after start: ",cur_desk)
 
 
 # player_queue is a cyclic queue, the next pos of the last pos is 0
@@ -140,6 +161,11 @@ def ws_msg(message):
     except:
         return
     print(data)
+
+    if 'start_game' in data:
+        print('start_game')
+        start_logic(message)
+        return
 
     # The player click leave room
     if 'command' in data:
