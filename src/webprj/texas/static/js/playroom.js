@@ -1,4 +1,4 @@
-var timer = 10;
+var timer = 10000;
 
 function timer_10sec() {
     if (timer >= 0) {
@@ -9,7 +9,7 @@ function timer_10sec() {
         setTimeout(timer_10sec, 1000);
     } 
     else {
-        timer = 10;
+        timer = 10000;
         $('#message').html('timeout!');
         var message = {
             'message': 'timeout'
