@@ -439,7 +439,7 @@ def ws_msg(message):
     print('next_pos_desk: ', next_pos_desk)
     next_user = User_Game_play.objects.get(desk=this_desk,position=next_pos_desk)
 
-    content = {'cur_user_pos': this_user_game_play.position, 'cur_user_chips': this_user_info.chips,
+    content = {'cur_user_pos': this_user_game_play.position + 1, 'cur_user_chips': this_user_info.chips,
                'total_chips_current_game': this_desk.pool}
     print(content)
     Group(public_name).send({'text': json.dumps(content)})

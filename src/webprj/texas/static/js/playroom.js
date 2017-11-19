@@ -272,7 +272,7 @@ $(document).ready(function () {
                     login_user_pos = data['position'];
                     user_pos = parseInt(position) - 1 - parseInt(login_user_pos);
                     if (user_pos < 0) user_pos += 9;
-
+                    debugger;
                     //update chip information
                     if (user_pos == 0) {
                         chip_ori = $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML;
