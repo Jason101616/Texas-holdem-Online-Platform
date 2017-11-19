@@ -258,7 +258,7 @@ def winner_logic(cur_desk):
     # if this is the end of river phase
     if cur_desk.phase == 'river':
         # TODO: modify decide_winner function
-        winner_pos, results = test_compare.decide_winner(cur_desk)
+        winner_pos, results = river_compare(cur_desk)
         print(winner_pos)
         # for test, just give the first person in the queue
         winner = User_Game_play.objects.get(desk=cur_desk, position=winner_pos)
