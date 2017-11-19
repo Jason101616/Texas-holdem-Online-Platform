@@ -261,7 +261,8 @@ def winner_logic(cur_desk):
         winner_pos, results = river_compare(cur_desk)
         print(winner_pos)
         # for test, just give the first person in the queue
-        winner = User_Game_play.objects.get(desk=cur_desk, position=winner_pos)
+        #TODO: multiple winner logic
+        winner = User_Game_play.objects.get(desk=cur_desk, position=winner_pos[0])
         assign_winner(winner)
         return
 
