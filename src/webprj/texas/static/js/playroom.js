@@ -270,7 +270,7 @@ $(document).ready(function () {
                 success: function (data) {
 
                     login_user_pos = data['position'];
-                    user_pos = parseInt(position) - 1 c- parseInt(login_user_pos);
+                    user_pos = parseInt(position) - 1 - parseInt(login_user_pos);
                     if (user_pos < 0) user_pos += 9;
                     debugger;
                     //update chip information
