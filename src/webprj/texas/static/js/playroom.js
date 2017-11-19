@@ -319,7 +319,7 @@ $(document).ready(function () {
                         $('#game_raise200')[0].disabled = false;
                     }
                     $('#player-' + data['position']).css("background", "linear-gradient(0deg, rgba(255,255,255,1), rgba(255,255,255,0))");
-                    timer_10sec(); 
+                    //timer_10sec();
                 }
             })
         }
