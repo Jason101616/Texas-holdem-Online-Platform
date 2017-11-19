@@ -6,7 +6,7 @@ function click_hold() {
     };
     console.log(message);
     socket.send(JSON.stringify(message));
-    $('#message').html('Hold!');
+    //$('#message').html('Hold!');
     clear_status();
 }
 
@@ -17,7 +17,7 @@ function click_fold() {
     };
     console.log(message);
     socket.send(JSON.stringify(message));
-    $('#message').html('Fold!');
+    //$('#message').html('Fold!');
     clear_status();
 }
 
@@ -29,7 +29,7 @@ function click_raise(val) {
     };
     console.log(message);
     socket.send(JSON.stringify(message));
-    $('#message').html('Raise ' + val);
+    //$('#message').html('Raise ' + val);
     clear_status();
 }
 
@@ -262,6 +262,7 @@ $(document).ready(function () {
         if (data['cur_user_pos'] && data['cur_user_chips']) {
 
             //clearTimeout(timeout);
+            $('#message').html('Chips in the pool: ' + data['total_chips_current_game']);
 
             total_new = data['cur_user_chips'];
             position = data['cur_user_pos'];
@@ -274,7 +275,6 @@ $(document).ready(function () {
                     login_user_pos = data['position'];
                     user_pos = parseInt(position) - 1 - parseInt(login_user_pos);
                     if (user_pos < 0) user_pos += 9;
-                    debugger;
                     //update chip information
                     if (user_pos == 0) {
                         chip_ori = $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML;
