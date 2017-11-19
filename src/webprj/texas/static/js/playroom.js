@@ -1,4 +1,3 @@
-
 function click_hold() {
     //clearTimeout(timeout);
     console.log('click hold');
@@ -40,7 +39,7 @@ function clear_status() {
     $('#game_raise100')[0].disabled = true;
     $('#game_raise200')[0].disabled = true;
 
-    for (i = 0; i < 9; i++){
+    for (i = 0; i < 9; i++) {
         $('#player-' + i).css("background", "rgba(255,255,255,0)");
     }
 }
@@ -103,38 +102,38 @@ $(document).ready(function () {
     function poker_string(value) {
         var num = value % 13;
         var color = (value - num++) / 13;
-        switch (color){
+        switch (color) {
             case 0:
-            value = '♥';
-            break;
+                value = '♥';
+                break;
             case 1:
-            value = '♣';
-            break;
+                value = '♣';
+                break;
             case 2:
-            value = '♦';
-            break;
+                value = '♦';
+                break;
             case 3:
-            value = '♠';
-            break;
+                value = '♠';
+                break;
             default:
-            break;
+                break;
         }
-        switch (num){
+        switch (num) {
             case 1:
-            value = 'A' + value;
-            break;
+                value = 'A' + value;
+                break;
             case 11:
-            value = 'J' + value;
-            break;
+                value = 'J' + value;
+                break;
             case 12:
-            value = 'Q' + value;
-            break;
+                value = 'Q' + value;
+                break;
             case 13:
-            value = 'K' + value;
-            break;
+                value = 'K' + value;
+                break;
             default:
-            value = num + value;
-            break;
+                value = num + value;
+                break;
         }
         return value;
     }
@@ -165,25 +164,24 @@ $(document).ready(function () {
             type: 'post',
             url: 'addplayer',
             data: '',
-            success: function(data) {
-                if (data.players){
-                    for (i = 0; i < data.players.length; i++){
+            success: function (data) {
+                if (data.players) {
+                    for (i = 0; i < data.players.length; i++) {
 
                         position = data.players[i]['position'];
                         chips = data.players[i]['chips'];
 
-                        if (position == 0){
+                        if (position == 0) {
                             $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML = "Total chips: " + chips;
                             $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML = "Betting: 0";
-                        }
-                        else {
+                        } else {
                             $('#player-' + position)[0].children[0].children[2].children[0].children[0].innerHTML = "Total chips: " + chips;
                             $('#player-' + position)[0].children[0].children[2].children[0].children[1].innerHTML = "Betting: 0";
                         }
                     }
                 }
 
-                for (i = 0; i < 9; i++){
+                for (i = 0; i < 9; i++) {
                     $('#player-' + i)[0].children[0].children[0].children[0].children[0].innerHTML = "";
                 }
             }
@@ -205,9 +203,9 @@ $(document).ready(function () {
                 type: 'post',
                 url: 'addplayer',
                 data: data['new_player'],
-                success: function(data) {
-                    if (data.players){
-                        for (i = 0; i < data.players.length; i++){
+                success: function (data) {
+                    if (data.players) {
+                        for (i = 0; i < data.players.length; i++) {
 
                             username = data.players[i]['username'];
                             position = data.players[i]['position'];
@@ -226,17 +224,17 @@ $(document).ready(function () {
 
         if (data['user_cards']) {
             values = data['user_cards'].split(" ");
-            if (values.length === 2){
-                for (i = 0; i < 2; i++){
+            if (values.length === 2) {
+                for (i = 0; i < 2; i++) {
                     $("#card-0-" + (i + 1)).html("<p>" + poker_string(values[i]) + "</p>");
                 }
             }
-            for (i = 1; i < 9; i++){
+            for (i = 1; i < 9; i++) {
                 $("#card-" + i + "-1").html("<p class = 'small'>*</p>");
                 $("#card-" + i + "-2").html("<p class = 'small'>*</p>");
                 $('#player-' + i)[0].children[0].children[0].children[0].children[0].innerHTML = "";
             }
-            for (i = 0; i < 5; i++){
+            for (i = 0; i < 5; i++) {
                 $("#desk-" + i).html('*');
             }
         }
@@ -246,7 +244,7 @@ $(document).ready(function () {
                 type: 'post',
                 url: 'getjob/' + data['big_blind'][1] + '/' + data['small_blind'][1] + '/' + data['dealer'][1],
                 data: "",
-                success: function(data) {
+                success: function (data) {
                     pos1 = data['big_blind'];
                     $('#player-' + pos1)[0].children[0].children[0].children[0].children[0].innerHTML += "[big blind]<br>\n";
 
@@ -269,14 +267,14 @@ $(document).ready(function () {
                 type: 'post',
                 url: 'get_position',
                 data: "",
-                success: function(data) {
+                success: function (data) {
 
                     login_user_pos = data['position'];
                     user_pos = parseInt(position) - 1 c- parseInt(login_user_pos);
                     if (user_pos < 0) user_pos += 9;
-
+                    debugger;
                     //update chip information
-                    if (user_pos == 0){
+                    if (user_pos == 0) {
                         chip_ori = $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML;
                         chip_ori = parseInt(chip_ori.split(":")[1]);
 
@@ -287,9 +285,8 @@ $(document).ready(function () {
 
                         $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML = "Total chips: " + total_new;
                         $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML = "Betting: " + chip_new;
-                    }
-                    else {
-                        chip_ori =  $('#player-' + user_pos)[0].children[0].children[2].children[0].children[1].innerHTML;
+                    } else {
+                        chip_ori = $('#player-' + user_pos)[0].children[0].children[2].children[0].children[1].innerHTML;
                         chip_ori = parseInt(chip_ori.split(":")[1]);
 
                         total_ori = $('#player-' + user_pos)[0].children[0].children[2].children[0].children[0].innerHTML;
@@ -306,15 +303,14 @@ $(document).ready(function () {
 
         if (data['move']) {
             //clearTimeout(timeout);
-            for (i = 0; i < 9; i++){
+            for (i = 0; i < 9; i++) {
                 $('#player-' + i).css("background", "rgba(255,255,255,0)");
             }
             position = data['move'];
 
-            if (data['current_round_largest_chips'] == 200){
+            if (data['current_round_largest_chips'] == 200) {
                 $('#game_raise100')[0].disabled = true;
-            }
-            else{
+            } else {
                 $('#game_raise100')[0].disabled = false;
             }
 
@@ -322,7 +318,7 @@ $(document).ready(function () {
                 type: 'post',
                 url: 'get_position',
                 data: '',
-                success: function(data) {
+                success: function (data) {
                     login_user_pos = data['position'];
                     user_pos = parseInt(position) - 1 - parseInt(login_user_pos);
                     if (user_pos < 0) user_pos += 9;
@@ -341,7 +337,7 @@ $(document).ready(function () {
         }
 
         if (data['desk_cards']) {
-            for (i = 0; i < data['desk_cards'].length; i++){
+            for (i = 0; i < data['desk_cards'].length; i++) {
                 $('#desk-' + i)[0].innerHTML = poker_string(data['desk_cards'][i]);
             }
         }
@@ -358,15 +354,15 @@ $(document).ready(function () {
                 type: 'post',
                 url: 'get_position',
                 data: '',
-                success: function(data) {
+                success: function (data) {
                     login_user_pos = data['position'];
                     //display all user cards
-                    for (i = 0; i < 9; i++){
-                        if (user_cards[i.toString()]){
+                    for (i = 0; i < 9; i++) {
+                        if (user_cards[i.toString()]) {
                             pos = i - parseInt(login_user_pos);
                             if (pos < 0) pos += 9;
 
-                            if (pos != 0){
+                            if (pos != 0) {
                                 pokers = user_cards[i.toString()].split(" ");
                                 pokers[0] = poker_string(parseInt(pokers[0]));
                                 pokers[1] = poker_string(parseInt(pokers[1]));

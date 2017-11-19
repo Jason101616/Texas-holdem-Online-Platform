@@ -97,22 +97,26 @@ def start_logic(message):
         active_users_queue += str(user.position)
     cur_desk.player_queue = active_users_queue
     print(active_users_queue)  # test
-
+    cur_desk.save()
     # the first person in the queue is initialized as dealer
     dealer = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[0]))
 
     # let the next two player be blinds
-    next_pos_in_queue = get_next_pos(0, len(users_of_cur_desk))
+    # next_pos_in_queue = get_next_pos(0, len(users_of_cur_desk))
+    next_pos_in_queue = get_next_pos(0, cur_desk.player_queue)
     small_blind = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
-    next_pos_in_queue = get_next_pos(next_pos_in_queue, len(users_of_cur_desk))
+    # next_pos_in_queue = get_next_pos(next_pos_in_queue, len(users_of_cur_desk))
+    next_pos_in_queue = get_next_pos(next_pos_in_queue, cur_desk.player_queue)
     big_blind = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
 
     # the person move next is the next position of big_blind
+    # cur_desk.player_queue_pointer = get_next_pos(next_pos_in_queue,
+    #                                              len(users_of_cur_desk))
     cur_desk.player_queue_pointer = get_next_pos(next_pos_in_queue,
-                                                 len(users_of_cur_desk))
+                                                 cur_desk.player_queue)
 
     # give every users 2 cards
     cards = test_compare.shuffle_card(len(users_of_cur_desk))
@@ -155,10 +159,19 @@ def start_logic(message):
 
 
 # player_queue is a cyclic queue, the next pos of the last pos is 0
-def get_next_pos(cur_pos, len_queue):
-    if cur_pos <= len_queue - 2:
-        return cur_pos + 1
-    return 0
+# def get_next_pos(cur_pos, len_queue):
+#     if cur_pos <= len_queue - 2:
+#         return cur_pos + 1
+#     return 0
+
+def get_next_pos(cur_pos, player_queue):
+    len_queue = len(player_queue)
+    for index, char in enumerate(player_queue):
+        if cur_pos == int(char):
+            pos = index
+    if pos == len_queue - 1:
+        return 0
+    return pos + 1
 
 
 def give_control(player_position):
@@ -169,13 +182,13 @@ def give_control(player_position):
     Group(public_name).send({'text': json.dumps(content)})
 
 
-def find_next_player(desk):
-    # update pointer and get next player
-    desk.player_queue_pointer = get_next_pos(desk.player_queue_pointer, len(desk.player_queue))
-    next_player = User_Game_play.objects.get(desk=desk, position=int(desk.player_queue[desk.player_queue_pointer]))
-    # desk.player_queue_pointer = get_next_pos(desk.player_queue_pointer, len(desk.player_queue))
-    desk.save()
-    return next_player
+# def find_next_player(desk):
+#     # update pointer and get next player
+#     desk.player_queue_pointer = get_next_pos(desk.player_queue_pointer, len(desk.player_queue))
+#     next_player = User_Game_play.objects.get(desk=desk, position=int(desk.player_queue[desk.player_queue_pointer]))
+#     # desk.player_queue_pointer = get_next_pos(desk.player_queue_pointer, len(desk.player_queue))
+#     desk.save()
+#     return next_player
 
 
 def judge_logic(next_player, desk):
@@ -193,10 +206,10 @@ def judge_logic(next_player, desk):
 
     # if his status is fold: skip this player
     # find_next_player()
-    if status == -1:
-        print("judge logic b2")
-        next_player = find_next_player(desk)
-        return judge_logic(next_player, desk)
+    # if status == -1:
+    #     print("judge logic b2")
+    #     next_player = find_next_player(desk)
+    #     return judge_logic(next_player, desk)
 
     # if his stutas is not fold
     if status == 1:
@@ -218,10 +231,7 @@ def assign_winner(winner):
     # assign the winner, and show all the cards to all users
     cur_desk_users = User_Game_play.objects.filter(desk=winner.desk)
     all_user_cards = {}
-    pools = 0
     for user in cur_desk_users:
-        if user != winner:
-            pools += user.chips_pay_in_this_game
         all_user_cards[user.position] = user.user_cards
         # reset all users' chips_pay_in_this_game
         user.chips_pay_in_this_game = 0
@@ -234,6 +244,7 @@ def assign_winner(winner):
 
     content = {'winner_pos': winner.position, 'winner': winner.user.user.username, 'cards': all_user_cards}
     Group(public_name).send({'text': json.dumps(content)})
+    winner.user.chips += winner.desk.pool
     # reset the phase of the current desk
     winner.desk.phase = 'pre_flop'
     winner.desk.current_largest_chips_this_game = 0
@@ -241,7 +252,6 @@ def assign_winner(winner):
     winner.desk.current_round_largest_chips = 0
     print('in assign_winner, winner.desk.pool:', winner.desk.pool)
     # winner gain all the chips in current game
-    winner.user.chips += pools
     winner.save()
     winner.user.save()
     winner.desk.save()
@@ -369,24 +379,39 @@ def ws_msg(message):
     this_user_info = User_info.objects.get(user=this_user)
     this_user_game_play = User_Game_play.objects.get(user=this_user_info)
     this_desk = this_user_game_play.desk
-    # set current user status 1: have moved in this round
-    this_user_game_play.status = 1
+
     if data['message'] == 'call' or data['message'] == 'check' or data['message'] == 'hold':
         # current user put more chips
+        print('current largest chips this game', this_desk.current_largest_chips_this_game)
+        print('current largest chips this round',this_desk.current_round_largest_chips)
+        print('this user chips pay in this game', this_user_game_play.chips_pay_in_this_game)
         this_user_info.chips -= (this_desk.current_largest_chips_this_game -
                                  this_user_game_play.chips_pay_in_this_game)
-        this_user_game_play.chips_pay_in_this_game = this_desk.current_largest_chips_this_game
+
         this_desk.pool += (this_desk.current_largest_chips_this_game -
                            this_user_game_play.chips_pay_in_this_game)
+        this_user_game_play.chips_pay_in_this_game = this_desk.current_largest_chips_this_game
+        this_user_game_play.status = 1
+        next_pos_queue = get_next_pos(this_user_game_play.position, this_desk.player_queue)
+        print('current largest chips this game', this_desk.current_largest_chips_this_game)
+        print('current largest chips this round', this_desk.current_round_largest_chips)
+        print('this user chips pay in this game', this_user_game_play.chips_pay_in_this_game)
 
 
     elif data['message'] == 'fold' or data['message'] == 'timeout':
         # update the queue
+        next_pos_queue = get_next_pos(this_user_game_play.position, this_desk.player_queue)
         this_desk.player_queue = this_desk.player_queue[:this_desk.player_queue_pointer] + \
                                  this_desk.player_queue[this_desk.player_queue_pointer + 1:]
         this_desk.player_queue_pointer -= 1
+        this_user_game_play.status = 1
+        if next_pos_queue > 0:
+            next_pos_queue -= 1
 
     elif data['message'] == 'raise':
+        print('current largest chips this game', this_desk.current_largest_chips_this_game)
+        print('current largest chips this round', this_desk.current_round_largest_chips)
+        print('this user chips pay in this game', this_user_game_play.chips_pay_in_this_game)
         chips_add = data['value']
         # current user put more chips
         this_user_info.chips -= chips_add
@@ -397,16 +422,24 @@ def ws_msg(message):
             print("chips_add < this_desk.current_round_largest_chips")
             exit(0)
         this_desk.current_round_largest_chips = data['value']
-
+        next_pos_queue = get_next_pos(this_user_game_play.position, this_desk.player_queue)
+        this_user_game_play.status = 1
+        print('current largest chips this game', this_desk.current_largest_chips_this_game)
+        print('current largest chips this round', this_desk.current_round_largest_chips)
+        print('this user chips pay in this game', this_user_game_play.chips_pay_in_this_game)
+    this_user_game_play.save()
     # find next move person position
-    next_pos_queue = get_next_pos(this_desk.player_queue_pointer,
-                                   len(this_desk.player_queue))
+    # next_pos_queue = get_next_pos(this_desk.player_queue_pointer,
+    #                                len(this_desk.player_queue))
+
+
+
     this_desk.player_queue_pointer = next_pos_queue
     next_pos_desk = int(this_desk.player_queue[next_pos_queue])
     print('next_pos_desk: ', next_pos_desk)
     next_user = User_Game_play.objects.get(desk=this_desk,position=next_pos_desk)
 
-    content = {'cur_user_pos': this_user_game_play.position, 'cur_user_chips': this_user_info.chips,
+    content = {'cur_user_pos': this_user_game_play.position + 1, 'cur_user_chips': this_user_info.chips,
                'total_chips_current_game': this_desk.pool}
     print(content)
     Group(public_name).send({'text': json.dumps(content)})

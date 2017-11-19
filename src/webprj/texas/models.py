@@ -46,6 +46,7 @@ class Desk_info(models.Model):
     current_capacity = models.IntegerField(default=9)
     is_start = models.BooleanField(default=False)
     position_queue = models.CharField(max_length=40, default="012345678")
+
     player_queue = models.CharField(max_length=20, default="")
     player_queue_pointer = models.IntegerField(default=0)
     five_cards_of_desk = models.CharField(max_length=50, default='')
