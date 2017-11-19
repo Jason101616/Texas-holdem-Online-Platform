@@ -170,15 +170,15 @@ def getjob(request, pos_big, pos_small, pos_dealer):
 
 @login_required
 @transaction.atomic
-def get_position(request, position):
+def get_position(request):
     loguser_mod = get_object_or_404(User_info, user = request.user)
     loguser = get_object_or_404(User_Game_play, user = loguser_mod)
     context = {}
 
-    pos = int(position) - 1 - loguser.position
+    '''pos = int(position) - 1 - loguser.position
     if pos < 0:
-        pos = pos + 9
+        pos = pos + 9'''
 
-    context = {'position': pos}
+    context = {'position': loguser.position}
 
     return render(request, 'json/position.json', context, content_type = 'application/json')
