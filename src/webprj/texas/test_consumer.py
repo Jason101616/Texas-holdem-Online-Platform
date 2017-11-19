@@ -303,8 +303,8 @@ def ws_msg(message):
     if 'start_game' in data:
         print('start_game')
         first_player_position = start_logic(message)
-        User_Game_play.objects.get(desk='desk0', position=first_player_position).status = 1
-        # '+1' added by lsn
+        desk = Desk_info.objects.get(desk_name = 'desk0')
+        User_Game_play.objects.get(desk = desk, position=first_player_position).status = 1
         content = {'move': int(first_player_position) + 1}
         Group(public_name).send({'text': json.dumps(content)})
         return
