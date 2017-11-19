@@ -162,7 +162,7 @@ def get_next_pos(cur_pos, len_queue):
 
 
 def give_control(player_position):
-    print('next player position is: %d' %player_position)
+    print('give control to player position: ', player_position)
     content = {'move': int(player_position) + 1}
     Group(public_name).send({'text': json.dumps(content)})
 
@@ -178,35 +178,41 @@ def find_next_player(desk):
 
 def judge_logic(next_player, desk):
     if len(desk.player_queue) == 1:
-        # assign_winner(next_player)
+        print("judge logic b0")
+        assign_winner(next_player)
         return
 
     status = next_player.status
     # if next player hasn't moved in this turn, give control to him
-    print('next_player.status: %d' %(status))
     if status == 0:
+        print("judge logic b1")
         give_control(next_player.position)
         return
 
     # if his status is fold: skip this player
     # find_next_player()
     if status == -1:
+        print("judge logic b2")
         next_player = find_next_player(desk)
         return judge_logic(next_player, desk)
 
     # if his stutas is not fold
     if status == 1:
+        print("judge logic b3")
         # if his bet is the highest bet in the table
         if next_player.chips_pay_in_this_game == desk.current_largest_chips_this_game:
+            print("judge logic b31")
             # go to winner_logic
             return winner_logic(desk)
         else:
             # if his bet is not the highest bet in the table
             # give_control(next_player)
+            print("judge logic b32")
             give_control(next_player.position)
 
 
 def assign_winner(winner):
+    print("assign winner: ",winner)
     # assign the winner, and show all the cards to all users
     cur_desk_users = User_Game_play.objects.filter(desk=winner.desk)
     all_user_cards = {}
@@ -235,7 +241,7 @@ def assign_winner(winner):
     winner.save()
     winner.user.save()
     winner.desk.save()
-
+    print("assign_winner success")
 
 
 def winner_logic(cur_desk):
@@ -258,6 +264,7 @@ def winner_logic(cur_desk):
 
 
 def next_phase(cur_desk):
+    print("next_phase")
     if cur_desk.phase == 'pre_flop':
         # show all users the first three cards of the desk
         cur_desk.phase = 'flop'
@@ -287,7 +294,6 @@ def next_phase(cur_desk):
 
     Group(public_name).send({'text': json.dumps(content)})
 
-
     # let the player next to the dealer to move
     first_user = 0
     for i in cur_desk.player_queue:
@@ -297,8 +303,11 @@ def next_phase(cur_desk):
             user.save()
             if first_user == 0:
                 first_user = 1
+                continue
+            if first_user == 1:
+                first_user = 2
                 next_user = user
-
+    cur_desk.save()
     give_control(next_user.position)
 
 
@@ -339,7 +348,7 @@ def ws_msg(message):
     this_desk = this_user_game_play.desk
     # set current user status 1: have moved in this round
     this_user_game_play.status = 1
-    if data['message'] == 'call' or data['message'] == 'check' or data['message'] == 'fold':
+    if data['message'] == 'call' or data['message'] == 'check' or data['message'] == 'hold':
         # current user put more chips
         this_user_info.chips -= (this_desk.current_largest_chips_this_game -
                                  this_user_game_play.chips_pay_in_this_game)
@@ -374,7 +383,7 @@ def ws_msg(message):
     this_user_info.save()
     this_user_game_play.save()
     this_desk.save()
-
+    print ("next_user before judge logic: ", next_user)
     judge_logic(next_user, this_desk)
 
 
