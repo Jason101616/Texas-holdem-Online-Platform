@@ -162,6 +162,7 @@ def get_next_pos(cur_pos, len_queue):
 
 
 def give_control(player_position):
+    print('give control to player position: ', player_position)
     content = {'move': int(player_position) + 1}
     Group(public_name).send({'text': json.dumps(content)})
 
@@ -177,36 +178,41 @@ def find_next_player(desk):
 
 def judge_logic(next_player, desk):
     if len(desk.player_queue) == 1:
-        # assign_winner(next_player)
+        print("judge logic b0")
+        assign_winner(next_player)
         return
 
     status = next_player.status
     # if next player hasn't moved in this turn, give control to him
-    print('next_player.status: %d' %(status))
     if status == 0:
+        print("judge logic b1")
         give_control(next_player.position)
-        next_player.status = 1
         return
 
     # if his status is fold: skip this player
     # find_next_player()
     if status == -1:
+        print("judge logic b2")
         next_player = find_next_player(desk)
         return judge_logic(next_player, desk)
 
     # if his stutas is not fold
     if status == 1:
+        print("judge logic b3")
         # if his bet is the highest bet in the table
         if next_player.chips_pay_in_this_game == desk.current_largest_chips_this_game:
+            print("judge logic b31")
             # go to winner_logic
             return winner_logic(desk)
         else:
             # if his bet is not the highest bet in the table
             # give_control(next_player)
+            print("judge logic b32")
             give_control(next_player.position)
 
 
 def assign_winner(winner):
+    print("assign winner: ",winner)
     # assign the winner, and show all the cards to all users
     cur_desk_users = User_Game_play.objects.filter(desk=winner.desk)
     all_user_cards = {}
@@ -235,7 +241,7 @@ def assign_winner(winner):
     winner.save()
     winner.user.save()
     winner.desk.save()
-
+    print("assign_winner success")
 
 
 def winner_logic(cur_desk):
@@ -258,23 +264,35 @@ def winner_logic(cur_desk):
 
 
 def next_phase(cur_desk):
+    print("next_phase")
     if cur_desk.phase == 'pre_flop':
         # show all users the first three cards of the desk
         cur_desk.phase = 'flop'
-        content = {'desk_cards': cur_desk.five_cards_of_desk[:3]}
+        cur_cards = cur_desk.five_cards_of_desk
+        card_list = cur_cards.split(' ')
+        for i in range(len(card_list)):
+            card_list[i] = int(card_list[i])
+        content = {'desk_cards': card_list[:3]}
 
     elif cur_desk.phase == 'flop':
         # show all users the first four cards of the desk
         cur_desk.phase = 'turn'
-        content = {'desk_cards': cur_desk.five_cards_of_desk[:4]}
+        cur_cards = cur_desk.five_cards_of_desk
+        card_list = cur_cards.split(' ')
+        for i in range(len(card_list)):
+            card_list[i] = int(card_list[i])
+        content = {'desk_cards': card_list[:4]}
 
     elif cur_desk.phase == 'turn':
         # show all users the first five cards of the desk
         cur_desk.phase = 'river'
-        content = {'desk_cards': cur_desk.five_cards_of_desk}
+        cur_cards = cur_desk.five_cards_of_desk
+        card_list = cur_cards.split(' ')
+        for i in range(len(card_list)):
+            card_list[i] = int(card_list[i])
+        content = {'desk_cards': card_list}
 
     Group(public_name).send({'text': json.dumps(content)})
-
 
     # let the player next to the dealer to move
     first_user = 0
@@ -285,8 +303,11 @@ def next_phase(cur_desk):
             user.save()
             if first_user == 0:
                 first_user = 1
+                continue
+            if first_user == 1:
+                first_user = 2
                 next_user = user
-
+    cur_desk.save()
     give_control(next_user.position)
 
 
@@ -303,8 +324,9 @@ def ws_msg(message):
     if 'start_game' in data:
         print('start_game')
         first_player_position = start_logic(message)
-        desk = Desk_info.objects.get(desk_name = 'desk0')
-        User_Game_play.objects.get(desk = desk, position=first_player_position).status = 1
+        cur_desk = Desk_info.objects.get(desk_name='desk0')
+        User_Game_play.objects.get(desk=cur_desk, position=first_player_position).status = 1
+        # '+1' added by lsn
         content = {'move': int(first_player_position) + 1}
         Group(public_name).send({'text': json.dumps(content)})
         return
@@ -326,10 +348,7 @@ def ws_msg(message):
     this_desk = this_user_game_play.desk
     # set current user status 1: have moved in this round
     this_user_game_play.status = 1
-    if data['message'] == 'hold':
-        # no need to handle this situation
-        pass
-    elif data['message'] == 'check':
+    if data['message'] == 'call' or data['message'] == 'check' or data['message'] == 'hold':
         # current user put more chips
         this_user_info.chips -= (this_desk.current_largest_chips_this_game -
                                  this_user_game_play.chips_pay_in_this_game)
@@ -353,7 +372,7 @@ def ws_msg(message):
                                    len(this_desk.player_queue))
     this_desk.player_queue_pointer = next_pos_queue
     next_pos_desk = int(this_desk.player_queue[next_pos_queue])
-
+    print('next_pos_desk: ', next_pos_desk)
     next_user = User_Game_play.objects.get(desk=this_desk,position=next_pos_desk)
     # content = {'next_mov_pos': next_pos_desk}
     # Group(public_name).send({'text': json.dumps(content)})
@@ -364,7 +383,7 @@ def ws_msg(message):
     this_user_info.save()
     this_user_game_play.save()
     this_desk.save()
-
+    print ("next_user before judge logic: ", next_user)
     judge_logic(next_user, this_desk)
 
 
