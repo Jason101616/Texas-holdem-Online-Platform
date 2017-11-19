@@ -133,13 +133,12 @@ def addplayer(request):
     players = User_Game_play.objects.filter(desk=loguser.desk)
 
     for player in players:
-        if player != loguser:
-            username = player.user.user.username
-            pos = player.position - loguser.position
-            if pos < 0:
-                pos = pos + 9
-            player_info = {'username': username, 'position': pos, 'chips': player.user.chips}
-            context_players.append(player_info)
+        username = player.user.user.username
+        pos = player.position - loguser.position
+        if pos < 0:
+            pos = pos + 9
+        player_info = {'username': username, 'position': pos, 'chips': player.user.chips}
+        context_players.append(player_info)
 
     context['players'] = context_players
 

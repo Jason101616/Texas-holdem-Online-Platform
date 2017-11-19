@@ -7,13 +7,16 @@ function timer_10sec() {
         time_str = time_str.substring(time_str.length - 2, time_str.length)
         $('#message').html('00:' + time_str);
         setTimeout(timer_10sec, 1000);
-    } else {
+    } 
+    else {
         timer = 10;
         $('#message').html('timeout!');
         var message = {
             'message': 'timeout'
         };
         socket.send(JSON.stringify(message));
+        $('#message').html('Timeout: automatically fold!');
+        clear_status();
     }
 }
 
@@ -23,7 +26,7 @@ function click_hold() {
     };
     console.log(message);
     socket.send(JSON.stringify(message));
-
+    $('#message').html('Hold!');
     clear_status();
 }
 
@@ -33,7 +36,7 @@ function click_fold() {
     };
     console.log(message);
     socket.send(JSON.stringify(message));
-
+    $('#message').html('Fold!');
     clear_status();
 }
 
@@ -44,7 +47,7 @@ function click_raise(val) {
     };
     console.log(message);
     socket.send(JSON.stringify(message));
-
+    $('#message').html('Raise ' + val);
     clear_status();
 }
 
@@ -134,6 +137,9 @@ $(document).ready(function () {
             break;
         }
         switch (num){
+            case 1:
+            value = 'A' + value;
+            break;
             case 11:
             value = 'J' + value;
             break;
@@ -165,6 +171,30 @@ $(document).ready(function () {
         };
         socket.send(JSON.stringify(message));
         $('#leave_room')[0].disabled = true;
+        $('#message').html('Game started!');
+        $.ajax({
+            type: 'post',
+            url: 'addplayer',
+            data: '',
+            success: function(data) {
+                if (data.players){
+                    for (i = 0; i < data.players.length; i++){
+
+                        position = data.players[i]['position'];
+                        chips = data.players[i]['chips'];
+
+                        if (position == 0){
+                            $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML = "Total chips: " + chips;
+                            $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML = "Betting: 0";
+                        }
+                        else {
+                            $('#player-' + position)[0].children[0].children[2].children[0].children[0].innerHTML = "Total chips: " + chips;
+                            $('#player-' + position)[0].children[0].children[2].children[0].children[1].innerHTML = "Betting: 0";
+                        }
+                    }
+                }
+            }
+        })
     });
 
     socket.onmessage = function (message) {
@@ -185,8 +215,11 @@ $(document).ready(function () {
                 success: function(data) {
                     if (data.players){
                         for (i = 0; i < data.players.length; i++){
+
                             username = data.players[i]['username'];
                             position = data.players[i]['position'];
+                            if (position == 0) continue;
+
                             chips = data.players[i]['chips'];
                             $('#player-' + position)[0].children[0].children[0].children[0].children[1].innerHTML = username;
                             $('#player-' + position)[0].style.visibility = "visible";
@@ -234,7 +267,7 @@ $(document).ready(function () {
         }
 
         if (data['cur_user_pos'] && data['cur_user_chips']) {
-            chips = data['cur_user_chips'];
+            total_new = data['cur_user_chips'];
             $.ajax({
                 type: 'post',
                 url: 'get_position/' + data['cur_user_pos'],
@@ -247,10 +280,11 @@ $(document).ready(function () {
 
                         total_ori = $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML;
                         total_ori = parseInt(total_ori.split(":")[1]);
-                        total_new = total_ori - (chips - chip_ori);
+
+                        chip_new = (total_ori - total_new) + chip_ori;
 
                         $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML = "Total chips: " + total_new;
-                        $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML = "Betting: " + chips;
+                        $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML = "Betting: " + chip_new;
                     }
                     else {
                         chip_ori =  $('#player-' + data['position'])[0].children[0].children[2].children[0].children[1].innerHTML;
@@ -258,10 +292,11 @@ $(document).ready(function () {
 
                         total_ori = $('#player-' + data['position'])[0].children[0].children[2].children[0].children[0].innerHTML;
                         total_ori = parseInt(total_ori.split(":")[1]);
-                        total_new = total_ori - (chips - chip_ori);
+
+                        chip_new = (total_ori - total_new) + chip_ori;
 
                         $('#player-' + data['position'])[0].children[0].children[2].children[0].children[0].innerHTML = "Total chips: " + total_new;
-                        $('#player-' + data['position'])[0].children[0].children[2].children[0].children[1].innerHTML = "Betting: " + chips;
+                        $('#player-' + data['position'])[0].children[0].children[2].children[0].children[1].innerHTML = "Betting: " + chip_new;
                     }
                 }
             })
@@ -277,7 +312,6 @@ $(document).ready(function () {
                 url: 'get_position/' + pos,
                 data: '',
                 success: function(data) {
-                    // debugger;
                     if (data['position'] == 0) {
                         $('#game_hold')[0].disabled = false;
                         $('#game_fold')[0].disabled = false;
@@ -285,6 +319,7 @@ $(document).ready(function () {
                         $('#game_raise200')[0].disabled = false;
                     }
                     $('#player-' + data['position']).css("background", "linear-gradient(0deg, rgba(255,255,255,1), rgba(255,255,255,0))");
+                    timer_10sec(); 
                 }
             })
         }
@@ -293,10 +328,6 @@ $(document).ready(function () {
             for (i = 0; i < data['desk_cards'].length; i++){
                 $('#desk-' + i)[0].innerHTML = poker_string(data['desk_cards'][i]);
             }
-        }
-
-        if (data['start_timer']) {
-            timer_10sec();
         }
     };
 });
