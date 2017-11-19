@@ -258,14 +258,31 @@ def winner_logic(cur_desk):
     # if this is the end of river phase
     if cur_desk.phase == 'river':
         # TODO: modify decide_winner function
-        # winner = test_compare.decide_winner(cur_desk)
+        winner_pos, results = river_compare(cur_desk)
+        print(winner_pos)
         # for test, just give the first person in the queue
-        winner = User_Game_play.objects.get(desk=cur_desk, position=int(cur_desk.player_queue[0]))
+        #TODO: multiple winner logic
+        winner = User_Game_play.objects.get(desk=cur_desk, position=winner_pos[0])
         assign_winner(winner)
         return
 
     # continue the game to next phase
     return next_phase(cur_desk)
+
+
+def river_compare(cur_desk):
+    pass
+    cur_cards = cur_desk.five_cards_of_desk
+    public_card_list = list(map(int,cur_cards.split(' ')))
+    print(public_card_list)
+    all_user_card = []
+    for i in cur_desk.player_queue:
+        user = User_Game_play.objects.get(desk=cur_desk, position=i)
+        tmp = (user.position, public_card_list + list(map(int,user.user_cards.split(' '))))
+        all_user_card.append(tmp)
+    print(all_user_card)
+    winner, results = test_compare.decide_winner_all(all_user_card)
+    return winner, results
 
 
 def next_phase(cur_desk):

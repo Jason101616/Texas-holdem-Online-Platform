@@ -1,28 +1,3 @@
-/*var timer = 10;
-var timeout;
-
-function timer_10sec() {
-    if (timer >= 0) {
-        console.log(timer);
-        var time_str = '0' + timer;
-        timer--;
-        time_str = time_str.substring(time_str.length - 2, time_str.length);
-        $('#message').html('00:' + time_str);
-        timeout = setTimeout(timer_10sec, 1000);
-    } 
-    else {
-        console.log(timer);
-        timer = 10;
-        $('#message').html('timeout!');
-        var message = {
-            'message': 'timeout'
-        };
-        socket.send(JSON.stringify(message));
-        $('#message').html('Timeout: automatically fold!');
-        clear_status();
-    }
-}*/
-
 
 function click_hold() {
     //clearTimeout(timeout);

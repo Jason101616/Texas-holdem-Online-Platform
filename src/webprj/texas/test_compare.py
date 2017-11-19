@@ -1,6 +1,6 @@
 import itertools
 from random import randint
-"""
+
 cards1 = [[0, 2], [0, 3], [0, 4], [0, 5], [0, 6]]  # 8
 cards2 = [[0, 2], [0, 3], [0, 4], [0, 5], [0, 14]]  # 8
 cards3 = [[0, 2], [1, 2], [2, 2], [3, 2], [3, 4]]
@@ -11,7 +11,7 @@ cards7 = [[0, 2], [1, 3], [0, 4], [1, 2], [0, 12]]
 cards8 = [[0, 2], [1, 5], [0, 7], [1, 12], [0, 9]]
 card = [['1', 1], ['J', 1], ['Q', 2], ['K', 3], ['10', 2], ['9', 3], ['2', 0], ['2', 1], ['5', 3]]
 my = [['2', 1], ['2', 2], ['7', 1], ['7', 3], ['7', 2], ['J', 3], ['3', 2]]
-"""
+
 # suit 0-3
 # number 2-14 (2, 3, ...10, J, Q, K, A)
 
@@ -81,6 +81,7 @@ def decide_winner(card):
     print(card)
     my = transfer(card[0:5] + card[7:9])
     robot = transfer(card[0:7])
+    print(my)
     my_level, my_score, my_type, my_card = highest(my)
     robot_level, robot_score, robot_type, robot_card = highest(
         robot)
@@ -91,10 +92,6 @@ def decide_winner(card):
         return my_type + " V.S." + robot_type + "<br> Draw!"
     else:
         return my_type + " V.S." + robot_type + "<br> You lose!"
-
-
-# def decide_winner(desk):
-#
 
 
 def second(elem):
@@ -125,6 +122,11 @@ def transfer_reverse(my):
     my_cards = []
     for m in my:
         if m[1] == 14:
+            my_cards.append(0 + m[0] * 13)
+        else:
+            my_cards.append(m[1] - 1 + m[0] * 13)
+        """
+        if m[1] == 14:
             my_cards.append(['1', m[0]])
         elif m[1] == 13:
             my_cards.append(['K', m[0]])
@@ -134,6 +136,7 @@ def transfer_reverse(my):
             my_cards.append(['J', m[0]])
         else:
             my_cards.append([str(m[1]), m[0]])
+        """
     return my_cards
 
 
@@ -257,6 +260,7 @@ def high(cards):
 # HIGH           = 0  #高牌
 LEVEL = {8:"Straight Flush",7:"Four of a Kind",6:"Full House",5:" Flush", 4:"Straight",3:"Three of a Kind",2:"Two Pair",1:"Pair",0:"High"}
 
+
 def calculate_level(cards):
     if is_junko(cards)[0] and is_suited(cards)[0]:
         return [8, is_junko(cards)[1]]
@@ -292,7 +296,7 @@ def highest(all_cards):
                 max_level = level
                 max_score = score
                 max_card = cards
-    print (max_level, max_score, LEVEL[max_level], transfer_reverse(max_card))
+    #print(max_level, max_score, LEVEL[max_level], transfer_reverse(max_card))
     return max_level, max_score, LEVEL[max_level], transfer_reverse(max_card)
 
 """
@@ -305,5 +309,41 @@ print(calculate_level(cards6))
 print(calculate_level(cards7))
 print(calculate_level(cards8))
 print(transfer(my))
-print(highest(transfer(my)))
 """
+
+#print(transfer(my))
+#print(highest(transfer(my)))
+
+
+# input: [(1,[12,23,34,45,12])] 0:A, 1:2,...
+#all_user_card = [(0,[12,23,24,34,45,49,50]),(1,[12,23,24,34,45,11,13]),(2,[12,23,24,34,45,42,46])]
+def decide_winner_all(all_user_card):
+    pass
+    results = []
+    for s in all_user_card:
+        user_card_list = []
+        for card in s[1]:
+            suit = int(card / 13)
+            num = card % 13 + 1
+            if num == 11:
+                num = 'J'
+            if num == 12:
+                num = 'Q'
+            if num == 13:
+                num = 'K'
+            user_card_list.append([str(num), suit])
+        results.append((s[0],(highest(transfer(user_card_list)))))
+    max_level = results[0][1][0]
+    max_score = results[0][1][1]
+    winner = [0]
+    for r in results[1:]:
+        if r[1][0] > max_level:
+            winner = [r[0]]
+        elif r[1][0] == max_level:
+            if r[1][1] > max_score:
+                winner = [r[0]]
+            elif r[1][1] == max_score:
+                winner.append(r[0])
+    return winner,results
+
+#print(decide_winner_all(all_user_card))

@@ -76,6 +76,7 @@ class User_Game_play(models.Model):
     chips_pay_in_this_game = models.IntegerField(default=0)
     is_fold = models.BooleanField(default=False)
 
+
     def __str__(self):
         return "desk_name: %s, username: %s, position: %d, user_cards: %s, status: %d"%\
                (self.desk.desk_name, self.user.user.username, self.position, self.user_cards, self.status)
