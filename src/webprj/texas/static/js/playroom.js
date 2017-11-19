@@ -104,36 +104,36 @@ $(document).ready(function () {
         var color = (value - num++) / 13;
         switch (color) {
             case 0:
-                value = '♥';
-                break;
+            value = '♥';
+            break;
             case 1:
-                value = '♣';
-                break;
+            value = '♣';
+            break;
             case 2:
-                value = '♦';
-                break;
+            value = '♦';
+            break;
             case 3:
-                value = '♠';
-                break;
+            value = '♠';
+            break;
             default:
-                break;
+            break;
         }
         switch (num) {
             case 1:
-                value = 'A' + value;
-                break;
+            value = 'A' + value;
+            break;
             case 11:
-                value = 'J' + value;
-                break;
+            value = 'J' + value;
+            break;
             case 12:
-                value = 'Q' + value;
-                break;
+            value = 'Q' + value;
+            break;
             case 13:
-                value = 'K' + value;
-                break;
+            value = 'K' + value;
+            break;
             default:
-                value = num + value;
-                break;
+            value = num + value;
+            break;
         }
         return value;
     }
@@ -155,37 +155,6 @@ $(document).ready(function () {
         };
 
         socket.send(JSON.stringify(message));
-
-        $('#leave_room')[0].disabled = true;
-        $('#start_game')[0].disabled = true;
-        $('#message').html('Game started!');
-
-        $.ajax({
-            type: 'post',
-            url: 'addplayer',
-            data: '',
-            success: function (data) {
-                if (data.players) {
-                    for (i = 0; i < data.players.length; i++) {
-
-                        position = data.players[i]['position'];
-                        chips = data.players[i]['chips'];
-
-                        if (position == 0) {
-                            $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML = "Total chips: " + chips;
-                            $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML = "Betting: 0";
-                        } else {
-                            $('#player-' + position)[0].children[0].children[2].children[0].children[0].innerHTML = "Total chips: " + chips;
-                            $('#player-' + position)[0].children[0].children[2].children[0].children[1].innerHTML = "Betting: 0";
-                        }
-                    }
-                }
-
-                for (i = 0; i < 9; i++) {
-                    $('#player-' + i)[0].children[0].children[0].children[0].children[0].innerHTML = "";
-                }
-            }
-        })
     });
 
     socket.onmessage = function (message) {
@@ -196,6 +165,39 @@ $(document).ready(function () {
 
         if (data['can_start'] === 'yes') {
             $('#start_game')[0].disabled = false;
+        }
+
+        if (data['start_game']){
+            $('#leave_room')[0].disabled = true;
+            $('#start_game')[0].disabled = true;
+            $('#message').html('Game started!');
+
+            for (i = 0; i < 9; i++) {
+                $('#player-' + i)[0].children[0].children[0].children[0].children[0].innerHTML = "";
+            }
+
+            $.ajax({
+                type: 'post',
+                url: 'addplayer',
+                data: '',
+                success: function (data) {
+                    if (data.players) {
+                        for (i = 0; i < data.players.length; i++) {
+
+                            position = data.players[i]['position'];
+                            chips = data.players[i]['chips'];
+
+                            if (position == 0) {
+                                $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML = "Total chips: " + chips;
+                                $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML = "Betting: 0";
+                            } else {
+                                $('#player-' + position)[0].children[0].children[2].children[0].children[0].innerHTML = "Total chips: " + chips;
+                                $('#player-' + position)[0].children[0].children[2].children[0].children[1].innerHTML = "Betting: 0";
+                            }
+                        }
+                    }
+                }
+            })
         }
 
         if (data['new_player']) {

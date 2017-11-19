@@ -148,7 +148,8 @@ def start_logic(message):
     content = {
         'dealer': [dealer.user.user.username, dealer.position],
         'big_blind': [big_blind.user.user.username, big_blind.position],
-        'small_blind': [small_blind.user.user.username, small_blind.position]
+        'small_blind': [small_blind.user.user.username, small_blind.position],
+        'start_game': 1
     }
     Group(cur_desk.desk_name).send({'text': json.dumps(content)})
 
