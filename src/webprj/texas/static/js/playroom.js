@@ -277,7 +277,7 @@ $(document).ready(function () {
                 url: 'get_position/' + pos,
                 data: '',
                 success: function(data) {
-                    debugger;
+                    // debugger;
                     if (data['position'] == 0) {
                         $('#game_hold')[0].disabled = false;
                         $('#game_fold')[0].disabled = false;

@@ -162,6 +162,7 @@ def get_next_pos(cur_pos, len_queue):
 
 
 def give_control(player_position):
+    print('next player position is: %d' %player_position)
     content = {'move': int(player_position) + 1}
     Group(public_name).send({'text': json.dumps(content)})
 
@@ -185,7 +186,6 @@ def judge_logic(next_player, desk):
     print('next_player.status: %d' %(status))
     if status == 0:
         give_control(next_player.position)
-        next_player.status = 1
         return
 
     # if his status is fold: skip this player
@@ -303,7 +303,8 @@ def ws_msg(message):
     if 'start_game' in data:
         print('start_game')
         first_player_position = start_logic(message)
-        User_Game_play.objects.get(desk='desk0', position=first_player_position).status = 1
+        cur_desk = Desk_info.objects.get(desk_name='desk0')
+        User_Game_play.objects.get(desk=cur_desk, position=first_player_position).status = 1
         # '+1' added by lsn
         content = {'move': int(first_player_position) + 1}
         Group(public_name).send({'text': json.dumps(content)})
@@ -326,10 +327,7 @@ def ws_msg(message):
     this_desk = this_user_game_play.desk
     # set current user status 1: have moved in this round
     this_user_game_play.status = 1
-    if data['message'] == 'hold':
-        # no need to handle this situation
-        pass
-    elif data['message'] == 'check':
+    if data['message'] == 'call' or data['message'] == 'check' or data['message'] == 'fold':
         # current user put more chips
         this_user_info.chips -= (this_desk.current_largest_chips_this_game -
                                  this_user_game_play.chips_pay_in_this_game)
@@ -353,7 +351,7 @@ def ws_msg(message):
                                    len(this_desk.player_queue))
     this_desk.player_queue_pointer = next_pos_queue
     next_pos_desk = int(this_desk.player_queue[next_pos_queue])
-
+    print('next_pos_desk: ', next_pos_desk)
     next_user = User_Game_play.objects.get(desk=this_desk,position=next_pos_desk)
     # content = {'next_mov_pos': next_pos_desk}
     # Group(public_name).send({'text': json.dumps(content)})
