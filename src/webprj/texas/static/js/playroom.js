@@ -265,6 +265,7 @@ $(document).ready(function () {
             $('#message').html('Chips in the pool: ' + data['total_chips_current_game']);
 
             total_new = data['cur_user_chips'];
+            chip_new = data['cur_user_chips_this_game'];
             position = data['cur_user_pos'];
             $.ajax({
                 type: 'post',
@@ -275,27 +276,27 @@ $(document).ready(function () {
                     login_user_pos = data['position'];
                     user_pos = parseInt(position) - 1 - parseInt(login_user_pos);
                     if (user_pos < 0) user_pos += 9;
-                    
+
                     //update chip information
                     if (user_pos == 0) {
-                        chip_ori = $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML;
+                        /*chip_ori = $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML;
                         chip_ori = parseInt(chip_ori.split(":")[1]);
 
                         total_ori = $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML;
                         total_ori = parseInt(total_ori.split(":")[1]);
 
-                        chip_new = (total_ori - total_new) + chip_ori;
+                        chip_new = (total_ori - total_new) + chip_ori;*/
 
                         $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML = "Total chips: " + total_new;
                         $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML = "Betting: " + chip_new;
                     } else {
-                        chip_ori = $('#player-' + user_pos)[0].children[0].children[2].children[0].children[1].innerHTML;
+                        /*chip_ori = $('#player-' + user_pos)[0].children[0].children[2].children[0].children[1].innerHTML;
                         chip_ori = parseInt(chip_ori.split(":")[1]);
 
                         total_ori = $('#player-' + user_pos)[0].children[0].children[2].children[0].children[0].innerHTML;
                         total_ori = parseInt(total_ori.split(":")[1]);
 
-                        chip_new = (total_ori - total_new) + chip_ori;
+                        chip_new = (total_ori - total_new) + chip_ori;*/
 
                         $('#player-' + user_pos)[0].children[0].children[2].children[0].children[0].innerHTML = "Total chips: " + total_new;
                         $('#player-' + user_pos)[0].children[0].children[2].children[0].children[1].innerHTML = "Betting: " + chip_new;
