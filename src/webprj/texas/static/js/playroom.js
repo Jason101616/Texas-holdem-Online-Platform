@@ -272,7 +272,7 @@ $(document).ready(function () {
                 success: function(data) {
 
                     login_user_pos = data['position'];
-                    user_pos = parseInt(position) - 1 - parseInt(login_user_pos);
+                    user_pos = parseInt(position) - 1 c- parseInt(login_user_pos);
                     if (user_pos < 0) user_pos += 9;
 
                     //update chip information
@@ -378,7 +378,7 @@ $(document).ready(function () {
 
                     winner_pos = parseInt(winner_pos) - parseInt(login_user_pos);
                     if (winner_pos < 0) winner_pos += 9;
-                    $('#player-' + winner_pos).css("background", "linear-gradient(0deg, rgba(195,51,44,0.5), rgba(195,51,44,0))");
+                    $('#player-' + winner_pos).css("background", "linear-gradient(0deg, rgba(254,238,117,0.5), rgba(254,238,117,0))");
                 }
             })
         }
