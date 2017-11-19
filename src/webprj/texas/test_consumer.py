@@ -231,10 +231,7 @@ def assign_winner(winner):
     # assign the winner, and show all the cards to all users
     cur_desk_users = User_Game_play.objects.filter(desk=winner.desk)
     all_user_cards = {}
-    pools = 0
     for user in cur_desk_users:
-        if user != winner:
-            pools += user.chips_pay_in_this_game
         all_user_cards[user.position] = user.user_cards
         # reset all users' chips_pay_in_this_game
         user.chips_pay_in_this_game = 0
@@ -247,6 +244,7 @@ def assign_winner(winner):
 
     content = {'winner_pos': winner.position, 'winner': winner.user.user.username, 'cards': all_user_cards}
     Group(public_name).send({'text': json.dumps(content)})
+    winner.user.chips += winner.desk.pool
     # reset the phase of the current desk
     winner.desk.phase = 'pre_flop'
     winner.desk.current_largest_chips_this_game = 0
@@ -254,7 +252,6 @@ def assign_winner(winner):
     winner.desk.current_round_largest_chips = 0
     print('in assign_winner, winner.desk.pool:', winner.desk.pool)
     # winner gain all the chips in current game
-    winner.user.chips += pools
     winner.save()
     winner.user.save()
     winner.desk.save()
@@ -385,13 +382,20 @@ def ws_msg(message):
 
     if data['message'] == 'call' or data['message'] == 'check' or data['message'] == 'hold':
         # current user put more chips
+        print('current largest chips this game', this_desk.current_largest_chips_this_game)
+        print('current largest chips this round',this_desk.current_round_largest_chips)
+        print('this user chips pay in this game', this_user_game_play.chips_pay_in_this_game)
         this_user_info.chips -= (this_desk.current_largest_chips_this_game -
                                  this_user_game_play.chips_pay_in_this_game)
-        this_user_game_play.chips_pay_in_this_game = this_desk.current_largest_chips_this_game
+
         this_desk.pool += (this_desk.current_largest_chips_this_game -
                            this_user_game_play.chips_pay_in_this_game)
+        this_user_game_play.chips_pay_in_this_game = this_desk.current_largest_chips_this_game
         this_user_game_play.status = 1
         next_pos_queue = get_next_pos(this_user_game_play.position, this_desk.player_queue)
+        print('current largest chips this game', this_desk.current_largest_chips_this_game)
+        print('current largest chips this round', this_desk.current_round_largest_chips)
+        print('this user chips pay in this game', this_user_game_play.chips_pay_in_this_game)
 
 
     elif data['message'] == 'fold' or data['message'] == 'timeout':
@@ -405,6 +409,9 @@ def ws_msg(message):
             next_pos_queue -= 1
 
     elif data['message'] == 'raise':
+        print('current largest chips this game', this_desk.current_largest_chips_this_game)
+        print('current largest chips this round', this_desk.current_round_largest_chips)
+        print('this user chips pay in this game', this_user_game_play.chips_pay_in_this_game)
         chips_add = data['value']
         # current user put more chips
         this_user_info.chips -= chips_add
@@ -417,6 +424,9 @@ def ws_msg(message):
         this_desk.current_round_largest_chips = data['value']
         next_pos_queue = get_next_pos(this_user_game_play.position, this_desk.player_queue)
         this_user_game_play.status = 1
+        print('current largest chips this game', this_desk.current_largest_chips_this_game)
+        print('current largest chips this round', this_desk.current_round_largest_chips)
+        print('this user chips pay in this game', this_user_game_play.chips_pay_in_this_game)
     this_user_game_play.save()
     # find next move person position
     # next_pos_queue = get_next_pos(this_desk.player_queue_pointer,
