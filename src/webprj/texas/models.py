@@ -56,6 +56,7 @@ class Desk_info(models.Model):
     pool = models.IntegerField(default=0)
     # pre-flop, flop, turn, river
     phase = models.CharField(max_length=10, default='pre_flop')
+    current_round_largest_chips = models.IntegerField(default=0)
 
     def __str__(self):
         return "desk_name: %s, owner: %s, capacity: %d, current: %d, is_start: %d, position_queue: %s, player_queue: %s, player_queue_pointer: %d, five_cards_of_desk: %s, current_largest_chips_this_game: %d, pool: %d" %(self.desk_name, self.owner, self.capacity, self.current_capacity,self.is_start, self.position_queue,self.player_queue, self.player_queue_pointer, self.five_cards_of_desk, self.current_largest_chips_this_game, self.pool)
