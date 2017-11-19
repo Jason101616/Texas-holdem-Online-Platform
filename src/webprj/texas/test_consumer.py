@@ -261,17 +261,29 @@ def next_phase(cur_desk):
     if cur_desk.phase == 'pre_flop':
         # show all users the first three cards of the desk
         cur_desk.phase = 'flop'
-        content = {'desk_cards': cur_desk.five_cards_of_desk[:3]}
+        cur_cards = cur_desk.five_cards_of_desk
+        card_list = cur_cards.split(' ')
+        for i in range(len(card_list)):
+            card_list[i] = int(card_list[i])
+        content = {'desk_cards': card_list[:3]}
 
     elif cur_desk.phase == 'flop':
         # show all users the first four cards of the desk
         cur_desk.phase = 'turn'
-        content = {'desk_cards': cur_desk.five_cards_of_desk[:4]}
+        cur_cards = cur_desk.five_cards_of_desk
+        card_list = cur_cards.split(' ')
+        for i in range(len(card_list)):
+            card_list[i] = int(card_list[i])
+        content = {'desk_cards': card_list[:4]}
 
     elif cur_desk.phase == 'turn':
         # show all users the first five cards of the desk
         cur_desk.phase = 'river'
-        content = {'desk_cards': cur_desk.five_cards_of_desk}
+        cur_cards = cur_desk.five_cards_of_desk
+        card_list = cur_cards.split(' ')
+        for i in range(len(card_list)):
+            card_list[i] = int(card_list[i])
+        content = {'desk_cards': card_list}
 
     Group(public_name).send({'text': json.dumps(content)})
 
