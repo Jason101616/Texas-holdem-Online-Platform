@@ -391,14 +391,18 @@ def ws_msg(message):
         this_desk.pool += (this_desk.current_largest_chips_this_game -
                            this_user_game_play.chips_pay_in_this_game)
         this_user_game_play.status = 1
+        next_pos_queue = get_next_pos(this_user_game_play.position, this_desk.player_queue)
 
 
     elif data['message'] == 'fold' or data['message'] == 'timeout':
         # update the queue
+        next_pos_queue = get_next_pos(this_user_game_play.position, this_desk.player_queue)
         this_desk.player_queue = this_desk.player_queue[:this_desk.player_queue_pointer] + \
                                  this_desk.player_queue[this_desk.player_queue_pointer + 1:]
         this_desk.player_queue_pointer -= 1
         this_user_game_play.status = 1
+        if next_pos_queue > 0:
+            next_pos_queue -= 1
 
     elif data['message'] == 'raise':
         chips_add = data['value']
@@ -411,12 +415,13 @@ def ws_msg(message):
             print("chips_add < this_desk.current_round_largest_chips")
             exit(0)
         this_desk.current_round_largest_chips = data['value']
+        next_pos_queue = get_next_pos(this_user_game_play.position, this_desk.player_queue)
         this_user_game_play.status = 1
     this_user_game_play.save()
     # find next move person position
     # next_pos_queue = get_next_pos(this_desk.player_queue_pointer,
     #                                len(this_desk.player_queue))
-    next_pos_queue = get_next_pos(this_user_game_play.position, this_desk.player_queue)
+
 
 
     this_desk.player_queue_pointer = next_pos_queue
