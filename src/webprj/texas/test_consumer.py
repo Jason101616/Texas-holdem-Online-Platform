@@ -428,12 +428,10 @@ def ws_msg(message):
         print('current largest chips this game', this_desk.current_largest_chips_this_game)
         print('current largest chips this round', this_desk.current_round_largest_chips)
         print('this user chips pay in this game', this_user_game_play.chips_pay_in_this_game)
+    # this_user_info.save()
     this_user_game_play.save()
-    # find next move person position
-    # next_pos_queue = get_next_pos(this_desk.player_queue_pointer,
-    #                                len(this_desk.player_queue))
-
-
+    this_desk.save()
+    this_user_info.save()
 
     this_desk.player_queue_pointer = next_pos_queue
     next_pos_desk = int(this_desk.player_queue[next_pos_queue])
@@ -441,7 +439,7 @@ def ws_msg(message):
     next_user = User_Game_play.objects.get(desk=this_desk,position=next_pos_desk)
 
     content = {'cur_user_pos': this_user_game_play.position + 1, 'cur_user_chips': this_user_info.chips,
-               'total_chips_current_game': this_desk.pool}
+               'total_chips_current_game': this_desk.pool, 'cur_user_chips_this_game': this_user_game_play.chips_pay_in_this_game}
     print(content)
     Group(public_name).send({'text': json.dumps(content)})
 
