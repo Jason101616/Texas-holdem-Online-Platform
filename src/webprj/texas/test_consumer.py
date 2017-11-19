@@ -232,7 +232,7 @@ def assign_winner(winner):
         if user != winner:
             user.save()
 
-    content = {'winner': winner.position, 'cards': all_user_cards}
+    content = {'winner_pos': winner.position, 'winner': winner.user.user.username, 'cards': all_user_cards}
     Group(public_name).send({'text': json.dumps(content)})
     # reset the phase of the current desk
     winner.desk.phase = 'pre_flop'

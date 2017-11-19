@@ -12,6 +12,6 @@ urlpatterns = [
 
     url(r'addplayer', views.addplayer, name = 'addplayer'),
     url(r'getjob/(?P<pos_big>\w+)/(?P<pos_small>\w+)/(?P<pos_dealer>\w+)', views.getjob, name = 'getjob'),
-    url(r'get_position/(?P<position>\w+)', views.get_position, name = 'get_position'),
+    url(r'get_position', views.get_position, name = 'get_position'),
     url(r'playroom/(?P<deskname>\w+)$', views.playroom, name='playroom'),
 ]
