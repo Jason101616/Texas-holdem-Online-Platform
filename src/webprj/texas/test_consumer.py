@@ -162,7 +162,7 @@ def get_next_pos(cur_pos, len_queue):
 
 
 def give_control(player_position):
-    content = {'move': player_position}
+    content = {'move': int(player_position) + 1}
     Group(public_name).send({'text': json.dumps(content)})
 
 
@@ -184,6 +184,7 @@ def judge_logic(next_player, desk):
     # if next player hasn't moved in this turn, give control to him
     if status == 0:
         give_control(next_player.position)
+        next_player.status = 1
         return
 
     # if his status is fold: skip this player
@@ -301,6 +302,7 @@ def ws_msg(message):
     if 'start_game' in data:
         print('start_game')
         first_player_position = start_logic(message)
+        User_Game_play.objects.get(desk='desk0', position=first_player_position).status = 1
         # '+1' added by lsn
         content = {'move': int(first_player_position) + 1}
         Group(public_name).send({'text': json.dumps(content)})
