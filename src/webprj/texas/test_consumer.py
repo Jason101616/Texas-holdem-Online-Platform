@@ -162,7 +162,8 @@ def get_next_pos(cur_pos, len_queue):
 
 
 def give_control(player_position):
-    content = {'move': player_position}
+    content = {'move': int(player_position) + 1}
+    print('enter give control')
     Group(public_name).send({'text': json.dumps(content)})
 
 
@@ -182,6 +183,7 @@ def judge_logic(next_player, desk):
 
     status = next_player.status
     # if next player hasn't moved in this turn, give control to him
+    print('next_player.status: %d' %(status))
     if status == 0:
         give_control(next_player.position)
         return
