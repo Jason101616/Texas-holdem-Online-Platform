@@ -249,15 +249,15 @@ def high(cards):
 
 
 # level:
-# SUITED_JUNKO   = 8  #同花顺
-# QUADS          = 7  #四条
-# FULL_HOUSE     = 6  #葫芦
-# SUITED         = 5  #同花
-# JUNKO          = 4  #顺子
-# TRIPS          = 3  #三条
-# TWO_PAIRS      = 2  #两对
-# PAIR           = 1  #一对
-# HIGH           = 0  #高牌
+# SUITED_JUNKO   = 8  #tong hua shun
+# QUADS          = 7  #si tiao
+# FULL_HOUSE     = 6  #hu lu
+# SUITED         = 5  #tong hua
+# JUNKO          = 4  #shun zi
+# TRIPS          = 3  #san tiao
+# TWO_PAIRS      = 2  #liang dui
+# PAIR           = 1  #yi dui
+# HIGH           = 0  #gao pai
 LEVEL = {8:"Straight Flush",7:"Four of a Kind",6:"Full House",5:" Flush", 4:"Straight",3:"Three of a Kind",2:"Two Pair",1:"Pair",0:"High"}
 
 

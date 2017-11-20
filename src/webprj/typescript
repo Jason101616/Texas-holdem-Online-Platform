@@ -1,0 +1,1074 @@
+Script started on Mon 20 Nov 2017 01:56:56 AM UTC
+    cd /home/ubuntu/<app home>
+    export DJANGO_SETTINGS_MODULE="<app>.production_settings"
+    exec daphne -b 0.0.0.0 -p 8001 <app>.asgi:channel_layer
+end script]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$     cd /home/ubuntu/<app home>
+bash: syntax error near unexpected token `newline'
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$     export DJANGO_SETTINGS_MODULE="<app >.production_settings"
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$     exec daphne -b 0.0.0.0 -p 8001 <app >.asgi:channel_layer
+bash: app: No such file or directory
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$ end script
+No command 'end' found, did you mean:
+ Command 'bnd' from package 'bnd' (universe)
+ Command 'esd' from package 'pulseaudio-esound-compat' (universe)
+ Command 'ed' from package 'ed' (main)
+ Command 'ent' from package 'ent' (universe)
+ Command 'eid' from package 'id-utils' (universe)
+ Command 'and' from package 'and' (universe)
+ Command 'snd' from package 'snd-gtk-pulse' (universe)
+ Command 'snd' from package 'snd-gtk-jack' (universe)
+ Command 'snd' from package 'snd-nox' (universe)
+ Command 'env' from package 'coreutils' (main)
+ Command 'send' from package 'nmh' (universe)
+ Command 'send' from package 'mailutils-mh' (universe)
+ Command 'nd' from package 'nd' (universe)
+end: command not found
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$ 
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$ cd ~
+]0;ubuntu@ip-172-31-90-9: ~[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~[00m$ ls
+[0m[01;34mTeam319[0m
+]0;ubuntu@ip-172-31-90-9: ~[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~[00m$ vim daphne.sh
+[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;41r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[41;1H"daphne.sh" [New File][>c[2;1H[94m~                                                                                  [3;1H~                                                                                  [4;1H~                                                                                  [5;1H~                                                                                  [6;1H~                                                                                  [7;1H~                                                                                  [8;1H~                                                                                  [9;1H~                                                                                  [10;1H~                                                                                  [11;1H~                                                                                  [12;1H~                                                                                  [13;1H~                                                                                  [14;1H~                                                                                  [15;1H~                                                                                  [16;1H~                                                                                  [17;1H~                                                                                  [18;1H~                                                                                  [19;1H~                                                                                  [20;1H~                                                                                  [21;1H~                                                                                  [22;1H~                                                                                  [23;1H~                                                                                  [24;1H~                                                                                  [25;1H~                                                                                  [26;1H~                                                                                  [27;1H~                                                                                  [28;1H~                                                                                  [29;1H~                                                                                  [30;1H~                                                                                  [31;1H~                                                                                  [32;1H~                                                                                  [33;1H~                                                                                  [34;1H~                                                                                  [35;1H~                                                                                  [36;1H~                                                                                  [37;1H~                                                                                  [38;1H~                                                                                  [39;1H~                                                                                  [40;1H~                                                                                  [m[41;66H0,0-1[9CAll[1;1H[?12l[?25h[?25l[41;1H[1m-- INSERT --[m[41;13H[K[41;66H0,1[11CAll[1;1Htart on runlevel [38;5;130m[[m[31m2345[m[38;5;130m]
+stop[m on runlevel [38;5;130m[[m[31m016[m[38;5;130m][m[2;23H[K[3;1H[K[4;1Hrespawn[4;8H[K[5;1H[K[6;1Hscript[6;7H[K[7;1H    [38;5;130mcd[m /home/ubuntu/[38;5;130m<[mapp home[38;5;130m>[m[7;31H[K[8;1H    [38;5;130mexport[m[36m DJANGO_SETTINGS_MODULE=[m[38;5;130m"[m[31m<app>.production_settings[m[38;5;130m"[m[8;62H[K[9;1H    [38;5;130mexec[m daphne [35m-b[m [31m0.0.0.0[m [35m-p[m [31m8001[m [38;5;130m<[mapp[38;5;130m>[m.asgi:channel_layer[9;60H[K[10;1Hend script[10;11H[K[41;66H10,11[10;11H[?12l[?25h[41;1H[K[10;10H[?25l[41;66H10,10[9CAll[10;10H[?12l[?25h[?25l[41;66H[K[41;1H:[?12l[?25hw[?25l[?12l[?25hq[?25l[?12l[?25h[?25l"daphne.sh" [New] 10L, 228C written
+[?1l>[?12l[?25h[?1049l]0;ubuntu@ip-172-31-90-9: ~[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~[00m$ ./daphne[K[K[K[K[K[K[K[Kls
+daphne.sh  [0m[01;34mTeam319[0m
+]0;ubuntu@ip-172-31-90-9: ~[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~[00m$ ./dap[K[K[K[K[K./daphne.sh
+bash: ./daphne.sh: Permission denied
+]0;ubuntu@ip-172-31-90-9: ~[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~[00m$ sudo ./daphne.sh
+sudo: ./daphne.sh: command not found
+]0;ubuntu@ip-172-31-90-9: ~[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~[00m$ ru[Km daphne.sh
+]0;ubuntu@ip-172-31-90-9: ~[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~[00m$ ./configure --prefix=/usr --exec-prefix= --sysconfdir=/etc [A
+bash: ./configure: No such file or directory
+]0;ubuntu@ip-172-31-90-9: ~[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~[00m$ ./configure --prefix=/usr --exec-prefix= --sysconfdir=/etc [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Crm daphne.sh[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Csudo ./daphne.sh[5P./daphne.shls[Kvim daphne.shls[Kcd ~end script[6Pcd ~[2Plsvim daphne.shls[K./daphne.shsudo ./daphne.sh[4Prm daphne.sh./configure --prefix=/usr --exec-prefix= --sysconfdir=/etc [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cls
+[0m[01;34mTeam319[0m
+]0;ubuntu@ip-172-31-90-9: ~[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~[00m$ cd Team319/
+]0;ubuntu@ip-172-31-90-9: ~/Team319[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319[00m$ ls
+[0m[01;34mfeedback[0m  README.md  [01;34mspecification[0m  [01;34msprint-backlogs[0m  [01;34msprint-presentations[0m  [01;34msrc[0m
+]0;ubuntu@ip-172-31-90-9: ~/Team319[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319[00m$ cd src
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src[00m$ ls
+Main Game Logic Diagram(v1).pdf  README.md  [0m[01;34mwebprj[0m
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src[00m$ cd webprj/
+texas/  webprj/ 
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src[00m$ cd webprj/webprj/
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/webprj[00m$ ls
+asgi.py   __init__.py   settings.py   urls.py
+asgi.pyc  __init__.pyc  settings.pyc  wsgi.py
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/webprj[00m$ cd[K[Kvim asgi.py
+[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;41r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[41;1H"asgi.py" 6L, 159C[>c[1;1H[35mimport[m os
+[35mfrom[m channels.asgi [35mimport[m get_channel_layer
+
+os.environ.setdefault([31m"DJANGO_SETTINGS_MODULE"[m, [31m"webprj.settings"[m)
+
+channel_layer = get_channel_layer()
+[94m~                                                                                  [8;1H~                                                                                  [9;1H~                                                                                  [10;1H~                                                                                  [11;1H~                                                                                  [12;1H~                                                                                  [13;1H~                                                                                  [14;1H~                                                                                  [15;1H~                                                                                  [16;1H~                                                                                  [17;1H~                                                                                  [18;1H~                                                                                  [19;1H~                                                                                  [20;1H~                                                                                  [21;1H~                                                                                  [22;1H~                                                                                  [23;1H~                                                                                  [24;1H~                                                                                  [25;1H~                                                                                  [26;1H~                                                                                  [27;1H~                                                                                  [28;1H~                                                                                  [29;1H~                                                                                  [30;1H~                                                                                  [31;1H~                                                                                  [32;1H~                                                                                  [33;1H~                                                                                  [34;1H~                                                                                  [35;1H~                                                                                  [36;1H~                                                                                  [37;1H~                                                                                  [38;1H~                                                                                  [39;1H~                                                                                  [40;1H~                                                                                  [m[41;66H1,1[11CAll[1;1H[?12l[?25h[?25l[41;1H[K[41;1H:[?12l[?25hq[?25l[?12l[?25h[?25l[41;1H[K[41;1H[?1l>[?12l[?25h[?1049l]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/webprj[00m$ cd ..
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$ ls
+asgi.py  db.sqlite3  [0m[01;32mmanage.py[0m  routing.py  routing.pyc  [01;34mtexas[0m  typescript  [01;34mwebprj[0m
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$ ls
+asgi.py  db.sqlite3  [0m[01;32mmanage.py[0m  routing.py  routing.pyc  [01;34mtexas[0m  typescript  [01;34mwebprj[0m
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$ rm as[K[K[K[K[Kc[Kvim asgi.py 
+[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;41r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[41;1H"asgi.py" 0L, 0C[>c[2;1H[94m~                                                                                  [3;1H~                                                                                  [4;1H~                                                                                  [5;1H~                                                                                  [6;1H~                                                                                  [7;1H~                                                                                  [8;1H~                                                                                  [9;1H~                                                                                  [10;1H~                                                                                  [11;1H~                                                                                  [12;1H~                                                                                  [13;1H~                                                                                  [14;1H~                                                                                  [15;1H~                                                                                  [16;1H~                                                                                  [17;1H~                                                                                  [18;1H~                                                                                  [19;1H~                                                                                  [20;1H~                                                                                  [21;1H~                                                                                  [22;1H~                                                                                  [23;1H~                                                                                  [24;1H~                                                                                  [25;1H~                                                                                  [26;1H~                                                                                  [27;1H~                                                                                  [28;1H~                                                                                  [29;1H~                                                                                  [30;1H~                                                                                  [31;1H~                                                                                  [32;1H~                                                                                  [33;1H~                                                                                  [34;1H~                                                                                  [35;1H~                                                                                  [36;1H~                                                                                  [37;1H~                                                                                  [38;1H~                                                                                  [39;1H~                                                                                  [40;1H~                                                                                  [m[41;66H0,0-1[9CAll[1;1H[?12l[?25h[?25l[41;1H[K[41;1H:[?12l[?25hq[?25l[?12l[?25h[?25l[41;1H[K[41;1H[?1l>[?12l[?25h[?1049l]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$ rm asgi.py
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$ vim /etc/nginx/nginx.conf
+[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;41r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[41;1H"/etc/nginx/nginx.conf" [New DIRECTORY][>c[2;1H[94m~                                                                                  [3;1H~                                                                                  [4;1H~                                                                                  [5;1H~                                                                                  [6;1H~                                                                                  [7;1H~                                                                                  [8;1H~                                                                                  [9;1H~                                                                                  [10;1H~                                                                                  [11;1H~                                                                                  [12;1H~                                                                                  [13;1H~                                                                                  [14;1H~                                                                                  [15;1H~                                                                                  [16;1H~                                                                                  [17;1H~                                                                                  [18;1H~                                                                                  [19;1H~                                                                                  [20;1H~                                                                                  [21;1H~                                                                                  [22;1H~                                                                                  [23;1H~                                                                                  [24;1H~                                                                                  [25;1H~                                                                                  [26;1H~                                                                                  [27;1H~                                                                                  [28;1H~                                                                                  [29;1H~                                                                                  [30;1H~                                                                                  [31;1H~                                                                                  [32;1H~                                                                                  [33;1H~                                                                                  [34;1H~                                                                                  [35;1H~                                                                                  [36;1H~                                                                                  [37;1H~                                                                                  [38;1H~                                                                                  [39;1H~                                                                                  [40;1H~                                                                                  [m[41;66H0,0-1[9CAll[1;1H[?12l[?25h[?25l[41;1H[K[41;1H:[?12l[?25hq[?25l[?12l[?25h[?25l[41;1H[K[41;1H[?1l>[?12l[?25h[?1049l]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$ pip install nginx
+Collecting nginx
+[31m  Could not find a version that satisfies the requirement nginx (from versions: )[0m
+[31mNo matching distribution found for nginx[0m
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$ pip install nginx[1P[1P[1P[1@s[1@u[1@d[1@o[C[1@ [1@a[1@p[1@t[1@-[1@g[1@e[1@t[C
+Reading package lists... 0%Reading package lists... 100%Reading package lists... Done
+Building dependency tree... 0%Building dependency tree... 0%Building dependency tree... 50%Building dependency tree... 50%Building dependency tree       
+Reading state information... 0%Reading state information... 1%Reading state information... Done
+The following additional packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0
+  libjpeg-turbo8 libjpeg8 libtiff5 libvpx3 libxpm4 nginx-common nginx-core
+Suggested packages:
+  libgd-tools fcgiwrap nginx-doc
+The following NEW packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0
+  libjpeg-turbo8 libjpeg8 libtiff5 libvpx3 libxpm4 nginx nginx-common nginx-core
+0 upgraded, 13 newly installed, 0 to remove and 44 not upgraded.
+Need to get 2,855 kB of archives.
+After this operation, 9,305 kB of additional disk space will be used.
+Do you want to continue? [Y/n] Y
+0% [Working]            Get:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu xenial/main amd64 libjpeg-turbo8 amd64 1.4.2-0ubuntu3 [111 kB]
+0% [1 libjpeg-turbo8 0 B/111 kB 0%]                                   5% [Working]            Get:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu xenial/main amd64 libjbig0 amd64 2.1-3.1 [26.6 kB]
+5% [2 libjbig0 0 B/26.6 kB 0%]                              7% [Working]            Get:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu xenial/main amd64 fonts-dejavu-core all 2.35-1 [1,039 kB]
+7% [3 fonts-dejavu-core 0 B/1,039 kB 0%]                                        38% [Working]             Get:4 http://us-east-1.ec2.archive.ubuntu.com/ubuntu xenial-updates/main amd64 fontconfig-config all 2.11.94-0ubuntu1.1 [49.9 kB]
+38% [4 fontconfig-config 0 B/49.9 kB 0%]                                        41% [Working]             Get:5 http://us-east-1.ec2.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libfontconfig1 amd64 2.11.94-0ubuntu1.1 [131 kB]
+41% [5 libfontconfig1 0 B/131 kB 0%]                                    46% [Working]             Get:6 http://us-east-1.ec2.archive.ubuntu.com/ubuntu xenial/main amd64 libjpeg8 amd64 8c-2ubuntu8 [2,194 B]
+46% [6 libjpeg8 0 B/2,194 B 0%]                               47% [Working]             Get:7 http://us-east-1.ec2.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libtiff5 amd64 4.0.6-1ubuntu0.2 [146 kB]
+47% [7 libtiff5 0 B/146 kB 0%]                              53% [Working]             Get:8 http://us-east-1.ec2.archive.ubuntu.com/ubuntu xenial/main amd64 libvpx3 amd64 1.5.0-2ubuntu1 [732 kB]
+53% [8 libvpx3 0 B/732 kB 0%]                             75% [Working]             Get:9 http://us-east-1.ec2.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libxpm4 amd64 1:3.5.11-1ubuntu0.16.04.1 [33.8 kB]
+75% [9 libxpm4 0 B/33.8 kB 0%]                              77% [Working]             Get:10 http://us-east-1.ec2.archive.ubuntu.com/ubuntu xenial-updates/main amd64 libgd3 amd64 2.1.1-4ubuntu0.16.04.8 [126 kB]
+77% [10 libgd3 0 B/126 kB 0%]                             83% [Working]             Get:11 http://us-east-1.ec2.archive.ubuntu.com/ubuntu xenial-updates/main amd64 nginx-common all 1.10.3-0ubuntu0.16.04.2 [26.6 kB]
+83% [11 nginx-common 0 B/26.6 kB 0%]                                    85% [Working]             Get:12 http://us-east-1.ec2.archive.ubuntu.com/ubuntu xenial-updates/main amd64 nginx-core amd64 1.10.3-0ubuntu0.16.04.2 [428 kB]
+85% [12 nginx-core 0 B/428 kB 0%]                                 98% [Working]             Get:13 http://us-east-1.ec2.archive.ubuntu.com/ubuntu xenial-updates/main amd64 nginx all 1.10.3-0ubuntu0.16.04.2 [3,490 B]
+98% [13 nginx 0 B/3,490 B 0%]                             100% [Working]              Fetched 2,855 kB in 0s (25.4 MB/s)
+Preconfiguring packages ...
+Selecting previously unselected package libjpeg-turbo8:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 58234 files and directories currently installed.)
+Preparing to unpack .../libjpeg-turbo8_1.4.2-0ubuntu3_amd64.deb ...
+Unpacking libjpeg-turbo8:amd64 (1.4.2-0ubuntu3) ...
+Selecting previously unselected package libjbig0:amd64.
+Preparing to unpack .../libjbig0_2.1-3.1_amd64.deb ...
+Unpacking libjbig0:amd64 (2.1-3.1) ...
+Selecting previously unselected package fonts-dejavu-core.
+Preparing to unpack .../fonts-dejavu-core_2.35-1_all.deb ...
+Unpacking fonts-dejavu-core (2.35-1) ...
+Selecting previously unselected package fontconfig-config.
+Preparing to unpack .../fontconfig-config_2.11.94-0ubuntu1.1_all.deb ...
+Unpacking fontconfig-config (2.11.94-0ubuntu1.1) ...
+Selecting previously unselected package libfontconfig1:amd64.
+Preparing to unpack .../libfontconfig1_2.11.94-0ubuntu1.1_amd64.deb ...
+Unpacking libfontconfig1:amd64 (2.11.94-0ubuntu1.1) ...
+Selecting previously unselected package libjpeg8:amd64.
+Preparing to unpack .../libjpeg8_8c-2ubuntu8_amd64.deb ...
+Unpacking libjpeg8:amd64 (8c-2ubuntu8) ...
+Selecting previously unselected package libtiff5:amd64.
+Preparing to unpack .../libtiff5_4.0.6-1ubuntu0.2_amd64.deb ...
+Unpacking libtiff5:amd64 (4.0.6-1ubuntu0.2) ...
+Selecting previously unselected package libvpx3:amd64.
+Preparing to unpack .../libvpx3_1.5.0-2ubuntu1_amd64.deb ...
+Unpacking libvpx3:amd64 (1.5.0-2ubuntu1) ...
+Selecting previously unselected package libxpm4:amd64.
+Preparing to unpack .../libxpm4_1%3a3.5.11-1ubuntu0.16.04.1_amd64.deb ...
+Unpacking libxpm4:amd64 (1:3.5.11-1ubuntu0.16.04.1) ...
+Selecting previously unselected package libgd3:amd64.
+Preparing to unpack .../libgd3_2.1.1-4ubuntu0.16.04.8_amd64.deb ...
+Unpacking libgd3:amd64 (2.1.1-4ubuntu0.16.04.8) ...
+Selecting previously unselected package nginx-common.
+Preparing to unpack .../nginx-common_1.10.3-0ubuntu0.16.04.2_all.deb ...
+Unpacking nginx-common (1.10.3-0ubuntu0.16.04.2) ...
+Selecting previously unselected package nginx-core.
+Preparing to unpack .../nginx-core_1.10.3-0ubuntu0.16.04.2_amd64.deb ...
+Unpacking nginx-core (1.10.3-0ubuntu0.16.04.2) ...
+Selecting previously unselected package nginx.
+Preparing to unpack .../nginx_1.10.3-0ubuntu0.16.04.2_all.deb ...
+Unpacking nginx (1.10.3-0ubuntu0.16.04.2) ...
+Processing triggers for libc-bin (2.23-0ubuntu9) ...
+Processing triggers for man-db (2.7.5-1) ...
+Processing triggers for ureadahead (0.100.0-19) ...
+Processing triggers for ufw (0.35-0ubuntu2) ...
+Processing triggers for systemd (229-4ubuntu20) ...
+Setting up libjpeg-turbo8:amd64 (1.4.2-0ubuntu3) ...
+Setting up libjbig0:amd64 (2.1-3.1) ...
+Setting up fonts-dejavu-core (2.35-1) ...
+Setting up fontconfig-config (2.11.94-0ubuntu1.1) ...
+Setting up libfontconfig1:amd64 (2.11.94-0ubuntu1.1) ...
+Setting up libjpeg8:amd64 (8c-2ubuntu8) ...
+Setting up libtiff5:amd64 (4.0.6-1ubuntu0.2) ...
+Setting up libvpx3:amd64 (1.5.0-2ubuntu1) ...
+Setting up libxpm4:amd64 (1:3.5.11-1ubuntu0.16.04.1) ...
+Setting up libgd3:amd64 (2.1.1-4ubuntu0.16.04.8) ...
+Setting up nginx-common (1.10.3-0ubuntu0.16.04.2) ...
+Setting up nginx-core (1.10.3-0ubuntu0.16.04.2) ...
+Setting up nginx (1.10.3-0ubuntu0.16.04.2) ...
+Processing triggers for libc-bin (2.23-0ubuntu9) ...
+Processing triggers for systemd (229-4ubuntu20) ...
+Processing triggers for ureadahead (0.100.0-19) ...
+Processing triggers for ufw (0.35-0ubuntu2) ...
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$ sudo apt-get install nginx[9Ppip[C[C[C[C[C[C[C[C[C[C[C[C[C[Cvim /etc/nginx/nginx.conf
+[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;41r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[41;1H"/etc/nginx/nginx.conf" [readonly] 85L, 1462C[>c[1;1Huser www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {[6;9Hworker_connections 768;[7;9H# multi_accept on;
+}
+
+http {[12;9H##[13;9H# Basic Settings[14;9H##[16;9Hsendfile on;[17;9Htcp_nopush on;[18;9Htcp_nodelay on;[19;9Hkeepalive_timeout 65;[20;9Htypes_hash_max_size 2048;[21;9H# server_tokens off;[23;9H# server_names_hash_bucket_size 64;[24;9H# server_name_in_redirect off;[26;9Hinclude /etc/nginx/mime.types;[27;9Hdefault_type application/octet-stream;[29;9H##[30;9H# SSL Settings[31;9H##[33;9Hssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE[34;9Hssl_prefer_server_ciphers on;[36;9H##[37;9H# Logging Settings[38;9H##[40;9Haccess_log /var/log/nginx/access.log;[41;66H1,1[11CTop[1;1H[?12l[?25h[?25l[41;1H[K[41;1H/[?12l[?25hs[?25l[?12l[?25he[?25l[?12l[?25hr[?25l[?12l[?25hv[?25l[?12l[?25he[?25l[?12l[?25hr[?25l[?12l[?25h[?25l[65C21,4-11[7CTop[21;11H[?12l[?25h[?25l[41;67H2,0-1 [22;1H[?12l[?25h[?25l[41;67H3,4-11[23;11H[?12l[?25h[?25l[41;67H4[24;11H[?12l[?25h[?25l[41;67H5,0-1 [25;1H[?12l[?25h[?25l[41;67H6,4-11[26;11H[?12l[?25h[?25l[41;67H7[27;11H[?12l[?25h[?25l[41;67H8,0-1 [28;1H[?12l[?25h[?25l[41;67H9,3-10[29;10H[?12l[?25h[?25l[41;66H30,4-11[30;11H[?12l[?25h[?25l[41;67H1,3-10[31;10H[?12l[?25h[?25l[41;67H2,0-1 [32;1H[?12l[?25h[?25l[41;67H3,4-11[33;11H[?12l[?25h[?25l[41;67H4[34;11H[?12l[?25h[?25l[41;67H5,0-1 [35;1H[?12l[?25h[?25l[41;67H6,3-10[36;10H[?12l[?25h[?25l[41;67H7,4-11[37;11H[?12l[?25h[?25l[41;67H8,3-10[38;10H[?12l[?25h[?25l[41;67H9,0-1 [39;1H[?12l[?25h[?25l[41;66H40,4-11[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Herror_log /var/log/nginx/error.log;[41;1H[K[41;66H41,4-11[8C2%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H42,0-1[9C4%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H43,3-10[8C6%[40;10H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# Gzip Settings[41;66H[K[41;66H44,4-11[8C8%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H45,3-10[7C11%[40;10H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H46,0-1[8C13%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hgzip on;[41;66H[K[41;66H47,4-11[7C15%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hgzip_disable "msie6";[41;66H[K[41;66H48,4-11[7C17%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H49,0-1[8C20%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_vary on;[41;66H[K[41;66H50,4-11[7C22%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_proxied any;[41;66H[K[41;66H51,4-11[7C24%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_comp_level 6;[41;66H[K[41;66H52,4-11[7C26%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_buffers 16 8k;[41;66H[K[41;66H53,4-11[7C28%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_http_version 1.1;[41;66H[K[41;66H54,4-11[7C31%[40;11H[?12l[?25h[?25l[1;40r[1;1H[2M[1;41r[39;9H# gzip_types text/plain text/css application/json application/javascript tee[40;1Hxt/xml application/xml application/xml+rss text/javascript;[41;66H[K[41;66H55,4-11[7C34%[39;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H56,0-1[8C36%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H57,3-10[7C39%[40;10H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# Virtual Host Configs[41;66H[K[41;66H58,4-11[7C41%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H59,3-10[7C43%[40;10H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H60,0-1[8C45%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hinclude /etc/nginx/conf.d/*.conf;[41;66H[K[41;66H61,4-11[7C47%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hinclude /etc/nginx/sites-enabled/*;[41;66H[K[41;66H62,4-11[7C50%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H}[41;66H[K[41;66H63,1[10C52%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H64,0-1[8C54%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H65,0-1[8C56%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#mail {[41;66H[K[41;66H66,7[10C58%[40;7H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# See sample authentication script at:[41;66H[K[41;66H67,5-11[7C60%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript[41;66H[K[41;66H68,5-11[7C63%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[41;66H[K[41;66H69,2[10C65%[40;2H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# auth_http localhost/auth.php;[41;66H[K[41;66H70,5-11[7C67%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# pop3_capabilities "TOP" "USER";[41;66H[K[41;66H71,5-11[7C69%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# imap_capabilities "IMAP4rev1" "UIDPLUS";[41;66H[K[41;66H72,5-11[7C71%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[41;66H[K[41;66H73,2[10C73%[40;2H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7Cserver {[41;66H[K[41;66H74,5-11[7C76%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Clisten     localhost:110;[41;66H[K[41;66H75,3-16[7C78%[40;16H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cprotocol   pop3;[41;66H[K[41;66H76,3-16[7C80%[40;16H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cproxy      on;[41;66H[K[41;66H77,3-16[7C82%[40;16H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[36;16H[106m{[m[40;1H#[7C[106m}[m[41;66H[K[41;66H78,3-9[8C84%[40;9H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[35;16H{[39;9H}
+#[41;66H[K[41;66H79,2[10C86%[40;2H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7Cserver {[41;66H[K[41;66H80,5-11[7C89%[40;11H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Clisten     localhost:143;[41;66H[K[41;66H81,3-16[7C91%[40;16H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cprotocol   imap;[41;66H[K[41;66H82,3-16[7C93%[40;16H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cproxy      on;[41;66H[K[41;66H83,3-16[7C95%[40;16H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[36;16H[106m{[m[40;1H#[7C[106m}[m[41;66H[K[41;66H84,3-9[8C97%[40;9H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[21;7H[106m{[m[35;16H{[39;9H}
+#[106m}[m[41;66H[K[41;66H85,2[10CBot[40;2H[?12l[?25h[?25l[21;7H{[35;16H[106m{[39;9H}[m
+#}[41;67H4,3-9[39;9H[?12l[?25h[?25l[35;16H{[39;9H}[41;67H3,3-16[38;16H[?12l[?25h[?25l[41;67H2[37;16H[?12l[?25h[?25l[41;67H1[36;16H[?12l[?25h[?25l[41;67H0,5-11[35;11H[?12l[?25h[?25l[41;66H79,2   [34;2H[?12l[?25h[?25l[29;16H[106m{[33;9H}[m[41;67H8,3-9[33;9H[?12l[?25h[?25l[29;16H{[33;9H}[41;67H7,3-16[32;16H[?12l[?25h[?25l[29;16H[106m{[33;9H}[m[41;67H8,3-9 [33;9H[?12l[?25h[?25l[29;16H{[33;9H}[41;67H9,2  [34;2H[?12l[?25h[?25l[41;66H80,5-11[35;11H[?12l[?25h[?25l[41;67H1,3-16[36;16H[?12l[?25h[?25l[41;67H2[37;16H[?12l[?25h[?25l[41;67H3[38;16H[?12l[?25h[?25l[35;16H[106m{[39;9H}[m[41;67H4,3-9 [39;9H[?12l[?25h[?25l[21;7H[106m{[m[35;16H{[39;9H}
+#[106m}[m[41;67H5,2  [40;2H[?12l[?25h[?25l[41;66H[K[41;1H:[?12l[?25hs[?25l[?12l[?25he[?25l[?12l[?25ht[?25l[?12l[?25h[?25l [?12l[?25hm[?25l[?12l[?25ho[?25l[?12l[?25hu[?25l[?12l[?25hs[?25l[?12l[?25he[?25l[?12l[?25h=[?25l[?12l[?25ha[?25l[?12l[?25h[?25l[?1002h[65C85,2[10CBot[40;2H[?12l[?25h[?25l[1;40r[1;1H[3M[1;41r[38;1H[94m~                                                                                  [39;1H~                                                                                  [40;1H~                                                                                  [m[41;1H[K[41;66H85,2[10CBot[37;2H[?12l[?25h[?25l[1;40r[1;1H[3M[1;41r[38;1H[94m~                                                                                  [39;1H~                                                                                  [40;1H~                                                                                  [m[41;66H[K[41;66H85,2[10CBot[34;2H[?12l[?25h[?25l[1;40r[1;1H[4M[1;41r[37;1H[94m~                                                                                  [38;1H~                                                                                  [39;1H~                                                                                  [40;1H~                                                                                  [m[41;66H[K[41;66H85,2[10CBot[30;2H[?12l[?25h[?25l[1;40r[1;1H[3M[1;41r[38;1H[94m~                                                                                  [39;1H~                                                                                  [40;1H~                                                                                  [m[41;66H[K[41;66H85,2[10CBot[27;2H[?12l[?25h[?25l[1;40r[1;1H[3M[1;41r[38;1H[94m~                                                                                  [39;1H~                                                                                  [40;1H~                                                                                  [m[41;66H[K[41;66H85,2[10CBot[24;2H[?12l[?25h[?25l[1;40r[1;1H[3M[1;41r[38;1H[94m~                                                                                  [39;1H~                                                                                  [40;1H~                                                                                  [m[41;66H[K[41;66H85,2[10CBot[21;2H[?12l[?25h[?25l[1;40r[1;1H[3M[1;41r[38;1H[94m~                                                                                  [39;1H~                                                                                  [40;1H~                                                                                  [m[41;66H[K[41;66H85,2[10CBot[18;2H[?12l[?25h[?25l[1;40r[1;1H[3M[1;41r[38;1H[94m~                                                                                  [39;1H~                                                                                  [40;1H~                                                                                  [m[41;66H[K[41;66H85,2[10CBot[15;2H[?12l[?25h[?25l[1;40r[1;1H[3L[1;41r[1;1H#[7C# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
+#
+#[7C# auth_http localhost/auth.php;[41;66H[K[41;66H85,2[10CBot[18;2H[?12l[?25h[?25l[1;40r[1;1H[3L[1;41r[2;1H#mail [106m{[m
+#[7C# See sample authentication script at:[41;66H[K[41;66H85,2[10CBot[21;2H[?12l[?25h[?25l[41;1H[1m-- INSERT --[m[41;66H[K[41;66H85,2[10CBot[41;14H[31mW10: Warning: Changing a readonly file[m[41;66H[K[?1002l[?1002h[2;7H{[21;2H}[22;1H[K[41;66H86,1[10CBot[22;1H[?12l[?25h[?25l[23;1H[K[41;67H7[23;1H[?12l[?25h[?25l[1;40r[1;1H[13M[1;41r[10;1Hserver [106m{[m
+    listen 80;[11;15H[K[12;1H    client_max_body_size 20M;[12;30H[K[13;1H[K[14;1H    location /static {[14;23H[K[15;1H        alias /home/ubuntu/<app home>/static;[15;46H[K[16;1H[K[17;1H    }[17;6H[K[18;1H[K[19;1H    location /media {[19;22H[K[20;1H        alias /home/ubuntu/<app home>/media;[20;45H[K[21;1H[K[22;1H    }[22;6H[K[23;1H[K[24;1H    location / {[24;17H[K[25;1H[K[26;1H[K[27;1H            proxy_pass http://0.0.0.0:8001;[27;44H[K[28;13Hproxy_http_version 1.1;[29;13Hproxy_set_header Upgrade $http_upgrade;[30;13Hproxy_set_header Connection "upgrade";[32;13Hproxy_redirect     off;[33;13Hproxy_set_header   Host $host;[34;13Hproxy_set_header   X-Real-IP $remote_addr;[35;13Hproxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;[36;13Hproxy_set_header   X-Forwarded-Host $server_name;[38;9H}
+
+[106m}[m[41;14H[K[41;66H117,2[9CBot[40;2H[?12l[?25h[?25l[10;8H{[40;1H}[41;67H00,1[23;1H[?12l[?25h[41;1H[K[23;1H[?25l[41;66H100,0-1[7CBot[23;1H[?12l[?25h[?25l[41;66H[K[41;1H:[?12l[?25hw[?25l[?12l[?25hq[?25l[?12l[?25h[?25l[97m[41mE45: 'readonly' option is set (add ! to override)[m[16C100,0-1[7CBot[23;1H[?12l[?25h[?25l[41;1H[K[41;1H:[?12l[?25hw[?25l[?12l[?25hq[?25l[?12l[?25h![?25l[?12l[?25h[?25l[?1002l"/etc/nginx/nginx.conf"
+[97m[41m"/etc/nginx/nginx.conf" E212: Can't open file for writing[?1002h[?1002l[m
+[32mPress ENTER or type command to continue[?12l[?25h[?1002h[m[1;1H[2L[?25l[1;1H#[7C}
+#[41;1H[K[41;66H100,0-1[7CBot[23;1H[?12l[?25h[?25l[41;66H[K[41;1H:[?12l[?25hq[?25l[?12l[?25h[?25l[97m[41mE37: No write since last change (add ! to override)[m[14C100,0-1[7CBot[23;1H[?12l[?25h[?25l[41;1H[K[41;1H:[?12l[?25hq[?25l[?12l[?25h![?25l[?12l[?25h[?25l[?1002l[41;1H[K[41;1H[?1l>[?12l[?25h[?1049l]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$ vim /etc/nginx/nginx.conf[1@s[1@u[1@d[1@o[1@ 
+[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;41r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[41;1H"/etc/nginx/nginx.conf" 85L, 1462C[>c[1;1Huser www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {[6;9Hworker_connections 768;[7;9H# multi_accept on;
+}
+
+http {[12;9H##[13;9H# Basic Settings[14;9H##[16;9Hsendfile on;[17;9Htcp_nopush on;[18;9Htcp_nodelay on;[19;9Hkeepalive_timeout 65;[20;9Htypes_hash_max_size 2048;[21;9H# server_tokens off;[23;9H# server_names_hash_bucket_size 64;[24;9H# server_name_in_redirect off;[26;9Hinclude /etc/nginx/mime.types;[27;9Hdefault_type application/octet-stream;[29;9H##[30;9H# SSL Settings[31;9H##[33;9Hssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE[34;9Hssl_prefer_server_ciphers on;[36;9H##[37;9H# Logging Settings[38;9H##[40;9Haccess_log /var/log/nginx/access.log;[41;66H1,1[11CTop[1;1H[?12l[?25h[?25l[41;66H2[2;1H[?12l[?25h[?25l[41;66H3[3;1H[?12l[?25h[?25l[41;66H4,0-1[4;1H[?12l[?25h[?25l[41;66H5,1  [5;1H[?12l[?25h[?25l[41;66H6,1-8[6;8H[?12l[?25h[?25l[41;66H7[7;8H[?12l[?25h[?25l[5;8H[106m{
+
+
+}[m[41;66H8,1  [8;1H[?12l[?25h[?25l[5;8H{
+
+
+}[41;66H9,0-1[9;1H[?12l[?25h[?25l[41;66H10,1 [10;1H[?12l[?25h[?25l[41;67H1,0-1[11;1H[?12l[?25h[?25l[41;67H2,1-8[12;8H[?12l[?25h[?25l[41;67H3[13;8H[?12l[?25h[?25l[41;67H4[14;8H[?12l[?25h[?25l[41;67H5,0-1[15;1H[?12l[?25h[?25l[41;67H6,1-8[16;8H[?12l[?25h[?25l[41;67H7[17;8H[?12l[?25h[?25l[41;67H8[18;8H[?12l[?25h[?25l[41;67H9[19;8H[?12l[?25h[?25l[41;66H20[20;8H[?12l[?25h[?25l[41;67H1[21;8H[?12l[?25h[?25l[41;67H2,0-1[22;1H[?12l[?25h[?25l[41;67H3,1-8[23;8H[?12l[?25h[?25l[41;67H4[24;8H[?12l[?25h[?25l[41;67H5,0-1[25;1H[?12l[?25h[?25l[41;67H6,1-8[26;8H[?12l[?25h[?25l[41;67H7[27;8H[?12l[?25h[?25l[41;67H8,0-1[28;1H[?12l[?25h[?25l[41;67H9,1-8[29;8H[?12l[?25h[?25l[41;66H30[30;8H[?12l[?25h[?25l[41;67H1[31;8H[?12l[?25h[?25l[41;67H2,0-1[32;1H[?12l[?25h[?25l[41;67H3,1-8[33;8H[?12l[?25h[?25l[41;67H4[34;8H[?12l[?25h[?25l[41;67H5,0-1[35;1H[?12l[?25h[?25l[41;67H6,1-8[36;8H[?12l[?25h[?25l[41;67H7[37;8H[?12l[?25h[?25l[41;67H8[38;8H[?12l[?25h[?25l[41;67H9,0-1[39;1H[?12l[?25h[?25l[41;66H40,1-8[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Herror_log /var/log/nginx/error.log;[41;1H[K[41;66H41,1-8[9C2%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H42,0-1[9C4%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H43,1-8[9C6%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# Gzip Settings[41;66H[K[41;66H44,1-8[9C8%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H45,1-8[8C11%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H46,0-1[8C13%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hgzip on;[41;66H[K[41;66H47,1-8[8C15%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hgzip_disable "msie6";[41;66H[K[41;66H48,1-8[8C17%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H49,0-1[8C20%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_vary on;[41;66H[K[41;66H50,1-8[8C22%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_proxied any;[41;66H[K[41;66H51,1-8[8C24%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_comp_level 6;[41;66H[K[41;66H52,1-8[8C26%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_buffers 16 8k;[41;66H[K[41;66H53,1-8[8C28%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_http_version 1.1;[41;66H[K[41;66H54,1-8[8C31%[40;8H[?12l[?25h[?25l[1;40r[1;1H[2M[1;41r[39;9H# gzip_types text/plain text/css application/json application/javascript tee[40;1Hxt/xml application/xml application/xml+rss text/javascript;[41;66H[K[41;66H55,1-8[8C34%[39;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H56,0-1[8C36%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H57,1-8[8C39%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# Virtual Host Configs[41;66H[K[41;66H58,1-8[8C41%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H59,1-8[8C43%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H60,0-1[8C45%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hinclude /etc/nginx/conf.d/*.conf;[41;66H[K[41;66H61,1-8[8C47%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hinclude /etc/nginx/sites-enabled/*;[41;66H[K[41;66H62,1-8[8C50%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H}[41;66H[K[41;66H63,1[10C52%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H64,0-1[8C54%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H65,0-1[8C56%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#mail {[41;66H[K[41;66H66,1[10C58%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# See sample authentication script at:[41;66H[K[41;66H67,1[10C60%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript[41;66H[K[41;66H68,1[10C63%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[41;66H[K[41;66H69,1[10C65%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# auth_http localhost/auth.php;[41;66H[K[41;66H70,1[10C67%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# pop3_capabilities "TOP" "USER";[41;66H[K[41;66H71,1[10C69%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# imap_capabilities "IMAP4rev1" "UIDPLUS";[41;66H[K[41;66H72,1[10C71%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[41;66H[K[41;66H73,1[10C73%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7Cserver {[41;66H[K[41;66H74,1[10C76%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Clisten     localhost:110;[41;66H[K[41;66H75,1[10C78%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cprotocol   pop3;[41;66H[K[41;66H76,1[10C80%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cproxy      on;[41;66H[K[41;66H77,1[10C82%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C}[41;66H[K[41;66H78,1[10C84%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[41;66H[K[41;66H79,1[10C86%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7Cserver {[41;66H[K[41;66H80,1[10C89%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Clisten     localhost:143;[41;66H[K[41;66H81,1[10C91%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cprotocol   imap;[41;66H[K[41;66H82,1[10C93%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cproxy      on;[41;66H[K[41;66H83,1[10C95%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C}[41;66H[K[41;66H84,1[10C97%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#}[41;66H[K[41;66H85,1[10CBot[40;1H[?12l[?25h[?25l
+[1m-- INSERT --[m[41;66H[K[41;66H85,1[10CBot[40;1H[?12l[?25h[?25l[21;7H[106m{[40;2H}[m[41;69H2[40;2H[?12l[?25h[?25l[41;69H3[40;3H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[20;7H{[39;2H}[41;66H[K[41;66H86,1[10CBot[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H87,1[10CBot[40;1H[?12l[?25h[?25l[1;40r[1;1H[30M[1;41r[10;1Hserver [106m{[m
+    listen 80;
+    client_max_body_size 20M;[14;5Hlocation /static {[15;9Halias /home/ubuntu/<app home>/static;[17;5H}[19;5Hlocation /media {[20;9Halias /home/ubuntu/<app home>/media;[22;5H}[24;5Hlocation / {[27;13Hproxy_pass http://0.0.0.0:8001;[28;13Hproxy_http_version 1.1;[29;13Hproxy_set_header Upgrade $http_upgrade;[30;13Hproxy_set_header Connection "upgrade";[32;13Hproxy_redirect     off;[33;13Hproxy_set_header   Host $host;[34;13Hproxy_set_header   X-Real-IP $remote_addr;[35;13Hproxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;[36;13Hproxy_set_header   X-Forwarded-Host $server_name;[38;9H}
+
+[106m}[m[41;66H[K[41;66H117,2[9CBot[40;2H[?12l[?25h[?25l[10;8H{[40;1H}:[41;70H3[40;3H[?12l[?25h[?25l[10;8H[106m{[40;1H}[m[40;2H[K[41;70H2[40;2H[?12l[?25h[41;1H[K[40;1H[?25l[41;66H117,1[9CBot[40;1H[?12l[?25h[?25l[41;66H[K[41;1H:[?12l[?25hw[?25l[?12l[?25hq[?25l[?12l[?25h[?25l"/etc/nginx/nginx.conf" 117L, 2158C written
+[?1l>[?12l[?25h[?1049l]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$ ls
+db.sqlite3  [0m[01;32mmanage.py[0m  routing.py  routing.pyc  [01;34mtexas[0m  typescript  [01;34mwebprj[0m
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj[00m$ cd tae[K[Kexas
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ ls
+admin.py               forms.pyc     [0m[01;34mtemplates[0m          urls.py
+admin.pyc              __init__.py   test_compare.py    views.py
+apps.py                __init__.pyc  test_compare.pyc   views.pyc
+desk_manipulation.py   models.py     test_consumer.py
+desk_manipulation.pyc  models.pyc    test_consumer.pyc
+forms.py               [01;34mstatic[0m        tests.py
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ cd [K[K[Kvim [K[K[K[Kls /home/ubuntu/
+.bash_logout               .local/                    Team319/
+.bashrc                    .profile                   .viminfo
+.cache/                    .ssh/                      
+.gitconfig                 .sudo_as_admin_successful  
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ ls /home/ubuntu/Team31[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Klscd texasls[Ksudo vim /etc/nginx/nginx.conf[5P[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[5@sudo [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;41r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[41;1H"/etc/nginx/nginx.conf" 117L, 2158C[>c[1;1Huser www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {[6;9Hworker_connections 768;[7;9H# multi_accept on;
+}
+
+http {[12;9H##[13;9H# Basic Settings[14;9H##[16;9Hsendfile on;[17;9Htcp_nopush on;[18;9Htcp_nodelay on;[19;9Hkeepalive_timeout 65;[20;9Htypes_hash_max_size 2048;[21;9H# server_tokens off;[23;9H# server_names_hash_bucket_size 64;[24;9H# server_name_in_redirect off;[26;9Hinclude /etc/nginx/mime.types;[27;9Hdefault_type application/octet-stream;[29;9H##[30;9H# SSL Settings[31;9H##[33;9Hssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE[34;9Hssl_prefer_server_ciphers on;[36;9H##[37;9H# Logging Settings[38;9H##[40;9Haccess_log /var/log/nginx/access.log;[41;66H1,1[11CTop[1;1H[?12l[?25h[?25l[41;66H2[2;1H[?12l[?25h[?25l[41;66H3[3;1H[?12l[?25h[?25l[41;66H4,0-1[4;1H[?12l[?25h[?25l[41;66H5,1  [5;1H[?12l[?25h[?25l[41;66H6,1-8[6;8H[?12l[?25h[?25l[41;66H7[7;8H[?12l[?25h[?25l[5;8H[106m{
+
+
+}[m[41;66H8,1  [8;1H[?12l[?25h[?25l[5;8H{
+
+
+}[41;66H9,0-1[9;1H[?12l[?25h[?25l[41;66H10,1 [10;1H[?12l[?25h[?25l[41;67H1,0-1[11;1H[?12l[?25h[?25l[41;67H2,1-8[12;8H[?12l[?25h[?25l[41;67H3[13;8H[?12l[?25h[?25l[41;67H4[14;8H[?12l[?25h[?25l[41;67H5,0-1[15;1H[?12l[?25h[?25l[41;67H6,1-8[16;8H[?12l[?25h[?25l[41;67H7[17;8H[?12l[?25h[?25l[41;67H8[18;8H[?12l[?25h[?25l[41;67H9[19;8H[?12l[?25h[?25l[41;66H20[20;8H[?12l[?25h[?25l[41;67H1[21;8H[?12l[?25h[?25l[41;67H2,0-1[22;1H[?12l[?25h[?25l[41;67H3,1-8[23;8H[?12l[?25h[?25l[41;67H4[24;8H[?12l[?25h[?25l[41;67H5,0-1[25;1H[?12l[?25h[?25l[41;67H6,1-8[26;8H[?12l[?25h[?25l[41;67H7[27;8H[?12l[?25h[?25l[41;67H8,0-1[28;1H[?12l[?25h[?25l[41;67H9,1-8[29;8H[?12l[?25h[?25l[41;66H30[30;8H[?12l[?25h[?25l[41;67H1[31;8H[?12l[?25h[?25l[41;67H2,0-1[32;1H[?12l[?25h[?25l[41;67H3,1-8[33;8H[?12l[?25h[?25l[41;67H4[34;8H[?12l[?25h[?25l[41;67H5,0-1[35;1H[?12l[?25h[?25l[41;67H6,1-8[36;8H[?12l[?25h[?25l[41;67H7[37;8H[?12l[?25h[?25l[41;67H8[38;8H[?12l[?25h[?25l[41;67H9,0-1[39;1H[?12l[?25h[?25l[41;66H40,1-8[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Herror_log /var/log/nginx/error.log;[41;1H[K[41;66H41,1-8[9C1%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H42,0-1[9C2%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H43,1-8[9C3%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# Gzip Settings[41;66H[K[41;66H44,1-8[9C5%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H45,1-8[9C6%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H46,0-1[9C7%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hgzip on;[41;66H[K[41;66H47,1-8[9C9%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hgzip_disable "msie6";[41;66H[K[41;66H48,1-8[8C10%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H49,0-1[8C11%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_vary on;[41;66H[K[41;66H50,1-8[8C12%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_proxied any;[41;66H[K[41;66H51,1-8[8C14%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_comp_level 6;[41;66H[K[41;66H52,1-8[8C15%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_buffers 16 8k;[41;66H[K[41;66H53,1-8[8C16%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_http_version 1.1;[41;66H[K[41;66H54,1-8[8C18%[40;8H[?12l[?25h[?25l[1;40r[1;1H[2M[1;41r[39;9H# gzip_types text/plain text/css application/json application/javascript tee[40;1Hxt/xml application/xml application/xml+rss text/javascript;[41;66H[K[41;66H55,1-8[8C20%[39;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H56,0-1[8C21%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H57,1-8[8C23%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# Virtual Host Configs[41;66H[K[41;66H58,1-8[8C24%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H59,1-8[8C25%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H60,0-1[8C26%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hinclude /etc/nginx/conf.d/*.conf;[41;66H[K[41;66H61,1-8[8C28%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hinclude /etc/nginx/sites-enabled/*;[41;66H[K[41;66H62,1-8[8C29%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H}[41;66H[K[41;66H63,1[10C30%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H64,0-1[8C32%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H65,0-1[8C33%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#mail {[41;66H[K[41;66H66,1[10C34%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# See sample authentication script at:[41;66H[K[41;66H67,1[10C35%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript[41;66H[K[41;66H68,1[10C37%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[41;66H[K[41;66H69,1[10C38%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# auth_http localhost/auth.php;[41;66H[K[41;66H70,1[10C39%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# pop3_capabilities "TOP" "USER";[41;66H[K[41;66H71,1[10C41%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# imap_capabilities "IMAP4rev1" "UIDPLUS";[41;66H[K[41;66H72,1[10C42%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[41;66H[K[41;66H73,1[10C43%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7Cserver {[41;66H[K[41;66H74,1[10C44%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Clisten     localhost:110;[41;66H[K[41;66H75,1[10C46%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cprotocol   pop3;[41;66H[K[41;66H76,1[10C47%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cproxy      on;[41;66H[K[41;66H77,1[10C48%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C}[41;66H[K[41;66H78,1[10C50%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[41;66H[K[41;66H79,1[10C51%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7Cserver {[41;66H[K[41;66H80,1[10C52%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Clisten     localhost:143;[41;66H[K[41;66H81,1[10C53%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cprotocol   imap;[41;66H[K[41;66H82,1[10C55%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cproxy      on;[41;66H[K[41;66H83,1[10C56%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C}[41;66H[K[41;66H84,1[10C57%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#}[41;66H[K[41;66H85,1[10C58%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H86,0-1[8C60%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1Hserver {[41;66H[K[41;66H87,1[10C61%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5Hlisten 80;[41;66H[K[41;66H88,1[10C62%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5Hclient_max_body_size 20M;[41;66H[K[41;66H89,1[10C64%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H90,0-1[8C65%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5Hlocation /static {[41;66H[K[41;66H91,1[10C66%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Halias /home/ubuntu/<app home>/static;[41;66H[K[41;66H92,1[10C67%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H93,0-1[8C69%[40;1H[?12l[?25h[?25l[1;40r[1;1H[2M[1;41r[39;5H}[41;66H[K[41;66H94,1[10C71%[39;1H[?12l[?25h[?25l[41;67H5,0-1[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5Hlocation /media {[41;66H[K[41;66H96,1[10C72%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Halias /home/ubuntu/<app home>/media;[41;66H[K[41;66H97,1[10C74%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H98,0-1[8C75%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5H}[41;66H[K[41;66H99,1[10C76%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H100,0-1[7C77%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5Hlocation / {[41;66H[K[41;66H101,1[9C79%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H102,0-1[7C80%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H103,0-1[7C81%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_pass http://0.0.0.0:8001;[41;66H[K[41;66H104,1[9C83%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_http_version 1.1;[41;66H[K[41;66H105,1[9C84%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_set_header Upgrade $http_upgrade;[41;66H[K[41;66H106,1[9C85%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_set_header Connection "upgrade";[41;66H[K[41;66H107,1[9C87%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H108,0-1[7C88%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_redirect     off;[41;66H[K[41;66H109,1[9C89%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_set_header   Host $host;[41;66H[K[41;66H110,1[9C90%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_set_header   X-Real-IP $remote_addr;[41;66H[K[41;66H111,1[9C92%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;[41;66H[K[41;66H112,1[9C93%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_set_header   X-Forwarded-Host $server_name;[41;66H[K[41;66H113,1[9C94%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H114,0-1[7C96%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H}[41;66H[K[41;66H115,1[9C97%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H116,0-1[7C98%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[10;8H[106m{[40;1H}[m[41;66H[K[41;66H117,1[9CBot[40;1H[?12l[?25h[?25l
+[1m-- INSERT --[m[41;66H[K[41;66H117,1[9CBot[40;1H[?12l[?25h[?25l[10;8H{[40;1H}[41;68H6[39;1H[?12l[?25h[?25l[41;68H5[38;1H[?12l[?25h[?25l[41;68H4[37;1H[?12l[?25h[?25l[41;68H3[36;1H[?12l[?25h[?25l[41;68H2[35;1H[?12l[?25h[?25l[41;68H1[34;1H[?12l[?25h[?25l[41;68H0[33;1H[?12l[?25h[?25l[41;67H09[32;1H[?12l[?25h[?25l[41;68H8[31;1H[?12l[?25h[?25l[41;68H7[30;1H[?12l[?25h[?25l[41;68H6[29;1H[?12l[?25h[?25l[41;68H5[28;1H[?12l[?25h[?25l[41;68H4[27;1H[?12l[?25h[?25l[41;68H3[26;1H[?12l[?25h[?25l[41;68H2[25;1H[?12l[?25h[?25l[41;68H1[24;1H[?12l[?25h[?25l[41;68H0[23;1H[?12l[?25h[?25l[41;66H99,1 [22;1H[?12l[?25h[?25l[41;67H8[21;1H[?12l[?25h[?25l[41;67H7[20;1H[?12l[?25h[?25l[41;67H6[19;1H[?12l[?25h[?25l[41;67H5[18;1H[?12l[?25h[?25l[41;67H4[17;1H[?12l[?25h[?25l[41;67H3[16;1H[?12l[?25h[?25l[41;67H2[15;1H[?12l[?25h[?25l[41;67H1[14;1H[?12l[?25h[?25l[41;67H2[15;1H[?12l[?25h[?25l[41;69H2[15;2H[?12l[?25h[?25l[41;69H3[15;3H[?12l[?25h[?25l[41;69H4[15;4H[?12l[?25h[?25l[41;69H5[15;5H[?12l[?25h[?25l[41;69H6[15;6H[?12l[?25h[?25l[41;69H7[15;7H[?12l[?25h[?25l[41;69H8[15;8H[?12l[?25h[?25l[41;69H9[15;9H[?12l[?25h[?25l[41;69H10[15;10H[?12l[?25h[?25l[41;70H1[15;11H[?12l[?25h[?25l[41;70H2[15;12H[?12l[?25h[?25l[41;70H3[15;13H[?12l[?25h[?25l[41;70H4[15;14H[?12l[?25h[?25l[41;70H5[15;15H[?12l[?25h[?25l[41;70H6[15;16H[?12l[?25h[?25l[41;70H7[15;17H[?12l[?25h[?25l[41;70H8[15;18H[?12l[?25h[?25l[41;70H9[15;19H[?12l[?25h[?25l[41;69H20[15;20H[?12l[?25h[?25l[41;70H1[15;21H[?12l[?25h[?25l[41;70H2[15;22H[?12l[?25h[?25l[41;70H3[15;23H[?12l[?25h[?25l[41;70H4[15;24H[?12l[?25h[?25l[41;70H5[15;25H[?12l[?25h[?25l[41;70H6[15;26H[?12l[?25h[?25l[41;70H7[15;27H[?12l[?25h[?25l[41;70H8[15;28H[?12l[?25h[?25l[41;70H9[15;29H[?12l[?25h[?25l[41;69H30[15;30H[?12l[?25h[?25l[41;70H1[15;31H[?12l[?25h[?25l[41;70H2[15;32H[?12l[?25h[?25l[41;70H3[15;33H[?12l[?25h[?25l[41;70H4[15;34H[?12l[?25h[?25l[41;70H5[15;35H[?12l[?25h[?25l[41;70H6[15;36H[?12l[?25h[?25l[41;70H7[15;37H[?12l[?25h[?25l[41;70H8[15;38H[?12l[?25h[?25l[41;70H9[15;39H[?12l[?25h[?25l[41;69H40[15;40H[?12l[?25h[?25l[41;70H1[15;41H[?12l[?25h[?25l[41;70H2[15;42H[?12l[?25h[?25l[41;70H3[15;43H[?12l[?25h[?25l[41;70H4[15;44H[?12l[?25h[?25l[41;70H5[15;45H[?12l[?25h[?25l[41;70H6[15;46H[?12l[?25h[?25l[41;70H5[15;45H[?12l[?25h[?25l;[15;45H[K[41;70H4[15;44H[?12l[?25h[?25l;[15;44H[K[41;70H3[15;43H[?12l[?25h[?25l;[15;43H[K[41;70H2[15;42H[?12l[?25h[?25l;[15;42H[K[41;70H1[15;41H[?12l[?25h[?25l;[15;41H[K[41;70H0[15;40H[?12l[?25h[?25l;[15;40H[K[41;69H39[15;39H[?12l[?25h[?25l;[15;39H[K[41;70H8[15;38H[?12l[?25h[?25l;[15;38H[K[41;70H7[15;37H[?12l[?25h[?25l;[15;37H[K[41;70H6[15;36H[?12l[?25h[?25l;[15;36H[K[41;70H5[15;35H[?12l[?25h[?25l;[15;35H[K[41;70H4[15;34H[?12l[?25h[?25l;[15;34H[K[41;70H3[15;33H[?12l[?25h[?25l;[15;33H[K[41;70H2[15;32H[?12l[?25h[?25l;[15;32H[K[41;70H1[15;31H[?12l[?25h[?25l;[15;31H[K[41;70H0[15;30H[?12l[?25h[?25l;[15;30H[K[41;69H29[15;29H[?12l[?25h[?25l;[15;29H[K[41;70H8[15;28H[?12l[?25h[?25l;[15;28H[K[41;70H7[15;27H[?12l[?25h[?25l;[15;27H[K[41;70H6[15;26H[?12l[?25h[?25l;[15;26H[K[41;70H5[15;25H[?12l[?25h[?25l;[15;25H[K[41;70H4[15;24H[?12l[?25h[?25l;[15;24H[K[41;70H3[15;23H[?12l[?25h[?25l;[15;23H[K[41;70H2[15;22H[?12l[?25h[?25l;[15;22H[K[41;70H1[15;21H[?12l[?25h[?25l;[15;21H[K[41;70H0[15;20H[?12l[?25h[?25l;[15;20H[K[41;69H19[15;19H[?12l[?25h[?25l;[15;19H[K[41;70H8[15;18H[?12l[?25h[?25l;[15;18H[K[41;70H7[15;17H[?12l[?25h[?25l;[15;17H[K[41;70H6[15;16H[?12l[?25h[?25l;[15;16H[K[41;70H5[15;15H[?12l[?25h[?25l/home/ubuntu/Team319/src/webprj/texas/static;[41;69H59[15;59H[?12l[?25h[?25l[41;69H60[15;60H[?12l[?25h[41;1H[K[15;59H[?25l[41;66H92,59[9CBot[15;59H[?12l[?25h[?25l[41;66H[K[41;1H:[?12l[?25hwq[?25l"/etc/nginx/nginx.conf" 117L, 2172C written
+[?1l>[?12l[?25h[?1049l]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ ls
+admin.py               forms.pyc     [0m[01;34mtemplates[0m          urls.py
+admin.pyc              __init__.py   test_compare.py    views.py
+apps.py                __init__.pyc  test_compare.pyc   views.pyc
+desk_manipulation.py   models.py     test_consumer.py
+desk_manipulation.pyc  models.pyc    test_consumer.pyc
+forms.py               [01;34mstatic[0m        tests.py
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ lssudo vim /etc/nginx/nginx.conf
+[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;41r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[41;1H"/etc/nginx/nginx.conf" 117L, 2172C[>c[1;1Huser www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {[6;9Hworker_connections 768;[7;9H# multi_accept on;
+}
+
+http {[12;9H##[13;9H# Basic Settings[14;9H##[16;9Hsendfile on;[17;9Htcp_nopush on;[18;9Htcp_nodelay on;[19;9Hkeepalive_timeout 65;[20;9Htypes_hash_max_size 2048;[21;9H# server_tokens off;[23;9H# server_names_hash_bucket_size 64;[24;9H# server_name_in_redirect off;[26;9Hinclude /etc/nginx/mime.types;[27;9Hdefault_type application/octet-stream;[29;9H##[30;9H# SSL Settings[31;9H##[33;9Hssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE[34;9Hssl_prefer_server_ciphers on;[36;9H##[37;9H# Logging Settings[38;9H##[40;9Haccess_log /var/log/nginx/access.log;[41;66H1,1[11CTop[1;1H[?12l[?25h[?25l[41;66H2[2;1H[?12l[?25h[?25l[41;66H3[3;1H[?12l[?25h[?25l[41;66H4,0-1[4;1H[?12l[?25h[?25l[41;66H5,1  [5;1H[?12l[?25h[?25l[41;66H6,1-8[6;8H[?12l[?25h[?25l[41;66H7[7;8H[?12l[?25h[?25l[5;8H[106m{
+
+
+}[m[41;66H8,1  [8;1H[?12l[?25h[?25l[5;8H{
+
+
+}[41;66H9,0-1[9;1H[?12l[?25h[?25l[41;66H10,1 [10;1H[?12l[?25h[?25l[41;67H1,0-1[11;1H[?12l[?25h[?25l[41;67H2,1-8[12;8H[?12l[?25h[?25l[41;67H3[13;8H[?12l[?25h[?25l[41;67H4[14;8H[?12l[?25h[?25l[41;67H5,0-1[15;1H[?12l[?25h[?25l[41;67H6,1-8[16;8H[?12l[?25h[?25l[41;67H7[17;8H[?12l[?25h[?25l[41;67H8[18;8H[?12l[?25h[?25l[41;67H9[19;8H[?12l[?25h[?25l[41;66H20[20;8H[?12l[?25h[?25l[41;67H1[21;8H[?12l[?25h[?25l[41;67H2,0-1[22;1H[?12l[?25h[?25l[41;67H3,1-8[23;8H[?12l[?25h[?25l[41;67H4[24;8H[?12l[?25h[?25l[41;67H5,0-1[25;1H[?12l[?25h[?25l[41;67H6,1-8[26;8H[?12l[?25h[?25l[41;67H7[27;8H[?12l[?25h[?25l[41;67H8,0-1[28;1H[?12l[?25h[?25l[41;67H9,1-8[29;8H[?12l[?25h[?25l[41;66H30[30;8H[?12l[?25h[?25l[41;67H1[31;8H[?12l[?25h[?25l[41;67H2,0-1[32;1H[?12l[?25h[?25l[41;67H3,1-8[33;8H[?12l[?25h[?25l[41;67H4[34;8H[?12l[?25h[?25l[41;67H5,0-1[35;1H[?12l[?25h[?25l[41;67H6,1-8[36;8H[?12l[?25h[?25l[41;67H7[37;8H[?12l[?25h[?25l[41;67H8[38;8H[?12l[?25h[?25l[41;67H9,0-1[39;1H[?12l[?25h[?25l[41;66H40,1-8[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Herror_log /var/log/nginx/error.log;[41;1H[K[41;66H41,1-8[9C1%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H42,0-1[9C2%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H43,1-8[9C3%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# Gzip Settings[41;66H[K[41;66H44,1-8[9C5%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H45,1-8[9C6%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H46,0-1[9C7%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hgzip on;[41;66H[K[41;66H47,1-8[9C9%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hgzip_disable "msie6";[41;66H[K[41;66H48,1-8[8C10%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H49,0-1[8C11%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_vary on;[41;66H[K[41;66H50,1-8[8C12%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_proxied any;[41;66H[K[41;66H51,1-8[8C14%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_comp_level 6;[41;66H[K[41;66H52,1-8[8C15%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_buffers 16 8k;[41;66H[K[41;66H53,1-8[8C16%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_http_version 1.1;[41;66H[K[41;66H54,1-8[8C18%[40;8H[?12l[?25h[?25l[1;40r[1;1H[2M[1;41r[39;9H# gzip_types text/plain text/css application/json application/javascript tee[40;1Hxt/xml application/xml application/xml+rss text/javascript;[41;66H[K[41;66H55,1-8[8C20%[39;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H56,0-1[8C21%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H57,1-8[8C23%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# Virtual Host Configs[41;66H[K[41;66H58,1-8[8C24%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H59,1-8[8C25%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H60,0-1[8C26%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hinclude /etc/nginx/conf.d/*.conf;[41;66H[K[41;66H61,1-8[8C28%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hinclude /etc/nginx/sites-enabled/*;[41;66H[K[41;66H62,1-8[8C29%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H}[41;66H[K[41;66H63,1[10C30%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H64,0-1[8C32%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H65,0-1[8C33%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#mail {[41;66H[K[41;66H66,1[10C34%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# See sample authentication script at:[41;66H[K[41;66H67,1[10C35%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript[41;66H[K[41;66H68,1[10C37%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[41;66H[K[41;66H69,1[10C38%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# auth_http localhost/auth.php;[41;66H[K[41;66H70,1[10C39%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# pop3_capabilities "TOP" "USER";[41;66H[K[41;66H71,1[10C41%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# imap_capabilities "IMAP4rev1" "UIDPLUS";[41;66H[K[41;66H72,1[10C42%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[41;66H[K[41;66H73,1[10C43%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7Cserver {[41;66H[K[41;66H74,1[10C44%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Clisten     localhost:110;[41;66H[K[41;66H75,1[10C46%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cprotocol   pop3;[41;66H[K[41;66H76,1[10C47%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cproxy      on;[41;66H[K[41;66H77,1[10C48%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C}[41;66H[K[41;66H78,1[10C50%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[41;66H[K[41;66H79,1[10C51%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7Cserver {[41;66H[K[41;66H80,1[10C52%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Clisten     localhost:143;[41;66H[K[41;66H81,1[10C53%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cprotocol   imap;[41;66H[K[41;66H82,1[10C55%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cproxy      on;[41;66H[K[41;66H83,1[10C56%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C}[41;66H[K[41;66H84,1[10C57%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#}[41;66H[K[41;66H85,1[10C58%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H86,0-1[8C60%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1Hserver {[41;66H[K[41;66H87,1[10C61%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5Hlisten 80;[41;66H[K[41;66H88,1[10C62%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5Hclient_max_body_size 20M;[41;66H[K[41;66H89,1[10C64%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H90,0-1[8C65%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5Hlocation /static {[41;66H[K[41;66H91,1[10C66%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Halias /home/ubuntu/Team319/src/webprj/texas/static;[41;66H[K[41;66H92,1[10C67%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H93,0-1[8C69%[40;1H[?12l[?25h[?25l[1;40r[1;1H[2M[1;41r[39;5H}[41;66H[K[41;66H94,1[10C71%[39;1H[?12l[?25h[?25l[41;67H5,0-1[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5Hlocation /media {[41;66H[K[41;66H96,1[10C72%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Halias /home/ubuntu/<app home>/media;[41;66H[K[41;66H97,1[10C74%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H98,0-1[8C75%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5H}[41;66H[K[41;66H99,1[10C76%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H100,0-1[7C77%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5Hlocation / {[41;66H[K[41;66H101,1[9C79%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H102,0-1[7C80%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H103,0-1[7C81%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_pass http://0.0.0.0:8001;[41;66H[K[41;66H104,1[9C83%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_http_version 1.1;[41;66H[K[41;66H105,1[9C84%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_set_header Upgrade $http_upgrade;[41;66H[K[41;66H106,1[9C85%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_set_header Connection "upgrade";[41;66H[K[41;66H107,1[9C87%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H108,0-1[7C88%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_redirect     off;[41;66H[K[41;66H109,1[9C89%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_set_header   Host $host;[41;66H[K[41;66H110,1[9C90%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_set_header   X-Real-IP $remote_addr;[41;66H[K[41;66H111,1[9C92%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;[41;66H[K[41;66H112,1[9C93%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_set_header   X-Forwarded-Host $server_name;[41;66H[K[41;66H113,1[9C94%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H114,0-1[7C96%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H}[41;66H[K[41;66H115,1[9C97%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H116,0-1[7C98%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[10;8H[106m{[40;1H}[m[41;66H[K[41;66H117,1[9CBot[40;1H[?12l[?25h[?25l[10;8H{[40;1H}[41;68H6,0-1[39;1H[?12l[?25h[?25l[41;68H5,1  [38;1H[?12l[?25h[?25l[41;68H4,0-1[37;1H[?12l[?25h[?25l[41;68H3,1  [36;1H[?12l[?25h[?25l[41;68H2[35;1H[?12l[?25h[?25l[41;68H1[34;1H[?12l[?25h[?25l[41;68H0[33;1H[?12l[?25h[?25l[41;67H09[32;1H[?12l[?25h[?25l[41;68H8,0-1[31;1H[?12l[?25h[?25l[41;68H7,1  [30;1H[?12l[?25h[?25l[41;68H6[29;1H[?12l[?25h[?25l[41;68H5[28;1H[?12l[?25h[?25l[41;68H4[27;1H[?12l[?25h[?25l[41;68H3,0-1[26;1H[?12l[?25h[?25l[41;68H2[25;1H[?12l[?25h[?25l[41;68H1,1  [24;1H[?12l[?25h[?25l[41;68H0,0-1[23;1H[?12l[?25h[?25l[41;66H99,1   [22;1H[?12l[?25h[?25l[41;67H8,0-1[21;1H[?12l[?25h[?25l[41;67H7,1  [20;1H[?12l[?25h[?25l[41;1H[1m-- INSERT --[m[41;66H[K[41;66H97,1[10CBot[20;1H[?12l[?25h[?25l[41;69H2[20;2H[?12l[?25h[?25l[41;69H3[20;3H[?12l[?25h[?25l[41;69H4[20;4H[?12l[?25h[?25l[41;69H5[20;5H[?12l[?25h[?25l[41;69H6[20;6H[?12l[?25h[?25l[41;69H7[20;7H[?12l[?25h[?25l[41;69H8[20;8H[?12l[?25h[?25l[41;69H9[20;9H[?12l[?25h[?25l[41;69H10[20;10H[?12l[?25h[?25l[41;70H1[20;11H[?12l[?25h[?25l[41;70H2[20;12H[?12l[?25h[?25l[41;70H3[20;13H[?12l[?25h[?25l[41;70H4[20;14H[?12l[?25h[?25l[41;70H5[20;15H[?12l[?25h[?25l[41;70H6[20;16H[?12l[?25h[?25l[41;70H7[20;17H[?12l[?25h[?25l[41;70H8[20;18H[?12l[?25h[?25l[41;70H9[20;19H[?12l[?25h[?25l[41;69H20[20;20H[?12l[?25h[?25l[41;70H1[20;21H[?12l[?25h[?25l[41;70H2[20;22H[?12l[?25h[?25l[41;70H3[20;23H[?12l[?25h[?25l[41;70H4[20;24H[?12l[?25h[?25l[41;70H5[20;25H[?12l[?25h[?25l[41;70H6[20;26H[?12l[?25h[?25l[41;70H7[20;27H[?12l[?25h[?25l[41;70H8[20;28H[?12l[?25h[?25l[41;70H9[20;29H[?12l[?25h[?25l[41;69H30[20;30H[?12l[?25h[?25l[41;70H1[20;31H[?12l[?25h[?25l[41;70H2[20;32H[?12l[?25h[?25l[41;70H3[20;33H[?12l[?25h[?25l[41;70H4[20;34H[?12l[?25h[?25l[41;70H5[20;35H[?12l[?25h[?25l[41;70H6[20;36H[?12l[?25h[?25l[41;70H7[20;37H[?12l[?25h[?25l[41;70H8[20;38H[?12l[?25h[?25l[41;70H9[20;39H[?12l[?25h[?25l[41;69H40[20;40H[?12l[?25h[?25l[41;70H1[20;41H[?12l[?25h[?25l[41;70H2[20;42H[?12l[?25h[?25l[41;70H3[20;43H[?12l[?25h[?25l[41;70H4[20;44H[?12l[?25h[?25l;[20;44H[K[41;70H3[20;43H[?12l[?25h[?25l;[20;43H[K[41;70H2[20;42H[?12l[?25h[?25l;[20;42H[K[41;70H1[20;41H[?12l[?25h[?25l;[20;41H[K[41;70H0[20;40H[?12l[?25h[?25l;[20;40H[K[41;69H39[20;39H[?12l[?25h[?25l;[20;39H[K[41;70H8[20;38H[?12l[?25h[?25l;[20;38H[K[41;70H7[20;37H[?12l[?25h[?25l;[20;37H[K[41;70H6[20;36H[?12l[?25h[?25l;[20;36H[K[41;70H5[20;35H[?12l[?25h[?25l;[20;35H[K[41;70H4[20;34H[?12l[?25h[?25l;[20;34H[K[41;70H3[20;33H[?12l[?25h[?25l;[20;33H[K[41;70H2[20;32H[?12l[?25h[?25l;[20;32H[K[41;70H1[20;31H[?12l[?25h[?25l;[20;31H[K[41;70H0[20;30H[?12l[?25h[?25l;[20;30H[K[41;69H29[20;29H[?12l[?25h[?25l;[20;29H[K[41;70H8[20;28H[?12l[?25h[?25l;[20;28H[K[41;70H7[20;27H[?12l[?25h[?25l;[20;27H[K[41;70H6[20;26H[?12l[?25h[?25l;[20;26H[K[41;70H5[20;25H[?12l[?25h[?25l;[20;25H[K[41;70H4[20;24H[?12l[?25h[?25l;[20;24H[K[41;70H3[20;23H[?12l[?25h[?25l;[20;23H[K[41;70H2[20;22H[?12l[?25h[?25l;[20;22H[K[41;70H1[20;21H[?12l[?25h[?25l;[20;21H[K[41;70H0[20;20H[?12l[?25h[?25l;[20;20H[K[41;69H19[20;19H[?12l[?25h[?25l;[20;19H[K[41;70H8[20;18H[?12l[?25h[?25l;[20;18H[K[41;70H7[20;17H[?12l[?25h[?25l;[20;17H[K[41;70H6[20;16H[?12l[?25h[?25l;[20;16H[K[41;70H5[20;15H[?12l[?25h[?25l/home/ubuntu/Team319/src/webprj/texas/static;[41;69H59[20;59H[?12l[?25h[?25l;[20;59H[K[41;70H8[20;58H[?12l[?25h[?25l;[20;58H[K[41;70H7[20;57H[?12l[?25h[?25l;[20;57H[K[41;70H6[20;56H[?12l[?25h[?25l;[20;56H[K[41;70H5[20;55H[?12l[?25h[?25l;[20;55H[K[41;70H4[20;54H[?12l[?25h[?25l;[20;54H[K[41;70H3[20;53H[?12l[?25h[?25l;[20;53H[K[41;70H2[20;52H[?12l[?25h[?25l;[20;52H[K[41;70H1[20;51H[?12l[?25h[?25l;[20;51H[K[41;70H0[20;50H[?12l[?25h[?25l;[20;50H[K[41;69H49[20;49H[?12l[?25h[?25l;[20;49H[K[41;70H8[20;48H[?12l[?25h[?25l;[20;48H[K[41;70H7[20;47H[?12l[?25h[?25lm;[41;70H8[20;48H[?12l[?25h[?25le;[41;70H9[20;49H[?12l[?25h[?25ld;[41;69H50[20;50H[?12l[?25h[?25li;[41;70H1[20;51H[?12l[?25h[?25la;[41;70H2[20;52H[?12l[?25h[41;1H[K[20;51H[?25l[41;66H97,51[9CBot[20;51H[?12l[?25h[?25l[41;66H[K[41;1H:[?12l[?25hw[?25l[?12l[?25hq[?25l[?12l[?25h[?25l"/etc/nginx/nginx.conf" 117L, 2180C written
+[?1l>[?12l[?25h[?1049l]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ ip addr show
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 9001 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 12:2e:93:a0:71:10 brd ff:ff:ff:ff:ff:ff
+    inet 172.31.90.9/20 brd 172.31.95.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::102e:93ff:fea0:7110/64 scope link 
+       valid_lft forever preferred_lft forever
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ ifconfig -a
+eth0      Link encap:Ethernet  HWaddr 12:2e:93:a0:71:10  
+          inet addr:172.31.90.9  Bcast:172.31.95.255  Mask:255.255.240.0
+          inet6 addr: fe80::102e:93ff:fea0:7110/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:9001  Metric:1
+          RX packets:122400 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:13314 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:168104249 (168.1 MB)  TX bytes:1853881 (1.8 MB)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:3086 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:3086 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1 
+          RX bytes:322539 (322.5 KB)  TX bytes:322539 (322.5 KB)
+
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ ping 172.31.90.9
+PING 172.31.90.9 (172.31.90.9) 56(84) bytes of data.
+64 bytes from 172.31.90.9: icmp_seq=1 ttl=64 time=0.014 ms
+64 bytes from 172.31.90.9: icmp_seq=2 ttl=64 time=0.026 ms
+64 bytes from 172.31.90.9: icmp_seq=3 ttl=64 time=0.026 ms
+64 bytes from 172.31.90.9: icmp_seq=4 ttl=64 time=0.034 ms
+64 bytes from 172.31.90.9: icmp_seq=5 ttl=64 time=0.024 ms
+64 bytes from 172.31.90.9: icmp_seq=6 ttl=64 time=0.024 ms
+64 bytes from 172.31.90.9: icmp_seq=7 ttl=64 time=0.031 ms
+64 bytes from 172.31.90.9: icmp_seq=8 ttl=64 time=0.025 ms
+64 bytes from 172.31.90.9: icmp_seq=9 ttl=64 time=0.028 ms
+64 bytes from 172.31.90.9: icmp_seq=10 ttl=64 time=0.026 ms
+64 bytes from 172.31.90.9: icmp_seq=11 ttl=64 time=0.023 ms
+64 bytes from 172.31.90.9: icmp_seq=12 ttl=64 time=0.021 ms
+64 bytes from 172.31.90.9: icmp_seq=13 ttl=64 time=0.018 ms
+64 bytes from 172.31.90.9: icmp_seq=14 ttl=64 time=0.025 ms
+64 bytes from 172.31.90.9: icmp_seq=15 ttl=64 time=0.025 ms
+64 bytes from 172.31.90.9: icmp_seq=16 ttl=64 time=0.023 ms
+64 bytes from 172.31.90.9: icmp_seq=17 ttl=64 time=0.031 ms
+64 bytes from 172.31.90.9: icmp_seq=18 ttl=64 time=0.024 ms
+64 bytes from 172.31.90.9: icmp_seq=19 ttl=64 time=0.036 ms
+64 bytes from 172.31.90.9: icmp_seq=20 ttl=64 time=0.035 ms
+64 bytes from 172.31.90.9: icmp_seq=21 ttl=64 time=0.036 ms
+64 bytes from 172.31.90.9: icmp_seq=22 ttl=64 time=0.025 ms
+64 bytes from 172.31.90.9: icmp_seq=23 ttl=64 time=0.025 ms
+64 bytes from 172.31.90.9: icmp_seq=24 ttl=64 time=0.028 ms
+64 bytes from 172.31.90.9: icmp_seq=25 ttl=64 time=0.035 ms
+64 bytes from 172.31.90.9: icmp_seq=26 ttl=64 time=0.035 ms
+64 bytes from 172.31.90.9: icmp_seq=27 ttl=64 time=0.035 ms
+64 bytes from 172.31.90.9: icmp_seq=28 ttl=64 time=0.027 ms
+64 bytes from 172.31.90.9: icmp_seq=29 ttl=64 time=0.027 ms
+64 bytes from 172.31.90.9: icmp_seq=30 ttl=64 time=0.034 ms
+64 bytes from 172.31.90.9: icmp_seq=31 ttl=64 time=0.039 ms
+64 bytes from 172.31.90.9: icmp_seq=32 ttl=64 time=0.026 ms
+64 bytes from 172.31.90.9: icmp_seq=33 ttl=64 time=0.036 ms
+^C
+--- 172.31.90.9 ping statistics ---
+33 packets transmitted, 33 received, 0% packet loss, time 31999ms
+rtt min/avg/max/mdev = 0.014/0.028/0.039/0.006 ms
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ ip route get 8.8.8.8 | awk '{prin t $NF; exit}'
+172.31.90.9
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ 
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ ip route get 8.8.8.8 | awk '{printt $NF; exit}'[A]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ [17Pping 172.31.90.9
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[5Pifconfig -ap addr showsudo vim /etc/nginx/nginx.confls[Ksudo vim /etc/nginx/nginx.confls[Ksudo vim /etc/nginx/nginx.conf
+[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;41r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[41;1H"/etc/nginx/nginx.conf" 117L, 2180C[>c[1;1Huser www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {[6;9Hworker_connections 768;[7;9H# multi_accept on;
+}
+
+http {[12;9H##[13;9H# Basic Settings[14;9H##[16;9Hsendfile on;[17;9Htcp_nopush on;[18;9Htcp_nodelay on;[19;9Hkeepalive_timeout 65;[20;9Htypes_hash_max_size 2048;[21;9H# server_tokens off;[23;9H# server_names_hash_bucket_size 64;[24;9H# server_name_in_redirect off;[26;9Hinclude /etc/nginx/mime.types;[27;9Hdefault_type application/octet-stream;[29;9H##[30;9H# SSL Settings[31;9H##[33;9Hssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE[34;9Hssl_prefer_server_ciphers on;[36;9H##[37;9H# Logging Settings[38;9H##[40;9Haccess_log /var/log/nginx/access.log;[41;66H1,1[11CTop[1;1H[?12l[?25h[?25l[41;66H2[2;1H[?12l[?25h[?25l[41;66H3[3;1H[?12l[?25h[?25l[41;66H4,0-1[4;1H[?12l[?25h[?25l[41;66H5,1  [5;1H[?12l[?25h[?25l[41;66H4,0-1[4;1H[?12l[?25h[?25l[41;66H3,1  [3;1H[?12l[?25h[?25l[41;66H2[2;1H[?12l[?25h[?25l[41;66H1[1;1H[?12l[?25h[?25l[41;66H2[2;1H[?12l[?25h[?25l[41;66H3[3;1H[?12l[?25h[?25l[41;66H4,0-1[4;1H[?12l[?25h[?25l[41;66H5,1  [5;1H[?12l[?25h[?25l[41;66H6,1-8[6;8H[?12l[?25h[?25l[41;66H7[7;8H[?12l[?25h[?25l[5;8H[106m{
+
+
+}[m[41;66H8,1  [8;1H[?12l[?25h[?25l[5;8H{
+
+
+}[41;66H9,0-1[9;1H[?12l[?25h[?25l[41;66H10,1 [10;1H[?12l[?25h[?25l[41;67H1,0-1[11;1H[?12l[?25h[?25l[41;67H2,1-8[12;8H[?12l[?25h[?25l[41;67H3[13;8H[?12l[?25h[?25l[41;67H4[14;8H[?12l[?25h[?25l[41;67H5,0-1[15;1H[?12l[?25h[?25l[41;67H6,1-8[16;8H[?12l[?25h[?25l[41;67H7[17;8H[?12l[?25h[?25l[41;67H8[18;8H[?12l[?25h[?25l[41;67H9[19;8H[?12l[?25h[?25l[41;66H20[20;8H[?12l[?25h[?25l[41;67H1[21;8H[?12l[?25h[?25l[41;67H2,0-1[22;1H[?12l[?25h[?25l[41;67H3,1-8[23;8H[?12l[?25h[?25l[41;67H4[24;8H[?12l[?25h[?25l[41;67H5,0-1[25;1H[?12l[?25h[?25l[41;67H6,1-8[26;8H[?12l[?25h[?25l[41;67H7[27;8H[?12l[?25h[?25l[41;67H8,0-1[28;1H[?12l[?25h[?25l[41;67H9,1-8[29;8H[?12l[?25h[?25l[41;66H30[30;8H[?12l[?25h[?25l[41;67H1[31;8H[?12l[?25h[?25l[41;67H0[30;8H[?12l[?25h[?25l[41;66H29[29;8H[?12l[?25h[?25l[41;67H8,0-1[28;1H[?12l[?25h[?25l[41;67H7,1-8[27;8H[?12l[?25h[?25l[41;67H6[26;8H[?12l[?25h[?25l[41;67H5,0-1[25;1H[?12l[?25h[?25l[41;67H4,1-8[24;8H[?12l[?25h[?25l[41;67H5,0-1[25;1H[?12l[?25h[?25l[41;67H6,1-8[26;8H[?12l[?25h[?25l[41;67H7[27;8H[?12l[?25h[?25l[41;67H8,0-1[28;1H[?12l[?25h[?25l[41;67H9,1-8[29;8H[?12l[?25h[?25l[41;66H30[30;8H[?12l[?25h[?25l[41;67H1[31;8H[?12l[?25h[?25l[41;67H2,0-1[32;1H[?12l[?25h[?25l[41;67H3,1-8[33;8H[?12l[?25h[?25l[41;67H4[34;8H[?12l[?25h[?25l[41;67H5,0-1[35;1H[?12l[?25h[?25l[41;67H6,1-8[36;8H[?12l[?25h[?25l[41;67H7[37;8H[?12l[?25h[?25l[41;67H8[38;8H[?12l[?25h[?25l[41;67H9,0-1[39;1H[?12l[?25h[?25l[41;66H40,1-8[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Herror_log /var/log/nginx/error.log;[41;1H[K[41;66H41,1-8[9C1%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H42,0-1[9C2%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H43,1-8[9C3%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# Gzip Settings[41;66H[K[41;66H44,1-8[9C5%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H45,1-8[9C6%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H46,0-1[9C7%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hgzip on;[41;66H[K[41;66H47,1-8[9C9%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hgzip_disable "msie6";[41;66H[K[41;66H48,1-8[8C10%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H49,0-1[8C11%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_vary on;[41;66H[K[41;66H50,1-8[8C12%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_proxied any;[41;66H[K[41;66H51,1-8[8C14%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_comp_level 6;[41;66H[K[41;66H52,1-8[8C15%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_buffers 16 8k;[41;66H[K[41;66H53,1-8[8C16%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# gzip_http_version 1.1;[41;66H[K[41;66H54,1-8[8C18%[40;8H[?12l[?25h[?25l[1;40r[1;1H[2M[1;41r[39;9H# gzip_types text/plain text/css application/json application/javascript tee[40;1Hxt/xml application/xml application/xml+rss text/javascript;[41;66H[K[41;66H55,1-8[8C20%[39;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H56,0-1[8C21%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H57,1-8[8C23%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H# Virtual Host Configs[41;66H[K[41;66H58,1-8[8C24%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9H##[41;66H[K[41;66H59,1-8[8C25%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H60,0-1[8C26%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hinclude /etc/nginx/conf.d/*.conf;[41;66H[K[41;66H61,1-8[8C28%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Hinclude /etc/nginx/sites-enabled/*;[41;66H[K[41;66H62,1-8[8C29%[40;8H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H}[41;66H[K[41;66H63,1[10C30%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H64,0-1[8C32%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H65,0-1[8C33%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#mail {[41;66H[K[41;66H66,1[10C34%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# See sample authentication script at:[41;66H[K[41;66H67,1[10C35%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript[41;66H[K[41;66H68,1[10C37%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[41;66H[K[41;66H69,1[10C38%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# auth_http localhost/auth.php;[41;66H[K[41;66H70,1[10C39%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# pop3_capabilities "TOP" "USER";[41;66H[K[41;66H71,1[10C41%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C# imap_capabilities "IMAP4rev1" "UIDPLUS";[41;66H[K[41;66H72,1[10C42%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[41;66H[K[41;66H73,1[10C43%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7Cserver {[41;66H[K[41;66H74,1[10C44%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Clisten     localhost:110;[41;66H[K[41;66H75,1[10C46%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cprotocol   pop3;[41;66H[K[41;66H76,1[10C47%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cproxy      on;[41;66H[K[41;66H77,1[10C48%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C}[41;66H[K[41;66H78,1[10C50%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[41;66H[K[41;66H79,1[10C51%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7Cserver {[41;66H[K[41;66H80,1[10C52%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Clisten     localhost:143;[41;66H[K[41;66H81,1[10C53%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cprotocol   imap;[41;66H[K[41;66H82,1[10C55%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[15Cproxy      on;[41;66H[K[41;66H83,1[10C56%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#[7C}[41;66H[K[41;66H84,1[10C57%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1H#}[41;66H[K[41;66H85,1[10C58%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H86,0-1[8C60%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;1Hserver {[41;66H[K[41;66H87,1[10C61%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5Hlisten 80;[41;66H[K[41;66H88,1[10C62%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5Hclient_max_body_size 20M;[41;66H[K[41;66H89,1[10C64%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H90,0-1[8C65%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5Hlocation /static {[41;66H[K[41;66H91,1[10C66%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Halias /home/ubuntu/Team319/src/webprj/texas/static;[41;66H[K[41;66H92,1[10C67%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H93,0-1[8C69%[40;1H[?12l[?25h[?25l[1;40r[1;1H[2M[1;41r[39;5H}[41;66H[K[41;66H94,1[10C71%[39;1H[?12l[?25h[?25l[41;67H5,0-1[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5Hlocation /media {[41;66H[K[41;66H96,1[10C72%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;9Halias /home/ubuntu/Team319/src/webprj/media;[41;66H[K[41;66H97,1[10C74%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H98,0-1[8C75%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5H}[41;66H[K[41;66H99,1[10C76%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H100,0-1[7C77%[40;1H[?12l[?25h[?25l[41;66H99,1   [39;1H[?12l[?25h[?25l[41;67H8,0-1[38;1H[?12l[?25h[?25l[41;67H9,1  [39;1H[?12l[?25h[?25l[41;66H100,0-1[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;5Hlocation / {[41;66H[K[41;66H101,1[9C79%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H102,0-1[7C80%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[41;66H[K[41;66H103,0-1[7C81%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_pass http://0.0.0.0:8001;[41;66H[K[41;66H104,1[9C83%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_http_version 1.1;[41;66H[K[41;66H105,1[9C84%[40;1H[?12l[?25h[?25l[1;40r[40;1H
+[1;41r[40;13Hproxy_set_header Upgrade $http_upgrade;[41;66H[K[41;66H106,1[9C85%[40;1H[?12l[?25h[?25l[41;68H5[39;1H[?12l[?25h[?25l[41;68H4[38;1H[?12l[?25h[?25l[41;68H3,0-1[37;1H[?12l[?25h[?25l[41;68H4,1  [38;1H[?12l[?25h[?25l
+
+
+[1m-- INSERT --[m[41;66H[K[41;66H104,1[9C85%[38;1H[?12l[?25h[?25l[41;70H2[38;2H[?12l[?25h[?25l[41;70H3[38;3H[?12l[?25h[?25l[41;70H4[38;4H[?12l[?25h[?25l[41;70H5[38;5H[?12l[?25h[?25l[41;70H6[38;6H[?12l[?25h[?25l[41;70H7[38;7H[?12l[?25h[?25l[41;70H8[38;8H[?12l[?25h[?25l[41;70H9[38;9H[?12l[?25h[?25l[41;70H10[38;10H[?12l[?25h[?25l[41;71H1[38;11H[?12l[?25h[?25l[41;71H2[38;12H[?12l[?25h[?25l[41;71H3[38;13H[?12l[?25h[?25l[41;71H4[38;14H[?12l[?25h[?25l[41;71H5[38;15H[?12l[?25h[?25l[41;71H6[38;16H[?12l[?25h[?25l[41;71H7[38;17H[?12l[?25h[?25l[41;71H8[38;18H[?12l[?25h[?25l[41;71H9[38;19H[?12l[?25h[?25l[41;70H20[38;20H[?12l[?25h[?25l[41;71H1[38;21H[?12l[?25h[?25l[41;71H2[38;22H[?12l[?25h[?25l[41;71H3[38;23H[?12l[?25h[?25l[41;71H4[38;24H[?12l[?25h[?25l[41;71H5[38;25H[?12l[?25h[?25l[41;71H6[38;26H[?12l[?25h[?25l[41;71H7[38;27H[?12l[?25h[?25l[41;71H8[38;28H[?12l[?25h[?25l[41;71H9[38;29H[?12l[?25h[?25l[41;70H30[38;30H[?12l[?25h[?25l[41;71H1[38;31H[?12l[?25h[?25l[41;71H2[38;32H[?12l[?25h[?25l[41;71H3[38;33H[?12l[?25h[?25l[41;71H4[38;34H[?12l[?25h[?25l[41;71H5[38;35H[?12l[?25h[?25l[41;71H6[38;36H[?12l[?25h[?25l[41;71H7[38;37H[?12l[?25h[?25l[41;71H8[38;38H[?12l[?25h[?25l[41;71H9[38;39H[?12l[?25h[?25l[41;71H8[38;38H[?12l[?25h[?25l:8001;[38;43H[K[41;71H7[38;37H[?12l[?25h[?25l:8001;[38;42H[K[41;71H6[38;36H[?12l[?25h[?25l:8001;[38;41H[K[41;71H5[38;35H[?12l[?25h[?25l:8001;[38;40H[K[41;71H4[38;34H[?12l[?25h[?25l:8001;[38;39H[K[41;71H3[38;33H[?12l[?25h[?25l:8001;[38;38H[K[41;71H2[38;32H[?12l[?25h[?25l:8001;[38;37H[K[41;71H1[38;31H[?12l[?25h[?25lx:8001;[41;71H2[38;32H[?12l[?25h[?25lv:8001;[41;71H3[38;33H[?12l[?25h[?25l:8001;[38;38H[K[41;71H2[38;32H[?12l[?25h[?25l:8001;[38;37H[K[41;71H1[38;31H[?12l[?25h[?25l172.31.90.9:8001;[41;70H42[38;42H[?12l[?25h[41;1H[K[38;41H[?25l[41;66H104,41[8C85%[38;41H[?12l[?25h[?25l[41;66H[K[41;1H:[?12l[?25hw[?25l[?12l[?25hq[?25l[?12l[?25h[?25l"/etc/nginx/nginx.conf" 117L, 2184C written
+[?1l>[?12l[?25h[?1049l]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ [K]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ # ifconfig | perl -nle'/dr:(\S+)/  && print $1'
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ ifconfig eth0 192.168.1.200/24 up  
+SIOCSIFADDR: Operation not permitted
+SIOCSIFFLAGS: Operation not permitted
+SIOCSIFFLAGS: Operation not permitted
+SIOCSIFNETMASK: Operation not permitted
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ ifconfig -a
+eth0      Link encap:Ethernet  HWaddr 12:2e:93:a0:71:10  
+          inet addr:172.31.90.9  Bcast:172.31.95.255  Mask:255.255.240.0
+          inet6 addr: fe80::102e:93ff:fea0:7110/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:9001  Metric:1
+          RX packets:127722 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:16434 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:170204877 (170.2 MB)  TX bytes:2320881 (2.3 MB)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:8599 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8599 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1 
+          RX bytes:872821 (872.8 KB)  TX bytes:872821 (872.8 KB)
+
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ telnet:http://172.31.90.9:8001/
+bash: telnet:http://172.31.90.9:8001/: No such file or directory
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ tele[Knet http://172.31.90.9:8001/
+telnet: could not resolve http://172.31.90.9:8001//telnet: Name or service not known
+]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ telnet http://172.31.90.9:8001/:http://172.31.90.9:8001/[20Pifconfig -aeth0 192.168.1.200/24 up  [A]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ # ifconfig | perl -nle'/dr:(\S+)/ && print $1'[A]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ [3Psudo vim /etc/nginx/nginx.conf
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cip route get 8.8.8.8 | awk '{printt $NF; exit}'[A]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ [17Pping 172.31.90.9
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[5Pifconfig -ap addr showsudo vim /etc/nginx/nginx.confls[Ksudo vim /etc/nginx/nginx.conf
+[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;40r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[40;1H"/etc/nginx/nginx.conf" 117L, 2184C[>c[1;1Huser www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {[6;9Hworker_connections 768;[7;9H# multi_accept on;
+}
+
+http {[12;9H##[13;9H# Basic Settings[14;9H##[16;9Hsendfile on;[17;9Htcp_nopush on;[18;9Htcp_nodelay on;[19;9Hkeepalive_timeout 65;[20;9Htypes_hash_max_size 2048;[21;9H# server_tokens off;[23;9H# server_names_hash_bucket_size 64;[24;9H# server_name_in_redirect off;[26;9Hinclude /etc/nginx/mime.types;[27;9Hdefault_type application/octet-stream;[29;9H##[30;9H# SSL Settings[31;9H##[33;9Hssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE[34;9Hssl_prefer_server_ciphers on;[36;9H##[37;9H# Logging Settings[38;9H##[40;66H1,1[11CTop[1;1H[?12l[?25h[?25l[40;66H2[2;1H[?12l[?25h[?25l[40;66H3[3;1H[?12l[?25h[?25l[40;66H4,0-1[4;1H[?12l[?25h[?25l[40;66H5,1  [5;1H[?12l[?25h[?25l[40;66H6,1-8[6;8H[?12l[?25h[?25l[40;66H7[7;8H[?12l[?25h[?25l[5;8H[106m{
+
+
+}[m[40;66H8,1  [8;1H[?12l[?25h[?25l[5;8H{
+
+
+}[40;66H9,0-1[9;1H[?12l[?25h[?25l[40;66H10,1 [10;1H[?12l[?25h[?25l[40;67H1,0-1[11;1H[?12l[?25h[?25l[40;67H2,1-8[12;8H[?12l[?25h[?25l[40;67H3[13;8H[?12l[?25h[?25l[40;67H4[14;8H[?12l[?25h[?25l[40;67H5,0-1[15;1H[?12l[?25h[?25l[40;67H6,1-8[16;8H[?12l[?25h[?25l[40;67H7[17;8H[?12l[?25h[?25l[40;67H8[18;8H[?12l[?25h[?25l[40;67H9[19;8H[?12l[?25h[?25l[40;66H20[20;8H[?12l[?25h[?25l[40;67H1[21;8H[?12l[?25h[?25l[40;67H2,0-1[22;1H[?12l[?25h[?25l[40;67H3,1-8[23;8H[?12l[?25h[?25l[40;67H4[24;8H[?12l[?25h[?25l[40;67H5,0-1[25;1H[?12l[?25h[?25l[40;67H6,1-8[26;8H[?12l[?25h[?25l[40;67H7[27;8H[?12l[?25h[?25l[40;67H8,0-1[28;1H[?12l[?25h[?25l[40;67H9,1-8[29;8H[?12l[?25h[?25l[40;66H30[30;8H[?12l[?25h[?25l[40;67H1[31;8H[?12l[?25h[?25l[40;67H2,0-1[32;1H[?12l[?25h[?25l[40;67H3,1-8[33;8H[?12l[?25h[?25l[40;67H4[34;8H[?12l[?25h[?25l[40;67H5,0-1[35;1H[?12l[?25h[?25l[40;67H6,1-8[36;8H[?12l[?25h[?25l[40;67H7[37;8H[?12l[?25h[?25l[40;67H8[38;8H[?12l[?25h[?25l[40;67H9,0-1[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Haccess_log /var/log/nginx/access.log;[40;1H[K[40;66H40,1-8[9C1%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Herror_log /var/log/nginx/error.log;[40;66H[K[40;66H41,1-8[9C2%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H42,0-1[9C3%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H43,1-8[9C5%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# Gzip Settings[40;66H[K[40;66H44,1-8[9C6%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H45,1-8[9C7%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H46,0-1[9C8%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hgzip on;[40;66H[K[40;66H47,1-8[8C10%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hgzip_disable "msie6";[40;66H[K[40;66H48,1-8[8C11%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H49,0-1[8C12%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_vary on;[40;66H[K[40;66H50,1-8[8C14%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_proxied any;[40;66H[K[40;66H51,1-8[8C15%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_comp_level 6;[40;66H[K[40;66H52,1-8[8C16%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_buffers 16 8k;[40;66H[K[40;66H53,1-8[8C17%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_http_version 1.1;[40;66H[K[40;66H54,1-8[8C19%[39;8H[?12l[?25h[?25l[1;39r[1;1H[2M[1;40r[38;9H# gzip_types text/plain text/css application/json application/javascript tee[39;1Hxt/xml application/xml application/xml+rss text/javascript;[40;66H[K[40;66H55,1-8[8C21%[38;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H56,0-1[8C22%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H57,1-8[8C24%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# Virtual Host Configs[40;66H[K[40;66H58,1-8[8C25%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H59,1-8[8C26%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H60,0-1[8C27%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hinclude /etc/nginx/conf.d/*.conf;[40;66H[K[40;66H61,1-8[8C29%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hinclude /etc/nginx/sites-enabled/*;[40;66H[K[40;66H62,1-8[8C30%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H}[40;66H[K[40;66H63,1[10C31%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H64,0-1[8C32%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H65,0-1[8C34%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#mail {[40;66H[K[40;66H66,1[10C35%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# See sample authentication script at:[40;66H[K[40;66H67,1[10C36%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript[40;66H[K[40;66H68,1[10C37%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[40;66H[K[40;66H69,1[10C39%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# auth_http localhost/auth.php;[40;66H[K[40;66H70,1[10C40%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# pop3_capabilities "TOP" "USER";[40;66H[K[40;66H71,1[10C41%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# imap_capabilities "IMAP4rev1" "UIDPLUS";[40;66H[K[40;66H72,1[10C43%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[40;66H[K[40;66H73,1[10C44%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7Cserver {[40;66H[K[40;66H74,1[10C45%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Clisten     localhost:110;[40;66H[K[40;66H75,1[10C46%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cprotocol   pop3;[40;66H[K[40;66H76,1[10C48%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cproxy      on;[40;66H[K[40;66H77,1[10C49%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C}[40;66H[K[40;66H78,1[10C50%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[40;66H[K[40;66H79,1[10C51%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7Cserver {[40;66H[K[40;66H80,1[10C53%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Clisten     localhost:143;[40;66H[K[40;66H81,1[10C54%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cprotocol   imap;[40;66H[K[40;66H82,1[10C55%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cproxy      on;[40;66H[K[40;66H83,1[10C56%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C}[40;66H[K[40;66H84,1[10C58%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#}[40;66H[K[40;66H85,1[10C59%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H86,0-1[8C60%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1Hserver {[40;66H[K[40;66H87,1[10C62%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlisten 80;[40;66H[K[40;66H88,1[10C63%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hclient_max_body_size 20M;[40;66H[K[40;66H89,1[10C64%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H90,0-1[8C65%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlocation /static {[40;66H[K[40;66H91,1[10C67%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Halias /home/ubuntu/Team319/src/webprj/texas/static;[40;66H[K[40;66H92,1[10C68%[39;1H[?12l[?25h[?25l[1;39r[1;1H[2M[1;40r[39;5H}[40;66H[K[40;66H93,0-1[8C70%[38;1H[?12l[?25h[?25l[40;67H4,1  [39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H95,0-1[8C71%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlocation /media {[40;66H[K[40;66H96,1[10C73%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Halias /home/ubuntu/Team319/src/webprj/media;[40;66H[K[40;66H97,1[10C74%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H98,0-1[8C75%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5H}[40;66H[K[40;66H99,1[10C76%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H100,0-1[7C78%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlocation / {[40;66H[K[40;66H101,1[9C79%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H102,0-1[7C80%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H103,0-1[7C82%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_pass http://172.31.90.9:8001;[40;66H[K[40;66H104,1[9C83%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_http_version 1.1;[40;66H[K[40;66H105,1[9C84%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header Upgrade $http_upgrade;[40;66H[K[40;66H106,1[9C85%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header Connection "upgrade";[40;66H[K[40;66H107,1[9C87%[39;1H[?12l[?25h[?25l[40;68H6[38;1H[?12l[?25h[?25l[40;68H5[37;1H[?12l[?25h[?25l
+
+
+[1m-- INSERT --[m[40;66H[K[40;66H105,1[9C87%[37;1H[?12l[?25h[?25l[40;68H4[36;1H[?12l[?25h[?25l[40;70H2[36;2H[?12l[?25h[?25l[40;70H3[36;3H[?12l[?25h[?25l[40;70H4[36;4H[?12l[?25h[?25l[40;70H5[36;5H[?12l[?25h[?25l[40;70H6[36;6H[?12l[?25h[?25l[40;70H7[36;7H[?12l[?25h[?25l[40;70H8[36;8H[?12l[?25h[?25l[40;70H9[36;9H[?12l[?25h[?25l[40;70H10[36;10H[?12l[?25h[?25l[40;71H1[36;11H[?12l[?25h[?25l[40;71H2[36;12H[?12l[?25h[?25l[40;71H3[36;13H[?12l[?25h[?25l[40;71H4[36;14H[?12l[?25h[?25l[40;71H5[36;15H[?12l[?25h[?25l[40;71H6[36;16H[?12l[?25h[?25l[40;71H7[36;17H[?12l[?25h[?25l[40;71H8[36;18H[?12l[?25h[?25l[40;71H9[36;19H[?12l[?25h[?25l[40;70H20[36;20H[?12l[?25h[?25l[40;71H1[36;21H[?12l[?25h[?25l[40;71H2[36;22H[?12l[?25h[?25l[40;71H3[36;23H[?12l[?25h[?25l[40;71H4[36;24H[?12l[?25h[?25l[40;71H5[36;25H[?12l[?25h[?25l[40;71H6[36;26H[?12l[?25h[?25l[40;71H7[36;27H[?12l[?25h[?25l[40;71H8[36;28H[?12l[?25h[?25l[40;71H9[36;29H[?12l[?25h[?25l[40;70H30[36;30H[?12l[?25h[?25l[40;71H1[36;31H[?12l[?25h[?25l[40;71H2[36;32H[?12l[?25h[?25l[40;71H3[36;33H[?12l[?25h[?25l[40;71H4[36;34H[?12l[?25h[?25l[40;71H5[36;35H[?12l[?25h[?25l[40;71H6[36;36H[?12l[?25h[?25l[40;71H7[36;37H[?12l[?25h[?25l[40;71H8[36;38H[?12l[?25h[?25l[40;71H9[36;39H[?12l[?25h[?25l[40;70H40[36;40H[?12l[?25h[?25l[40;71H1[36;41H[?12l[?25h[?25l[40;71H2[36;42H[?12l[?25h[?25l[40;71H3[36;43H[?12l[?25h[?25l[40;71H4[36;44H[?12l[?25h[?25l[40;71H5[36;45H[?12l[?25h[?25l[40;71H6[36;46H[?12l[?25h[?25l[40;71H7[36;47H[?12l[?25h[?25l;[36;47H[K[40;71H6[36;46H[?12l[?25h[?25l;[36;46H[K[40;71H5[36;45H[?12l[?25h[40;1H[K[36;44H[?25l[40;66H104,44[8C87%[36;44H[?12l[?25h[?25l[40;66H[K[40;1H:[?12l[?25hw[?25l[?12l[?25hq[?25l[?12l[?25h[?25l"/etc/nginx/nginx.conf" 117L, 2182C written
+[?1l>[?12l[?25h[?1049l]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ sudo vim /etc/nginx/nginx.conf
+[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;40r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[40;1H"/etc/nginx/nginx.conf" 117L, 2182C[>c[1;1Huser www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {[6;9Hworker_connections 768;[7;9H# multi_accept on;
+}
+
+http {[12;9H##[13;9H# Basic Settings[14;9H##[16;9Hsendfile on;[17;9Htcp_nopush on;[18;9Htcp_nodelay on;[19;9Hkeepalive_timeout 65;[20;9Htypes_hash_max_size 2048;[21;9H# server_tokens off;[23;9H# server_names_hash_bucket_size 64;[24;9H# server_name_in_redirect off;[26;9Hinclude /etc/nginx/mime.types;[27;9Hdefault_type application/octet-stream;[29;9H##[30;9H# SSL Settings[31;9H##[33;9Hssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE[34;9Hssl_prefer_server_ciphers on;[36;9H##[37;9H# Logging Settings[38;9H##[40;66H1,1[11CTop[1;1H[?12l[?25h[?25l[40;66H2[2;1H[?12l[?25h[?25l[40;66H3[3;1H[?12l[?25h[?25l[40;66H4,0-1[4;1H[?12l[?25h[?25l[40;66H5,1  [5;1H[?12l[?25h[?25l[40;66H6,1-8[6;8H[?12l[?25h[?25l[40;66H7[7;8H[?12l[?25h[?25l[5;8H[106m{
+
+
+}[m[40;66H8,1  [8;1H[?12l[?25h[?25l[5;8H{
+
+
+}[40;66H9,0-1[9;1H[?12l[?25h[?25l[40;66H10,1 [10;1H[?12l[?25h[?25l[40;67H1,0-1[11;1H[?12l[?25h[?25l[40;67H2,1-8[12;8H[?12l[?25h[?25l[40;67H3[13;8H[?12l[?25h[?25l[40;67H4[14;8H[?12l[?25h[?25l[40;67H5,0-1[15;1H[?12l[?25h[?25l[40;67H6,1-8[16;8H[?12l[?25h[?25l[40;67H7[17;8H[?12l[?25h[?25l[40;67H8[18;8H[?12l[?25h[?25l[40;67H9[19;8H[?12l[?25h[?25l[40;66H20[20;8H[?12l[?25h[?25l[40;67H1[21;8H[?12l[?25h[?25l[40;67H2,0-1[22;1H[?12l[?25h[?25l[40;67H3,1-8[23;8H[?12l[?25h[?25l[40;67H4[24;8H[?12l[?25h[?25l[40;67H5,0-1[25;1H[?12l[?25h[?25l[40;67H6,1-8[26;8H[?12l[?25h[?25l[40;67H7[27;8H[?12l[?25h[?25l[40;67H8,0-1[28;1H[?12l[?25h[?25l[40;67H9,1-8[29;8H[?12l[?25h[?25l[40;66H30[30;8H[?12l[?25h[?25l[40;67H1[31;8H[?12l[?25h[?25l[40;67H2,0-1[32;1H[?12l[?25h[?25l[40;67H3,1-8[33;8H[?12l[?25h[?25l[40;67H4[34;8H[?12l[?25h[?25l[40;67H5,0-1[35;1H[?12l[?25h[?25l[40;67H6,1-8[36;8H[?12l[?25h[?25l[40;67H7[37;8H[?12l[?25h[?25l[40;67H8[38;8H[?12l[?25h[?25l[40;67H9,0-1[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Haccess_log /var/log/nginx/access.log;[40;1H[K[40;66H40,1-8[9C1%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Herror_log /var/log/nginx/error.log;[40;66H[K[40;66H41,1-8[9C2%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H42,0-1[9C3%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H43,1-8[9C5%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# Gzip Settings[40;66H[K[40;66H44,1-8[9C6%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H45,1-8[9C7%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H46,0-1[9C8%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hgzip on;[40;66H[K[40;66H47,1-8[8C10%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hgzip_disable "msie6";[40;66H[K[40;66H48,1-8[8C11%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H49,0-1[8C12%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_vary on;[40;66H[K[40;66H50,1-8[8C14%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_proxied any;[40;66H[K[40;66H51,1-8[8C15%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_comp_level 6;[40;66H[K[40;66H52,1-8[8C16%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_buffers 16 8k;[40;66H[K[40;66H53,1-8[8C17%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_http_version 1.1;[40;66H[K[40;66H54,1-8[8C19%[39;8H[?12l[?25h[?25l[1;39r[1;1H[2M[1;40r[38;9H# gzip_types text/plain text/css application/json application/javascript tee[39;1Hxt/xml application/xml application/xml+rss text/javascript;[40;66H[K[40;66H55,1-8[8C21%[38;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H56,0-1[8C22%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H57,1-8[8C24%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# Virtual Host Configs[40;66H[K[40;66H58,1-8[8C25%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H59,1-8[8C26%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H60,0-1[8C27%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hinclude /etc/nginx/conf.d/*.conf;[40;66H[K[40;66H61,1-8[8C29%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hinclude /etc/nginx/sites-enabled/*;[40;66H[K[40;66H62,1-8[8C30%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H}[40;66H[K[40;66H63,1[10C31%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H64,0-1[8C32%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H65,0-1[8C34%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#mail {[40;66H[K[40;66H66,1[10C35%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# See sample authentication script at:[40;66H[K[40;66H67,1[10C36%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript[40;66H[K[40;66H68,1[10C37%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[40;66H[K[40;66H69,1[10C39%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# auth_http localhost/auth.php;[40;66H[K[40;66H70,1[10C40%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# pop3_capabilities "TOP" "USER";[40;66H[K[40;66H71,1[10C41%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# imap_capabilities "IMAP4rev1" "UIDPLUS";[40;66H[K[40;66H72,1[10C43%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[40;66H[K[40;66H73,1[10C44%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7Cserver {[40;66H[K[40;66H74,1[10C45%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Clisten     localhost:110;[40;66H[K[40;66H75,1[10C46%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cprotocol   pop3;[40;66H[K[40;66H76,1[10C48%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cproxy      on;[40;66H[K[40;66H77,1[10C49%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C}[40;66H[K[40;66H78,1[10C50%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[40;66H[K[40;66H79,1[10C51%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7Cserver {[40;66H[K[40;66H80,1[10C53%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Clisten     localhost:143;[40;66H[K[40;66H81,1[10C54%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cprotocol   imap;[40;66H[K[40;66H82,1[10C55%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cproxy      on;[40;66H[K[40;66H83,1[10C56%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C}[40;66H[K[40;66H84,1[10C58%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#}[40;66H[K[40;66H85,1[10C59%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H86,0-1[8C60%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1Hserver {[40;66H[K[40;66H87,1[10C62%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlisten 80;[40;66H[K[40;66H88,1[10C63%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hclient_max_body_size 20M;[40;66H[K[40;66H89,1[10C64%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H90,0-1[8C65%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlocation /static {[40;66H[K[40;66H91,1[10C67%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Halias /home/ubuntu/Team319/src/webprj/texas/static;[40;66H[K[40;66H92,1[10C68%[39;1H[?12l[?25h[?25l[1;39r[1;1H[2M[1;40r[39;5H}[40;66H[K[40;66H93,0-1[8C70%[38;1H[?12l[?25h[?25l[40;67H4,1  [39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H95,0-1[8C71%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlocation /media {[40;66H[K[40;66H96,1[10C73%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Halias /home/ubuntu/Team319/src/webprj/media;[40;66H[K[40;66H97,1[10C74%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H98,0-1[8C75%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5H}[40;66H[K[40;66H99,1[10C76%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H100,0-1[7C78%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlocation / {[40;66H[K[40;66H101,1[9C79%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H102,0-1[7C80%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H103,0-1[7C82%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_pass http://172.31.90.9:80;[40;66H[K[40;66H104,1[9C83%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_http_version 1.1;[40;66H[K[40;66H105,1[9C84%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header Upgrade $http_upgrade;[40;66H[K[40;66H106,1[9C85%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header Connection "upgrade";[40;66H[K[40;66H107,1[9C87%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H108,0-1[7C88%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_redirect     off;[40;66H[K[40;66H109,1[9C89%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header   Host $host;[40;66H[K[40;66H110,1[9C91%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header   X-Real-IP $remote_addr;[40;66H[K[40;66H111,1[9C92%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;[40;66H[K[40;66H112,1[9C93%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header   X-Forwarded-Host $server_name;[40;66H[K[40;66H113,1[9C94%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H114,0-1[7C96%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H}[40;66H[K[40;66H115,1[9C97%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H116,0-1[7C98%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[9;8H[106m{[39;1H}[m[40;66H[K[40;66H117,1[9CBot[39;1H[?12l[?25h[?25l[9;8H{[39;1H}[40;68H6,0-1[38;1H[?12l[?25h[?25l[40;68H5,1  [37;1H[?12l[?25h[?25l[40;68H4,0-1[36;1H[?12l[?25h[?25l[40;68H3,1  [35;1H[?12l[?25h[?25l[40;68H2[34;1H[?12l[?25h[?25l[40;68H1[33;1H[?12l[?25h[?25l[40;68H0[32;1H[?12l[?25h[?25l[40;67H09[31;1H[?12l[?25h[?25l[40;68H8,0-1[30;1H[?12l[?25h[?25l[40;68H7,1  [29;1H[?12l[?25h[?25l[40;68H6[28;1H[?12l[?25h[?25l[40;68H5[27;1H[?12l[?25h[?25l[40;68H4[26;1H[?12l[?25h[?25l[40;68H3,0-1[25;1H[?12l[?25h[?25l[40;68H2[24;1H[?12l[?25h[?25l[40;68H1,1  [23;1H[?12l[?25h[?25l[40;68H0,0-1[22;1H[?12l[?25h[?25l[40;66H99,1   [21;1H[?12l[?25h[?25l[40;67H8,0-1[20;1H[?12l[?25h[?25l[40;67H7,1  [19;1H[?12l[?25h[?25l[40;67H6[18;1H[?12l[?25h[?25l[40;67H5,0-1[17;1H[?12l[?25h[?25l[40;67H4,1  [16;1H[?12l[?25h[?25l[40;67H3,0-1[15;1H[?12l[?25h[?25l[40;67H2,1  [14;1H[?12l[?25h[?25l[40;67H1[13;1H[?12l[?25h[?25l[40;67H0,0-1[12;1H[?12l[?25h[?25l[40;66H89,1  [11;1H[?12l[?25h[?25l[40;67H8[10;1H[?12l[?25h[?25l[40;67H7[9;1H[?12l[?25h[?25l[40;67H6,0-1[8;1H[?12l[?25h[?25l[40;67H5,1  [7;1H[?12l[?25h[?25l[40;67H4[6;1H[?12l[?25h[?25l[40;67H3[5;1H[?12l[?25h[?25l[40;67H2[4;1H[?12l[?25h[?25l[40;67H1[3;1H[?12l[?25h[?25l[40;67H0[2;1H[?12l[?25h[?25l[40;66H79[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1H#[7C}[40;66H[K[40;66H78,1[10C98%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1H#[15Cproxy      on;[40;66H[K[40;66H77,1[10C97%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1H#[15Cprotocol   pop3;[40;66H[K[40;66H76,1[10C96%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1H#[15Clisten     localhost:110;[40;66H[K[40;66H75,1[10C94%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1H#[7Cserver {[40;66H[K[40;66H74,1[10C93%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1H#[40;66H[K[40;66H73,1[10C92%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1H#[7C# imap_capabilities "IMAP4rev1" "UIDPLUS";[40;66H[K[40;66H72,1[10C91%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1H#[7C# pop3_capabilities "TOP" "USER";[40;66H[K[40;66H71,1[10C89%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1H#[7C# auth_http localhost/auth.php;[40;66H[K[40;66H70,1[10C88%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1H#[40;66H[K[40;66H69,1[10C87%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1H#[7C# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript[40;66H[K[40;66H68,1[10C85%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1H#[7C# See sample authentication script at:[40;66H[K[40;66H67,1[10C84%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1H#mail {[40;66H[K[40;66H66,1[10C83%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H65,0-1[8C82%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H64,0-1[8C80%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1H}[40;66H[K[40;66H63,1[10C79%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Hinclude /etc/nginx/sites-enabled/*;[40;66H[K[40;66H62,1-8[8C78%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Hinclude /etc/nginx/conf.d/*.conf;[40;66H[K[40;66H61,1-8[8C76%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H60,0-1[8C75%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H##[40;66H[K[40;66H59,1-8[8C74%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H# Virtual Host Configs[40;66H[K[40;66H58,1-8[8C73%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H##[40;66H[K[40;66H57,1-8[8C71%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H56,0-1[8C70%[1;1H[?12l[?25h[?25l[1;39r[1;1H[2L[1;40r[1;9H# gzip_types text/plain text/css application/json application/javascript tee[2;1Hxt/xml application/xml application/xml+rss text/javascript;[40;66H[K[40;66H55,1-8[8C68%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H# gzip_http_version 1.1;[40;66H[K[40;66H54,1-8[8C67%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H# gzip_buffers 16 8k;[40;66H[K[40;66H53,1-8[8C65%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H# gzip_comp_level 6;[40;66H[K[40;66H52,1-8[8C64%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H# gzip_proxied any;[40;66H[K[40;66H51,1-8[8C63%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H# gzip_vary on;[40;66H[K[40;66H50,1-8[8C62%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H49,0-1[8C60%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Hgzip_disable "msie6";[40;66H[K[40;66H48,1-8[8C59%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Hgzip on;[40;66H[K[40;66H47,1-8[8C58%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H46,0-1[8C56%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H##[40;66H[K[40;66H45,1-8[8C55%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H# Gzip Settings[40;66H[K[40;66H44,1-8[8C54%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H##[40;66H[K[40;66H43,1-8[8C53%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H42,0-1[8C51%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Herror_log /var/log/nginx/error.log;[40;66H[K[40;66H41,1-8[8C50%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Haccess_log /var/log/nginx/access.log;[40;66H[K[40;66H40,1-8[8C49%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H39,0-1[8C48%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H##[40;66H[K[40;66H38,1-8[8C46%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H# Logging Settings[40;66H[K[40;66H37,1-8[8C45%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H##[40;66H[K[40;66H36,1-8[8C44%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H35,0-1[8C43%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Hssl_prefer_server_ciphers on;[40;66H[K[40;66H34,1-8[8C41%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Hssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE[40;66H[K[40;66H33,1-8[8C40%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H32,0-1[8C39%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H##[40;66H[K[40;66H31,1-8[8C37%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H# SSL Settings[40;66H[K[40;66H30,1-8[8C36%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H##[40;66H[K[40;66H29,1-8[8C35%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H28,0-1[8C34%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Hdefault_type application/octet-stream;[40;66H[K[40;66H27,1-8[8C32%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Hinclude /etc/nginx/mime.types;[40;66H[K[40;66H26,1-8[8C31%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H25,0-1[8C30%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H# server_name_in_redirect off;[40;66H[K[40;66H24,1-8[8C29%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H# server_names_hash_bucket_size 64;[40;66H[K[40;66H23,1-8[8C27%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H22,0-1[8C26%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H# server_tokens off;[40;66H[K[40;66H21,1-8[8C25%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Htypes_hash_max_size 2048;[40;66H[K[40;66H20,1-8[8C24%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Hkeepalive_timeout 65;[40;66H[K[40;66H19,1-8[8C22%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Htcp_nodelay on;[40;66H[K[40;66H18,1-8[8C21%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Htcp_nopush on;[39;1H[94m@                                                                                  [m[40;66H[K[40;66H17,1-8[8C20%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Hsendfile on;[40;66H[K[40;66H16,1-8[8C19%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H15,0-1[8C17%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H##[40;66H[K[40;66H14,1-8[8C16%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H# Basic Settings[40;66H[K[40;66H13,1-8[8C15%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H##[40;66H[K[40;66H12,1-8[8C14%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H11,0-1[8C12%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1Hhttp {[40;66H[K[40;66H10,1[10C11%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H9,0-1[9C10%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1H}[40;66H[K[40;66H8,1[12C8%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9H# multi_accept on;[40;66H[K[40;66H7,1-8[10C7%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;9Hworker_connections 768;[40;66H[K[40;66H6,1-8[10C6%[1;8H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1Hevents {[40;66H[K[40;66H5,1[12C5%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[40;66H[K[40;66H4,0-1[10C3%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1Hpid /run/nginx.pid;[40;66H[K[40;66H3,1[12C2%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1Hworker_processes auto;[40;66H[K[40;66H2,1[12C1%[1;1H[?12l[?25h[?25l[1;39r[1;1H[L[1;40r[1;1Huser www-data;[40;66H[K[40;66H1,1[11CTop[1;1H[?12l[?25h[?25l[40;66H2[2;1H[?12l[?25h[?25l[40;66H3[3;1H[?12l[?25h[?25l[40;66H4,0-1[4;1H[?12l[?25h[?25l[40;66H5,1  [5;1H[?12l[?25h[?25l[40;66H6,1-8[6;8H[?12l[?25h[?25l[40;66H7[7;8H[?12l[?25h[?25l[5;8H[106m{
+
+
+}[m[40;66H8,1  [8;1H[?12l[?25h[?25l[5;8H{
+
+
+}[40;66H9,0-1[9;1H[?12l[?25h[?25l[40;66H10,1 [10;1H[?12l[?25h[?25l[40;67H1,0-1[11;1H[?12l[?25h[?25l[40;67H2,1-8[12;8H[?12l[?25h[?25l[40;67H3[13;8H[?12l[?25h[?25l[40;67H4[14;8H[?12l[?25h[?25l[40;67H5,0-1[15;1H[?12l[?25h[?25l[40;67H6,1-8[16;8H[?12l[?25h[?25l[40;67H7[17;8H[?12l[?25h[?25l[40;67H8[18;8H[?12l[?25h[?25l[40;67H9[19;8H[?12l[?25h[?25l[40;66H20[20;8H[?12l[?25h[?25l[40;67H1[21;8H[?12l[?25h[?25l[40;67H2,0-1[22;1H[?12l[?25h[?25l[40;67H3,1-8[23;8H[?12l[?25h[?25l[40;67H4[24;8H[?12l[?25h[?25l[40;67H5,0-1[25;1H[?12l[?25h[?25l[40;67H6,1-8[26;8H[?12l[?25h[?25l[40;67H7[27;8H[?12l[?25h[?25l[40;67H8,0-1[28;1H[?12l[?25h[?25l[40;67H9,1-8[29;8H[?12l[?25h[?25l[40;66H30[30;8H[?12l[?25h[?25l[40;67H1[31;8H[?12l[?25h[?25l[40;67H2,0-1[32;1H[?12l[?25h[?25l[40;67H3,1-8[33;8H[?12l[?25h[?25l[40;67H4[34;8H[?12l[?25h[?25l[40;67H5,0-1[35;1H[?12l[?25h[?25l[40;67H6,1-8[36;8H[?12l[?25h[?25l[40;67H7[37;8H[?12l[?25h[?25l[40;67H8[38;8H[?12l[?25h[?25l[40;67H9,0-1[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Haccess_log /var/log/nginx/access.log;[40;66H[K[40;66H40,1-8[9C1%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Herror_log /var/log/nginx/error.log;[40;66H[K[40;66H41,1-8[9C2%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H42,0-1[9C3%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H43,1-8[9C5%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# Gzip Settings[40;66H[K[40;66H44,1-8[9C6%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H45,1-8[9C7%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H46,0-1[9C8%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hgzip on;[40;66H[K[40;66H47,1-8[8C10%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hgzip_disable "msie6";[40;66H[K[40;66H48,1-8[8C11%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H49,0-1[8C12%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_vary on;[40;66H[K[40;66H50,1-8[8C14%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_proxied any;[40;66H[K[40;66H51,1-8[8C15%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_comp_level 6;[40;66H[K[40;66H52,1-8[8C16%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_buffers 16 8k;[40;66H[K[40;66H53,1-8[8C17%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_http_version 1.1;[40;66H[K[40;66H54,1-8[8C19%[39;8H[?12l[?25h[?25l[1;39r[1;1H[2M[1;40r[38;9H# gzip_types text/plain text/css application/json application/javascript tee[39;1Hxt/xml application/xml application/xml+rss text/javascript;[40;66H[K[40;66H55,1-8[8C21%[38;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H56,0-1[8C22%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H57,1-8[8C24%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# Virtual Host Configs[40;66H[K[40;66H58,1-8[8C25%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H59,1-8[8C26%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H60,0-1[8C27%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hinclude /etc/nginx/conf.d/*.conf;[40;66H[K[40;66H61,1-8[8C29%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hinclude /etc/nginx/sites-enabled/*;[40;66H[K[40;66H62,1-8[8C30%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H}[40;66H[K[40;66H63,1[10C31%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H64,0-1[8C32%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H65,0-1[8C34%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#mail {[40;66H[K[40;66H66,1[10C35%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# See sample authentication script at:[40;66H[K[40;66H67,1[10C36%[39;1H[?12l[?25h[?25l[40;66H[K[40;1H:[?12l[?25hq[?25l[?12l[?25h[?25l[40;1H[K[40;1H[?1l>[?12l[?25h[?1049l]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ sudo vim /etc/nginx/nginx.conf
+[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;40r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[40;1H"/etc/nginx/nginx.conf" 117L, 2182C[>c[1;1Huser www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {[6;9Hworker_connections 768;[7;9H# multi_accept on;
+}
+
+http {[12;9H##[13;9H# Basic Settings[14;9H##[16;9Hsendfile on;[17;9Htcp_nopush on;[18;9Htcp_nodelay on;[19;9Hkeepalive_timeout 65;[20;9Htypes_hash_max_size 2048;[21;9H# server_tokens off;[23;9H# server_names_hash_bucket_size 64;[24;9H# server_name_in_redirect off;[26;9Hinclude /etc/nginx/mime.types;[27;9Hdefault_type application/octet-stream;[29;9H##[30;9H# SSL Settings[31;9H##[33;9Hssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE[34;9Hssl_prefer_server_ciphers on;[36;9H##[37;9H# Logging Settings[38;9H##[40;66H1,1[11CTop[1;1H[?12l[?25h[?25l[40;1H[K[40;1H:[?12l[?25hq[?25l[?12l[?25h[?25l[40;1H[K[40;1H[?1l>[?12l[?25h[?1049l]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ sudo vim /etc/nginx/nginx.conf
+[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;40r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[40;1H"/etc/nginx/nginx.conf" 117L, 2182C[>c[1;1Huser www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {[6;9Hworker_connections 768;[7;9H# multi_accept on;
+}
+
+http {[12;9H##[13;9H# Basic Settings[14;9H##[16;9Hsendfile on;[17;9Htcp_nopush on;[18;9Htcp_nodelay on;[19;9Hkeepalive_timeout 65;[20;9Htypes_hash_max_size 2048;[21;9H# server_tokens off;[23;9H# server_names_hash_bucket_size 64;[24;9H# server_name_in_redirect off;[26;9Hinclude /etc/nginx/mime.types;[27;9Hdefault_type application/octet-stream;[29;9H##[30;9H# SSL Settings[31;9H##[33;9Hssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE[34;9Hssl_prefer_server_ciphers on;[36;9H##[37;9H# Logging Settings[38;9H##[40;66H1,1[11CTop[1;1H[?12l[?25h[?25l[40;66H2[2;1H[?12l[?25h[?25l[40;66H3[3;1H[?12l[?25h[?25l[40;66H4,0-1[4;1H[?12l[?25h[?25l[40;66H5,1  [5;1H[?12l[?25h[?25l[40;66H6,1-8[6;8H[?12l[?25h[?25l[40;66H7[7;8H[?12l[?25h[?25l[5;8H[106m{
+
+
+}[m[40;66H8,1  [8;1H[?12l[?25h[?25l[5;8H{
+
+
+}[40;66H9,0-1[9;1H[?12l[?25h[?25l[40;66H10,1 [10;1H[?12l[?25h[?25l[40;67H1,0-1[11;1H[?12l[?25h[?25l[40;67H2,1-8[12;8H[?12l[?25h[?25l[40;67H3[13;8H[?12l[?25h[?25l[40;67H4[14;8H[?12l[?25h[?25l[40;67H5,0-1[15;1H[?12l[?25h[?25l[40;67H6,1-8[16;8H[?12l[?25h[?25l[40;67H7[17;8H[?12l[?25h[?25l[40;67H8[18;8H[?12l[?25h[?25l[40;67H9[19;8H[?12l[?25h[?25l[40;66H20[20;8H[?12l[?25h[?25l[40;67H1[21;8H[?12l[?25h[?25l[40;67H2,0-1[22;1H[?12l[?25h[?25l[40;67H3,1-8[23;8H[?12l[?25h[?25l[40;67H4[24;8H[?12l[?25h[?25l[40;67H5,0-1[25;1H[?12l[?25h[?25l[40;67H6,1-8[26;8H[?12l[?25h[?25l[40;67H7[27;8H[?12l[?25h[?25l[40;67H8,0-1[28;1H[?12l[?25h[?25l[40;67H9,1-8[29;8H[?12l[?25h[?25l[40;66H30[30;8H[?12l[?25h[?25l[40;67H1[31;8H[?12l[?25h[?25l[40;67H2,0-1[32;1H[?12l[?25h[?25l[40;67H3,1-8[33;8H[?12l[?25h[?25l[40;67H4[34;8H[?12l[?25h[?25l[40;67H5,0-1[35;1H[?12l[?25h[?25l[40;67H6,1-8[36;8H[?12l[?25h[?25l[40;67H7[37;8H[?12l[?25h[?25l[40;67H8[38;8H[?12l[?25h[?25l[40;67H9,0-1[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Haccess_log /var/log/nginx/access.log;[40;1H[K[40;66H40,1-8[9C1%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Herror_log /var/log/nginx/error.log;[40;66H[K[40;66H41,1-8[9C2%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H42,0-1[9C3%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H43,1-8[9C5%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# Gzip Settings[40;66H[K[40;66H44,1-8[9C6%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H45,1-8[9C7%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H46,0-1[9C8%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hgzip on;[40;66H[K[40;66H47,1-8[8C10%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hgzip_disable "msie6";[40;66H[K[40;66H48,1-8[8C11%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H49,0-1[8C12%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_vary on;[40;66H[K[40;66H50,1-8[8C14%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_proxied any;[40;66H[K[40;66H51,1-8[8C15%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_comp_level 6;[40;66H[K[40;66H52,1-8[8C16%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_buffers 16 8k;[40;66H[K[40;66H53,1-8[8C17%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_http_version 1.1;[40;66H[K[40;66H54,1-8[8C19%[39;8H[?12l[?25h[?25l[1;39r[1;1H[2M[1;40r[38;9H# gzip_types text/plain text/css application/json application/javascript tee[39;1Hxt/xml application/xml application/xml+rss text/javascript;[40;66H[K[40;66H55,1-8[8C21%[38;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H56,0-1[8C22%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H57,1-8[8C24%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# Virtual Host Configs[40;66H[K[40;66H58,1-8[8C25%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H59,1-8[8C26%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H60,0-1[8C27%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hinclude /etc/nginx/conf.d/*.conf;[40;66H[K[40;66H61,1-8[8C29%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hinclude /etc/nginx/sites-enabled/*;[40;66H[K[40;66H62,1-8[8C30%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H}[40;66H[K[40;66H63,1[10C31%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H64,0-1[8C32%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H65,0-1[8C34%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#mail {[40;66H[K[40;66H66,1[10C35%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# See sample authentication script at:[40;66H[K[40;66H67,1[10C36%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript[40;66H[K[40;66H68,1[10C37%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[40;66H[K[40;66H69,1[10C39%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# auth_http localhost/auth.php;[40;66H[K[40;66H70,1[10C40%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# pop3_capabilities "TOP" "USER";[40;66H[K[40;66H71,1[10C41%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# imap_capabilities "IMAP4rev1" "UIDPLUS";[40;66H[K[40;66H72,1[10C43%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[40;66H[K[40;66H73,1[10C44%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7Cserver {[40;66H[K[40;66H74,1[10C45%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Clisten     localhost:110;[40;66H[K[40;66H75,1[10C46%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cprotocol   pop3;[40;66H[K[40;66H76,1[10C48%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cproxy      on;[40;66H[K[40;66H77,1[10C49%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C}[40;66H[K[40;66H78,1[10C50%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[40;66H[K[40;66H79,1[10C51%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7Cserver {[40;66H[K[40;66H80,1[10C53%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Clisten     localhost:143;[40;66H[K[40;66H81,1[10C54%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cprotocol   imap;[40;66H[K[40;66H82,1[10C55%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cproxy      on;[40;66H[K[40;66H83,1[10C56%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C}[40;66H[K[40;66H84,1[10C58%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#}[40;66H[K[40;66H85,1[10C59%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H86,0-1[8C60%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1Hserver {[40;66H[K[40;66H87,1[10C62%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlisten 80;[40;66H[K[40;66H88,1[10C63%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hclient_max_body_size 20M;[40;66H[K[40;66H89,1[10C64%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H90,0-1[8C65%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlocation /static {[40;66H[K[40;66H91,1[10C67%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Halias /home/ubuntu/Team319/src/webprj/texas/static;[40;66H[K[40;66H92,1[10C68%[39;1H[?12l[?25h[?25l[1;39r[1;1H[2M[1;40r[39;5H}[40;66H[K[40;66H93,0-1[8C70%[38;1H[?12l[?25h[?25l[40;67H4,1  [39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H95,0-1[8C71%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlocation /media {[40;66H[K[40;66H96,1[10C73%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Halias /home/ubuntu/Team319/src/webprj/media;[40;66H[K[40;66H97,1[10C74%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H98,0-1[8C75%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5H}[40;66H[K[40;66H99,1[10C76%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H100,0-1[7C78%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlocation / {[40;66H[K[40;66H101,1[9C79%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H102,0-1[7C80%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H103,0-1[7C82%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_pass http://172.31.90.9:80;[40;66H[K[40;66H104,1[9C83%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_http_version 1.1;[40;66H[K[40;66H105,1[9C84%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header Upgrade $http_upgrade;[40;66H[K[40;66H106,1[9C85%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header Connection "upgrade";[40;66H[K[40;66H107,1[9C87%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H108,0-1[7C88%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_redirect     off;[40;66H[K[40;66H109,1[9C89%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header   Host $host;[40;66H[K[40;66H110,1[9C91%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header   X-Real-IP $remote_addr;[40;66H[K[40;66H111,1[9C92%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;[40;66H[K[40;66H112,1[9C93%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header   X-Forwarded-Host $server_name;[40;66H[K[40;66H113,1[9C94%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H114,0-1[7C96%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H}[40;66H[K[40;66H115,1[9C97%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H116,0-1[7C98%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[9;8H[106m{[39;1H}[m[40;66H[K[40;66H117,1[9CBot[39;1H[?12l[?25h[?25l[9;8H{[39;1H}[40;68H6,0-1[38;1H[?12l[?25h[?25l[40;68H5,1  [37;1H[?12l[?25h[?25l[40;68H4,0-1[36;1H[?12l[?25h[?25l[40;66H[K[40;1H:[?12l[?25hq[?25l[?12l[?25h[?25l[40;1H[K[40;1H[?1l>[?12l[?25h[?1049l]0;ubuntu@ip-172-31-90-9: ~/Team319/src/webprj/texas[01;32mubuntu@ip-172-31-90-9[00m:[01;34m~/Team319/src/webprj/texas[00m$ sudo vim /etc/nginx/nginx.conf
+[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;40r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[40;1H"/etc/nginx/nginx.conf" 117L, 2182C[>c[1;1Huser www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {[6;9Hworker_connections 768;[7;9H# multi_accept on;
+}
+
+http {[12;9H##[13;9H# Basic Settings[14;9H##[16;9Hsendfile on;[17;9Htcp_nopush on;[18;9Htcp_nodelay on;[19;9Hkeepalive_timeout 65;[20;9Htypes_hash_max_size 2048;[21;9H# server_tokens off;[23;9H# server_names_hash_bucket_size 64;[24;9H# server_name_in_redirect off;[26;9Hinclude /etc/nginx/mime.types;[27;9Hdefault_type application/octet-stream;[29;9H##[30;9H# SSL Settings[31;9H##[33;9Hssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE[34;9Hssl_prefer_server_ciphers on;[36;9H##[37;9H# Logging Settings[38;9H##[40;66H1,1[11CTop[1;1H[?12l[?25h[?25l[40;66H2[2;1H[?12l[?25h[?25l[40;66H3[3;1H[?12l[?25h[?25l[40;66H4,0-1[4;1H[?12l[?25h[?25l[40;66H5,1  [5;1H[?12l[?25h[?25l[40;66H6,1-8[6;8H[?12l[?25h[?25l[40;66H7[7;8H[?12l[?25h[?25l[5;8H[106m{
+
+
+}[m[40;66H8,1  [8;1H[?12l[?25h[?25l[5;8H{
+
+
+}[40;66H9,0-1[9;1H[?12l[?25h[?25l[40;66H10,1 [10;1H[?12l[?25h[?25l[40;67H1,0-1[11;1H[?12l[?25h[?25l[40;67H2,1-8[12;8H[?12l[?25h[?25l[40;67H3[13;8H[?12l[?25h[?25l[40;67H4[14;8H[?12l[?25h[?25l[40;67H5,0-1[15;1H[?12l[?25h[?25l[40;67H6,1-8[16;8H[?12l[?25h[?25l[40;67H7[17;8H[?12l[?25h[?25l[40;67H8[18;8H[?12l[?25h[?25l[40;67H9[19;8H[?12l[?25h[?25l[40;66H20[20;8H[?12l[?25h[?25l[40;67H1[21;8H[?12l[?25h[?25l[40;67H2,0-1[22;1H[?12l[?25h[?25l[40;67H3,1-8[23;8H[?12l[?25h[?25l[40;67H4[24;8H[?12l[?25h[?25l[40;67H5,0-1[25;1H[?12l[?25h[?25l[40;67H6,1-8[26;8H[?12l[?25h[?25l[40;67H7[27;8H[?12l[?25h[?25l[40;67H8,0-1[28;1H[?12l[?25h[?25l[40;67H9,1-8[29;8H[?12l[?25h[?25l[40;66H30[30;8H[?12l[?25h[?25l[40;67H1[31;8H[?12l[?25h[?25l[40;67H2,0-1[32;1H[?12l[?25h[?25l[40;67H3,1-8[33;8H[?12l[?25h[?25l[40;67H4[34;8H[?12l[?25h[?25l[40;67H5,0-1[35;1H[?12l[?25h[?25l[40;67H6,1-8[36;8H[?12l[?25h[?25l[40;67H7[37;8H[?12l[?25h[?25l[40;67H8[38;8H[?12l[?25h[?25l[40;67H9,0-1[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Haccess_log /var/log/nginx/access.log;[40;1H[K[40;66H40,1-8[9C1%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Herror_log /var/log/nginx/error.log;[40;66H[K[40;66H41,1-8[9C2%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H42,0-1[9C3%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H43,1-8[9C5%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# Gzip Settings[40;66H[K[40;66H44,1-8[9C6%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H45,1-8[9C7%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H46,0-1[9C8%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hgzip on;[40;66H[K[40;66H47,1-8[8C10%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hgzip_disable "msie6";[40;66H[K[40;66H48,1-8[8C11%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H49,0-1[8C12%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_vary on;[40;66H[K[40;66H50,1-8[8C14%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_proxied any;[40;66H[K[40;66H51,1-8[8C15%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_comp_level 6;[40;66H[K[40;66H52,1-8[8C16%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_buffers 16 8k;[40;66H[K[40;66H53,1-8[8C17%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# gzip_http_version 1.1;[40;66H[K[40;66H54,1-8[8C19%[39;8H[?12l[?25h[?25l[1;39r[1;1H[2M[1;40r[38;9H# gzip_types text/plain text/css application/json application/javascript tee[39;1Hxt/xml application/xml application/xml+rss text/javascript;[40;66H[K[40;66H55,1-8[8C21%[38;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H56,0-1[8C22%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H57,1-8[8C24%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H# Virtual Host Configs[40;66H[K[40;66H58,1-8[8C25%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9H##[40;66H[K[40;66H59,1-8[8C26%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H60,0-1[8C27%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hinclude /etc/nginx/conf.d/*.conf;[40;66H[K[40;66H61,1-8[8C29%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Hinclude /etc/nginx/sites-enabled/*;[40;66H[K[40;66H62,1-8[8C30%[39;8H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H}[40;66H[K[40;66H63,1[10C31%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H64,0-1[8C32%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H65,0-1[8C34%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#mail {[40;66H[K[40;66H66,1[10C35%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# See sample authentication script at:[40;66H[K[40;66H67,1[10C36%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript[40;66H[K[40;66H68,1[10C37%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[40;66H[K[40;66H69,1[10C39%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# auth_http localhost/auth.php;[40;66H[K[40;66H70,1[10C40%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# pop3_capabilities "TOP" "USER";[40;66H[K[40;66H71,1[10C41%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C# imap_capabilities "IMAP4rev1" "UIDPLUS";[40;66H[K[40;66H72,1[10C43%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[40;66H[K[40;66H73,1[10C44%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7Cserver {[40;66H[K[40;66H74,1[10C45%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Clisten     localhost:110;[40;66H[K[40;66H75,1[10C46%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cprotocol   pop3;[40;66H[K[40;66H76,1[10C48%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cproxy      on;[40;66H[K[40;66H77,1[10C49%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C}[40;66H[K[40;66H78,1[10C50%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[40;66H[K[40;66H79,1[10C51%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7Cserver {[40;66H[K[40;66H80,1[10C53%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Clisten     localhost:143;[40;66H[K[40;66H81,1[10C54%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cprotocol   imap;[40;66H[K[40;66H82,1[10C55%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[15Cproxy      on;[40;66H[K[40;66H83,1[10C56%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#[7C}[40;66H[K[40;66H84,1[10C58%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1H#}[40;66H[K[40;66H85,1[10C59%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H86,0-1[8C60%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;1Hserver {[40;66H[K[40;66H87,1[10C62%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlisten 80;[40;66H[K[40;66H88,1[10C63%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hclient_max_body_size 20M;[40;66H[K[40;66H89,1[10C64%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H90,0-1[8C65%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlocation /static {[40;66H[K[40;66H91,1[10C67%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Halias /home/ubuntu/Team319/src/webprj/texas/static;[40;66H[K[40;66H92,1[10C68%[39;1H[?12l[?25h[?25l[1;39r[1;1H[2M[1;40r[39;5H}[40;66H[K[40;66H93,0-1[8C70%[38;1H[?12l[?25h[?25l[40;67H4,1  [39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H95,0-1[8C71%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlocation /media {[40;66H[K[40;66H96,1[10C73%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;9Halias /home/ubuntu/Team319/src/webprj/media;[40;66H[K[40;66H97,1[10C74%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H98,0-1[8C75%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5H}[40;66H[K[40;66H99,1[10C76%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H100,0-1[7C78%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;5Hlocation / {[40;66H[K[40;66H101,1[9C79%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H102,0-1[7C80%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H103,0-1[7C82%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_pass http://172.31.90.9:80;[40;66H[K[40;66H104,1[9C83%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_http_version 1.1;[40;66H[K[40;66H105,1[9C84%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header Upgrade $http_upgrade;[40;66H[K[40;66H106,1[9C85%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header Connection "upgrade";[40;66H[K[40;66H107,1[9C87%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[40;66H[K[40;66H108,0-1[7C88%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_redirect     off;[40;66H[K[40;66H109,1[9C89%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header   Host $host;[40;66H[K[40;66H110,1[9C91%[39;1H[?12l[?25h[?25l[1;39r[39;1H
+[1;40r[39;13Hproxy_set_header   X-Real-IP $remote_addr;[40;66H[K[40;66H11
