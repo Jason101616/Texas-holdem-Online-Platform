@@ -184,3 +184,8 @@ p {
 .small {
 	font-size: 15px;
 }
+
+span {
+	height: 100px;
+	display:inline-block;
+}

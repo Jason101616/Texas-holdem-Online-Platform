@@ -32,16 +32,16 @@ $(document).ready(function () {
 
     $('#newplay').on('click', function(event) {
             event.preventDefault(); // Prevent form from being submitted
-            var room_id = prompt("Please enter a room number:", ""); 
+            var room_id = prompt("Please enter a desk name:", ""); 
             if (room_id){
                 $.ajax({
                     type: 'post',
                     url: 'newplay/' + room_id,
                     data: '',
                     success: function (data) {
-                        alert("Successfully created room " + room_id);
+                        alert("Successfully created room: " + room_id);
 
-                        button = "<span><a class = 'smallbtn' id = 'room-" + room_id + "' href = 'playroom/desk" + room_id + "'>Playroom " + room_id + "</a></span>";
+                        button = "<span><a class = 'smallbtn' id = 'desk-" + room_id + "' href = 'playroom/" + room_id + "'>" + room_id + "</a></span>";
                         $("#newplay").before(button);
                     }
                 })

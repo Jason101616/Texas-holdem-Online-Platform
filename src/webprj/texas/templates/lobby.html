@@ -43,7 +43,11 @@
                 {% endfor %}
                 <br>
             {% endif %}
-            <span><a class = "smallbtn" id = "room-1" href = {% url 'playroom' 'desk0' %}>Playroom 1</a></span>
+            {% if desks %}
+                {% for desk in desks %}
+                    <span><a class = "smallbtn" id = "room-1" href = {% url 'playroom' desk.desk_name %}>{{ desk.desk_name }}</a></span>
+                {% endfor %}
+            {% endif %}
             <span><a class = "smallbtn" id = "newplay">&nbsp;+&nbsp;</a></span>
         </div>
         <div class = "col-1"></div>

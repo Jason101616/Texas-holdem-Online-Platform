@@ -72,6 +72,8 @@ def log_in(request):
 @login_required
 def lobby(request):
     context = {}
+    desks = Desk_info.objects.all();
+    context['desks'] = desks;
     return render(request, 'lobby.html', context)
 
 
