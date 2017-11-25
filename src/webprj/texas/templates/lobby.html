@@ -13,6 +13,7 @@
     <title>Texas Hold'em</title>
 
     <script src = "{% static "/js/jquery-3.2.1.min.js" %}"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
     <script src = "{% static "/js/lobby.js" %}"></script>
 
     <link rel = "stylesheet" href = "{% static "css/bootstrap.min.css" %}">
@@ -49,6 +50,17 @@
                 {% endfor %}
             {% endif %}
             <span><a class = "smallbtn" id = "newplay">&nbsp;+&nbsp;</a></span>
+            
+            <div id = "newplay_form" class = "hide">
+                <form action = "#" method = "POST">
+                {% for field in desk_form.visible_fields %}
+                    <p>{{ field.label_tag }}</p>
+                    <div class = "error">{{ field.errors }}</div>
+                    <p>{{ field }}</p>
+                    <br>
+                {% endfor %}
+                </form>
+            </div>
         </div>
         <div class = "col-1"></div>
     </div>

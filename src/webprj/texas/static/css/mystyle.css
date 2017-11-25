@@ -189,3 +189,7 @@ span {
 	height: 100px;
 	display:inline-block;
 }
+
+.hide {
+	visibility: hidden;
+}
