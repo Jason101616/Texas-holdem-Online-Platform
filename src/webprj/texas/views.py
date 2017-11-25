@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponseRedirect
 
-from texas.forms import SignupForm, LoginForm
+from texas.forms import *
 from texas.models import *
 
 
@@ -72,8 +72,10 @@ def log_in(request):
 @login_required
 def lobby(request):
     context = {}
-    desks = Desk_info.objects.all();
-    context['desks'] = desks;
+    desk_form = DeskForm()
+    context['desk_form'] = desk_form
+    desks = Desk_info.objects.all()
+    context['desks'] = desks
     return render(request, 'lobby.html', context)
 
 
@@ -96,13 +98,13 @@ def tutorial(request):
 def playroom(request, deskname):
     context = {}
     desk = get_object_or_404(Desk_info, desk_name=deskname)
-    user_info = get_object_or_404(User_info, user = request.user)
-    user_game = User_Game_play.objects.filter(desk = desk, user = user_info)
+    user_info = get_object_or_404(User_info, user=request.user)
+    user_game = User_Game_play.objects.filter(desk=desk, user=user_info)
 
     context['user'] = request.user
     context['user_chips'] = user_info.chips
 
-    if desk.is_start == False:
+    if not desk.is_start:
         return render(request, 'playroom.html', context)
 
     if user_game:
@@ -125,7 +127,6 @@ def log_out(request):
 @login_required
 @transaction.atomic
 def addplayer(request):
-
     context = {}
     context_players = []
 
@@ -144,14 +145,14 @@ def addplayer(request):
 
     context['players'] = context_players
 
-    return render(request, 'json/newplayers.json', context, content_type = 'application/json')
+    return render(request, 'json/newplayers.json', context, content_type='application/json')
+
 
 @login_required
 @transaction.atomic
 def getjob(request, pos_big, pos_small, pos_dealer):
-
-    loguser_mod = get_object_or_404(User_info, user = request.user)
-    loguser = get_object_or_404(User_Game_play, user = loguser_mod)
+    loguser_mod = get_object_or_404(User_info, user=request.user)
+    loguser = get_object_or_404(User_Game_play, user=loguser_mod)
     context = {}
 
     pos1 = int(pos_big) - loguser.position
@@ -168,13 +169,14 @@ def getjob(request, pos_big, pos_small, pos_dealer):
 
     context = {'big_blind': pos1, 'small_blind': pos2, 'dealer': pos3}
 
-    return render(request, 'json/getjob.json', context, content_type = 'application/json')
+    return render(request, 'json/getjob.json', context, content_type='application/json')
+
 
 @login_required
 @transaction.atomic
 def get_position(request):
-    loguser_mod = get_object_or_404(User_info, user = request.user)
-    loguser = get_object_or_404(User_Game_play, user = loguser_mod)
+    loguser_mod = get_object_or_404(User_info, user=request.user)
+    loguser = get_object_or_404(User_Game_play, user=loguser_mod)
     context = {}
 
     '''pos = int(position) - 1 - loguser.position
@@ -183,10 +185,18 @@ def get_position(request):
 
     context = {'position': loguser.position}
 
-    return render(request, 'json/position.json', context, content_type = 'application/json')
+    return render(request, 'json/position.json', context, content_type='application/json')
+
 
 @login_required
 @transaction.atomic
 def newplay(request, room_id):
-    context = {'room': room_id}
-    return render(request, 'json/newplay.json', context, content_type = 'application/json');
+    if request.method == 'POST':
+        desk_form = DeskForm(request.POST)
+        if not desk_form.is_valid():
+            return redirect(reverse('lobby'))
+        new_desk = Desk_info(desk_name=desk_form.cleaned_data['desk_name'], owner=request.user.User_info)
+        new_desk.save()
+        return redirect(reverse('playroom', kwargs={'desk': room_id}))
+
+    return redirect(reverse('lobby'))

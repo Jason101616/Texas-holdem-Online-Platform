@@ -3,12 +3,14 @@
 
 from django import forms
 from django.contrib.auth.models import User
-from texas.models import User_info
+from texas.models import *
+
 
 class SignupForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'password', 'email']
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=20, label="Username")
@@ -24,4 +26,19 @@ class LoginForm(forms.Form):
             raise forms.ValidationError('Username is required.')
         if not password:
             raise forms.ValidationError('Password is required.')
+        return cleaned_data
+
+
+class DeskForm(forms.ModelForm):
+    desk_name = forms.CharField(max_length=42)
+
+    class Meta:
+        model = Desk_info
+        fields = ['desk_name']
+
+    def clean(self):
+        cleaned_data = super(DeskForm, self).clean()
+        desk_name = self.cleaned_data.get('desk_name')
+        if not desk_name:
+            raise forms.ValidationError("Desk Name are required.")
         return cleaned_data
