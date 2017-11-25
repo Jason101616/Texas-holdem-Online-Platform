@@ -182,3 +182,9 @@ def get_position(request):
     context = {'position': loguser.position}
 
     return render(request, 'json/position.json', context, content_type = 'application/json')
+
+@login_required
+@transaction.atomic
+def newplay(request, room_id):
+    context = {'room': room_id}
+    return render(request, 'json/newplay.json', context, content_type = 'application/json');
