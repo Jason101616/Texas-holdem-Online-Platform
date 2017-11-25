@@ -25,7 +25,7 @@ SECRET_KEY = 'j%ujs0!$fvphiwkiwn&x)y-_#xn4vots)k#m1p*4esnjyl0mth'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]','54.173.97.76','172.31.90.9']
 
 
 # Application definition
@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': 'texas_db',
         'USER': 'team319',
         'PASSWORD': 1234,
-        'HOST': '',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }
