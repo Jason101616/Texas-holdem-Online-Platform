@@ -16,7 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src = "{% static "/js/lobby.js" %}"></script>
-    
+
     <link rel='stylesheet' href="{% static "css/googleapis.css" %}">
     <link rel="stylesheet" href="{% static "css/normalize.min.css" %}">
     <link rel="stylesheet" href="{% static "css/style.css" %}">
@@ -52,13 +52,15 @@
             <span><a class = "smallbtn" id = "newplay">&nbsp;+&nbsp;</a></span>
             
             <div id = "newplay_form" class = "hide">
-                <form action = "#" method = "POST">
-                {% for field in desk_form.visible_fields %}
-                    <p>{{ field.label_tag }}</p>
-                    <div class = "error">{{ field.errors }}</div>
-                    <p>{{ field }}</p>
-                    <br>
-                {% endfor %}
+                <form action = "newplay/" method = "POST">
+                    {% csrf_token %}
+                    {% for field in desk_form.visible_fields %}
+                        <p>{{ field.label_tag }}</p>
+                        <div class = "error">{{ field.errors }}</div>
+                        <p>{{ field }}</p>
+                        <br>
+                    {% endfor %}
+                    <button type="submit" class="button button-block">Create Room</button>
                 </form>
             </div>
         </div>

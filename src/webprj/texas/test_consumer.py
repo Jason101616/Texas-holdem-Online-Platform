@@ -15,19 +15,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-# global public name
-public_name = 'desk0'
-
-# an global private group name array for each player
-private_group = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-
-
-def refresh_desk(desk):
-    desk.delete()
-    desk = Desk_info(desk_name=public_name)
-    desk.save()
-
-
 @transaction.atomic
 @channel_session_user
 def diconnect_user(message, username):
@@ -35,7 +22,9 @@ def diconnect_user(message, username):
     # Disconnect
     print(username)
     # get desk
-    desk = Desk_info.objects.get(desk_name='desk0')
+    public_name = message['path'].strip('/').split('/')[-1]
+    print(message['path'].strip('/').split('/')[-1])
+    desk = Desk_info.objects.get(desk_name = public_name)
     max_capacity = desk.capacity
     # Group(public_name).discard(message.reply_channel)
     print('success')
@@ -78,8 +67,8 @@ def diconnect_user(message, username):
 
     desk.save()
 
-    if desk.current_capacity == desk.capacity:
-        refresh_desk(desk)
+    #if desk.current_capacity == desk.capacity:
+    #    refresh_desk(desk)
     return
 
 
@@ -88,7 +77,9 @@ def diconnect_user(message, username):
 def start_logic(message):
     print('start signal received!')
     # let the user in lowest position be the dealer
-    cur_desk = Desk_info.objects.get(desk_name='desk0')
+    public_name = message['path'].strip('/').split('/')[-1]
+    print(message['path'].strip('/').split('/')[-1])
+    cur_desk = Desk_info.objects.get(desk_name = public_name)
     users_of_cur_desk = User_Game_play.objects.filter(
         desk=cur_desk).order_by('position')
     print(users_of_cur_desk)
@@ -231,6 +222,7 @@ def assign_winner(winner):
     print("assign winner: ",winner)
     # assign the winner, and show all the cards to all users
     cur_desk_users = User_Game_play.objects.filter(desk=winner.desk)
+    public_name = winner.desk.desk_name
     all_user_cards = {}
     for user in cur_desk_users:
         all_user_cards[user.position] = user.user_cards
@@ -297,6 +289,7 @@ def river_compare(cur_desk):
 
 
 def next_phase(cur_desk):
+    public_name = cur_desk.desk_name
     print("next_phase")
     if cur_desk.phase == 'pre_flop':
         # show all users the first three cards of the desk
@@ -342,13 +335,16 @@ def next_phase(cur_desk):
                 next_user = user
     cur_desk.current_round_largest_chips = 0
     cur_desk.save()
+    #TODO: maybe bug here
     give_control(next_user.position)
 
 
 @transaction.atomic
 @channel_session_user
 def ws_msg(message):
-    # print(message['text'])
+    public_name = message['path'].strip('/').split('/')[-1]
+    print(message['path'].strip('/').split('/')[-1])
+
     try:
         data = json.loads(message['text'])
     except:
@@ -358,7 +354,8 @@ def ws_msg(message):
     if 'start_game' in data:
         print('start_game')
         first_player_position = start_logic(message)
-        cur_desk = Desk_info.objects.get(desk_name='desk0')
+
+        cur_desk = Desk_info.objects.get(desk_name=public_name)
         User_Game_play.objects.get(desk=cur_desk, position=first_player_position).status = 1
         # '+1' added by lsn
         content = {'move': int(first_player_position) + 1, 'current_round_largest_chips': cur_desk.current_round_largest_chips}
@@ -433,6 +430,7 @@ def ws_msg(message):
     this_desk.save()
     this_user_info.save()
 
+    #TODO：maybe bug here
     this_desk.player_queue_pointer = next_pos_queue
     next_pos_desk = int(this_desk.player_queue[next_pos_queue])
     print('next_pos_desk: ', next_pos_desk)
@@ -455,13 +453,9 @@ def ws_msg(message):
 @transaction.atomic
 @channel_session_user_from_http
 def ws_add(message):
-    desk = Desk_info.objects.get(desk_name='desk0')
-
-    # an global private group name array for each player
-    private_group = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-
-    # an public group name for all player
-    public_name = desk.desk_name
+    public_name = message['path'].strip('/').split('/')[-1]
+    print(message['path'].strip('/').split('/')[-1])
+    desk = Desk_info.objects.get(desk_name=public_name)
 
     # max compacity
     max_capacity = desk.capacity
@@ -564,7 +558,9 @@ def ws_disconnect(message):
     # Disconnect
     # get desk
     # TODO: the desk_name can be dynamic when support multi-desk
-    desk = Desk_info.objects.get(desk_name='desk0')
+    public_name = message['path'].strip('/').split('/')[-1]
+    print(message['path'].strip('/').split('/')[-1])
+    desk = Desk_info.objects.get(desk_name=public_name)
     # print(desk)
     # Group(public_name).discard(message.reply_channel)
     print('success')

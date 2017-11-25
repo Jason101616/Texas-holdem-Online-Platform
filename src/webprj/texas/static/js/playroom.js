@@ -47,7 +47,7 @@ function clear_status() {
 $(document).ready(function () {
     console.log(window.location.pathname);
     console.log(window.location.host);
-    socket = new WebSocket("ws://" + window.location.host + "/chat/");
+    socket = new WebSocket("ws://" + window.location.host + window.location.pathname);
 
     // socket.onopen = function() {
     //     socket.send("have opened");

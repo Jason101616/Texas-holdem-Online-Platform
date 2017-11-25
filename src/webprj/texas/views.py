@@ -190,13 +190,17 @@ def get_position(request):
 
 @login_required
 @transaction.atomic
-def newplay(request, room_id):
+def newplay(request):
+    print("enter newplay")
     if request.method == 'POST':
+        print ("post")
         desk_form = DeskForm(request.POST)
         if not desk_form.is_valid():
             return redirect(reverse('lobby'))
-        new_desk = Desk_info(desk_name=desk_form.cleaned_data['desk_name'], owner=request.user.User_info)
+        room_id = str(desk_form.cleaned_data['desk_name'])
+        this_user_info = User_info.objects.get(user=request.user)
+        new_desk = Desk_info(desk_name=str(desk_form.cleaned_data['desk_name']), owner=this_user_info)
         new_desk.save()
-        return redirect(reverse('playroom', kwargs={'desk': room_id}))
-
+        return redirect(reverse('playroom', kwargs={'deskname': room_id}))
+    print("return lobby")
     return redirect(reverse('lobby'))

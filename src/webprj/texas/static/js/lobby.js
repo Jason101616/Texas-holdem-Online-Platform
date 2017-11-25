@@ -38,7 +38,8 @@ $(document).ready(function () {
                 return "create a new desk";
             },
             content: function () {
-                debugger;
+                //debugger;
+                console.log($('#newplay_form').html());
                 return $('#newplay_form').html();
             }
         });

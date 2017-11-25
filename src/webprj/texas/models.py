@@ -39,7 +39,7 @@ def save_user_info(sender, instance, **kwargs):
 
 
 class Desk_info(models.Model):
-    desk_name = models.CharField(max_length=40, default="test", blank=False)
+    desk_name = models.CharField(max_length=40, default="test", blank=False, primary_key=True)
     owner = models.OneToOneField(
         User_info, on_delete=models.CASCADE, null=True)
     capacity = models.IntegerField(default=9)

@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^tutorial/$', views.tutorial, name='tutorial'),
     url(r'^profile/$', views.profile, name='profile'),
 
-    url(r'newplay/(?P<room_id>\w+)', views.newplay, name = 'newplay'),
+    url(r'newplay/$', views.newplay, name = 'newplay'),
 
     url(r'addplayer', views.addplayer, name = 'addplayer'),
     url(r'get_position', views.get_position, name = 'get_position'),
