@@ -41,4 +41,7 @@ class DeskForm(forms.ModelForm):
         desk_name = self.cleaned_data.get('desk_name')
         if not desk_name:
             raise forms.ValidationError("Desk Name are required.")
+        for s in desk_name:
+            if not s.isalnum():
+                raise forms.ValidationError("Desk Name can only be number of characters.")
         return cleaned_data

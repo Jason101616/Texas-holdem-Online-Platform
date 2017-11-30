@@ -16,6 +16,10 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 @transaction.atomic
+def delete_desk(desk):
+    desk.delete()
+
+@transaction.atomic
 @channel_session_user
 def diconnect_user(message, username):
     print('disconnect!')
@@ -67,8 +71,8 @@ def diconnect_user(message, username):
 
     desk.save()
 
-    #if desk.current_capacity == desk.capacity:
-    #    refresh_desk(desk)
+    if desk.current_capacity == desk.capacity:
+       delete_desk(desk)
     return
 
 
@@ -166,12 +170,11 @@ def get_next_pos(cur_pos, player_queue):
     return pos + 1
 
 
-def give_control(player_position):
+def give_control(player_position,this_desk):
     print('give control to player position: ', player_position)
     # TODO: current round biggest chips
-    this_desk = Desk_info.objects.get(desk_name=public_name)
     content = {'move': int(player_position) + 1, 'current_round_largest_chips': this_desk.current_round_largest_chips}
-    Group(public_name).send({'text': json.dumps(content)})
+    Group(str(this_desk.desk_name)).send({'text': json.dumps(content)})
 
 
 # def find_next_player(desk):
@@ -193,7 +196,7 @@ def judge_logic(next_player, desk):
     # if next player hasn't moved in this turn, give control to him
     if status == 0:
         print("judge logic b1")
-        give_control(next_player.position)
+        give_control(next_player.position, desk)
         return
 
     # if his status is fold: skip this player
@@ -215,7 +218,7 @@ def judge_logic(next_player, desk):
             # if his bet is not the highest bet in the table
             # give_control(next_player)
             print("judge logic b32")
-            give_control(next_player.position)
+            give_control(next_player.position, desk)
 
 
 def assign_winner(winner):
@@ -336,7 +339,7 @@ def next_phase(cur_desk):
     cur_desk.current_round_largest_chips = 0
     cur_desk.save()
     #TODO: maybe bug here
-    give_control(next_user.position)
+    give_control(next_user.position, cur_desk)
 
 
 @transaction.atomic
@@ -430,7 +433,7 @@ def ws_msg(message):
     this_desk.save()
     this_user_info.save()
 
-    #TODO：maybe bug here
+    # TODO: maybe bug here
     this_desk.player_queue_pointer = next_pos_queue
     next_pos_desk = int(this_desk.player_queue[next_pos_queue])
     print('next_pos_desk: ', next_pos_desk)
