@@ -52,13 +52,14 @@ class Desk_info(models.Model):
     five_cards_of_desk = models.CharField(max_length=50, default='')
 
     current_largest_chips_this_game = models.IntegerField(default=0)
+    current_round_largest_chips = models.IntegerField(default=0)
     # TODO: finish the realated function of pool. pool is the total chips in
     # current desk, it will give to the winner in the end of the current game.
     pool = models.IntegerField(default=0)
     # pre-flop, flop, turn, river
     phase = models.CharField(max_length=10, default='pre_flop')
-    current_round_largest_chips = models.IntegerField(default=0)
 
+    next_dealer = models.IntegerField(default=0)
     def __str__(self):
         return "desk_name: %s, owner: %s, capacity: %d, current: %d, is_start: %d, position_queue: %s, player_queue: %s, player_queue_pointer: %d, five_cards_of_desk: %s, current_largest_chips_this_game: %d, pool: %d" %(self.desk_name, self.owner, self.capacity, self.current_capacity,self.is_start, self.position_queue,self.player_queue, self.player_queue_pointer, self.five_cards_of_desk, self.current_largest_chips_this_game, self.pool)
 

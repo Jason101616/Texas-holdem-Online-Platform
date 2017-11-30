@@ -95,11 +95,11 @@ def start_logic(message):
     cur_desk.save()
     # the first person in the queue is initialized as dealer
     dealer = User_Game_play.objects.get(
-        desk=cur_desk, position=int(cur_desk.player_queue[0]))
+        desk=cur_desk, position=int(cur_desk.player_queue[cur_desk.next_dealer]))
 
     # let the next two player be blinds
     # next_pos_in_queue = get_next_pos(0, len(users_of_cur_desk))
-    next_pos_in_queue = get_next_pos(0, cur_desk.player_queue)
+    next_pos_in_queue = get_next_pos(cur_desk.next_dealer, cur_desk.player_queue)
     small_blind = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
     # next_pos_in_queue = get_next_pos(next_pos_in_queue, len(users_of_cur_desk))
@@ -277,7 +277,6 @@ def winner_logic(cur_desk):
 
 
 def river_compare(cur_desk):
-    pass
     cur_cards = cur_desk.five_cards_of_desk
     public_card_list = list(map(int,cur_cards.split(' ')))
     print(public_card_list)
