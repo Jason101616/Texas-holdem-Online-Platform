@@ -93,13 +93,31 @@ def start_logic(message):
     cur_desk.player_queue = active_users_queue
     print(active_users_queue)  # test
     cur_desk.save()
-    # the first person in the queue is initialized as dealer
+    # find the index of the current dealer
+    if cur_desk.next_dealer == -1:  # next_dealer is initialized as -1
+        dealer_queue_pos = 0
+    else:
+        find_next = False
+        for index, pos in enumerate(active_users_queue):
+            if pos == cur_desk.next_dealer:
+                dealer_queue_pos = index
+                find_next = True
+            if not find_next and pos > cur_desk.next_dealer:
+                dealer_queue_pos = index
+                find_next = True
+        if not find_next:
+            dealer_queue_pos = 0
+
     dealer = User_Game_play.objects.get(
-        desk=cur_desk, position=int(cur_desk.player_queue[cur_desk.next_dealer]))
+        desk=cur_desk, position=int(cur_desk.player_queue[dealer_queue_pos]))
 
     # let the next two player be blinds
     # next_pos_in_queue = get_next_pos(0, len(users_of_cur_desk))
-    next_pos_in_queue = get_next_pos(cur_desk.next_dealer, cur_desk.player_queue)
+    next_pos_in_queue = get_next_pos(dealer_queue_pos, cur_desk.player_queue)
+    # update next_dealer
+    cur_desk.next_dealer = cur_desk.player_queue[next_pos_in_queue]
+    cur_desk.save()
+    # calculate small_blind and big_blind
     small_blind = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
     # next_pos_in_queue = get_next_pos(next_pos_in_queue, len(users_of_cur_desk))
