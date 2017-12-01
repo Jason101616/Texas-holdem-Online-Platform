@@ -375,5 +375,4 @@ def decide_winner_all(all_user_card):
 
     return winner_sort_list, tmp_results
 
-
 # print(decide_winner_all(all_user_card))

@@ -449,14 +449,20 @@ def ws_msg(message):
         return
     print(data)
 
+    # the owner start the game
     if 'start_game' in data:
         print('start_game')
         first_player_position = start_logic(public_name)
 
         cur_desk = Desk_info.objects.get(desk_name=public_name)
+
         this_user = User_Game_play.objects.get(
             desk=cur_desk, position=first_player_position)
         this_user.status = 1
+
+        cur_desk.is_start = True
+        cur_desk.save()
+
         # '+1' added by lsn
         content = {'move': {}}
         can_check, can_raise, raise_amount = True, False, 0
@@ -476,9 +482,6 @@ def ws_msg(message):
         if data['command'] == 'leave':
             print(message.user.username)
             diconnect_user(message, message.user.username)
-            content = {'test': 'test'}
-            Group(public_name).send({'text': json.dumps(content)})
-            print('test_msg sent!')
             return
 
     # get this_user, this_user_info, this_user_game_play, this_desk
