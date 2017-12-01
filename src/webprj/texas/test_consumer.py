@@ -188,19 +188,18 @@ def get_next_pos(cur_pos, player_queue):
 
 def give_control(player_position,this_desk):
     print('give control to player position: ', player_position)
-    # TODO: current round biggest chips
+    # current round biggest chips
     content = {'move': int(player_position) + 1, 'current_round_largest_chips': this_desk.current_round_largest_chips}
     Group(str(this_desk.desk_name)).send({'text': json.dumps(content)})
 
 
-# def find_next_player(desk):
-#     # update pointer and get next player
-#     desk.player_queue_pointer = get_next_pos(desk.player_queue_pointer, len(desk.player_queue))
-#     next_player = User_Game_play.objects.get(desk=desk, position=int(desk.player_queue[desk.player_queue_pointer]))
-#     # desk.player_queue_pointer = get_next_pos(desk.player_queue_pointer, len(desk.player_queue))
-#     desk.save()
-#     return next_player
-
+def find_next_player(desk, player):
+    next_pos_queue = get_next_pos(player.position, desk.player_queue)
+    desk.player_queue_pointer = next_pos_queue
+    next_pos_desk = int(desk.player_queue[next_pos_queue])
+    next_user = User_Game_play.objects.get(desk=desk, position=next_pos_desk)
+    desk.save()
+    return next_user
 
 def judge_logic(next_player, desk):
     if len(desk.player_queue) == 1:
@@ -215,13 +214,6 @@ def judge_logic(next_player, desk):
         give_control(next_player.position, desk)
         return
 
-    # if his status is fold: skip this player
-    # find_next_player()
-    # if status == -1:
-    #     print("judge logic b2")
-    #     next_player = find_next_player(desk)
-    #     return judge_logic(next_player, desk)
-
     # if his status is all-in
     if status == -1:
         print("judge logic all-in")
@@ -230,7 +222,8 @@ def judge_logic(next_player, desk):
             return winner_logic(desk)
         else:
             # TODO: find next player and update queue pointer
-            # next_player = find_next_player(desk)
+            # update next player
+            next_player = find_next_player(desk, next_player)
             return judge_logic(next_player, desk)
 
     # if his status is not fold
@@ -607,7 +600,7 @@ def ws_disconnect(message):
     print('disconnect!')
     # Disconnect
     # get desk
-    # TODO: the desk_name can be dynamic when support multi-desk
+    # the desk_name can be dynamic when support multi-desk
     public_name = message['path'].strip('/').split('/')[-1]
     print(message['path'].strip('/').split('/')[-1])
     desk = Desk_info.objects.get(desk_name=public_name)
