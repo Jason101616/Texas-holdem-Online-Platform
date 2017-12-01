@@ -77,12 +77,9 @@ def diconnect_user(message, username):
 
 
 @transaction.atomic
-@channel_session_user
-def start_logic(message):
+def start_logic(public_name):
     print('start signal received!')
     # let the user in lowest position be the dealer
-    public_name = message['path'].strip('/').split('/')[-1]
-    print(message['path'].strip('/').split('/')[-1])
     cur_desk = Desk_info.objects.get(desk_name = public_name)
     users_of_cur_desk = User_Game_play.objects.filter(
         desk=cur_desk).order_by('position')
@@ -271,6 +268,17 @@ def assign_winner(winner):
     winner.desk.save()
     print("assign_winner success")
 
+    print('start_game')
+
+    first_player_position = start_logic(public_name)
+    cur_desk = Desk_info.objects.get(desk_name=public_name)
+    User_Game_play.objects.get(desk=cur_desk, position=first_player_position).status = 1
+    # '+1' added by lsn
+    content = {'move': int(first_player_position) + 1,
+               'current_round_largest_chips': cur_desk.current_round_largest_chips}
+    Group(public_name).send({'text': json.dumps(content)})
+    return
+
 
 def winner_logic(cur_desk):
     # if there's only one player whose status is other than fold
@@ -373,7 +381,7 @@ def ws_msg(message):
 
     if 'start_game' in data:
         print('start_game')
-        first_player_position = start_logic(message)
+        first_player_position = start_logic(public_name)
 
         cur_desk = Desk_info.objects.get(desk_name=public_name)
         User_Game_play.objects.get(desk=cur_desk, position=first_player_position).status = 1
