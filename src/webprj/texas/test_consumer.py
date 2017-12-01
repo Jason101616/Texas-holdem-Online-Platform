@@ -409,9 +409,9 @@ def ws_msg(message):
 
     if data['message'] == 'call' or data['message'] == 'check' or data['message'] == 'hold':
         # current user put more chips
-        print('current largest chips this game', this_desk.current_largest_chips_this_game)
-        print('current largest chips this round',this_desk.current_round_largest_chips)
-        print('this user chips pay in this game', this_user_game_play.chips_pay_in_this_game)
+        print('current largest chips this game:', this_desk.current_largest_chips_this_game)
+        print('current largest chips this round:',this_desk.current_round_largest_chips)
+        print('this user chips pay in this game:', this_user_game_play.chips_pay_in_this_game)
         this_user_info.chips -= (this_desk.current_largest_chips_this_game -
                                  this_user_game_play.chips_pay_in_this_game)
 
@@ -420,9 +420,9 @@ def ws_msg(message):
         this_user_game_play.chips_pay_in_this_game = this_desk.current_largest_chips_this_game
         this_user_game_play.status = 1
         next_pos_queue = get_next_pos(this_user_game_play.position, this_desk.player_queue)
-        print('current largest chips this game', this_desk.current_largest_chips_this_game)
-        print('current largest chips this round', this_desk.current_round_largest_chips)
-        print('this user chips pay in this game', this_user_game_play.chips_pay_in_this_game)
+        print('current largest chips this game:', this_desk.current_largest_chips_this_game)
+        print('current largest chips this round:', this_desk.current_round_largest_chips)
+        print('this user chips pay in this game:', this_user_game_play.chips_pay_in_this_game)
 
 
     elif data['message'] == 'fold' or data['message'] == 'timeout':
@@ -436,9 +436,16 @@ def ws_msg(message):
             next_pos_queue -= 1
 
     elif data['message'] == 'raise':
-        print('current largest chips this game', this_desk.current_largest_chips_this_game)
-        print('current largest chips this round', this_desk.current_round_largest_chips)
-        print('this user chips pay in this game', this_user_game_play.chips_pay_in_this_game)
+        print('current largest chips this game:', this_desk.current_largest_chips_this_game)
+        print('current largest chips this round:', this_desk.current_round_largest_chips)
+        print('this user chips pay in this game:', this_user_game_play.chips_pay_in_this_game)
+        this_user_info.chips -= (this_desk.current_largest_chips_this_game -
+                                 this_user_game_play.chips_pay_in_this_game)
+
+        this_desk.pool += (this_desk.current_largest_chips_this_game -
+                           this_user_game_play.chips_pay_in_this_game)
+        this_user_game_play.chips_pay_in_this_game = this_desk.current_largest_chips_this_game
+
         chips_add = data['value']
         # current user put more chips
         this_user_info.chips -= chips_add
@@ -446,8 +453,7 @@ def ws_msg(message):
         this_desk.current_largest_chips_this_game = this_user_game_play.chips_pay_in_this_game
         this_desk.pool += chips_add
         if chips_add < this_desk.current_round_largest_chips:
-            print("chips_add < this_desk.current_round_largest_chips")
-            exit(0)
+            print("Invaid!!!, chips_add < this_desk.current_round_largest_chips")
         this_desk.current_round_largest_chips = data['value']
         next_pos_queue = get_next_pos(this_user_game_play.position, this_desk.player_queue)
         this_user_game_play.status = 1
