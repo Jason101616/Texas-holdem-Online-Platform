@@ -88,7 +88,7 @@ def start_logic(public_name):
     for user in users_of_cur_desk:
         active_users_queue += str(user.position)
     cur_desk.player_queue = active_users_queue
-    print(active_users_queue)  # test
+    print('active_users_queue:', active_users_queue)  # test
     cur_desk.save()
     # find the index of the current dealer
     if cur_desk.next_dealer == -1:  # next_dealer is initialized as -1
@@ -104,7 +104,7 @@ def start_logic(public_name):
                 find_next = True
         if not find_next:
             dealer_queue_pos = 0
-
+    print('dealer_queue_pos:', dealer_queue_pos)
     dealer = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[dealer_queue_pos]))
 
@@ -113,6 +113,7 @@ def start_logic(public_name):
     next_pos_in_queue = get_next_pos(dealer_queue_pos, cur_desk.player_queue)
     # update next_dealer
     cur_desk.next_dealer = cur_desk.player_queue[next_pos_in_queue]
+    print('next_dealer:', cur_desk.next_dealer)
     cur_desk.save()
     # calculate small_blind and big_blind
     small_blind = User_Game_play.objects.get(
