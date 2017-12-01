@@ -1,4 +1,5 @@
 import itertools
+import copy
 from random import randint
 
 cards1 = [[0, 2], [0, 3], [0, 4], [0, 5], [0, 6]]  # 8
@@ -316,7 +317,7 @@ print(transfer(my))
 
 
 # input: [(1,[12,23,34,45,12])] 0:A, 1:2,...
-#all_user_card = [(0,[12,23,24,34,45,49,50]),(1,[12,23,24,34,45,11,13]),(2,[12,23,24,34,45,42,46])]
+#all_user_card = [(1,[12,23,24,34,45,49,50]),(2,[12,23,24,34,45,11,13]),(3,[12,23,24,34,45,42,46]),(4,[12,23,24,34,45,49,50])]
 def decide_winner_all(all_user_card):
     pass
     results = []
@@ -333,17 +334,30 @@ def decide_winner_all(all_user_card):
                 num = 'K'
             user_card_list.append([str(num), suit])
         results.append((s[0],(highest(transfer(user_card_list)))))
-    max_level = results[0][1][0]
-    max_score = results[0][1][1]
-    winner = [0]
-    for r in results[1:]:
-        if r[1][0] > max_level:
-            winner = [r[0]]
-        elif r[1][0] == max_level:
-            if r[1][1] > max_score:
+    print(results)
+    tmp_results = copy.deepcopy(results)
+    print(tmp_results)
+    winner_sort_list = []
+    while results:
+        max_level = results[0][1][0]
+        max_score = results[0][1][1]
+        winner = [results[0][0]]
+        rm = [results[0]]
+        for r in results[1:]:
+            if r[1][0] > max_level:
                 winner = [r[0]]
-            elif r[1][1] == max_score:
-                winner.append(r[0])
-    return winner,results
+                rm = [r]
+            elif r[1][0] == max_level:
+                if r[1][1] > max_score:
+                    winner = [r[0]]
+                    rm = [r]
+                elif r[1][1] == max_score:
+                    winner.append(r[0])
+                    rm.append(r)
+        for r in rm:
+            results.remove(r)
+        winner_sort_list.append(winner)
 
-#print(decide_winner_all(all_user_card))
+    return winner_sort_list, tmp_results
+
+print(decide_winner_all(all_user_card))

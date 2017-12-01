@@ -295,12 +295,13 @@ def winner_logic(cur_desk):
     # if this is the end of river phase
     if cur_desk.phase == 'river':
         # TODO: modify decide_winner function
-        winner_pos, results = river_compare(cur_desk)
-        print(winner_pos)
+        # winner list is a sorted list, each element is a list contain user postions
+        winner_list, results = river_compare(cur_desk)
+        print(winner_list)
         # for test, just give the first person in the queue
         #TODO: multiple winner logic
-        winner = User_Game_play.objects.get(desk=cur_desk, position=winner_pos[0])
-        assign_winner(winner)
+        # winner = User_Game_play.objects.get(desk=cur_desk, position=winner_pos[0])
+        assign_winner(cur_desk, winner_list)
         return
 
     # if there's only one player whose status is other than fold or all-in
