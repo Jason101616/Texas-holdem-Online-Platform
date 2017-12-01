@@ -96,10 +96,10 @@ def start_logic(public_name):
     else:
         find_next = False
         for index, pos in enumerate(active_users_queue):
-            if pos == cur_desk.next_dealer:
+            if int(pos) == cur_desk.next_dealer:
                 dealer_queue_pos = index
                 find_next = True
-            if not find_next and pos > cur_desk.next_dealer:
+            if not find_next and int(pos) > cur_desk.next_dealer:
                 dealer_queue_pos = index
                 find_next = True
         if not find_next:
@@ -112,7 +112,7 @@ def start_logic(public_name):
     # next_pos_in_queue = get_next_pos(0, len(users_of_cur_desk))
     next_pos_in_queue = get_next_pos(dealer_queue_pos, cur_desk.player_queue)
     # update next_dealer
-    cur_desk.next_dealer = cur_desk.player_queue[next_pos_in_queue]
+    cur_desk.next_dealer = int(cur_desk.player_queue[next_pos_in_queue])
     print('next_dealer:', cur_desk.next_dealer)
     cur_desk.save()
     # calculate small_blind and big_blind
