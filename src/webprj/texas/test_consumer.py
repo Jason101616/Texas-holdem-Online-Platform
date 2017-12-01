@@ -303,6 +303,15 @@ def winner_logic(cur_desk):
         assign_winner(winner)
         return
 
+    # if there's only one player whose status is other than fold or all-in
+    length = len(User_Game_play.objects.filter(desk=cur_desk, status=-1))
+    if length >= len(cur_desk.player_queue) - 1:
+        # TODO: go to river phase directly and assign a winner
+        # all_in_compare()
+        pass
+
+
+
     # continue the game to next phase
     return next_phase(cur_desk)
 
