@@ -204,7 +204,7 @@ def find_next_player(desk, player):
 def judge_logic(next_player, desk):
     if len(desk.player_queue) == 1:
         print("judge logic only one player")
-        assign_winner(next_player)
+        assign_winner(desk, [[next_player.position]])
         return
 
     status = next_player.status
@@ -241,11 +241,52 @@ def judge_logic(next_player, desk):
             give_control(next_player.position, desk)
 
 
-def assign_winner(winner):
-    print("assign winner: ",winner)
+def assign_winner(desk, winner_list):
+    print("winner list:",winner_list)
+    # update the chips of current desk
+    cur_pool = desk.pool
+    while cur_pool > 0:
+        for group in winner_list:
+            # calculate how many chips needed in current group of winner to cover all in
+            threshold = 0
+            for winner_pos in group:
+                cur_winner = User_Game_play.objects.get(desk=desk, position=winner_pos)
+                threshold += 2 * cur_winner.chips_pay_in_this_game
+            if threshold <= cur_pool:
+                # all in user can get all the chips he want,
+                # the other chips are split equally by the remain winner
+                not_all_in_cnt = 0
+                for winner_pos in group:
+                    cur_winner = User_Game_play.objects.get(desk=desk, position=winner_pos)
+                    if cur_winner.status == -1:
+                        cur_winner.user.chips += cur_winner.chips_pay_in_this_game * 2
+                        cur_pool -= cur_winner.chips_pay_in_this_game * 2
+                    else:
+                        not_all_in_cnt += 1
+
+                if not_all_in_cnt:
+                    for winner_pos in group:
+                        cur_winner = User_Game_play.objects.get(desk=desk, position=winner_pos)
+                        if cur_winner.status != -1:
+                            cur_winner.user.chips += cur_pool // not_all_in_cnt
+                    # if there is at least one winner who is not all in, pool will become zero
+                    cur_pool = 0
+            else:
+                # split the pool according to the ratio of the chips they put in this game
+                for winner_pos in group:
+                    cur_winner = User_Game_play.objects.get(desk=desk, position=winner_pos)
+                    cur_winner.user.chips += (cur_winner.chips_pay_in_this_game / (threshold // 2) * cur_pool)
+                cur_pool = 0
+
+    # reset the phase of the current desk
+    desk.phase = 'pre_flop'
+    desk.current_largest_chips_this_game = 0
+    desk.pool = 0
+    desk.current_round_largest_chips = 0
+
     # assign the winner, and show all the cards to all users
-    cur_desk_users = User_Game_play.objects.filter(desk=winner.desk)
-    public_name = winner.desk.desk_name
+    cur_desk_users = User_Game_play.objects.filter(desk=desk)
+    public_name = desk.desk_name
     all_user_cards = {}
     for user in cur_desk_users:
         all_user_cards[user.position] = user.user_cards
@@ -255,41 +296,33 @@ def assign_winner(winner):
         user.status = 0
         # reset is_fold
         user.is_fold = False
-        if user != winner:
-            user.save()
+        user.save()
 
-    content = {'winner_pos': winner.position, 'winner': winner.user.user.username, 'cards': all_user_cards}
+    winner_pos_list = winner_list[0]
+    winner_username = []
+    for pos in winner_pos_list:
+        cur_winner = User_Game_play.objects.get(desk=desk, position=pos)
+        winner_username.append(cur_winner.user.user.username)
+    content = {'winner_pos': winner_pos_list, 'winner': winner_username, 'cards': all_user_cards}
     Group(public_name).send({'text': json.dumps(content)})
-    winner.user.chips += winner.desk.pool
-    # reset the phase of the current desk
-    winner.desk.phase = 'pre_flop'
-    winner.desk.current_largest_chips_this_game = 0
-    winner.desk.pool = 0
-    winner.desk.current_round_largest_chips = 0
-    print('in assign_winner, winner.desk.pool:', winner.desk.pool)
-    # winner gain all the chips in current game
-    winner.save()
-    winner.user.save()
-    winner.desk.save()
     print("assign_winner success")
 
     print('start_game')
-
     first_player_position = start_logic(public_name)
-    cur_desk = Desk_info.objects.get(desk_name=public_name)
-    User_Game_play.objects.get(desk=cur_desk, position=first_player_position).status = 1
+    first_move_user = User_Game_play.objects.get(desk=desk, position=first_player_position)
+    first_move_user.status = 1
+    first_move_user.save()
     # '+1' added by lsn
     content = {'move': int(first_player_position) + 1,
-               'current_round_largest_chips': cur_desk.current_round_largest_chips}
+               'current_round_largest_chips': desk.current_round_largest_chips}
     Group(public_name).send({'text': json.dumps(content)})
-    return
 
 
 def winner_logic(cur_desk):
     # if there's only one player whose status is other than fold
     if len(cur_desk.player_queue) == 1:
         winner = User_Game_play.objects.get(desk=cur_desk, position=int(cur_desk.player_queue[0]))
-        assign_winner(winner)
+        assign_winner(cur_desk, [[winner.position]])
         return
 
     # if this is the end of river phase
