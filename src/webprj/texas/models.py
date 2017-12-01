@@ -39,7 +39,8 @@ def save_user_info(sender, instance, **kwargs):
 
 
 class Desk_info(models.Model):
-    desk_name = models.CharField(max_length=40, default="test", blank=False, primary_key=True)
+    desk_name = models.CharField(
+        max_length=40, default="test", blank=False, primary_key=True)
     owner = models.OneToOneField(
         User_info, on_delete=models.CASCADE, null=True)
     capacity = models.IntegerField(default=9)
@@ -60,8 +61,13 @@ class Desk_info(models.Model):
     phase = models.CharField(max_length=10, default='pre_flop')
 
     next_dealer = models.IntegerField(default=-1)
+
     def __str__(self):
-        return "desk_name: %s, owner: %s, capacity: %d, current: %d, is_start: %d, position_queue: %s, player_queue: %s, player_queue_pointer: %d, five_cards_of_desk: %s, current_largest_chips_this_game: %d, pool: %d" %(self.desk_name, self.owner, self.capacity, self.current_capacity,self.is_start, self.position_queue,self.player_queue, self.player_queue_pointer, self.five_cards_of_desk, self.current_largest_chips_this_game, self.pool)
+        return "desk_name: %s, owner: %s, capacity: %d, current: %d, is_start: %d, position_queue: %s, player_queue: %s, player_queue_pointer: %d, five_cards_of_desk: %s, current_largest_chips_this_game: %d, pool: %d" % (
+            self.desk_name, self.owner, self.capacity, self.current_capacity,
+            self.is_start, self.position_queue, self.player_queue,
+            self.player_queue_pointer, self.five_cards_of_desk,
+            self.current_largest_chips_this_game, self.pool)
 
 
 class User_Game_play(models.Model):
@@ -77,7 +83,6 @@ class User_Game_play(models.Model):
     status = models.IntegerField(default=0)
     chips_pay_in_this_game = models.IntegerField(default=0)
     is_fold = models.BooleanField(default=False)
-
 
     def __str__(self):
         return "desk_name: %s, username: %s, position: %d, user_cards: %s, status: %d"%\

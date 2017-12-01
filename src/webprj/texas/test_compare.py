@@ -10,12 +10,12 @@ cards5 = [[0, 3], [1, 4], [2, 5], [3, 6], [0, 7]]
 cards6 = [[0, 4], [1, 4], [2, 4], [3, 5], [2, 6]]
 cards7 = [[0, 2], [1, 3], [0, 4], [1, 2], [0, 12]]
 cards8 = [[0, 2], [1, 5], [0, 7], [1, 12], [0, 9]]
-card = [['1', 1], ['J', 1], ['Q', 2], ['K', 3], ['10', 2], ['9', 3], ['2', 0], ['2', 1], ['5', 3]]
+card = [['1', 1], ['J', 1], ['Q', 2], ['K', 3], ['10', 2], ['9', 3], ['2', 0],
+        ['2', 1], ['5', 3]]
 my = [['2', 1], ['2', 2], ['7', 1], ['7', 3], ['7', 2], ['J', 3], ['3', 2]]
 
 # suit 0-3
 # number 2-14 (2, 3, ...10, J, Q, K, A)
-
 """
 input:
     card: [[Num, Color], ...,]
@@ -23,14 +23,12 @@ input:
     card[5-6]: robot card
     card[7-8]: my card
 """
-
 """
 output value:
     names = [[num_1,color_1],[num_2,color_2],...[]]
     card = '1',...,'10','J','Q','K'
     color = 0,1,2,3
 """
-
 
 # def shuffle_card(num_player):
 #     nums = []
@@ -58,13 +56,16 @@ output value:
 #
 #     return names
 
+
 # shuffle the numbers of [0, 1,... , 51]
 def shuffle_card(num_player):
     all_cards = [i for i in range(52)]
     for i in range(52):
         shuffle_pos = randint(0, i)
-        all_cards[i], all_cards[shuffle_pos] = all_cards[shuffle_pos], all_cards[i]
-    return all_cards[: num_player * 2 + 5]
+        all_cards[i], all_cards[shuffle_pos] = all_cards[
+            shuffle_pos], all_cards[i]
+    return all_cards[:num_player * 2 + 5]
+
 
 """
 input:
@@ -84,8 +85,7 @@ def decide_winner(card):
     robot = transfer(card[0:7])
     print(my)
     my_level, my_score, my_type, my_card = highest(my)
-    robot_level, robot_score, robot_type, robot_card = highest(
-        robot)
+    robot_level, robot_score, robot_type, robot_card = highest(robot)
     if (my_level >
             robot_level) or my_level == robot_level and my_score > robot_score:
         return my_type + " V.S." + robot_type + "<br> You win!"
@@ -118,6 +118,7 @@ def transfer(my):
     for c in cards_com:
         my_cards.append(sorted(list(c), key=second))
     return my_cards
+
 
 def transfer_reverse(my):
     my_cards = []
@@ -196,7 +197,7 @@ def is_full_house(cards):
     for num in range(2, 15):
         if num_list.count(num) == 2:
             return is_trip(cards)
-    return [False,0]
+    return [False, 0]
 
 
 def is_trip(cards):
@@ -237,7 +238,10 @@ def is_pair(cards):
     if pair != 0:
         sorted(single)
         #print(single, cards)
-        return [True, pair * (10 ** 6) + single[2] * (10 ** 4) + single[1] * (10 ** 2) + single[0] * (10 ** 0)]
+        return [
+            True, pair * (10**6) + single[2] * (10**4) + single[1] *
+            (10**2) + single[0] * (10**0)
+        ]
     else:
         return [False, 0]
 
@@ -245,8 +249,8 @@ def is_pair(cards):
 # get the highest number
 def high(cards):
     single = get_num_list(cards)
-    return single[4] * (10 ** 8) + single[3] * (10 ** 6) + single[2] * (10 ** 4) + single[1] * (10 ** 2) + single[0] * (
-        10 ** 0)
+    return single[4] * (10**8) + single[3] * (10**6) + single[2] * (
+        10**4) + single[1] * (10**2) + single[0] * (10**0)
 
 
 # level:
@@ -259,7 +263,17 @@ def high(cards):
 # TWO_PAIRS      = 2  #liang dui
 # PAIR           = 1  #yi dui
 # HIGH           = 0  #gao pai
-LEVEL = {8:"Straight Flush",7:"Four of a Kind",6:"Full House",5:" Flush", 4:"Straight",3:"Three of a Kind",2:"Two Pair",1:"Pair",0:"High"}
+LEVEL = {
+    8: "Straight Flush",
+    7: "Four of a Kind",
+    6: "Full House",
+    5: " Flush",
+    4: "Straight",
+    3: "Three of a Kind",
+    2: "Two Pair",
+    1: "Pair",
+    0: "High"
+}
 
 
 def calculate_level(cards):
@@ -300,6 +314,7 @@ def highest(all_cards):
     #print(max_level, max_score, LEVEL[max_level], transfer_reverse(max_card))
     return max_level, max_score, LEVEL[max_level], transfer_reverse(max_card)
 
+
 """
 print(calculate_level(cards1))
 print(calculate_level(cards2))
@@ -333,7 +348,7 @@ def decide_winner_all(all_user_card):
             if num == 13:
                 num = 'K'
             user_card_list.append([str(num), suit])
-        results.append((s[0],(highest(transfer(user_card_list)))))
+        results.append((s[0], (highest(transfer(user_card_list)))))
     print(results)
     tmp_results = copy.deepcopy(results)
     print(tmp_results)
@@ -360,4 +375,5 @@ def decide_winner_all(all_user_card):
 
     return winner_sort_list, tmp_results
 
-print(decide_winner_all(all_user_card))
+
+# print(decide_winner_all(all_user_card))
