@@ -189,13 +189,20 @@ def get_next_pos(cur_pos, player_queue):
     return pos + 1
 
 
+# TODO: update interface
 def give_control(player_position, this_desk):
     print('give control to player position: ', player_position)
-    # current round biggest chips
-    content = {
-        'move': int(player_position) + 1,
-        'current_round_largest_chips': this_desk.current_round_largest_chips
-    }
+    this_user = User_Game_play.objects.get(
+        desk=this_desk, position=player_position)
+    content = {'move': {}}
+    can_check, can_raise, raise_amount = True, False, 0
+    if this_user.user.chips < this_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game:
+        can_check = False
+    content['move']['check'] = can_check
+    if this_user.user.chips >= this_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game + this_desk.current_round_largest_chips:
+        can_raise = True
+        raise_amount = this_user.user.chips - this_desk.current_largest_chips_this_game
+    content['move']['raise'] = [can_raise, [0, raise_amount]]
     Group(str(this_desk.desk_name)).send({'text': json.dumps(content)})
 
 
@@ -431,7 +438,6 @@ def next_phase(cur_desk):
                 next_user = user
     cur_desk.current_round_largest_chips = 0
     cur_desk.save()
-    # TODO: maybe bug here
     give_control(next_user.position, cur_desk)
 
 
@@ -455,6 +461,7 @@ def ws_msg(message):
         User_Game_play.objects.get(
             desk=cur_desk, position=first_player_position).status = 1
         # '+1' added by lsn
+        # TODO: update interface
         content = {
             'move': int(first_player_position) + 1,
             'current_round_largest_chips': cur_desk.current_round_largest_chips
@@ -555,7 +562,6 @@ def ws_msg(message):
     this_desk.save()
     this_user_info.save()
 
-    # TODO: maybe bug here
     this_desk.player_queue_pointer = next_pos_queue
     next_pos_desk = int(this_desk.player_queue[next_pos_queue])
     print('next_pos_desk: ', next_pos_desk)
