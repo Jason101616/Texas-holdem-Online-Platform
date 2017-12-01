@@ -104,36 +104,36 @@ $(document).ready(function () {
         var color = (value - num++) / 13;
         switch (color) {
             case 0:
-            value = '♥';
-            break;
+                value = '♥';
+                break;
             case 1:
-            value = '♣';
-            break;
+                value = '♣';
+                break;
             case 2:
-            value = '♦';
-            break;
+                value = '♦';
+                break;
             case 3:
-            value = '♠';
-            break;
+                value = '♠';
+                break;
             default:
-            break;
+                break;
         }
         switch (num) {
             case 1:
-            value = 'A' + value;
-            break;
+                value = 'A' + value;
+                break;
             case 11:
-            value = 'J' + value;
-            break;
+                value = 'J' + value;
+                break;
             case 12:
-            value = 'Q' + value;
-            break;
+                value = 'Q' + value;
+                break;
             case 13:
-            value = 'K' + value;
-            break;
+                value = 'K' + value;
+                break;
             default:
-            value = num + value;
-            break;
+                value = num + value;
+                break;
         }
         return value;
     }
@@ -167,7 +167,7 @@ $(document).ready(function () {
             $('#start_game')[0].disabled = false;
         }
 
-        if (data['start_game']){
+        if (data['start_game']) {
             $('#leave_room')[0].disabled = true;
             $('#start_game')[0].disabled = true;
             $('#message').html('Game started!');
