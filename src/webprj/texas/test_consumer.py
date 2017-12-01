@@ -557,8 +557,15 @@ def ws_msg(message):
               this_user_game_play.chips_pay_in_this_game)
 
     elif data['message'] == 'all_in':
-        # TODO: finish all in logic
-        pass
+        this_desk.pool += this_user_info.chips
+        this_user_game_play.status = -1
+        raise_amount = this_user_info.chips - (this_desk.current_largest_chips_this_game - this_user_game_play.chips_pay_in_this_game)
+        if raise_amount > this_desk.current_round_largest_chips:
+            this_desk.current_round_largest_chips = raise_amount
+        if this_user_info.chips + this_user_game_play.chips_pay_in_this_game > this_desk.current_largest_chips_this_game:
+            this_desk.current_largest_chips_this_game = this_user_info.chips + this_user_game_play.chips_pay_in_this_game
+        this_user_info.chips = 0
+
     # this_user_info.save()
     this_user_game_play.save()
     this_desk.save()
