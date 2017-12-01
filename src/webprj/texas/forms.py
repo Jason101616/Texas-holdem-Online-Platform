@@ -14,8 +14,7 @@ class SignupForm(forms.ModelForm):
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=20, label="Username")
-    password = forms.CharField(
-        max_length=32, label="Password", widget=forms.PasswordInput)
+    password = forms.CharField(max_length=32, label="Password", widget = forms.PasswordInput)
 
     def clean(self):
         cleaned_data = super(LoginForm, self).clean()
@@ -44,6 +43,5 @@ class DeskForm(forms.ModelForm):
             raise forms.ValidationError("Desk Name are required.")
         for s in desk_name:
             if not s.isalnum():
-                raise forms.ValidationError(
-                    "Desk Name can only be number of characters.")
+                raise forms.ValidationError("Desk Name can only be number of characters.")
         return cleaned_data

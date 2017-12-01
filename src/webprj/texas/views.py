@@ -140,20 +140,12 @@ def addplayer(request):
         pos = player.position - loguser.position
         if pos < 0:
             pos = pos + 9
-        player_info = {
-            'username': username,
-            'position': pos,
-            'chips': player.user.chips
-        }
+        player_info = {'username': username, 'position': pos, 'chips': player.user.chips}
         context_players.append(player_info)
 
     context['players'] = context_players
 
-    return render(
-        request,
-        'json/newplayers.json',
-        context,
-        content_type='application/json')
+    return render(request, 'json/newplayers.json', context, content_type='application/json')
 
 
 @login_required
@@ -177,8 +169,7 @@ def getjob(request, pos_big, pos_small, pos_dealer):
 
     context = {'big_blind': pos1, 'small_blind': pos2, 'dealer': pos3}
 
-    return render(
-        request, 'json/getjob.json', context, content_type='application/json')
+    return render(request, 'json/getjob.json', context, content_type='application/json')
 
 
 @login_required
@@ -187,17 +178,14 @@ def get_position(request):
     loguser_mod = get_object_or_404(User_info, user=request.user)
     loguser = get_object_or_404(User_Game_play, user=loguser_mod)
     context = {}
+
     '''pos = int(position) - 1 - loguser.position
     if pos < 0:
         pos = pos + 9'''
 
     context = {'position': loguser.position}
 
-    return render(
-        request,
-        'json/position.json',
-        context,
-        content_type='application/json')
+    return render(request, 'json/position.json', context, content_type='application/json')
 
 
 @login_required
@@ -205,15 +193,13 @@ def get_position(request):
 def newplay(request):
     print("enter newplay")
     if request.method == 'POST':
-        print("post")
+        print ("post")
         desk_form = DeskForm(request.POST)
         if not desk_form.is_valid():
             return redirect(reverse('lobby'))
         room_id = str(desk_form.cleaned_data['desk_name'])
         this_user_info = User_info.objects.get(user=request.user)
-        new_desk = Desk_info(
-            desk_name=str(desk_form.cleaned_data['desk_name']),
-            owner=this_user_info)
+        new_desk = Desk_info(desk_name=str(desk_form.cleaned_data['desk_name']), owner=this_user_info)
         new_desk.save()
         return redirect(reverse('playroom', kwargs={'deskname': room_id}))
     print("return lobby")
