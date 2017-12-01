@@ -4,5 +4,5 @@ from texas.test_consumer import *
 channel_routing = [
     route('websocket.receive', ws_msg),
     route('websocket.connect', ws_add),
-    route('websocket.diconnect',ws_disconnect),
+    route('websocket.disconnect',ws_disconnect),
 ]
