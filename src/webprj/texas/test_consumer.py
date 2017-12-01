@@ -204,14 +204,14 @@ def give_control(player_position,this_desk):
 
 def judge_logic(next_player, desk):
     if len(desk.player_queue) == 1:
-        print("judge logic b0")
+        print("judge logic only one player")
         assign_winner(next_player)
         return
 
     status = next_player.status
     # if next player hasn't moved in this turn, give control to him
     if status == 0:
-        print("judge logic b1")
+        print("judge logic not moved")
         give_control(next_player.position, desk)
         return
 
@@ -222,12 +222,23 @@ def judge_logic(next_player, desk):
     #     next_player = find_next_player(desk)
     #     return judge_logic(next_player, desk)
 
-    # if his stutas is not fold
+    # if his status is all-in
+    if status == -1:
+        print("judge logic all-in")
+        if next_player.chips_pay_in_this_game == desk.current_largest_chips_this_game:
+            # go to winner_logic
+            return winner_logic(desk)
+        else:
+            # TODO: find next player and update queue pointer
+            # next_player = find_next_player(desk)
+            return judge_logic(next_player, desk)
+
+    # if his status is not fold
     if status == 1:
-        print("judge logic b3")
+        print("judge logic moved")
         # if his bet is the highest bet in the table
         if next_player.chips_pay_in_this_game == desk.current_largest_chips_this_game:
-            print("judge logic b31")
+            print("judge logic moved and equal to highest")
             # go to winner_logic
             return winner_logic(desk)
         else:
