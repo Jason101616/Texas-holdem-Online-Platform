@@ -15,9 +15,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+
 @transaction.atomic
 def delete_desk(desk):
     desk.delete()
+
 
 @transaction.atomic
 @channel_session_user
@@ -28,7 +30,7 @@ def diconnect_user(message, username):
     # get desk
     public_name = message['path'].strip('/').split('/')[-1]
     print(message['path'].strip('/').split('/')[-1])
-    desk = Desk_info.objects.get(desk_name = public_name)
+    desk = Desk_info.objects.get(desk_name=public_name)
     max_capacity = desk.capacity
     # Group(public_name).discard(message.reply_channel)
     print('success')
@@ -72,7 +74,7 @@ def diconnect_user(message, username):
     desk.save()
 
     if desk.current_capacity == desk.capacity:
-       delete_desk(desk)
+        delete_desk(desk)
     return
 
 
@@ -80,7 +82,7 @@ def diconnect_user(message, username):
 def start_logic(public_name):
     print('start signal received!')
     # let the user in lowest position be the dealer
-    cur_desk = Desk_info.objects.get(desk_name = public_name)
+    cur_desk = Desk_info.objects.get(desk_name=public_name)
     users_of_cur_desk = User_Game_play.objects.filter(
         desk=cur_desk).order_by('position')
     print(users_of_cur_desk)
@@ -186,7 +188,7 @@ def get_next_pos(cur_pos, player_queue):
     return pos + 1
 
 
-def give_control(player_position,this_desk):
+def give_control(player_position, this_desk):
     print('give control to player position: ', player_position)
     # current round biggest chips
     content = {'move': int(player_position) + 1, 'current_round_largest_chips': this_desk.current_round_largest_chips}
@@ -200,6 +202,7 @@ def find_next_player(desk, player):
     next_user = User_Game_play.objects.get(desk=desk, position=next_pos_desk)
     desk.save()
     return next_user
+
 
 def judge_logic(next_player, desk):
     if len(desk.player_queue) == 1:
@@ -242,7 +245,7 @@ def judge_logic(next_player, desk):
 
 
 def assign_winner(desk, winner_list):
-    print("winner list:",winner_list)
+    print("winner list:", winner_list)
     # update the chips of current desk
     cur_pool = desk.pool
     while cur_pool > 0:
@@ -332,7 +335,7 @@ def winner_logic(cur_desk):
         winner_list, results = river_compare(cur_desk)
         print(winner_list)
         # for test, just give the first person in the queue
-        #TODO: multiple winner logic
+        # TODO: multiple winner logic
         # winner = User_Game_play.objects.get(desk=cur_desk, position=winner_pos[0])
         assign_winner(cur_desk, winner_list)
         return
@@ -344,20 +347,18 @@ def winner_logic(cur_desk):
         # all_in_compare()
         pass
 
-
-
     # continue the game to next phase
     return next_phase(cur_desk)
 
 
 def river_compare(cur_desk):
     cur_cards = cur_desk.five_cards_of_desk
-    public_card_list = list(map(int,cur_cards.split(' ')))
+    public_card_list = list(map(int, cur_cards.split(' ')))
     print(public_card_list)
     all_user_card = []
     for i in cur_desk.player_queue:
         user = User_Game_play.objects.get(desk=cur_desk, position=i)
-        tmp = (user.position, public_card_list + list(map(int,user.user_cards.split(' '))))
+        tmp = (user.position, public_card_list + list(map(int, user.user_cards.split(' '))))
         all_user_card.append(tmp)
     print(all_user_card)
     winner, results = test_compare.decide_winner_all(all_user_card)
@@ -399,7 +400,7 @@ def next_phase(cur_desk):
     # let the player next to the dealer to move
     first_user = 0
     for i in cur_desk.player_queue:
-        user = User_Game_play.objects.get(desk=cur_desk,position=i)
+        user = User_Game_play.objects.get(desk=cur_desk, position=i)
         if user.status != -1:
             user.status = 0
             user.save()
@@ -411,7 +412,7 @@ def next_phase(cur_desk):
                 next_user = user
     cur_desk.current_round_largest_chips = 0
     cur_desk.save()
-    #TODO: maybe bug here
+    # TODO: maybe bug here
     give_control(next_user.position, cur_desk)
 
 
@@ -434,7 +435,8 @@ def ws_msg(message):
         cur_desk = Desk_info.objects.get(desk_name=public_name)
         User_Game_play.objects.get(desk=cur_desk, position=first_player_position).status = 1
         # '+1' added by lsn
-        content = {'move': int(first_player_position) + 1, 'current_round_largest_chips': cur_desk.current_round_largest_chips}
+        content = {'move': int(first_player_position) + 1,
+                   'current_round_largest_chips': cur_desk.current_round_largest_chips}
         Group(public_name).send({'text': json.dumps(content)})
         return
 
@@ -457,7 +459,7 @@ def ws_msg(message):
     if data['message'] == 'call' or data['message'] == 'check' or data['message'] == 'hold':
         # current user put more chips
         print('current largest chips this game:', this_desk.current_largest_chips_this_game)
-        print('current largest chips this round:',this_desk.current_round_largest_chips)
+        print('current largest chips this round:', this_desk.current_round_largest_chips)
         print('this user chips pay in this game:', this_user_game_play.chips_pay_in_this_game)
         this_user_info.chips -= (this_desk.current_largest_chips_this_game -
                                  this_user_game_play.chips_pay_in_this_game)
@@ -520,10 +522,11 @@ def ws_msg(message):
     this_desk.player_queue_pointer = next_pos_queue
     next_pos_desk = int(this_desk.player_queue[next_pos_queue])
     print('next_pos_desk: ', next_pos_desk)
-    next_user = User_Game_play.objects.get(desk=this_desk,position=next_pos_desk)
+    next_user = User_Game_play.objects.get(desk=this_desk, position=next_pos_desk)
 
     content = {'cur_user_pos': this_user_game_play.position + 1, 'cur_user_chips': this_user_info.chips,
-               'total_chips_current_game': this_desk.pool, 'cur_user_chips_this_game': this_user_game_play.chips_pay_in_this_game}
+               'total_chips_current_game': this_desk.pool,
+               'cur_user_chips_this_game': this_user_game_play.chips_pay_in_this_game}
     print(content)
     Group(public_name).send({'text': json.dumps(content)})
 
@@ -531,7 +534,7 @@ def ws_msg(message):
     this_user_info.save()
     this_user_game_play.save()
     this_desk.save()
-    print ("next_user before judge logic: ", next_user)
+    print("next_user before judge logic: ", next_user)
     judge_logic(next_user, this_desk)
 
 
@@ -578,7 +581,7 @@ def ws_add(message):
 
     this_position = int(desk.position_queue[0])
     desk.position_queue = desk.position_queue[1:]
-    #print(this_user_info)
+    # print(this_user_info)
 
     # Allocate a postion to the user
     player = User_Game_play(
