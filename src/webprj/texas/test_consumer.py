@@ -189,7 +189,6 @@ def get_next_pos(cur_pos, player_queue):
     return pos + 1
 
 
-# TODO: update interface
 def give_control(player_position, this_desk):
     print('give control to player position: ', player_position)
     this_user = User_Game_play.objects.get(
@@ -235,7 +234,6 @@ def judge_logic(next_player, desk):
             # go to winner_logic
             return winner_logic(desk)
         else:
-            # TODO: find next player and update queue pointer
             # update next player
             next_player = find_next_player(desk, next_player)
             return judge_logic(next_player, desk)
@@ -355,12 +353,10 @@ def winner_logic(cur_desk):
 
     # if this is the end of river phase
     if cur_desk.phase == 'river':
-        # TODO: modify decide_winner function
         # winner list is a sorted list, each element is a list contain user postions
         winner_list, results = river_compare(cur_desk)
         print(winner_list)
         # for test, just give the first person in the queue
-        # TODO: multiple winner logic
         # winner = User_Game_play.objects.get(desk=cur_desk, position=winner_pos[0])
         assign_winner(cur_desk, winner_list)
         return
@@ -458,14 +454,20 @@ def ws_msg(message):
         first_player_position = start_logic(public_name)
 
         cur_desk = Desk_info.objects.get(desk_name=public_name)
-        User_Game_play.objects.get(
-            desk=cur_desk, position=first_player_position).status = 1
+        this_user = User_Game_play.objects.get(
+            desk=cur_desk, position=first_player_position)
+        this_user.status = 1
         # '+1' added by lsn
-        # TODO: update interface
-        content = {
-            'move': int(first_player_position) + 1,
-            'current_round_largest_chips': cur_desk.current_round_largest_chips
-        }
+        content = {'move': {}}
+        can_check, can_raise, raise_amount = True, False, 0
+        if this_user.user.chips < cur_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game:
+            can_check = False
+        content['move']['check'] = can_check
+        if this_user.user.chips >= cur_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game + cur_desk.current_round_largest_chips:
+            can_raise = True
+            raise_amount = this_user.user.chips - cur_desk.current_largest_chips_this_game
+        content['move']['raise'] = [can_raise, [0, raise_amount]]
+        this_user.save()
         Group(public_name).send({'text': json.dumps(content)})
         return
 
