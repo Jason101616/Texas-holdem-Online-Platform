@@ -24,6 +24,7 @@ function start_timer() {
 function stop_timer() {
     console.log('stop timer');
     clearTimeout(timeout);
+    timer = COUNT_DOWN;
 }
 
 function click_hold() {
@@ -216,6 +217,7 @@ $(document).ready(function () {
 
             for (i = 0; i < 9; i++) {
                 $('#player-' + i)[0].children[0].children[0].children[0].children[0].innerHTML = '';
+                $('#player-' + i)[0].children[0].children[0].children[0].children[1].innerHTML = '';
             }
 
             $.ajax({
@@ -258,7 +260,7 @@ $(document).ready(function () {
                             if (position == 0) continue;
 
                             chips = data.players[i]['chips'];
-                            $('#player-' + position)[0].children[0].children[0].children[0].children[1].innerHTML =
+                            $('#player-' + position)[0].children[0].children[0].children[0].children[2].innerHTML =
                             username;
                             $('#player-' + position)[0].style.visibility = 'visible';
                             $('#player-' + position)[0].children[0].children[2].children[0].children[0].innerHTML =
@@ -283,6 +285,7 @@ $(document).ready(function () {
                 $('#card-' + i + '-1').html('<p class = \'small\'>*</p>');
                 $('#card-' + i + '-2').html('<p class = \'small\'>*</p>');
                 $('#player-' + i)[0].children[0].children[0].children[0].children[0].innerHTML = '';
+                $('#player-' + i)[0].children[0].children[0].children[0].children[1].innerHTML = '';
             }
             for (i = 0; i < 5; i++) {
                 $('#desk-' + i).html('*');
@@ -297,15 +300,15 @@ $(document).ready(function () {
                 data: '',
                 success: function (data) {
                     pos1 = data['big_blind'];
-                    $('#player-' + pos1)[0].children[0].children[0].children[0].children[0].innerHTML +=
+                    $('#player-' + pos1)[0].children[0].children[0].children[0].children[1].innerHTML +=
                     '[big blind]<br>\n';
 
                     pos2 = data['small_blind'];
-                    $('#player-' + pos2)[0].children[0].children[0].children[0].children[0].innerHTML +=
+                    $('#player-' + pos2)[0].children[0].children[0].children[0].children[1].innerHTML +=
                     '[small blind]<br>\n';
 
                     pos3 = data['dealer'];
-                    $('#player-' + pos3)[0].children[0].children[0].children[0].children[0].innerHTML +=
+                    $('#player-' + pos3)[0].children[0].children[0].children[0].children[1].innerHTML +=
                     '[dealer]<br>\n';
                 }
             })
@@ -438,18 +441,8 @@ $(document).ready(function () {
                                 pokers = user_cards[i.toString()].split(' ');
                                 pokers[0] = poker_string(parseInt(pokers[0]));
                                 pokers[1] = poker_string(parseInt(pokers[1]));
-                                $('#player-' + pos)[0].children[0]
-                                .children[1]
-                                .children[0]
-                                .children[0]
-                                .children[0]
-                                .innerHTML = pokers[0];
-                                $('#player-' + pos)[0].children[0]
-                                .children[1]
-                                .children[1]
-                                .children[0]
-                                .children[0]
-                                .innerHTML = pokers[1];
+                                $('#player-' + pos)[0].children[0].children[1].children[0].children[0].children[0].innerHTML = pokers[0];
+                                $('#player-' + pos)[0].children[0].children[1].children[1].children[0].children[0].innerHTML = pokers[1];
                             }
                         }
                     }
