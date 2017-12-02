@@ -483,5 +483,14 @@ $(document).ready(function () {
             })
 
         }
+
+        if (data['owner']) {
+            if (data['owner'] == 'yes') {
+                $('#message').html('Ready to start: please start the game');
+            }
+            else {
+                $('#message').html('Waiting for the owner to start the game');
+            }
+        }
     };
 });
