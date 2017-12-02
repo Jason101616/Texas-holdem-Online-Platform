@@ -338,6 +338,7 @@ def assign_winner(desk, winner_list):
     desk.current_largest_chips_this_game = 0
     desk.pool = 0
     desk.current_round_largest_chips = 0
+    desk.save()
 
     # assign the winner, and show all the cards to all users
     cur_desk_users = User_Game_play.objects.filter(desk=desk)
