@@ -390,7 +390,7 @@ def start_next_game(this_desk, public_name):
     elif player_num == 1:
         this_desk.is_start = False
         this_desk.save()
-        content = {'can_start': 'no'}
+        content = {'restart': 'no'}
         Group(str(this_desk.desk_name)).send({'text': json.dumps(content)})
 
     active_users_list = []
@@ -399,8 +399,7 @@ def start_next_game(this_desk, public_name):
     content = {'active_players': active_users_list}
     Group(public_name).send({'text': json.dumps(content)})
     if not this_desk.is_start:
-        # send a message to front end to renew the desk, send a message indicating the users still in the game
-        pass
+        return
     else:
         print('start_game')
         first_player_position = start_logic(public_name)
