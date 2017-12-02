@@ -492,6 +492,7 @@ def next_phase(cur_desk):
         dealer_queue_pos = 0
     next_user_position = cur_desk.player_queue[dealer_queue_pos]
     cur_desk.current_round_largest_chips = 0
+    cur_desk.player_queue_pointer = dealer_queue_pos
     cur_desk.save()
     give_control(next_user_position, cur_desk)
 
