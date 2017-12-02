@@ -314,6 +314,7 @@ def assign_winner(desk, winner_list):
                     if cur_winner.status == -1:
                         cur_winner.user.chips += cur_winner.chips_pay_in_this_game * 2
                         cur_pool -= cur_winner.chips_pay_in_this_game * 2
+                        cur_winner.user.save()
                     else:
                         not_all_in_cnt += 1
 
@@ -323,6 +324,7 @@ def assign_winner(desk, winner_list):
                             desk=desk, position=winner_pos)
                         if cur_winner.status != -1:
                             cur_winner.user.chips += cur_pool // not_all_in_cnt
+                            cur_winner.user.save()
                     # if there is at least one winner who is not all in, pool will become zero
                     cur_pool = 0
             else:
@@ -333,6 +335,7 @@ def assign_winner(desk, winner_list):
                     cur_winner.user.chips += (
                         cur_winner.chips_pay_in_this_game /
                         (threshold // 2) * cur_pool)
+                    cur_winner.user.save()
                 cur_pool = 0
 
     # reset the phase of the current desk
@@ -594,7 +597,7 @@ def ws_msg(message):
                            this_user_game_play.chips_pay_in_this_game)
         this_user_game_play.chips_pay_in_this_game = this_desk.current_largest_chips_this_game
 
-        chips_add = data['value']
+        chips_add = int(data['value'])
         # current user put more chips
         this_user_info.chips -= chips_add
         this_user_game_play.chips_pay_in_this_game += chips_add
@@ -603,7 +606,7 @@ def ws_msg(message):
         if chips_add < this_desk.current_round_largest_chips:
             print(
                 "Invaid!!!, chips_add < this_desk.current_round_largest_chips")
-        this_desk.current_round_largest_chips = data['value']
+        this_desk.current_round_largest_chips = int(data['value'])
         next_pos_queue = get_next_pos(this_user_game_play.position,
                                       this_desk.player_queue)
         this_user_game_play.status = 1
