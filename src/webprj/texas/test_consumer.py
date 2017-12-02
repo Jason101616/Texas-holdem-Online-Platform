@@ -841,4 +841,35 @@ def ws_disconnect(message):
         desk.position_queue += str(this_player.position)
         print("after leave: ", desk)
         desk.save()
+        if int(desk.player_queue[desk.player_queue_pointer]) == this_player.position:
+            next_pos_queue = get_next_pos(this_player.position,
+                                          desk.player_queue)
+            desk.player_queue = desk.player_queue[:desk.player_queue_pointer] + \
+                                     desk.player_queue[desk.player_queue_pointer + 1:]
+            desk.player_queue_pointer -= 1
+            this_player.status = 1
+            if next_pos_queue > 0:
+                next_pos_queue -= 1
+            this_player.save()
+            desk.save()
+            this_user_info.save()
 
+            desk.player_queue_pointer = next_pos_queue
+            next_pos_desk = int(desk.player_queue[next_pos_queue])
+            print('next_pos_desk: ', next_pos_desk)
+            next_user = User_Game_play.objects.get(
+                desk=desk, position=next_pos_desk)
+
+            content = {
+                'cur_user_pos': this_player.position + 1,
+                'cur_user_chips': this_user_info.chips,
+                'total_chips_current_game': desk.pool,
+                'cur_user_chips_this_game': this_player.chips_pay_in_this_game,
+                'act': 'quit'
+            }
+            Group(public_name).send({'text': json.dumps(content)})
+            this_user_info.save()
+            this_player.save()
+            desk.save()
+            print(content)
+            judge_logic(next_user, desk)
