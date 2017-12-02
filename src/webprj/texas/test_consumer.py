@@ -770,7 +770,12 @@ def ws_add(message):
 
     # Give owner signal
     if desk.owner == this_user_info:
-        Group(position_name).send({'text': 'owner!'})
+        content = {"owner": "yes"}
+        Group(position_name).send({'text': json.dumps(content)})
+    else:
+        content = {"owner": "no"}
+        Group(position_name).send({'text': json.dumps(content)})
+
 
     player.save()
     desk.save()
@@ -784,10 +789,18 @@ def ws_add(message):
 
     # If current player is 2 or more, owner can start the game
     if desk.current_capacity <= max_capacity - 2:
-        content = {'can_start': 'yes'}
         this_player = User_Game_play.objects.get(user=desk.owner)
-        print(this_player.position)
+        content = {"owner": this_player.position + 1}
+        Group(public_name).send({'text': json.dumps(content)})
+        content = {'can_start': 'yes'}
         Group(public_name + str(this_player.position)).send({'text': json.dumps(content)})
+    else:
+        this_player = User_Game_play.objects.get(user=desk.owner)
+        content = {"owner": this_player.position + 1}
+        Group(public_name).send({'text': json.dumps(content)})
+        content = {'can_start': 'no'}
+        Group(public_name + str(this_player.position)).send({'text': json.dumps(content)})
+
 
     print('c:%d,m:%d,f:%d,o:%s,p:%s' %
           (desk.current_capacity, desk.capacity, desk.is_start, desk.owner,
@@ -862,10 +875,10 @@ def ws_disconnect(message):
 
         desk.save()
 
-        #send to new owner
+        #send the new owner to public
         if owner_position != -1:
-            content = {"owner": "yes"}
-            Group(public_name + str(owner_position)).send({'text': json.dumps(content)})
+            content = {"owner": owner_position + 1}
+            Group(public_name).send({'text': json.dumps(content)})
 
         if desk.current_capacity == desk.capacity:
             delete_desk(desk)
