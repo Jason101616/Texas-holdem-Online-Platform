@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from threading import Timer
 
 time_out = 30
 @transaction.atomic
@@ -371,6 +372,13 @@ def assign_winner(desk, winner_list):
     Group(public_name).send({'text': json.dumps(content)})
     print("assign_winner success")
     # delete all disconnect user and ready to restart
+
+    t = Timer(10.0, start_next_game, [desk, desk.desk_name])
+    t.start()
+
+
+def start_next_game(this_desk, public_name):
+    cur_desk_users = User_Game_play.objects.filter(desk=this_desk)
     player_num = 0
     for user in cur_desk_users:
         if user.is_fold:
@@ -378,13 +386,41 @@ def assign_winner(desk, winner_list):
         else:
             player_num += 1
     if player_num == 0:
-        desk.delete()
+        this_desk.delete()
     elif player_num == 1:
-        desk.is_start = False
-        desk.save()
+        this_desk.is_start = False
+        this_desk.save()
         content = {'can_start': 'no'}
-        Group(str(desk.desk_name)).send({'text': json.dumps(content)})
-        return
+        Group(str(this_desk.desk_name)).send({'text': json.dumps(content)})
+
+    active_users_list = []
+    for player in User_Game_play.objects.filter(desk=this_desk).order_by('position'):
+        active_users_list.append(int(player.position))
+    content = {'active_players': active_users_list}
+    Group(public_name).send({'text': json.dumps(content)})
+    if not this_desk.is_start:
+        # send a message to front end to renew the desk, send a message indicating the users still in the game
+        pass
+    else:
+        print('start_game')
+        first_player_position = start_logic(public_name)
+        first_move_user = User_Game_play.objects.get(
+            desk=this_desk, position=first_player_position)
+        first_move_user.status = 1
+        first_move_user.save()
+        # '+1' added by lsn
+        content = {}
+        content['move'] = int(first_player_position) + 1
+        can_check, can_raise, raise_amount = True, False, 0
+        if first_move_user.user.chips < this_desk.current_largest_chips_this_game - first_move_user.chips_pay_in_this_game:
+            can_check = False
+        content['check'] = can_check
+        if first_move_user.user.chips >= this_desk.current_largest_chips_this_game - first_move_user.chips_pay_in_this_game + this_desk.current_round_largest_chips:
+            can_raise = True
+            raise_amount = first_move_user.user.chips - this_desk.current_largest_chips_this_game
+        content['raise'] = [can_raise, [this_desk.current_largest_chips_this_game, raise_amount]]
+        first_move_user.save()
+        Group(public_name).send({'text': json.dumps(content)})
 
 
 def winner_logic(cur_desk):
@@ -642,38 +678,36 @@ def ws_msg(message):
         next_pos_queue = get_next_pos(this_user_game_play.position,
                                       this_desk.player_queue)
 
-    elif data['message'] == 'timeout_win':
-        active_users_list = []
-        for player in User_Game_play.objects.filter(desk=this_desk).order_by('position'):
-            active_users_list.append(int(player.position))
-        content = {'active_players': active_users_list}
-        Group(public_name).send({'text': json.dumps(content)})
-        if not this_desk.is_start:
-            # send a message to front end to renew the desk, send a message indicating the users still in the game
-            return
-        else:
-            print('start_game')
-            first_player_position = start_logic(public_name)
-            first_move_user = User_Game_play.objects.get(
-                desk=this_desk, position=first_player_position)
-            first_move_user.status = 1
-            first_move_user.save()
-            # '+1' added by lsn
-            # position + 1
-
-            content = {}
-            content['move'] = int(first_player_position) + 1
-            can_check, can_raise, raise_amount = True, False, 0
-            if first_move_user.user.chips < this_desk.current_largest_chips_this_game - first_move_user.chips_pay_in_this_game:
-                can_check = False
-            content['check'] = can_check
-            if first_move_user.user.chips >= this_desk.current_largest_chips_this_game - first_move_user.chips_pay_in_this_game + this_desk.current_round_largest_chips:
-                can_raise = True
-                raise_amount = first_move_user.user.chips - this_desk.current_largest_chips_this_game
-            content['raise'] = [can_raise, [this_desk.current_largest_chips_this_game, raise_amount]]
-            first_move_user.save()
-            Group(public_name).send({'text': json.dumps(content)})
-            return
+    # elif data['message'] == 'timeout_win':
+    #     active_users_list = []
+    #     for player in User_Game_play.objects.filter(desk=this_desk).order_by('position'):
+    #         active_users_list.append(int(player.position))
+    #     content = {'active_players': active_users_list}
+    #     Group(public_name).send({'text': json.dumps(content)})
+    #     if not this_desk.is_start:
+    #         # send a message to front end to renew the desk, send a message indicating the users still in the game
+    #         return
+    #     else:
+    #         print('start_game')
+    #         first_player_position = start_logic(public_name)
+    #         first_move_user = User_Game_play.objects.get(
+    #             desk=this_desk, position=first_player_position)
+    #         first_move_user.status = 1
+    #         first_move_user.save()
+    #         # '+1' added by lsn
+    #         content = {}
+    #         content['move'] = int(first_player_position) + 1
+    #         can_check, can_raise, raise_amount = True, False, 0
+    #         if first_move_user.user.chips < this_desk.current_largest_chips_this_game - first_move_user.chips_pay_in_this_game:
+    #             can_check = False
+    #         content['check'] = can_check
+    #         if first_move_user.user.chips >= this_desk.current_largest_chips_this_game - first_move_user.chips_pay_in_this_game + this_desk.current_round_largest_chips:
+    #             can_raise = True
+    #             raise_amount = first_move_user.user.chips - this_desk.current_largest_chips_this_game
+    #         content['raise'] = [can_raise, [this_desk.current_largest_chips_this_game, raise_amount]]
+    #         first_move_user.save()
+    #         Group(public_name).send({'text': json.dumps(content)})
+    #         return
 
     this_user_game_play.save()
     this_desk.save()
