@@ -460,8 +460,14 @@ def next_phase(cur_desk):
 
     Group(public_name).send({'text': json.dumps(content)})
 
+    # reset status
+    for i in cur_desk.player_queue:
+        user = User_Game_play.objects.get(desk=cur_desk, position=i)
+        if user.status != -1:
+            user.status = 0
+            user.save()
+
     # let the player next to the dealer to move
-    first_user = 0
     find_next = False
     for index, pos in enumerate(cur_desk.player_queue):
         if int(pos) == cur_desk.next_dealer:
