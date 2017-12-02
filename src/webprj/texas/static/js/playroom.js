@@ -1,3 +1,28 @@
+var COUNT_DOWN = 10;
+var timer = COUNT_DOWN;
+var timeout;
+
+function start_timer() {
+    if (time >= 0) {
+        time_str = '0' + timer;
+        timer--;
+        time_str = time_str.substring(time_str.length - 2, time_str.length);
+        $('#message').html('00:' + time_str);
+        timeout = setTimeout(timer_10sec, 1000);
+    }
+    else {
+        timer = COUNT_DOWN;
+        
+        var message = {'message' : 'timeout'};
+        socket.send(JSON.stringify(message));
+        $('#message').html('Timeout: automatically fold!');
+    }   
+}
+
+function stop_timer() {
+    clearTimeout(timeout);
+}
+
 function click_hold() {
     // clearTimeout(timeout);
     console.log('click hold');
@@ -277,7 +302,7 @@ $(document).ready(function () {
 
             total_new = data['cur_user_chips'];
             chip_new = data['cur_user_chips_this_game'];
-            position = data['cur_user_pos'];
+            target_pos = data['cur_user_pos'];
             $.ajax({
                 type: 'post',
                 url: 'get_position',
@@ -285,7 +310,7 @@ $(document).ready(function () {
                 success: function (data) {
 
                     login_user_pos = data['position'];
-                    user_pos = parseInt(position) - 1 - parseInt(login_user_pos);
+                    user_pos = parseInt(target_pos) - 1 - parseInt(login_user_pos);
                     if (user_pos < 0) user_pos += 9;
 
                     // update chip information
