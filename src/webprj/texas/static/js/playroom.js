@@ -2,6 +2,9 @@ var COUNT_DOWN = 10;
 var timer = COUNT_DOWN;
 var timeout;
 
+var timer_win = COUNT_DOWN;
+var timeout_win;
+
 function start_timer() {
     if (timer >= 0) {
         time_str = '0' + timer;
@@ -18,14 +21,14 @@ function start_timer() {
     } 
 }
 
-function start_timer_hidden() {
-    if (timer >= 0) {
-        timer--;
-        timeout = setTimeout(start_timer, 1000);
+function start_timer_win() {
+    if (timer_win >= 0) {
+        timer_win--;
+        timeout_win = setTimeout(start_timer_win, 1000);
     }
     else {
-        timer = COUNT_DOWN;
-        var message = {'message' : 'timeout'};
+        timer_win = COUNT_DOWN;
+        var message = {'message' : 'timeout_win'};
         socket.send(JSON.stringify(message));
     } 
 }
@@ -447,7 +450,7 @@ $(document).ready(function () {
 
                     winner_pos = parseInt(winner_pos) - parseInt(login_user_pos);
                     if (winner_pos == 0) {
-                        start_timer_hidden();
+                        start_timer_win();
                     }
                     if (winner_pos < 0) winner_pos += 9;
                     $('#player-' + winner_pos)
