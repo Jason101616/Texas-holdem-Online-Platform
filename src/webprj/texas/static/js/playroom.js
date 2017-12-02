@@ -314,7 +314,7 @@ $(document).ready(function () {
             })
         }
 
-        if (data['cur_user_pos'] && data['cur_user_chips']) {
+        if (data['cur_user_pos']) {
             stop_timer();
 
             $('#message')
@@ -323,6 +323,8 @@ $(document).ready(function () {
             total_new = data['cur_user_chips'];
             chip_new = data['cur_user_chips_this_game'];
             current_user_target_pos = data['cur_user_pos'];
+            current_user_act = data['act'];
+
             $.ajax({
                 type: 'post',
                 url: 'get_position',
@@ -335,35 +337,22 @@ $(document).ready(function () {
 
                     // update chip information
                     if (user_pos == 0) {
-                        /*chip_ori =
-                        $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML;
-                        chip_ori = parseInt(chip_ori.split(":")[1]);
-
-                        total_ori =
-                        $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML;
-                        total_ori = parseInt(total_ori.split(":")[1]);
-
-                        chip_new = (total_ori - total_new) + chip_ori;*/
 
                         $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML =
                         'Total chips: ' + total_new;
                         $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML =
                         'Betting: ' + chip_new;
+
+                        $('#player-0')[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
+
                     } else {
-                        /*chip_ori = $('#player-' +
-                        user_pos)[0].children[0].children[2].children[0].children[1].innerHTML;
-                        chip_ori = parseInt(chip_ori.split(":")[1]);
-
-                        total_ori = $('#player-' +
-                        user_pos)[0].children[0].children[2].children[0].children[0].innerHTML;
-                        total_ori = parseInt(total_ori.split(":")[1]);
-
-                        chip_new = (total_ori - total_new) + chip_ori;*/
 
                         $('#player-' + user_pos)[0].children[0].children[2].children[0].children[0].innerHTML =
                         'Total chips: ' + total_new;
                         $('#player-' + user_pos)[0].children[0].children[2].children[0].children[1].innerHTML =
                         'Betting: ' + chip_new;
+
+                        $('#player-' + user_pos)[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
                     }
                 }
             })
