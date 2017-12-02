@@ -820,6 +820,7 @@ def ws_disconnect(message):
             desk.is_start = False
 
         # decide owner
+        owner_position = -1
         if desk.owner == this_user_info:
             players = User_Game_play.objects.filter(desk=desk)
             print(players)
@@ -831,6 +832,7 @@ def ws_disconnect(message):
                 for player in players:
                     if player != this_player:
                         desk.owner = player.user
+                        owner_position = player.position
                         break
 
         # retrieve position queue
@@ -842,6 +844,9 @@ def ws_disconnect(message):
             content = {'can_start': 'no'}
             this_player = User_Game_play.objects.get(user=desk.owner)
             print(this_player.position)
+            Group(public_name + str(this_player.position)).send({'text': json.dumps(content)})
+        else:
+            content = {'can_start': 'yes'}
             Group(public_name + str(this_player.position)).send({'text': json.dumps(content)})
 
         # Boardcast to all player
@@ -856,6 +861,11 @@ def ws_disconnect(message):
         Group(desk.desk_name).discard(message.reply_channel)
 
         desk.save()
+
+        #send to new owner
+        if owner_position != -1:
+            content = {"owner": "yes"}
+            Group(public_name + str(owner_position)).send({'text': json.dumps(content)})
 
         if desk.current_capacity == desk.capacity:
             delete_desk(desk)
