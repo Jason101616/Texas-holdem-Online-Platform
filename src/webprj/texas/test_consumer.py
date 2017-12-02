@@ -408,15 +408,14 @@ def winner_logic(cur_desk):
     # if there's only one player whose status is other than fold or all-in
     length = len(User_Game_play.objects.filter(desk=cur_desk, status=-1))
     if length >= len(cur_desk.player_queue) - 1:
-        # TODO: go to river phase directly and assign a winner
+        # go to river phase directly and assign a winner
         winner_list, results = river_compare(cur_desk)
         print(winner_list)
         # for test, just give the first person in the queue
-        # winner = User_Game_play.objects.get(desk=cur_desk, position=winner_pos[0])
         assign_winner(cur_desk, winner_list)
         cards_of_the_desk = cur_desk.five_cards_of_desk
-        # FIXME: finish this part
-        content = {''}
+        # send the cards of current desk to all users
+        content = {'desk_cards': cards_of_the_desk}
         Group(cur_desk.desk_name).send({'text': json.dumps(content)})
         return
 

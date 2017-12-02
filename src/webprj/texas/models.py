@@ -54,7 +54,6 @@ class Desk_info(models.Model):
 
     current_largest_chips_this_game = models.IntegerField(default=0)
     current_round_largest_chips = models.IntegerField(default=0)
-    # TODO: finish the realated function of pool. pool is the total chips in
     # current desk, it will give to the winner in the end of the current game.
     pool = models.IntegerField(default=0)
     # pre-flop, flop, turn, river
