@@ -314,6 +314,7 @@ def assign_winner(desk, winner_list):
                     if cur_winner.status == -1:
                         cur_winner.user.chips += cur_winner.chips_pay_in_this_game * 2
                         cur_pool -= cur_winner.chips_pay_in_this_game * 2
+                        cur_winner.user.save()
                     else:
                         not_all_in_cnt += 1
 
@@ -323,6 +324,7 @@ def assign_winner(desk, winner_list):
                             desk=desk, position=winner_pos)
                         if cur_winner.status != -1:
                             cur_winner.user.chips += cur_pool // not_all_in_cnt
+                            cur_winner.user.save()
                     # if there is at least one winner who is not all in, pool will become zero
                     cur_pool = 0
             else:
@@ -333,6 +335,7 @@ def assign_winner(desk, winner_list):
                     cur_winner.user.chips += (
                         cur_winner.chips_pay_in_this_game /
                         (threshold // 2) * cur_pool)
+                    cur_winner.user.save()
                 cur_pool = 0
 
     # reset the phase of the current desk
