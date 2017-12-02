@@ -152,7 +152,7 @@ def start_logic(public_name):
         user.save()
         print("user after start: ", user)
         content = {'user_cards': user.user_cards}
-        Group(str(user.position)).send({'text': json.dumps(content)})
+        Group(public_name + str(user.position)).send({'text': json.dumps(content)})
 
     # tell the public channel, who is dealer, who is big blind, who is small blind
     content = {
@@ -361,10 +361,9 @@ def assign_winner(desk, winner_list):
         'winner': winner_username,
         'cards': all_user_cards
     }
-    time.sleep(10)
+
     Group(public_name).send({'text': json.dumps(content)})
     print("assign_winner success")
-
     # delete all disconnect user and ready to restart
     player_num = 0
     for user in cur_desk_users:
@@ -381,6 +380,7 @@ def assign_winner(desk, winner_list):
         Group(str(desk.desk_name)).send({'text': json.dumps(content)})
         return
 
+    time.sleep(30)
     print('start_game')
     first_player_position = start_logic(public_name)
     first_move_user = User_Game_play.objects.get(
@@ -715,13 +715,13 @@ def ws_add(message):
     Group(public_name).add(message.reply_channel)
 
     # Add the user to the private group
-    position = str(player.position)
-    Group(position).add(message.reply_channel)
-    Group(position).send({'text': desk.desk_name})
+    position_name = public_name + str(player.position)
+    Group(position_name).add(message.reply_channel)
+    Group(position_name).send({'text': desk.desk_name})
 
     # Give owner signal
     if desk.owner == this_user_info:
-        Group(position).send({'text': 'owner!'})
+        Group(position_name).send({'text': 'owner!'})
 
     player.save()
     desk.save()
@@ -738,7 +738,7 @@ def ws_add(message):
         content = {'can_start': 'yes'}
         this_player = User_Game_play.objects.get(user=desk.owner)
         print(this_player.position)
-        Group(str(this_player.position)).send({'text': json.dumps(content)})
+        Group(public_name + str(this_player.position)).send({'text': json.dumps(content)})
 
     print('c:%d,m:%d,f:%d,o:%s,p:%s' %
           (desk.current_capacity, desk.capacity, desk.is_start, desk.owner,
@@ -793,7 +793,7 @@ def ws_disconnect(message):
             content = {'can_start': 'no'}
             this_player = User_Game_play.objects.get(user=desk.owner)
             print(this_player.position)
-            Group(str(this_player.position)).send({'text': json.dumps(content)})
+            Group(public_name + str(this_player.position)).send({'text': json.dumps(content)})
 
         # Boardcast to all player
         content = {
