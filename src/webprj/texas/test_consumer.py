@@ -338,6 +338,7 @@ def assign_winner(desk, winner_list):
     desk.current_largest_chips_this_game = 0
     desk.pool = 0
     desk.current_round_largest_chips = 0
+    desk.save()
 
     # assign the winner, and show all the cards to all users
     cur_desk_users = User_Game_play.objects.filter(desk=desk)
@@ -637,14 +638,14 @@ def ws_msg(message):
             content = {}
             content['move'] = int(first_player_position) + 1
             can_check, can_raise, raise_amount = True, False, 0
-            if this_user.user.chips < this_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game:
+            if first_move_user.user.chips < this_desk.current_largest_chips_this_game - first_move_user.chips_pay_in_this_game:
                 can_check = False
             content['check'] = can_check
-            if this_user.user.chips >= this_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game + this_desk.current_round_largest_chips:
+            if first_move_user.user.chips >= this_desk.current_largest_chips_this_game - first_move_user.chips_pay_in_this_game + this_desk.current_round_largest_chips:
                 can_raise = True
-                raise_amount = this_user.user.chips - this_desk.current_largest_chips_this_game
+                raise_amount = first_move_user.user.chips - this_desk.current_largest_chips_this_game
             content['raise'] = [can_raise, [this_desk.current_largest_chips_this_game, raise_amount]]
-            this_user.save()
+            first_move_user.save()
             Group(public_name).send({'text': json.dumps(content)})
             return
 
