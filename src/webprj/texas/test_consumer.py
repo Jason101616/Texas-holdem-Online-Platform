@@ -111,7 +111,7 @@ def start_logic(public_name):
         desk=cur_desk, position=int(cur_desk.player_queue[dealer_queue_pos]))
 
     # let the next two player be blinds
-    # next_pos_in_queue = get_next_pos(0, len(users_of_cur_desk))
+    dealer_queue_pos = int(cur_desk.player_queue[dealer_queue_pos])
     next_pos_in_queue = get_next_pos(dealer_queue_pos, cur_desk.player_queue)
     # update next_dealer
     cur_desk.next_dealer = int(cur_desk.player_queue[next_pos_in_queue])
@@ -120,8 +120,7 @@ def start_logic(public_name):
     # calculate small_blind and big_blind
     small_blind = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
-    # next_pos_in_queue = get_next_pos(next_pos_in_queue, len(users_of_cur_desk))
-    next_pos_in_queue = get_next_pos(next_pos_in_queue, cur_desk.player_queue)
+    next_pos_in_queue = get_next_pos(int(cur_desk.player_queue[next_pos_in_queue]), cur_desk.player_queue)
     big_blind = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
 
@@ -171,16 +170,9 @@ def start_logic(public_name):
     print("desk after start: ", cur_desk)
     return cur_desk.player_queue[cur_desk.player_queue_pointer]
 
-
-# player_queue is a cyclic queue, the next pos of the last pos is 0
-# def get_next_pos(cur_pos, len_queue):
-#     if cur_pos <= len_queue - 2:
-#         return cur_pos + 1
-#     return 0
-
-
 def get_next_pos(cur_pos, player_queue):
     len_queue = len(player_queue)
+    print("len_queue:",len_queue)
     for index, char in enumerate(player_queue):
         if cur_pos == int(char):
             pos = index
@@ -193,6 +185,49 @@ def give_control(player_position, this_desk):
     print('give control to player position: ', player_position)
     this_user = User_Game_play.objects.get(
         desk=this_desk, position=player_position)
+    if this_user.is_fold:
+        print('control flow: is_fold')
+        # let this one fold
+        # update the queue
+        next_pos_queue = get_next_pos(this_user.position,
+                                      this_desk.player_queue)
+        this_desk.player_queue = this_desk.player_queue[:this_desk.player_queue_pointer] + \
+                                 this_desk.player_queue[this_desk.player_queue_pointer + 1:]
+
+        if not this_desk.player_queue:
+            # delete the table and everyone lose
+            this_desk.delete()
+
+        this_desk.player_queue_pointer -= 1
+        this_user.status = 1
+        if next_pos_queue > 0:
+            next_pos_queue -= 1
+
+        # this_user_info.save()
+        this_user.save()
+        this_desk.save()
+
+        this_desk.player_queue_pointer = next_pos_queue
+        next_pos_desk = int(this_desk.player_queue[next_pos_queue])
+        print('next_pos_desk: ', next_pos_desk)
+        next_user = User_Game_play.objects.get(
+            desk=this_desk, position=next_pos_desk)
+
+        content = {
+            'cur_user_pos': this_user.position + 1,
+            'total_chips_current_game': this_desk.pool,
+            'cur_user_chips_this_game': this_user.chips_pay_in_this_game
+        }
+        print(content)
+        Group(str(this_desk.desk_name)).send({'text': json.dumps(content)})
+
+        # save the modified model, send the public group which user should move the next round
+        this_user.save()
+        this_desk.save()
+        print("next_user before judge logic: ", next_user)
+        return judge_logic(next_user, this_desk)
+
+
     content = {'move': {}}
     can_check, can_raise, raise_amount = True, False, 0
     if this_user.user.chips < this_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game:
@@ -326,6 +361,22 @@ def assign_winner(desk, winner_list):
     }
     Group(public_name).send({'text': json.dumps(content)})
     print("assign_winner success")
+
+    # delete all disconnect user and ready to restart
+    player_num = 0
+    for user in cur_desk_users:
+        if user.is_fold:
+            user.delete()
+        else:
+            player_num += 1
+    if player_num == 0:
+        desk.delete()
+    elif player_num == 1:
+        desk.is_start = False
+        desk.save()
+        content = {'can_start': 'no'}
+        Group(str(desk.desk_name)).send({'text': json.dumps(content)})
+        return
 
     print('start_game')
     first_player_position = start_logic(public_name)
@@ -479,7 +530,7 @@ def ws_msg(message):
     if 'command' in data:
         if data['command'] == 'leave':
             print(message.user.username)
-            #disconnect_user(message, message.user.username)
+            # disconnect_user(message, message.user.username)
             return
 
     # get this_user, this_user_info, this_user_game_play, this_desk
@@ -560,7 +611,8 @@ def ws_msg(message):
     elif data['message'] == 'all_in':
         this_desk.pool += this_user_info.chips
         this_user_game_play.status = -1
-        raise_amount = this_user_info.chips - (this_desk.current_largest_chips_this_game - this_user_game_play.chips_pay_in_this_game)
+        raise_amount = this_user_info.chips - (
+        this_desk.current_largest_chips_this_game - this_user_game_play.chips_pay_in_this_game)
         if raise_amount > this_desk.current_round_largest_chips:
             this_desk.current_round_largest_chips = raise_amount
         if this_user_info.chips + this_user_game_play.chips_pay_in_this_game > this_desk.current_largest_chips_this_game:
@@ -709,6 +761,9 @@ def ws_disconnect(message):
     desk = Desk_info.objects.get(desk_name=public_name)
     max_capacity = desk.capacity
     # Group(public_name).discard(message.reply_channel)
+    this_user_info = User_info.objects.get(user=message.user)
+    this_player = User_Game_play.objects.get(user=this_user_info)
+
     if not desk.is_start:
         desk.current_capacity += 1
 
@@ -717,8 +772,6 @@ def ws_disconnect(message):
             desk.is_start = False
 
         # decide owner
-        this_user_info = User_info.objects.get(user=message.user)
-        this_player = User_Game_play.objects.get(user=this_user_info)
         if desk.owner == this_user_info:
             players = User_Game_play.objects.filter(desk=desk)
             print(players)
@@ -760,6 +813,28 @@ def ws_disconnect(message):
             delete_desk(desk)
         return
     else:
-        # TODO: if the user leave room during the game
-        pass
+        # if the user leave room during the game
+        this_player.is_fold = True
+        this_player.save()
+
+        desk.current_capacity += 1
+
+        # decide owner
+        if desk.owner == this_user_info:
+            players = User_Game_play.objects.filter(desk=desk)
+            print(players)
+            if len(players) == 1:
+                # if this is the last user, desk.owner = None
+                desk.owner = None
+            else:
+                # if still have people in the current desk, give the owner to him
+                for player in players:
+                    if player != this_player:
+                        desk.owner = player.user
+                        break
+
+        # retrieve position queue
+        desk.position_queue += str(this_player.position)
+        print("after leave: ", desk)
+        desk.save()
 
