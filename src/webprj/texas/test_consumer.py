@@ -228,7 +228,7 @@ def give_control(player_position, this_desk):
         return judge_logic(next_user, this_desk)
 
     content = {}
-    content['move'] = str(player_position + 1)
+    content['move'] = int(player_position) + 1
     can_check, can_raise, raise_amount = True, False, 0
     if this_user.user.chips < this_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game:
         can_check = False
@@ -515,7 +515,7 @@ def ws_msg(message):
         # '+1' added by lsn
         content = {}
         # position + 1
-        content['move'] = str(first_player_position + 1)
+        content['move'] = int(first_player_position) + 1
         can_check, can_raise, raise_amount = True, False, 0
         if this_user.user.chips < cur_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game:
             can_check = False
