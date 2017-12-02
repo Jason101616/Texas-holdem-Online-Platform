@@ -167,6 +167,11 @@ p {
 	font-size: 15px;
 }
 
+.status {
+	color: rgb(120,100,66);
+	font-size: 15px;
+}
+
 .chips {
 	color: rgb(165,67,42);
 	font-size: 15px;
