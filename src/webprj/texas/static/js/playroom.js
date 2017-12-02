@@ -329,7 +329,7 @@ $(document).ready(function () {
             for (i = 0; i < 9; i++) {
                 $('#player-' + i).css('background', 'rgba(255,255,255,0)');
             }
-            position = data['move'];
+            target_pos = data['move'];
 
             if (data['current_round_largest_chips'] == 200) {
                 $('#game_raise100')[0].disabled = true;
@@ -343,7 +343,7 @@ $(document).ready(function () {
                 data: '',
                 success: function (data) {
                     login_user_pos = data['position'];
-                    user_pos = parseInt(position) - 1 - parseInt(login_user_pos);
+                    user_pos = parseInt(target_pos) - 1 - parseInt(login_user_pos);
                     if (user_pos < 0) user_pos += 9;
 
                     if (user_pos == 0) {
