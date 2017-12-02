@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^profile/$', views.profile, name='profile'),
 
     url(r'newplay/$', views.newplay, name = 'newplay'),
+    url(r'update_button', views.update_button),
 
     url(r'addplayer', views.addplayer, name = 'addplayer'),
     url(r'get_position', views.get_position, name = 'get_position'),

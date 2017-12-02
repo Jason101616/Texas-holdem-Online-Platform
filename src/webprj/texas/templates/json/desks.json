@@ -1,0 +1,3 @@
+{
+    "desks" : [{% for desk in desks %}{% include 'json/desk.json' %}{% if not forloop.last %}, {% endif %}{% endfor %}]
+}

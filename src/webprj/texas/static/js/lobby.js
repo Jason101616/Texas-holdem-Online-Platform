@@ -1,3 +1,19 @@
+
+function updateChanges() {
+    $.get("update_button").done(function(data) {
+        $('#button_list').html("");
+        if (data['desks']) {
+            for (i = 0; i < data['desks'].length; i++) {
+                button_id = 'room-' + data['desks'][i]['name'];
+                if ($('#' + button_id).length == 0) {
+                    newButton = "<span class = 'font20'><a class = 'smallbtn' id = 'room-" + data['desks'][i]['name'] + "' href = 'playroom/" + data['desks'][i]['name'] + "'>" + data['desks'][i]['name'] + "</a></span>";
+                    $('#button_list').append(newButton);
+                }
+            }
+        }
+    })
+}
+
 $(document).ready(function () {
 
     function getCookie(name) {
@@ -44,4 +60,6 @@ $(document).ready(function () {
             }
         });
     });
+
+    window.setInterval(updateChanges, 5000);
 });

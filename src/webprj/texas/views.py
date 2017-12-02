@@ -204,3 +204,8 @@ def newplay(request):
         return redirect(reverse('playroom', kwargs={'deskname': room_id}))
     print("return lobby")
     return redirect(reverse('lobby'))
+
+def update_button(request):
+    desks = Desk_info.objects.all()
+    context = {'desks': desks}
+    return render(request, 'json/desks.json', context, content_type = 'application/json')
