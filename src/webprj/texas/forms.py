@@ -45,3 +45,54 @@ class DeskForm(forms.ModelForm):
             if not s.isalnum():
                 raise forms.ValidationError("Desk Name can only be number of characters.")
         return cleaned_data
+
+class Reset_password(forms.Form):
+    username = forms.CharField(max_length = 420)
+    email = forms.EmailField()
+
+    def clean(self):
+        cleaned_data = super(Reset_password, self).clean()
+        username = self.cleaned_data.get('username')
+        email = self.cleaned_data.get('email')
+        if not username and not email:
+            raise forms.ValidationError('Username and Email are required.')
+        return cleaned_data
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if not username:
+            raise forms.ValidationError('Username is required.')
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not email:
+            raise forms.ValidationError('Email is required.')
+        return email
+
+class Register_password(forms.Form):
+    password1 = forms.CharField(max_length=50, widget = forms.PasswordInput, label = "* Password")
+    password2 = forms.CharField(max_length=50, widget = forms.PasswordInput, label = "* Confirm Password")
+
+    def clean(self):
+        cleaned_data = super(Register_password, self).clean()
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+        return cleaned_data
+
+    def clean_password1(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+        if not password1:
+            raise forms.ValidationError('Password is required.')
+        elif password1 and password2 and password1 != password2:
+            raise forms.ValidationError('Passwords do not match!')
+        if not password1 and not password2:
+            raise forms.ValidationError('Passwords are required.')
+        return password1
+
+    def clean_password2(self):
+        password2 = self.cleaned_data.get('password2')
+        if not password2:
+            raise forms.ValidationError('Confirm password is required.')
+        return password2 

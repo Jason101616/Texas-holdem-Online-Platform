@@ -1,0 +1,29 @@
+<form action = {% url 'resetpass' %} method = "post">
+    <div class="form-group">
+        {% if errors %}
+        {% for e in errors %}
+        <div class = "error">
+            <p>* &nbsp; {{ e }}</p>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% for e in form.non_field_errors %}
+        <div class = "error">
+            <p>{{ e }}</p>
+        </div>
+        {% endfor %}
+        <div class = 'wide30per'>
+            {% for field in form.visible_fields %}
+            <p>{{ field.label_tag }}</p>
+            <p class = "formtext">{{ field }}</p>
+            <p class = "error">{{ field.errors }}</p>
+            {% endfor %}
+        </div>
+    </div>
+    <input type = "hidden" name = "user" value = {{ user }}>
+    <br>
+    <div class = "btnbox">
+        <button type="submit" class="butn wide180">Reset Password</button>
+    </div>
+    {% csrf_token %}
+</form>

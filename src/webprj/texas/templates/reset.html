@@ -1,0 +1,29 @@
+<p class = "font5">Please enter your username and email.</p>
+<form action = {% url 'forgetpassword' %} method = "post">
+    <div class="form-group">
+        {% if errors %}
+        {% for e in errors %}
+        <div class = "error">
+            <p>* &nbsp; {{ e }}</p>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% for e in form.non_field_errors %}
+        <div class = "error">
+            <p>* &nbsp; {{ e }}</p>
+        </div>
+        {% endfor %}
+        {% for field in form.visible_fields %}
+        <div class = 'wide30per'>
+            <p>{{ field.label_tag }}</p>
+            <p class = "formtext">{{ field }}</p>
+            <p class = "error">{{ field.errors }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+    <div class = "btnbox">
+        <button type="submit" class="butn wide180">Send Confirmation</button>
+    </div>
+    {% csrf_token %}
+</form>

@@ -138,3 +138,5 @@ CHANNEL_LAYERS = {
         "ROUTING": "routing.channel_routing",
     },
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

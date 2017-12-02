@@ -9,6 +9,12 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponseRedirect
 
+from django.core.mail import send_mail, EmailMessage
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from .tokens import account_activation_token
+
 from texas.forms import *
 from texas.models import *
 
@@ -22,6 +28,7 @@ def home(request):
 
 
 def signup(request):
+    context = {}
     if request.method == 'GET':
         return render(request, 'signup.html')
     signupform = SignupForm(request.POST)
@@ -34,9 +41,10 @@ def signup(request):
         first_name=signupform.cleaned_data['first_name'],
         last_name=signupform.cleaned_data['last_name'],
         email=signupform.cleaned_data['email'])
+    new_user.is_active = False
     new_user.save()
 
-    user = authenticate(
+    '''user = authenticate(
         request,
         username=signupform.cleaned_data['username'],
         password=signupform.cleaned_data['password'])
@@ -44,8 +52,92 @@ def signup(request):
         login(request, user)
         return redirect(reverse('lobby'))
     else:
-        return render(request, 'signup.html')
+        return render(request, 'signup.html')'''
+    message = render_to_string('active_email.html', {
+        'user':new_user, 
+        'domain':request.get_host(),
+        'uid': urlsafe_base64_encode(force_bytes(new_user.pk)),
+        'token': account_activation_token.make_token(new_user),
+    })
+    mail_subject = 'Activate your account.'
+    to_email = new_user.email
+    email = EmailMessage(mail_subject, message, to=[to_email])
+    email.send()
+    context['message'] = 'Please confirm your email address to complete the registration.'
+    context['title'] = 'Please Confirm Email'
+    return render(request, 'message.html', context)
 
+def activate(request, uidb64, token):
+    context = {}
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        context['message'] = "Your account is now activated."
+        return render(request, 'message.html', context)
+    else:
+        context['message'] = 'Activation link is invalid.'
+        return render(request, 'message.html', context)
+
+def forgetpassword(request):
+    context = {}
+    errors = []
+    context['errors'] = errors
+    if request.method == 'GET':
+        context['form'] = Reset_password()
+        return render(request, 'reset.html', context) 
+
+    form = Reset_password(request.POST)
+    if not form.is_valid():
+        context['form'] = form
+        return render(request, 'reset.html', context)
+
+    user = get_object_or_404(User, username = request.POST['username'])
+    if user.email != request.POST['email']:
+        context['message'] = "Your email and username does not match"
+        return render(request, 'message.html', context)
+
+    message = render_to_string('forget_pass.html', {
+        'user':user, 
+        'domain':request.get_host(),
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': account_activation_token.make_token(user),
+    })
+    mail_subject = 'Reset your password.'
+    to_email = user.email
+    email = EmailMessage(mail_subject, message, to = [to_email])
+    email.send()
+    context['message'] = 'Please confirm your email address to reset your password.'
+    return render(request, 'message.html', context)
+
+def reset(request, uidb64, token):
+    context = {}
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        context['user'] = user
+        context['form'] = Register_password()
+        return render(request, 'reset_pass.html', context)
+    else:
+        context['message'] = 'Activation link is invalid.'
+        context['title'] = 'Invalid Link'
+        return render(request, 'message.html', context)
+
+def resetpass(request):
+    context = {}
+    user = request.POST['user']
+    user = get_object_or_404(User, username = user)
+    user.set_password(request.POST['password1'])
+    user.save()
+    login(request, user)
+    return HttpResponseRedirect(reverse('lobby'))
 
 def log_in(request):
     context = {}

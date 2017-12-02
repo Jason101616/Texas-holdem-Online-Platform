@@ -1,4 +1,3 @@
-
 function updateChanges() {
     $.get("update_button").done(function(data) {
         $('#button_list').html("");

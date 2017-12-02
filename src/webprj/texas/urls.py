@@ -17,4 +17,11 @@ urlpatterns = [
     url(r'get_position', views.get_position, name = 'get_position'),
     url(r'getjob/(?P<pos_big>\w+)/(?P<pos_small>\w+)/(?P<pos_dealer>\w+)', views.getjob, name = 'getjob'),
     url(r'playroom/(?P<deskname>\w+)$', views.playroom, name='playroom'),
+
+    url(r'activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        views.activate, name='activate'),
+    url(r'forgetpassword$', views.forgetpassword, name = 'forgetpassword'),
+    url(r'reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        views.reset, name='reset'),
+    url(r'reset$', views.resetpass, name='resetpass'),
 ]
