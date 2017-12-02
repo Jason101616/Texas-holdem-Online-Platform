@@ -44,18 +44,4 @@ $(document).ready(function () {
             }
         });
     });
-
-    /*$('#newplay').on('click', function(event) {
-        $.ajax({
-            type: 'post',
-            url: 'newplay/' + room_id,
-            data: '',
-            success: function (data) {
-                alert("Successfully created room: " + room_id);
-
-                button = "<span><a class = 'smallbtn' id = 'desk-" + room_id + "' href = 'playroom/" + room_id + "'>" + room_id + "</a></span>";
-                $("#newplay").before(button);
-            }
-        })
-    });*/
 });

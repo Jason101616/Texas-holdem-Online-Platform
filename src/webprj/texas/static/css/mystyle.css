@@ -193,3 +193,9 @@ span {
 .hide {
 	visibility: hidden;
 }
+
+.ranger {
+	vertical-align: bottom;
+	padding-left: 60px;
+	padding-top: 40px;
+}

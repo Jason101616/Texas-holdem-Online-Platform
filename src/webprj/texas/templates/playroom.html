@@ -261,12 +261,25 @@
         <div class = "col-12 center">
             <table class = "center">
                 <tr>
-                    <th><button id = 'game_hold' onclick="click_hold()" class = "smallbtn button-block pad50">Hold</button></th>
+                    <th>
+                        <button id = 'game_hold' onclick="click_hold()" class = "smallbtn button-block pad50">Hold</button>
+                    </th>
                     <th class = "pad50"></th>
-                    <th><button id = 'game_fold' onclick="click_fold()" class = "smallbtn button-block pad50">Fold</button></th>
+                    <th>
+                        <button id = 'game_fold' onclick="click_fold()" class = "smallbtn button-block pad50">Fold</button>
+                    </th>
                     <th class = "pad50"></th>
-                    <th><button id = 'game_raise100' onclick="click_raise(100)" class = "smallbtn button-block pad50">Raise 100</button></th>
-                    <th><button id = 'game_raise200' onclick="click_raise(200)" class = "smallbtn button-block pad50">Raise 200</button></th>
+                    <th>
+                        <button id = 'game_allin' onclick="click_allin()" class = "smallbtn button-block pad50">All in</button>
+                    </th>
+                    <th class = "pad50"></th>
+                    <th>
+                        <button id = 'game_raise' onclick = "click_raise()" class = "smallbtn button-block pad50">Raise</button>
+                    </th>
+                    <th class = "ranger">
+                        <span><input id = "raise_value" oninput = "change_raise_value()" type = "range" min = "0" max = "100" value = "70"/></span>
+                        <span id = "raise_calue_disp">70</span>
+                    </th>
                 </tr>
             </table>
         </div>
