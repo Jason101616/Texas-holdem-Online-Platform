@@ -387,6 +387,7 @@ def start_next_game(this_desk, public_name):
             player_num += 1
     if player_num == 0:
         this_desk.delete()
+        return
     elif player_num == 1:
         this_desk.is_start = False
         this_desk.save()
