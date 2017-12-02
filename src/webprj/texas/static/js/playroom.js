@@ -501,7 +501,7 @@ $(document).ready(function () {
                 })
             }
             else {
-                $('#message').html('Waiting for the owner to start the game');
+                $('#message').html('Waiting for more players');
                 $('#start_game')[0].disabled = true;
             }
         }
