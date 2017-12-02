@@ -30,7 +30,7 @@ class LoginForm(forms.Form):
 
 
 class DeskForm(forms.ModelForm):
-    desk_name = forms.CharField(max_length=42)
+    desk_name = forms.CharField(max_length=42, widget = forms.TextInput(attrs = {'placeholder' : 'desk name'}))
 
     class Meta:
         model = Desk_info

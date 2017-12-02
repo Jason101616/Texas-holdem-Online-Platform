@@ -46,25 +46,23 @@
                 <br>
                 {% endif %}
 
+
+                {% for field in desk_form.visible_fields %}
+                <div class = "error">{{ field.errors }}</div>
+
                 <div id = "button_list">
-                    <!--{% if desks %}
-                        {% for desk in desks %}
-                            <span class = "font20"><a class = "smallbtn" id = 'room-' + {{ desk.desk_name }} href = {% url 'playroom' desk.desk_name %}>{{ desk.desk_name }}</a></span>
-                        {% endfor %}
-                    {% endif %}-->
                 </div>
                 <span class = "white font20"><a class = "smallbtn" id = "newplay">&nbsp;+&nbsp;</a></span>
 
                 <div id = "newplay_form" class = "hide">
                     <form action = "newplay/" method = "POST">
-                        {% csrf_token %}
-                        {% for field in desk_form.visible_fields %}
-                        <p>{{ field.label_tag }}</p>
-                        <div class = "error">{{ field.errors }}</div>
-                        <p>{{ field }}</p>
                         <br>
+                        {% csrf_token %}
+                        <div class = "field-wrap"> 
+                            {{ field }}
+                        </div>
                         {% endfor %}
-                        <button type="submit" class="button button-block">Create Room</button>
+                        <button type="submit" class="smallbtn">Create Room</button></span>
                     </form>
                 </div>
             </div>

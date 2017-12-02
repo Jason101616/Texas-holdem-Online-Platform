@@ -203,6 +203,10 @@ span {
 	display:inline-block;
 }
 
+h3 {
+	color: rgb(51,23,12);
+}
+
 .hide {
 	visibility: hidden;
 }
