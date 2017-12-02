@@ -380,20 +380,6 @@ def assign_winner(desk, winner_list):
         Group(str(desk.desk_name)).send({'text': json.dumps(content)})
         return
 
-    time.sleep(30)
-    print('start_game')
-    first_player_position = start_logic(public_name)
-    first_move_user = User_Game_play.objects.get(
-        desk=desk, position=first_player_position)
-    first_move_user.status = 1
-    first_move_user.save()
-    # '+1' added by lsn
-    content = {
-        'move': int(first_player_position) + 1,
-        'current_round_largest_chips': desk.current_round_largest_chips
-    }
-    Group(public_name).send({'text': json.dumps(content)})
-
 
 def winner_logic(cur_desk):
     # if there's only one player whose status is other than fold
@@ -628,6 +614,40 @@ def ws_msg(message):
         if this_user_info.chips + this_user_game_play.chips_pay_in_this_game > this_desk.current_largest_chips_this_game:
             this_desk.current_largest_chips_this_game = this_user_info.chips + this_user_game_play.chips_pay_in_this_game
         this_user_info.chips = 0
+
+    elif data['message'] == 'timeout_win':
+        active_users_list = []
+        for player in User_Game_play.objects.filter(desk=this_desk).order_by('position'):
+            active_users_list.append(int(player.position))
+        content = {'active_players': active_users_list}
+        Group(public_name).send({'text': json.dumps(content)})
+        if not this_desk.is_start:
+            # send a message to front end to renew the desk, send a message indicating the users still in the game
+            return
+        else:
+            print('start_game')
+            first_player_position = start_logic(public_name)
+            first_move_user = User_Game_play.objects.get(
+                desk=this_desk, position=first_player_position)
+            first_move_user.status = 1
+            first_move_user.save()
+            # '+1' added by lsn
+            # position + 1
+
+            content = {}
+            content['move'] = int(first_player_position) + 1
+            can_check, can_raise, raise_amount = True, False, 0
+            if this_user.user.chips < this_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game:
+                can_check = False
+            content['check'] = can_check
+            if this_user.user.chips >= this_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game + this_desk.current_round_largest_chips:
+                can_raise = True
+                raise_amount = this_user.user.chips - this_desk.current_largest_chips_this_game
+            content['raise'] = [can_raise, [this_desk.current_largest_chips_this_game, raise_amount]]
+            this_user.save()
+            Group(public_name).send({'text': json.dumps(content)})
+            return
+
 
     # this_user_info.save()
     this_user_game_play.save()
