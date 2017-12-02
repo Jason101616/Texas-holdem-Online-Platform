@@ -111,8 +111,8 @@ def start_logic(public_name):
         desk=cur_desk, position=int(cur_desk.player_queue[dealer_queue_pos]))
 
     # let the next two player be blinds
-    dealer_queue_pos = int(cur_desk.player_queue[dealer_queue_pos])
-    next_pos_in_queue = get_next_pos(dealer_queue_pos, cur_desk.player_queue)
+    dealer_desk_pos = int(cur_desk.player_queue[dealer_queue_pos])
+    next_pos_in_queue = get_next_pos(dealer_desk_pos, cur_desk.player_queue)
     # update next_dealer
     cur_desk.next_dealer = int(cur_desk.player_queue[next_pos_in_queue])
     print('next_dealer:', cur_desk.next_dealer)
@@ -125,9 +125,8 @@ def start_logic(public_name):
         desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
 
     # the person move next is the next position of big_blind
-    # cur_desk.player_queue_pointer = get_next_pos(next_pos_in_queue,
-    #                                              len(users_of_cur_desk))
-    cur_desk.player_queue_pointer = get_next_pos(next_pos_in_queue,
+    next_pos_in_desk = int(cur_desk.player_queue[next_pos_in_queue])
+    cur_desk.player_queue_pointer = get_next_pos(next_pos_in_desk,
                                                  cur_desk.player_queue)
 
     # give every users 2 cards
@@ -185,6 +184,7 @@ def give_control(player_position, this_desk):
     print('give control to player position: ', player_position)
     this_user = User_Game_play.objects.get(
         desk=this_desk, position=player_position)
+
     if this_user.is_fold:
         print('control flow: is_fold')
         # let this one fold
@@ -227,16 +227,16 @@ def give_control(player_position, this_desk):
         print("next_user before judge logic: ", next_user)
         return judge_logic(next_user, this_desk)
 
-
-    content = {'move': {}}
+    content = {}
+    content['move'] = str(player_position + 1)
     can_check, can_raise, raise_amount = True, False, 0
     if this_user.user.chips < this_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game:
         can_check = False
-    content['move']['check'] = can_check
+    content['check'] = can_check
     if this_user.user.chips >= this_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game + this_desk.current_round_largest_chips:
         can_raise = True
         raise_amount = this_user.user.chips - this_desk.current_largest_chips_this_game
-    content['move']['raise'] = [can_raise, [0, raise_amount]]
+    content['raise'] = [can_raise, [0, raise_amount]]
     Group(str(this_desk.desk_name)).send({'text': json.dumps(content)})
 
 
@@ -513,15 +513,17 @@ def ws_msg(message):
         cur_desk.save()
 
         # '+1' added by lsn
-        content = {'move': {}}
+        content = {}
+        # position + 1
+        content['move'] = str(first_player_position + 1)
         can_check, can_raise, raise_amount = True, False, 0
         if this_user.user.chips < cur_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game:
             can_check = False
-        content['move']['check'] = can_check
+        content['check'] = can_check
         if this_user.user.chips >= cur_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game + cur_desk.current_round_largest_chips:
             can_raise = True
             raise_amount = this_user.user.chips - cur_desk.current_largest_chips_this_game
-        content['move']['raise'] = [can_raise, [0, raise_amount]]
+        content['raise'] = [can_raise, [0, raise_amount]]
         this_user.save()
         Group(public_name).send({'text': json.dumps(content)})
         return
@@ -569,6 +571,7 @@ def ws_msg(message):
                                       this_desk.player_queue)
         this_desk.player_queue = this_desk.player_queue[:this_desk.player_queue_pointer] + \
                                  this_desk.player_queue[this_desk.player_queue_pointer + 1:]
+        print("queue after fold:", this_desk.player_queue)
         this_desk.player_queue_pointer -= 1
         this_user_game_play.status = 1
         if next_pos_queue > 0:
