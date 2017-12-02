@@ -788,18 +788,17 @@ def ws_add(message):
     Group(public_name).send({'text': json.dumps(content)})
 
     # If current player is 2 or more, owner can start the game
+    content = {}
     if desk.current_capacity <= max_capacity - 2:
         this_player = User_Game_play.objects.get(user=desk.owner)
-        content = {"owner": this_player.position + 1}
+        content["owner"] = this_player.position + 1
+        content['can_start'] = 'yes'
         Group(public_name).send({'text': json.dumps(content)})
-        content = {'can_start': 'yes'}
-        Group(public_name + str(this_player.position)).send({'text': json.dumps(content)})
     else:
         this_player = User_Game_play.objects.get(user=desk.owner)
-        content = {"owner": this_player.position + 1}
+        content["owner"] = this_player.position + 1
+        content['can_start'] = 'no'
         Group(public_name).send({'text': json.dumps(content)})
-        content = {'can_start': 'no'}
-        Group(public_name + str(this_player.position)).send({'text': json.dumps(content)})
 
 
     print('c:%d,m:%d,f:%d,o:%s,p:%s' %
@@ -852,15 +851,16 @@ def ws_disconnect(message):
         desk.position_queue += str(this_player.position)
         print("after leave: ", desk)
 
-        # If current player is 1, owner can not start the game
-        if desk.current_capacity == max_capacity - 1:
-            content = {'can_start': 'no'}
-            this_player = User_Game_play.objects.get(user=desk.owner)
-            print(this_player.position)
-            Group(public_name + str(this_player.position)).send({'text': json.dumps(content)})
-        else:
-            content = {'can_start': 'yes'}
-            Group(public_name + str(this_player.position)).send({'text': json.dumps(content)})
+        # send the new owner to public
+        if owner_position != -1:
+            content = {"owner": owner_position + 1}
+            # If current player is 1, owner can not start the game
+            if desk.current_capacity == max_capacity - 1:
+                content['can_start'] = 'no'
+                Group(public_name).send({'text': json.dumps(content)})
+            else:
+                content['can_start']  = 'yes'
+                Group(public_name).send({'text': json.dumps(content)})
 
         # Boardcast to all player
         content = {
@@ -874,11 +874,6 @@ def ws_disconnect(message):
         Group(desk.desk_name).discard(message.reply_channel)
 
         desk.save()
-
-        #send the new owner to public
-        if owner_position != -1:
-            content = {"owner": owner_position + 1}
-            Group(public_name).send({'text': json.dumps(content)})
 
         if desk.current_capacity == desk.capacity:
             delete_desk(desk)
