@@ -219,10 +219,6 @@ $(document).ready(function () {
 
         var data = JSON.parse(message.data);
 
-        if (data['can_start'] === 'yes') {
-            $('#start_game')[0].disabled = false;
-        }
-
         if (data['start_game']) {
             $('#start_game')[0].disabled = true;
             $('#message').html('Game started!');
@@ -485,11 +481,23 @@ $(document).ready(function () {
         }
 
         if (data['owner']) {
-            if (data['owner'] == 'yes') {
-                $('#message').html('Ready to start: please start the game');
-            }
-            else {
-                $('#message').html('Waiting for the owner to start the game');
+            owner_position = data['owner'];
+            if (data['can_start'] == 'yes') {
+                $.ajax({
+                    type: 'post',
+                    url: 'get_position',
+                    data: '',
+                    success: function (data) {
+                        login_user_pos = data['position'];
+                        if (owner_position - 1 == login_user_pos) {
+                            $('#message').html('Ready to start: please start the game');
+                            $('#start_game')[0].disabled = false;
+                        }
+                        else {
+                            $('#message').html('Waiting for the owner to start the game');
+                        }
+                    }
+                })
             }
         }
     };
