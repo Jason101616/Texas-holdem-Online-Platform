@@ -100,9 +100,11 @@ def start_logic(public_name):
             if int(pos) == cur_desk.next_dealer:
                 dealer_queue_pos = index
                 find_next = True
+                break
             if not find_next and int(pos) > cur_desk.next_dealer:
                 dealer_queue_pos = index
                 find_next = True
+                break
         if not find_next:
             dealer_queue_pos = 0
     print('dealer_queue_pos:', dealer_queue_pos)
@@ -458,22 +460,30 @@ def next_phase(cur_desk):
 
     Group(public_name).send({'text': json.dumps(content)})
 
-    # let the player next to the dealer to move
-    first_user = 0
+    # reset status
     for i in cur_desk.player_queue:
         user = User_Game_play.objects.get(desk=cur_desk, position=i)
         if user.status != -1:
             user.status = 0
             user.save()
-            if first_user == 0:
-                first_user = 1
-                continue
-            if first_user == 1:
-                first_user = 2
-                next_user = user
+
+    # let the player next to the dealer to move
+    find_next = False
+    for index, pos in enumerate(cur_desk.player_queue):
+        if int(pos) == cur_desk.next_dealer:
+            dealer_queue_pos = index
+            find_next = True
+            break
+        if not find_next and int(pos) > cur_desk.next_dealer:
+            dealer_queue_pos = index
+            find_next = True
+            break
+    if not find_next:
+        dealer_queue_pos = 0
+    next_user_position = cur_desk.player_queue[dealer_queue_pos]
     cur_desk.current_round_largest_chips = 0
     cur_desk.save()
-    give_control(next_user.position, cur_desk)
+    give_control(next_user_position, cur_desk)
 
 
 @transaction.atomic
