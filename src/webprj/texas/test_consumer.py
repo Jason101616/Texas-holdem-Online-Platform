@@ -835,6 +835,12 @@ def ws_disconnect(message):
 
         if desk.current_capacity == desk.capacity:
             delete_desk(desk)
+
+        active_users_list = []
+        for player in User_Game_play.objects.filter(desk=desk).order_by('position'):
+            active_users_list.append(int(player.position))
+        content = {'active_players': active_users_list}
+        Group(public_name).send({'text': json.dumps(content)})
         return
     else:
         # if the user leave room during the game
