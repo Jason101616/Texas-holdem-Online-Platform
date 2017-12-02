@@ -4,7 +4,7 @@ from channels.sessions import channel_session
 import random
 from channels.auth import http_session_user, channel_session_user, channel_session_user_from_http
 from django.db import transaction
-
+import time
 from texas.models import *
 from texas.views import *
 from . import test_compare, desk_manipulation
@@ -15,7 +15,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-
+time_out = 30
 @transaction.atomic
 def delete_desk(desk):
     desk.delete()
@@ -32,7 +32,6 @@ def disconnect_user(message, username):
     print(message['path'].strip('/').split('/')[-1])
     desk = Desk_info.objects.get(desk_name=public_name)
     max_capacity = desk.capacity
-    # Group(public_name).discard(message.reply_channel)
     print('success')
     desk.current_capacity += 1
 
@@ -216,7 +215,9 @@ def give_control(player_position, this_desk):
         content = {
             'cur_user_pos': this_user.position + 1,
             'total_chips_current_game': this_desk.pool,
-            'cur_user_chips_this_game': this_user.chips_pay_in_this_game
+            'cur_user_chips_this_game': this_user.chips_pay_in_this_game,
+            'act': 'fold',
+            'timer': 0
         }
         print(content)
         Group(str(this_desk.desk_name)).send({'text': json.dumps(content)})
@@ -236,7 +237,8 @@ def give_control(player_position, this_desk):
     if this_user.user.chips >= this_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game + this_desk.current_round_largest_chips:
         can_raise = True
         raise_amount = this_user.user.chips - this_desk.current_largest_chips_this_game
-    content['raise'] = [can_raise, [0, raise_amount]]
+    content['raise'] = [can_raise, [this_desk.current_round_largest_chips, raise_amount]]
+    content['timer'] = time_out
     Group(str(this_desk.desk_name)).send({'text': json.dumps(content)})
 
 
@@ -359,6 +361,7 @@ def assign_winner(desk, winner_list):
         'winner': winner_username,
         'cards': all_user_cards
     }
+    time.sleep(10)
     Group(public_name).send({'text': json.dumps(content)})
     print("assign_winner success")
 
@@ -660,13 +663,6 @@ def ws_add(message):
 
     # max compacity
     max_capacity = desk.capacity
-
-    # list of players
-    players = {}
-
-    # test
-    # desk.is_start = False
-    # desk.save()
 
     # Add them to the public group
     Group(desk.desk_name).add(message.reply_channel)
