@@ -152,7 +152,7 @@ def start_logic(public_name):
         user.save()
         print("user after start: ", user)
         content = {'user_cards': user.user_cards}
-        Group(str(user.position)).send({'text': json.dumps(content)})
+        Group(public_name + str(user.position)).send({'text': json.dumps(content)})
 
     # tell the public channel, who is dealer, who is big blind, who is small blind
     content = {
@@ -361,10 +361,9 @@ def assign_winner(desk, winner_list):
         'winner': winner_username,
         'cards': all_user_cards
     }
-    time.sleep(10)
+
     Group(public_name).send({'text': json.dumps(content)})
     print("assign_winner success")
-
     # delete all disconnect user and ready to restart
     player_num = 0
     for user in cur_desk_users:
@@ -381,6 +380,7 @@ def assign_winner(desk, winner_list):
         Group(str(desk.desk_name)).send({'text': json.dumps(content)})
         return
 
+    time.sleep(30)
     print('start_game')
     first_player_position = start_logic(public_name)
     first_move_user = User_Game_play.objects.get(
@@ -526,7 +526,7 @@ def ws_msg(message):
         if this_user.user.chips >= cur_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game + cur_desk.current_round_largest_chips:
             can_raise = True
             raise_amount = this_user.user.chips - cur_desk.current_largest_chips_this_game
-        content['raise'] = [can_raise, [0, raise_amount]]
+        content['raise'] = [can_raise, [cur_desk.current_largest_chips_this_game, raise_amount]]
         this_user.save()
         Group(public_name).send({'text': json.dumps(content)})
         return
@@ -545,6 +545,7 @@ def ws_msg(message):
     this_desk = this_user_game_play.desk
 
     if data['message'] == 'call' or data['message'] == 'check' or data['message'] == 'hold':
+        act = 'hold'
         # current user put more chips
         print('current largest chips this game:',
               this_desk.current_largest_chips_this_game)
@@ -569,6 +570,7 @@ def ws_msg(message):
               this_user_game_play.chips_pay_in_this_game)
 
     elif data['message'] == 'fold' or data['message'] == 'timeout':
+        act = 'fold'
         # update the queue
         next_pos_queue = get_next_pos(this_user_game_play.position,
                                       this_desk.player_queue)
@@ -581,6 +583,7 @@ def ws_msg(message):
             next_pos_queue -= 1
 
     elif data['message'] == 'raise':
+        act = 'raise'
         print('current largest chips this game:',
               this_desk.current_largest_chips_this_game)
         print('current largest chips this round:',
@@ -615,6 +618,7 @@ def ws_msg(message):
               this_user_game_play.chips_pay_in_this_game)
 
     elif data['message'] == 'all_in':
+        act = 'all_in'
         this_desk.pool += this_user_info.chips
         this_user_game_play.status = -1
         raise_amount = this_user_info.chips - (
@@ -640,7 +644,8 @@ def ws_msg(message):
         'cur_user_pos': this_user_game_play.position + 1,
         'cur_user_chips': this_user_info.chips,
         'total_chips_current_game': this_desk.pool,
-        'cur_user_chips_this_game': this_user_game_play.chips_pay_in_this_game
+        'cur_user_chips_this_game': this_user_game_play.chips_pay_in_this_game,
+        'act': act
     }
     print(content)
     Group(public_name).send({'text': json.dumps(content)})
@@ -715,13 +720,13 @@ def ws_add(message):
     Group(public_name).add(message.reply_channel)
 
     # Add the user to the private group
-    position = str(player.position)
-    Group(position).add(message.reply_channel)
-    Group(position).send({'text': desk.desk_name})
+    position_name = public_name + str(player.position)
+    Group(position_name).add(message.reply_channel)
+    Group(position_name).send({'text': desk.desk_name})
 
     # Give owner signal
     if desk.owner == this_user_info:
-        Group(position).send({'text': 'owner!'})
+        Group(position_name).send({'text': 'owner!'})
 
     player.save()
     desk.save()
@@ -738,7 +743,7 @@ def ws_add(message):
         content = {'can_start': 'yes'}
         this_player = User_Game_play.objects.get(user=desk.owner)
         print(this_player.position)
-        Group(str(this_player.position)).send({'text': json.dumps(content)})
+        Group(public_name + str(this_player.position)).send({'text': json.dumps(content)})
 
     print('c:%d,m:%d,f:%d,o:%s,p:%s' %
           (desk.current_capacity, desk.capacity, desk.is_start, desk.owner,
@@ -793,7 +798,7 @@ def ws_disconnect(message):
             content = {'can_start': 'no'}
             this_player = User_Game_play.objects.get(user=desk.owner)
             print(this_player.position)
-            Group(str(this_player.position)).send({'text': json.dumps(content)})
+            Group(public_name + str(this_player.position)).send({'text': json.dumps(content)})
 
         # Boardcast to all player
         content = {
