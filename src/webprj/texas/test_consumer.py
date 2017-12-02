@@ -767,16 +767,6 @@ def ws_add(message):
     position_name = public_name + str(player.position)
     Group(position_name).add(message.reply_channel)
     Group(position_name).send({'text': desk.desk_name})
-
-    # Give owner signal
-    if desk.owner == this_user_info:
-        content = {"owner": "yes"}
-        Group(position_name).send({'text': json.dumps(content)})
-    else:
-        content = {"owner": "no"}
-        Group(position_name).send({'text': json.dumps(content)})
-
-
     player.save()
     desk.save()
 
