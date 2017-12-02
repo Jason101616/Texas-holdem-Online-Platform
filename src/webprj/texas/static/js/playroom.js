@@ -5,7 +5,6 @@ var timeout;
 function start_timer() {
     if (timer >= 0) {
         time_str = '0' + timer;
-        console.log('timer: ' + timer);
         timer--;
         time_str = time_str.substring(time_str.length - 2, time_str.length);
         $('#message').html('00:' + time_str);
@@ -13,11 +12,21 @@ function start_timer() {
     }
     else {
         timer = COUNT_DOWN;
-        console.log('timer down');
-        
         var message = {'message' : 'timeout'};
         socket.send(JSON.stringify(message));
         $('#message').html('Timeout: automatically fold!');
+    } 
+}
+
+function start_timer_hidden() {
+    if (timer >= 0) {
+        timer--;
+        timeout = setTimeout(start_timer, 1000);
+    }
+    else {
+        timer = COUNT_DOWN;
+        var message = {'message' : 'timeout'};
+        socket.send(JSON.stringify(message));
     } 
 }
 
@@ -437,6 +446,9 @@ $(document).ready(function () {
                     }
 
                     winner_pos = parseInt(winner_pos) - parseInt(login_user_pos);
+                    if (winner_pos == 0) {
+                        start_timer_hidden();
+                    }
                     if (winner_pos < 0) winner_pos += 9;
                     $('#player-' + winner_pos)
                     .css(
