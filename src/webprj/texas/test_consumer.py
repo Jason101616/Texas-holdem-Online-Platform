@@ -526,7 +526,7 @@ def ws_msg(message):
         if this_user.user.chips >= cur_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game + cur_desk.current_round_largest_chips:
             can_raise = True
             raise_amount = this_user.user.chips - cur_desk.current_largest_chips_this_game
-        content['raise'] = [can_raise, [0, raise_amount]]
+        content['raise'] = [can_raise, [cur_desk.current_largest_chips_this_game, raise_amount]]
         this_user.save()
         Group(public_name).send({'text': json.dumps(content)})
         return
@@ -545,6 +545,7 @@ def ws_msg(message):
     this_desk = this_user_game_play.desk
 
     if data['message'] == 'call' or data['message'] == 'check' or data['message'] == 'hold':
+        act = 'hold'
         # current user put more chips
         print('current largest chips this game:',
               this_desk.current_largest_chips_this_game)
@@ -569,6 +570,7 @@ def ws_msg(message):
               this_user_game_play.chips_pay_in_this_game)
 
     elif data['message'] == 'fold' or data['message'] == 'timeout':
+        act = 'fold'
         # update the queue
         next_pos_queue = get_next_pos(this_user_game_play.position,
                                       this_desk.player_queue)
@@ -581,6 +583,7 @@ def ws_msg(message):
             next_pos_queue -= 1
 
     elif data['message'] == 'raise':
+        act = 'raise'
         print('current largest chips this game:',
               this_desk.current_largest_chips_this_game)
         print('current largest chips this round:',
@@ -615,6 +618,7 @@ def ws_msg(message):
               this_user_game_play.chips_pay_in_this_game)
 
     elif data['message'] == 'all_in':
+        act = 'all_in'
         this_desk.pool += this_user_info.chips
         this_user_game_play.status = -1
         raise_amount = this_user_info.chips - (
@@ -640,7 +644,8 @@ def ws_msg(message):
         'cur_user_pos': this_user_game_play.position + 1,
         'cur_user_chips': this_user_info.chips,
         'total_chips_current_game': this_desk.pool,
-        'cur_user_chips_this_game': this_user_game_play.chips_pay_in_this_game
+        'cur_user_chips_this_game': this_user_game_play.chips_pay_in_this_game,
+        'act': act
     }
     print(content)
     Group(public_name).send({'text': json.dumps(content)})
