@@ -268,7 +268,7 @@ def judge_logic(next_player, desk):
 
     # if his status is all-in
     if status == -1:
-        print("judge logic all-in")
+        print("judge logic all-in", next_player.chips_pay_in_this_game, desk.current_largest_chips_this_game)
         if next_player.chips_pay_in_this_game == desk.current_largest_chips_this_game:
             # go to winner_logic
             return winner_logic(desk)
@@ -409,8 +409,16 @@ def winner_logic(cur_desk):
     length = len(User_Game_play.objects.filter(desk=cur_desk, status=-1))
     if length >= len(cur_desk.player_queue) - 1:
         # TODO: go to river phase directly and assign a winner
-        # all_in_compare()
-        pass
+        winner_list, results = river_compare(cur_desk)
+        print(winner_list)
+        # for test, just give the first person in the queue
+        # winner = User_Game_play.objects.get(desk=cur_desk, position=winner_pos[0])
+        assign_winner(cur_desk, winner_list)
+        cards_of_the_desk = cur_desk.five_cards_of_desk
+        # FIXME: finish this part
+        content = {''}
+        Group(cur_desk.desk_name).send({'text': json.dumps(content)})
+        return
 
     # continue the game to next phase
     return next_phase(cur_desk)
@@ -621,13 +629,18 @@ def ws_msg(message):
         act = 'all_in'
         this_desk.pool += this_user_info.chips
         this_user_game_play.status = -1
+
         raise_amount = this_user_info.chips - (
         this_desk.current_largest_chips_this_game - this_user_game_play.chips_pay_in_this_game)
         if raise_amount > this_desk.current_round_largest_chips:
             this_desk.current_round_largest_chips = raise_amount
         if this_user_info.chips + this_user_game_play.chips_pay_in_this_game > this_desk.current_largest_chips_this_game:
+            print('in all_in ...')
             this_desk.current_largest_chips_this_game = this_user_info.chips + this_user_game_play.chips_pay_in_this_game
+        this_user_game_play.chips_pay_in_this_game = this_user_info.chips
         this_user_info.chips = 0
+        next_pos_queue = get_next_pos(this_user_game_play.position,
+                                      this_desk.player_queue)
 
     elif data['message'] == 'timeout_win':
         active_users_list = []
@@ -662,8 +675,6 @@ def ws_msg(message):
             Group(public_name).send({'text': json.dumps(content)})
             return
 
-
-    # this_user_info.save()
     this_user_game_play.save()
     this_desk.save()
     this_user_info.save()
