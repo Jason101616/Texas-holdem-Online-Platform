@@ -460,5 +460,28 @@ $(document).ready(function () {
                 }
             })
         }
+
+        if (data['active_players']) {
+            player_list = data['active_players'];
+            $.ajax({
+                type: 'post',
+                url: 'get_position',
+                data: '',
+                success: function (data) {
+                    login_user_pos = data['position'];
+                    for (i = 0; i < 9; i++) {
+                        $('#player-' + i)[0].style.visibility = 'hidden';
+                    }
+                    for (i = 0; i < player_list.length; i++) {
+                        pos = player_list[i] - login_user_pos;
+                        if (pos < 0) {
+                            pos += 9;
+                        }
+                        $('#player-' + pos)[0].style.visibility = 'visible';
+                    }
+                }
+            })
+
+        }
     };
 });

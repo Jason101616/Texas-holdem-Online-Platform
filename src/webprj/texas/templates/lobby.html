@@ -32,11 +32,11 @@
         <li class = "nav"><a class = "navhref" href = {% url 'logout' %}>Log out</a></li>
         <li class = "nav"><a class = "navhref" href = {% url 'tutorial' %}>Tutorial</a></li>
         <li class = "nav"><a class = "navhref" href = {% url 'profile' %}>Profile</a></li>
-        <li class = "nav"><a class = "navhref" href = {% url 'lobby' %}><span>Game Lobby</a></li>
+        <li class = "nav"><a class = "navhref" href = {% url 'lobby' %}><span class = "creamy">Game Lobby</span></a></li>
     </ul>
     <div class="row clearfix">
-        <div class = "col-1"></div>
-        <div class = "col-10">
+        <div class = "col-2"></div>
+        <div class = "col-8">
             <br><br>
             {% if errors %}
                 {% for e in errors %}
@@ -64,7 +64,7 @@
                 </form>
             </div>
         </div>
-        <div class = "col-1"></div>
+        <div class = "col-2"></div>
     </div>
 </div>
 
