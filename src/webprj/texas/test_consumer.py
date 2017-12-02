@@ -236,7 +236,7 @@ def give_control(player_position, this_desk):
     if this_user.user.chips >= this_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game + this_desk.current_round_largest_chips:
         can_raise = True
         raise_amount = this_user.user.chips - this_desk.current_largest_chips_this_game
-    content['raise'] = [can_raise, [0, raise_amount]]
+    content['raise'] = [can_raise, [this_desk.current_round_largest_chips, raise_amount]]
     Group(str(this_desk.desk_name)).send({'text': json.dumps(content)})
 
 
