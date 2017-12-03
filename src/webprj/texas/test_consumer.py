@@ -18,6 +18,7 @@ from threading import Timer
 
 time_out = 30
 big_blind_min = 200
+small_blind_min = 100
 @transaction.atomic
 def delete_desk(desk):
     desk.delete()
@@ -132,6 +133,20 @@ def start_logic(public_name):
     cur_desk.player_queue_pointer = get_next_pos(next_pos_in_desk,
                                                  cur_desk.player_queue)
 
+    # assign chips for small/big blind
+    cur_desk.pool = big_blind_min + small_blind_min
+    small_blind.user.chips -= small_blind_min
+    small_blind.user.save()
+    big_blind.user.chips -= big_blind_min
+    big_blind.user.save()
+    small_blind.chips_pay_in_this_game = small_blind_min
+    small_blind.save()
+    big_blind.chips_pay_in_this_game = big_blind_min
+    big_blind.save()
+    cur_desk.current_largest_chips_this_game = big_blind_min
+    cur_desk.current_round_largest_chips = small_blind_min
+    cur_desk.save()
+
     # give every users 2 cards
     cards = test_compare.shuffle_card(len(users_of_cur_desk))
 
@@ -161,8 +176,8 @@ def start_logic(public_name):
     # tell the public channel, who is dealer, who is big blind, who is small blind
     content = {
         'dealer': [dealer.user.user.username, dealer.position],
-        'big_blind': [big_blind.user.user.username, big_blind.position],
-        'small_blind': [small_blind.user.user.username, small_blind.position],
+        'big_blind': [big_blind.user.user.username, big_blind.position, big_blind_min, big_blind.user.chips],
+        'small_blind': [small_blind.user.user.username, small_blind.position,small_blind_min,small_blind.user.chips],
         'start_game': 1
     }
     Group(cur_desk.desk_name).send({'text': json.dumps(content)})
