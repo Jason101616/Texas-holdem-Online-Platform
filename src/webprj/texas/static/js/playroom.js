@@ -13,8 +13,8 @@ function start_timer() {
     else {
         timer = COUNT_DOWN;
         var message = {'message' : 'timeout'};
+        console.log(message);
         socket.send(JSON.stringify(message));
-        //$('#message').html('Timeout: automatically fold!');
     } 
 }
 
@@ -100,10 +100,6 @@ $(document).ready(function () {
     socket =
     new WebSocket('ws://' + window.location.host + window.location.pathname);
 
-    // socket.onopen = function() {
-    //     socket.send("have opened");
-    // };
-    // Call onopen directly if socket is already open
     if (socket.readyState === WebSocket.OPEN) {
         socket.onopen();
     }

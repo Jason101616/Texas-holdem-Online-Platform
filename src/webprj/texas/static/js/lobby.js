@@ -51,12 +51,9 @@ $(document).ready(function () {
         $('#newplay').popover({
             html: true,
             title: function () {
-                //return $(this).parent().find('.head').html();
                 return "create a new desk";
             },
             content: function () {
-                //debugger;
-                //console.log($('#newplay_form').html());
                 return $('#newplay_form').html();
             }
         });
