@@ -262,7 +262,7 @@ def profile(request):
     profile = profile[0]
     context['profile'] = profile
     context['loses'] = profile.game_played - profile.game_win
-    context['winning_rate'] = round(float(profile.game_win) / float(profile.game_played), 3)
+    context['winning_rate'] = round(float(profile.game_win) / float(profile.game_played), 3) if profile.game_played != 0 else 0.000
     return render(request, 'profile.html', context)
 
 
@@ -286,7 +286,7 @@ def playroom(request, deskname):
     context['deskname'] = deskname
     if request.method != 'GET':
         print("invalid request!")
-        return
+        return redirect(reverse('lobby'))
     if desk.is_start:
         request.session[
             'errors'] = 'Error: Permission denied: there is an ongoing game in this room, please try another.'
