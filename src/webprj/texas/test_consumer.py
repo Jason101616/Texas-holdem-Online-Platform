@@ -751,7 +751,6 @@ def ws_add(message):
     # Add the user to the private group
     position_name = public_name + str(player.position)
     Group(position_name).add(message.reply_channel)
-    Group(position_name).send({'text': desk.desk_name})
     player.save()
     desk.save()
 
