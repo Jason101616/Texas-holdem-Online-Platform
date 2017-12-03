@@ -180,7 +180,8 @@ def start_logic(public_name):
         'dealer': [dealer.user.user.username, dealer.position],
         'big_blind': [big_blind.user.user.username, big_blind.position, big_blind_min, big_blind.user.chips],
         'small_blind': [small_blind.user.user.username, small_blind.position,small_blind_min,small_blind.user.chips],
-        'start_game': 1
+        'start_game': 1,
+        'total_chips': big_blind_min + small_blind_min
     }
     Group(cur_desk.desk_name).send({'text': json.dumps(content)})
 
