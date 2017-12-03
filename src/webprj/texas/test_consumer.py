@@ -153,6 +153,7 @@ def start_logic(public_name):
     return cur_desk.player_queue[cur_desk.player_queue_pointer]
 
 
+@transaction.atomic
 def get_next_pos(cur_pos, player_queue):
     len_queue = len(player_queue)
     print("len_queue:", len_queue)
@@ -164,6 +165,7 @@ def get_next_pos(cur_pos, player_queue):
     return pos + 1
 
 
+@transaction.atomic
 def give_control(player_position, this_desk):
     print('give control to player position: ', player_position)
     this_user = User_Game_play.objects.get(
@@ -229,6 +231,7 @@ def give_control(player_position, this_desk):
     Group(this_desk.desk_name).send({'text': json.dumps(content)})
 
 
+@transaction.atomic
 def find_next_player(desk, player):
     next_pos_queue = get_next_pos(player.position, desk.player_queue)
     desk.player_queue_pointer = next_pos_queue
@@ -238,6 +241,7 @@ def find_next_player(desk, player):
     return next_user
 
 
+@transaction.atomic
 def judge_logic(next_player, desk):
     if len(desk.player_queue) == 1:
         print("judge logic only one player")
@@ -278,6 +282,7 @@ def judge_logic(next_player, desk):
             give_control(next_player.position, desk)
 
 
+@transaction.atomic
 def assign_winner(desk, winner_list, results=None):
     print("winner list:", winner_list)
     # update the chips of current desk
@@ -397,6 +402,7 @@ def assign_winner(desk, winner_list, results=None):
     t.start()
 
 
+@transaction.atomic
 def get_out(this_desk):
     cur_desk_users = User_Game_play.objects.filter(desk=this_desk)
     public_name = this_desk.desk_name
@@ -411,6 +417,7 @@ def get_out(this_desk):
             })
 
 
+@transaction.atomic
 def start_next_game(public_name):
     this_desk = Desk_info.objects.get(desk_name=public_name)
     print("new:", this_desk)
@@ -465,6 +472,7 @@ def start_next_game(public_name):
         Group(public_name).send({'text': json.dumps(content)})
 
 
+@transaction.atomic
 def winner_logic(cur_desk):
     # if there's only one player whose status is other than fold
     if len(cur_desk.player_queue) == 1:
@@ -500,6 +508,7 @@ def winner_logic(cur_desk):
     return next_phase(cur_desk)
 
 
+@transaction.atomic
 def river_compare(cur_desk):
     cur_cards = cur_desk.five_cards_of_desk
     public_card_list = list(map(int, cur_cards.split(' ')))
@@ -515,6 +524,7 @@ def river_compare(cur_desk):
     return winner, results
 
 
+@transaction.atomic
 def next_phase(cur_desk):
     public_name = cur_desk.desk_name
     print("next_phase")
@@ -724,6 +734,9 @@ def ws_msg(message):
         this_user_info.chips = 0
         next_pos_queue = get_next_pos(this_user_game_play.position,
                                       this_desk.player_queue)
+    else:
+        print("unknown message")
+        return
 
     this_user_game_play.save()
     this_desk.save()
