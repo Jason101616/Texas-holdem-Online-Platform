@@ -372,7 +372,7 @@ $(document).ready(function () {
                 data: '',
                 success: function (data) {
 
-                    $('#message').html(toUpperCase(current_user_act));
+                    $('#message').html(current_user_act.toUpperCase());
 
                     login_user_pos = data['position'];
                     user_pos = parseInt(current_user_target_pos) - 1 - parseInt(login_user_pos);
@@ -396,7 +396,7 @@ $(document).ready(function () {
 
                         $('#player-' + user_pos)[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
                         $('#message').html(current_user_act.toUpperCase());
-                    }
+                    } 
                 }
             })
         }
