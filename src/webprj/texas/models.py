@@ -15,7 +15,6 @@ class User_info(models.Model):
     chips = models.IntegerField(default=10000)
     game_played = models.IntegerField(default=0)
     game_win = models.IntegerField(default=0)
-    game_lose = models.IntegerField(default=0)
 
     def __str__(self):
         return "username: %s, chips: %d" % (self.user.username, self.chips)

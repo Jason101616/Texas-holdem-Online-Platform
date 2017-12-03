@@ -331,7 +331,6 @@ def assign_winner(desk, winner_list):
     desk.current_round_largest_chips = 0
     desk.save()
 
-    # FIXME: check whether we need to show all the cards to all users
     cur_desk_users = User_Game_play.objects.filter(desk=desk)
     public_name = desk.desk_name
     all_user_cards = {}
@@ -351,7 +350,6 @@ def assign_winner(desk, winner_list):
         cur_winner = User_Game_play.objects.get(desk=desk, position=pos)
         # update win and lose game number
         cur_winner.user.game_win += 1
-        cur_winner.user.game_lose = cur_winner.user.game_played - cur_winner.user.game_win
         cur_winner.user.save()
         winner_username.append(cur_winner.user.user.username)
     content = {
@@ -368,7 +366,8 @@ def assign_winner(desk, winner_list):
     t_getout.start()
 
     # delete all disconnect user and ready to restart
-    t = Timer(10.0, start_next_game, [desk, desk.desk_name])
+    print("old:",desk)
+    t = Timer(10.0, start_next_game, [desk.desk_name])
     t.start()
 
 
@@ -386,7 +385,9 @@ def get_out(this_desk):
             })
 
 
-def start_next_game(this_desk, public_name):
+def start_next_game(public_name):
+    this_desk = Desk_info.objects.get(desk_name=public_name)
+    print("new:",this_desk)
     cur_desk_users = User_Game_play.objects.filter(desk=this_desk)
     player_num = 0
     for user in cur_desk_users:
@@ -837,6 +838,7 @@ def ws_disconnect(message):
 
     if not desk.is_start:
         desk.current_capacity += 1
+        print("current:", desk.current_capacity)
 
         # decide is_start
         if desk.current_capacity >= desk.capacity - 1:
@@ -928,6 +930,7 @@ def ws_disconnect(message):
         desk.position_queue += str(this_player.position)
         print("after leave: ", desk)
         desk.save()
+
         if int(desk.player_queue[
                    desk.player_queue_pointer]) == this_player.position:
             next_pos_queue = get_next_pos(this_player.position,
