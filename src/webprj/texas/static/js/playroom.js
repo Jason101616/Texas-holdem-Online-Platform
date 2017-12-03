@@ -340,12 +340,12 @@ $(document).ready(function () {
                     else {
                         content = "<span class = 'label label-bgbl'>big blind</span>";
                         $('#job-' + pos1).html(content);
+
+                        content = "<span class = 'label label-dealer'>dealer</span>";
+                        $('#job-' + pos3).html(content);
                     }
                     $('#chips-' + pos1 + '-1').html("Total chips: " + big_blind_chips);
                     $('#chips-' + pos1 + '-2').html("Betting: " + big_blind_betting);
-
-                    content = "<span class = 'label label-dealer'>dealer</span>";
-                    $('#job-' + pos3).html(content);
 
                     content = "<span class = 'label label-smbl'>small blind</span>";
                     $('#job-' + pos2).html(content);
