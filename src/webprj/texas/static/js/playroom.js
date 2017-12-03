@@ -456,7 +456,6 @@ $(document).ready(function () {
                             if (pos < 0) pos += 9;
 
                             if (pos != 0) {
-                                debugger;
                                 pokers = user_cards[i.toString()].split(' ');
                                 pokers[0] = poker_string(parseInt(pokers[0]));
                                 pokers[1] = poker_string(parseInt(pokers[1]));
@@ -545,6 +544,7 @@ $(document).ready(function () {
             'Total chips: ' + data['cur_user_chips'];
             $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML =
             'Betting: 0';
+            $('#player-0')[0].children[0].children[0].children[0].children[1].innerHTML = '';
 
         }
     };
