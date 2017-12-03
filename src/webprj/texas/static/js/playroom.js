@@ -610,6 +610,7 @@ $(document).ready(function () {
         }
 
         if (data['get_out']) {
+            alert("You don't have enough chips to continue the game.");
             window.location.replace('/lobby');
         }
     };
