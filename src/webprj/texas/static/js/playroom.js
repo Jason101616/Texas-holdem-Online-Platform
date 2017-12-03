@@ -153,40 +153,58 @@ $(document).ready(function () {
     function poker_string(value) {
         var num = value % 13;
         var color = (value - num++) / 13;
-        switch (color) {
-            case 0:
-            value = '♥';
-            break;
-            case 1:
-            value = '♣';
-            break;
-            case 2:
-            value = '♦';
-            break;
-            case 3:
-            value = '♠';
-            break;
-            default:
-            break;
-        }
+        var font;
         switch (num) {
             case 1:
-            value = 'A' + value;
+            num = 'A';
             break;
             case 11:
-            value = 'J' + value;
+            num = 'J';
             break;
             case 12:
-            value = 'Q' + value;
+            num = 'Q';
             break;
             case 13:
-            value = 'K' + value;
+            num = 'K';
             break;
             default:
-            value = num + value; 
+            num = num.toString();
             break;
         }
-        return value;
+        switch (color) {
+            case 0:
+            color = '&clubs;';
+            font = 'black';
+            break;
+            case 1:
+            color = '&spades;';
+            font = 'black';
+            break;
+            case 2:
+            color = '&hearts;';
+            font = 'red';
+            break;
+            case 3:
+            color = '&diams;';
+            font = 'red';
+            break;
+            default:
+            break;
+        }
+        var card = {'color' : color, 'num' : num, 'font': font};
+        return card;
+    }
+
+    function set_poker(id, card) {
+        content = "<p class = 'card-txt " + card['font'] + "'>" + card['num'] + "</p>";
+        content += "<p class = 'card-img " + card['font'] + "'>" + card['color'] + "</p>";
+        $('#' + id).html(content);
+    }
+    
+    function set_poker_null(id) {
+        //content = "<p class = 'card-img gray'>#</p>";
+        content = "<div class = 'back'></div>";
+        $('#' + id).html(content);
     }
 
     $('#leave_room').on('click', function (event) {
@@ -266,8 +284,7 @@ $(document).ready(function () {
                             if (position == 0) continue;
 
                             chips = data.players[i]['chips'];
-                            $('#player-' + position)[0].children[0].children[0].children[0].children[0].children[2].innerHTML =
-                            username;
+                            $('#player-' + position)[0].children[0].children[0].children[0].children[0].children[2].innerHTML = username;
                             //$('#player-' + position)[0].style.visibility = 'visible';
                             $('#player-' + position)[0].style.display = '';
                             $('#player-' + position)[0].children[1].children[0].innerHTML =
@@ -284,18 +301,18 @@ $(document).ready(function () {
             values = data['user_cards'].split(' ');
             if (values.length === 2) {
                 for (i = 0; i < 2; i++) {
-                    $('#card-0-' + (i + 1))
-                    .html('<p>' + poker_string(values[i]) + '</p>');
+                    card = poker_string(parseInt(values[i]));
+                    set_poker('card-0-' + (i + 1), card);
                 }
             }
             for (i = 1; i < 9; i++) {
-                $('#card-' + i + '-1').html('<p class = \'small\'>*</p>');
-                $('#card-' + i + '-2').html('<p class = \'small\'>*</p>');
+                set_poker_null('card-' + i + '-1');
+                set_poker_null('card-' + i + '-2');
                 $('#player-' + i)[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '';
                 $('#player-' + i)[0].children[0].children[0].children[0].children[0].children[1].innerHTML = '';
             }
             for (i = 0; i < 5; i++) {
-                $('#desk-' + i).html('*');
+                set_poker_null('desk-' + i);
             }
         }
 
@@ -442,7 +459,8 @@ $(document).ready(function () {
 
         if (data['desk_cards']) {
             for (i = 0; i < data['desk_cards'].length; i++) {
-                $('#desk-' + i)[0].innerHTML = poker_string(data['desk_cards'][i]);
+                card = poker_string(data['desk_cards'][i]);
+                set_poker('desk-' + i, card);
             }
         }
 
@@ -468,10 +486,12 @@ $(document).ready(function () {
 
                             if (pos != 0) {
                                 pokers = user_cards[i.toString()].split(' ');
-                                pokers[0] = poker_string(parseInt(pokers[0]));
-                                pokers[1] = poker_string(parseInt(pokers[1]));
-                                $('#player-' + pos)[0].children[0].children[0].children[1].children[0].children[0].children[0].innerHTML = pokers[0];
-                                $('#player-' + pos)[0].children[0].children[0].children[1].children[1].children[0].children[0].innerHTML = pokers[1];
+
+                                card = poker_string(parseInt(pokers[0]));
+                                set_poker('card-' + pos + '-1', card);
+
+                                card = poker_string(parseInt(pokers[1]));
+                                set_poker('card-' + pos + '-2', card);
                             }
                         }
                     }

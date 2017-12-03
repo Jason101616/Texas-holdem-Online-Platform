@@ -32,10 +32,19 @@ def home(request):
 def signup(request):
     context = {}
     if request.method == 'GET':
-        return render(request, 'signup.html')
+        return render(request, 'signup.html', context)
+
     signupform = SignupForm(request.POST)
+    context['form'] = signupform
+    context['errors'] = []
+
+    if len(User.objects.filter(username = request.POST['username'])) > 0:
+        context['errors'].append('Error: username is already taken')
+        return render(request, 'signup.html', context)
+
     if not signupform.is_valid():
-        return render(request, 'signup.html')
+        context['errors'].append('Error: input information is invalid.')
+        return render(request, 'signup.html', context)
 
     new_user = User.objects.create_user(
         username=signupform.cleaned_data['username'],
@@ -264,16 +273,10 @@ def playroom(request, deskname):
         print("invalid request!")
         return
     if desk.is_start:
-<<<<<<< HEAD
-        context['errors'] = [
-            'Error: Permission denied: there is an ongoing game in this room, please try another.'
-        ]
-=======
-        request.session['errors'] = 'Permission denied: there is an ongoing game in this room, please try another.'
->>>>>>> 6c626d5b701f801477cae6dd5ded2aa3810afb51
+        request.session['errors'] = 'Error: Permission denied: there is an ongoing game in this room, please try another.'
     elif user_info.chips < big_blind_min:
         print('cannot get into the room')
-        request.session['errors'] = 'You don\'t have enough chips'
+        request.session['errors'] = 'Error: You don\'t have enough chips'
     else:
         return render(request, 'playroom.html', context)
     return redirect(reverse('lobby'))

@@ -10,6 +10,25 @@ class SignupForm(forms.ModelForm):
         model = User
         fields = ['username', 'first_name', 'last_name', 'password', 'email']
 
+    def clean(self):
+        cleaned_data = super(SignupForm, self).clean()
+        username = self.cleaned_data.get('username')
+        first_name = self.cleaned_data.get('first_name')
+        last_name = self.cleaned_data.get('last_name')
+        password = self.cleaned_data.get('password')
+        email = self.cleaned_data.get('email')
+        if not username:
+            raise forms.ValidationError('Username is required.')
+        if not first_name:
+            raise forms.ValidationError('First name is required.')
+        if not last_name:
+            raise forms.ValidationError('Last name is required.')
+        if not password:
+            raise forms.ValidationError('Password is required.')
+        if not email:
+            raise forms.ValidationError('Email is required.')
+        return cleaned_data
+
 class ChipEmail(forms.Form):
     email = forms.EmailField()
     def clean(self):

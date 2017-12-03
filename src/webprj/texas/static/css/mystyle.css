@@ -112,7 +112,7 @@ p {
 	width: 1000px;
 	height: 350px;
 	border-radius: 200px;
-	border: 3px solid #179b77;
+	border: 2px solid rgb(40, 100, 65);
 	background-color:  rgba(49,107,66, 0.9);
 	margin: auto;
 	margin-top: 30px;
@@ -130,71 +130,40 @@ p {
 }
 
 .card_wrapper {
-	width: 45px;
-	height: 60px;
-	background-color: white;
-	border-radius: 5px;
-	border: 2px solid #179b77;
-	text-align: center;
+	border: 0.18em solid rgb(23, 81, 65);
+	border-radius: 10%;
+	height: 80px;
+	width: 56px; /*70% of height*/
 	margin: 15px;
-	padding: 2px;
-	color: rgb(51,23,12);
+	float: left;
+	background-color: white;
 }
 
-.card {
-  float: left;
-  position: relative;
-  margin: 1px 1px 0 0;
-  width: 100%;
-  height: 100%;
-  font: 15px "Times New Roman";
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  box-shadow: 1px 1px 5px rgba(0,0,0,.3);
-}
-.card:before, .card:after {
-  position: absolute;
-  font-size: 15px;
-  line-height: 1;
-}
-.card:before {
-  top: 10px;
-  left: 10px;
-}
-.card:after {
-  bottom: 10px;
-  right: 10px;
- -webkit-transform: rotate(180deg);
+.card-img {
+	text-align: center;
+	margin: 0;
+	font-size: 2em;
 }
 
-.heart, .diamond { color: #d00; }
-
-  .two:before,   .two:after { content: '2'; }
-.three:before, .three:after { content: '3'; }
- .four:before,  .four:after { content: '4'; }
- .five:before,  .five:after { content: '5'; }
-  .six:before,   .six:after { content: '6'; }
-.seven:before, .seven:after { content: '7'; }
-.eight:before, .eight:after { content: '8'; }
- .nine:before,  .nine:after { content: '9'; }
-  .ten:before,   .ten:after { content: '10'; }
- .jack:before,  .jack:after { content: 'J'; }
-.queen:before, .queen:after { content: 'Q'; }
- .king:before,  .king:after { content: 'K'; }
-  .ace:before,   .ace:after { content: 'A'; }
+.card-txt {
+	margin: 0;
+	margin-top: 15%;
+	text-align: center;
+	font-size: 1.5em;
+	padding: 0;
+	font-family: "Times New Roman";
+	line-height: 80%;
+}
 
 .smallcard {
-	width: 30px;
-	height: 40px;
-	background-color: white;
-	border-radius: 5px;
-	border: 2px solid #179b77;
-	text-align: center;
+	border: 0.18em solid rgb(23, 81, 65);
+	border-radius: 10%;
+	height: 60px;
+	width: 42px;
 	margin: 10px;
-	padding: 1px;
-	font-size: 15px;
-	color: rgb(51,23,12);
+	float: left;
+	background-color: white;
+	font-size: 13px;
 }
 
 .message {
@@ -273,4 +242,23 @@ h3 {
 
 .brown {
 	color: rgb(51,23,12);
+}
+
+.black {
+	color: black;
+}
+
+.red {
+	color: red;
+}
+
+.gray {
+	color: gray;
+}
+
+.back {
+	background-image: url('../images/cardback.png');
+	background-size:contain;
+	height: 100%;
+	width: 100%;
 }

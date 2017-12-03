@@ -40,6 +40,15 @@
         <div class="tab-content">
             <div id="signup">
                 <h1>Texas Hold'em</h1>
+                {% if errors %}
+                {% for e in errors %}
+                <p class = "error">{{ e }}</p>
+                <br>
+                {% endfor %}
+                {% endif %}
+                {% for e in form.non_field_errors %}
+                    <p class = "error">Error: {{ e }}</p>
+                {% endfor %}
                 <form action="{% url 'signup' %}" method = "post">
                     {% csrf_token %}
                     <div class="top-row">
