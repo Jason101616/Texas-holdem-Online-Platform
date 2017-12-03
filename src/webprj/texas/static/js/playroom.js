@@ -285,7 +285,6 @@ $(document).ready(function () {
                             if (position == 0) continue;
 
                             chips = data.players[i]['chips'];
-                            debugger;
                             if (position != 0) {
                                 $('#player-' + position)[0].children[0].children[0].children[0].children[0].children[2].innerHTML = username;
                             }
