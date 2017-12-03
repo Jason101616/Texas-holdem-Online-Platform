@@ -1,4 +1,4 @@
-var COUNT_DOWN = 10;
+var COUNT_DOWN = 30;
 var timer = COUNT_DOWN;
 var timeout;
 
@@ -17,7 +17,7 @@ function start_timer() {
         timer = COUNT_DOWN;
         var message = {'message' : 'timeout'};
         socket.send(JSON.stringify(message));
-    } 
+    }
 }
 
 function start_timer_fake() {
@@ -30,7 +30,7 @@ function start_timer_fake() {
     }
     else {
         timer_fake = COUNT_DOWN;
-    } 
+    }
 }
 
 function stop_timer() {
@@ -203,7 +203,7 @@ $(document).ready(function () {
         content += "<p class = 'card-img " + card['font'] + "'>" + card['color'] + "</p>";
         $('#' + id).html(content);
     }
-    
+
     function set_poker_null(id) {
         //content = "<p class = 'card-img gray'>#</p>";
         content = "<div class = 'back'></div>";
@@ -291,7 +291,7 @@ $(document).ready(function () {
                             if (position != 0) {
                                 $('#player-' + position)[0].children[0].children[0].children[0].children[0].children[2].innerHTML = username;
                             }
-                            
+
                             $('#player-' + position)[0].style.display = '';
 
                             $('#chips-' + position + '-1').html("Total chips: " + chips);
@@ -340,7 +340,7 @@ $(document).ready(function () {
                     if (pos1 == pos3) {
                         content = "<span class = 'label label-bgbl'>big blind</span>&nbsp;";
                         content += "<span class = 'label label-dealer'>dealer</span>";
-                        $('#job-' + pos1).html(content); 
+                        $('#job-' + pos1).html(content);
                     }
                     else {
                         content = "<span class = 'label label-bgbl'>big blind</span>";
@@ -366,7 +366,7 @@ $(document).ready(function () {
             stop_timer();
 
             $('#chips').html('Chips in the pool: ' + data['total_chips_current_game']);
-            
+
 
             total_new = data['cur_user_chips'];
             chip_new = data['cur_user_chips_this_game'];
@@ -390,11 +390,11 @@ $(document).ready(function () {
                     if (user_pos == 0) {
                         $('#player-0')[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
                         $('#player-0')[0].children[0].children[0].children[0].children[0].children[0].className = "status " + current_user_act;
-                    } 
+                    }
                     else {
                         $('#player-' + user_pos)[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
                         $('#player-' + user_pos)[0].children[0].children[0].children[0].children[0].children[0].className = "status " + current_user_act;
-                    } 
+                    }
                 }
             })
         }
@@ -422,7 +422,7 @@ $(document).ready(function () {
                     if (user_pos == 0) {
                         $('#game_fold')[0].disabled = false;
                         $('#game_allin')[0].disabled = false;
-                        
+
                         if (permission['check']) {
                             $('#game_hold')[0].disabled = false;
                         }
