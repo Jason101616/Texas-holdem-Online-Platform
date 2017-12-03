@@ -86,8 +86,8 @@ function change_raise_value() {
 function clear_status() {
     $('#game_hold')[0].disabled = true;
     $('#game_fold')[0].disabled = true;
-    $('#game_allin')[0].disabled = false;
-    $('#game_raise')[0].disabled = false;
+    $('#game_allin')[0].disabled = true;
+    $('#game_raise')[0].disabled = true;
 
     for (i = 0; i < 9; i++) {
         $('#player-' + i).css('background', 'rgba(255,255,255,0)');
@@ -143,7 +143,7 @@ $(document).ready(function () {
     $('#game_hold')[0].disabled = true;
     $('#game_fold')[0].disabled = true;
     $('#game_raise')[0].disabled = true;
-    $('#game_allin')[0].disabled = false;
+    $('#game_allin')[0].disabled = true;
 
     for (i = 1; i < 9; i++) {
         $('#player-' + i)[0].style.display = 'none';
