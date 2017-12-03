@@ -686,7 +686,7 @@ def ws_msg(message):
         if this_user_info.chips + this_user_game_play.chips_pay_in_this_game > this_desk.current_largest_chips_this_game:
             print('in all_in ...')
             this_desk.current_largest_chips_this_game = this_user_info.chips + this_user_game_play.chips_pay_in_this_game
-        this_user_game_play.chips_pay_in_this_game = this_user_info.chips
+        this_user_game_play.chips_pay_in_this_game += this_user_info.chips
         this_user_info.chips = 0
         next_pos_queue = get_next_pos(this_user_game_play.position,
                                       this_desk.player_queue)
