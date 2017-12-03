@@ -477,7 +477,6 @@ $(document).ready(function () {
                     }
 
                     content = "Winner is";
-                    debugger;
                     for (j = 0; j < winner_pos.length; j++){
                         winner_pos_j = parseInt(winner_pos[j]) - parseInt(login_user_pos);
 
@@ -489,7 +488,7 @@ $(document).ready(function () {
                                     $('#desk-' + (winner_cards[0][i])).css('background-color', 'rgba(254,238,117,1)');
                                 }
                                 else {
-                                    $('#card-' + winner_pos_j + '-' + (winner_cards[0][i] - 4)).css('background-color', 'rgba(254,238,117,1)');
+                                    $('#card-' + winner_pos_j + '-' + (winner_cards[0][i] - 4)).css('background-color', 'rgba(253,252,202,1)');
                                 }
                             }
                         }
@@ -497,7 +496,7 @@ $(document).ready(function () {
                         $('#player-' + winner_pos_j)
                         .css(
                             'background',
-                            'linear-gradient(0deg, rgba(254,238,117,0.5), rgba(254,238,117,0))');
+                            'linear-gradient(0deg, rgba(254,238,117,0.5), rgba(253,252,202,0))');
 
                         content += " " + winner_name;
                     }
