@@ -298,6 +298,9 @@ def playroom(request, deskname):
     elif len(User_Game_play.objects.filter(desk=desk, user=user_info)) > 0:
         print('you are already in the game')
         request.session['errors'] = 'you are already in the game'
+    elif len(User_Game_play.objects.filter(desk=desk)) >= 9:
+        print('room is full')
+        request.session['errors'] = 'room is full'
     else:
         return render(request, 'playroom.html', context)
     return redirect(reverse('lobby'))
