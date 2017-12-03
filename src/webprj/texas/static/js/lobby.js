@@ -60,5 +60,5 @@ $(document).ready(function () {
         });
     });
 
-    window.setInterval(updateChanges, 5000);
+    window.setInterval(updateChanges, 500);
 });

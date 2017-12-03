@@ -449,6 +449,7 @@ $(document).ready(function () {
         if (data['winner']) {
             user_cards = data['cards'];
             winner_pos = data['winner_pos'];
+            winner_name = data['winner'];
             $('#start_game')[0].disabled = false;
 
             clear_status();
@@ -485,7 +486,7 @@ $(document).ready(function () {
                         'background',
                         'linear-gradient(0deg, rgba(254,238,117,0.5), rgba(254,238,117,0))');
 
-                    $('#message').html('Winner is ' + data['winner'] + '!');
+                    $('#message').html('Winner is ' + winner_name + '!');
                 }
             })
         }
