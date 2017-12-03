@@ -1,6 +1,9 @@
-var COUNT_DOWN = 30;
+var COUNT_DOWN = 10;
 var timer = COUNT_DOWN;
 var timeout;
+
+var timer_fake = COUNT_DOWN;
+var timeout_fake;
 
 function start_timer() {
     if (timer >= 0) {
@@ -13,21 +16,20 @@ function start_timer() {
     else {
         timer = COUNT_DOWN;
         var message = {'message' : 'timeout'};
-        console.log(message);
         socket.send(JSON.stringify(message));
     } 
 }
 
 function start_timer_fake() {
-    if (timer >= 0) {
-        time_str = '0' + timer;
-        timer--;
+    if (timer_fake >= 0) {
+        time_str = '0' + timer_fake;
+        timer_fake--;
         time_str = time_str.substring(time_str.length - 2, time_str.length);
         $('#message').html('00:' + time_str);
-        timeout = setTimeout(start_timer, 1000);
+        timeout_fake = setTimeout(start_timer_fake, 1000);
     }
     else {
-        timer = COUNT_DOWN;
+        timer_fake = COUNT_DOWN;
     } 
 }
 
@@ -424,7 +426,6 @@ $(document).ready(function () {
                             $('#raise_value')[0].value = $('#raise_value')[0].min;
                             $('#raise_calue_disp').html($('#raise_value')[0].value);
                         }
-                        console.log("timer!" + (target_pos - 1) + ' ' + login_user_pos);
                         start_timer();
                     }
                     else {
