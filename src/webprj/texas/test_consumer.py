@@ -15,6 +15,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from threading import Timer
+import traceback
 
 time_out = 30
 big_blind_min = 200
@@ -774,6 +775,7 @@ def ws_msg(message):
         print("next_user before judge logic: ", next_user)
         judge_logic(next_user, this_desk)
     except:
+        traceback.print_exc()
         reset_all()
 
 
@@ -1028,3 +1030,7 @@ def reset_all():
                     'get_out': 'yes'
                 })
             })
+        try:
+            desk.delete()
+        except:
+            pass
