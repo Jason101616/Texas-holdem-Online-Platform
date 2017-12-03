@@ -502,12 +502,14 @@ $(document).ready(function () {
 
                     if (winner_pos < 0) winner_pos += 9;
 
-                    for (i = 0; i < winner_cards.length; i++) {
-                        if (winner_cards[i] <= 5) {
-                            $('#desk-' + (i - 1)).css('background-color', 'rgba(254,238,117,0.5)');
-                        }
-                        else {
-                            $('#card-' + winner_pos + '-' + (i - 5)).css('background-color', 'rgba(254,238,117,0.5)');
+                    if (user_cards && winner_cards) {
+                        for (i = 0; i < winner_cards.length; i++) {
+                            if (winner_cards[i] <= 5) {
+                                $('#desk-' + (i - 1)).css('background-color', 'rgba(254,238,117,0.5)');
+                            }
+                            else {
+                                $('#card-' + winner_pos + '-' + (i - 5)).css('background-color', 'rgba(254,238,117,0.5)');
+                            }
                         }
                     }
 
