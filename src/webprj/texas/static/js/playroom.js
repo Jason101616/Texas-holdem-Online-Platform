@@ -12,10 +12,11 @@ function start_timer() {
         time_str = time_str.substring(time_str.length - 2, time_str.length);
         $('#message').html('00:' + time_str);
         timeout = setTimeout(start_timer, 1000);
-    }
-    else {
+    } else {
         timer = COUNT_DOWN;
-        var message = {'message' : 'timeout'};
+        var message = {
+            'message': 'timeout'
+        };
         socket.send(JSON.stringify(message));
     }
 }
@@ -27,8 +28,7 @@ function start_timer_fake() {
         time_str = time_str.substring(time_str.length - 2, time_str.length);
         $('#message').html('00:' + time_str);
         timeout_fake = setTimeout(start_timer_fake, 1000);
-    }
-    else {
+    } else {
         timer_fake = COUNT_DOWN;
     }
 }
@@ -105,7 +105,7 @@ $(document).ready(function () {
     console.log(window.location.pathname);
     console.log(window.location.host);
     socket =
-    new WebSocket('ws://' + window.location.host + window.location.pathname);
+        new WebSocket('ws://' + window.location.host + window.location.pathname);
 
     if (socket.readyState === WebSocket.OPEN) {
         socket.onopen();
@@ -159,42 +159,46 @@ $(document).ready(function () {
         var font;
         switch (num) {
             case 1:
-            num = 'A';
-            break;
+                num = 'A';
+                break;
             case 11:
-            num = 'J';
-            break;
+                num = 'J';
+                break;
             case 12:
-            num = 'Q';
-            break;
+                num = 'Q';
+                break;
             case 13:
-            num = 'K';
-            break;
+                num = 'K';
+                break;
             default:
-            num = num.toString();
-            break;
+                num = num.toString();
+                break;
         }
         switch (color) {
             case 0:
-            color = '&clubs;';
-            font = 'black';
-            break;
+                color = '&clubs;';
+                font = 'black';
+                break;
             case 1:
-            color = '&spades;';
-            font = 'black';
-            break;
+                color = '&spades;';
+                font = 'black';
+                break;
             case 2:
-            color = '&hearts;';
-            font = 'red';
-            break;
+                color = '&hearts;';
+                font = 'red';
+                break;
             case 3:
-            color = '&diams;';
-            font = 'red';
-            break;
+                color = '&diams;';
+                font = 'red';
+                break;
             default:
-            break;
+                break;
         }
-        var card = {'color' : color, 'num' : num, 'font': font};
+        var card = {
+            'color': color,
+            'num': num,
+            'font': font
+        };
         return card;
     }
 
@@ -216,7 +220,7 @@ $(document).ready(function () {
             'command': 'leave'
         };
         socket.send(JSON.stringify(message));
-        window.location.replace('goto_lobby');
+        window.location.replace('/lobby');
     });
 
     $('#start_game').on('click', function (event) {
@@ -330,7 +334,7 @@ $(document).ready(function () {
             $.ajax({
                 type: 'post',
                 url: 'getjob/' + data['big_blind'][1] + '/' + data['small_blind'][1] +
-                '/' + data['dealer'][1],
+                    '/' + data['dealer'][1],
                 data: '',
                 success: function (data) {
                     pos1 = data['big_blind'];
@@ -341,8 +345,7 @@ $(document).ready(function () {
                         content = "<span class = 'label label-bgbl'>big blind</span>&nbsp;";
                         content += "<span class = 'label label-dealer'>dealer</span>";
                         $('#job-' + pos1).html(content);
-                    }
-                    else {
+                    } else {
                         content = "<span class = 'label label-bgbl'>big blind</span>";
                         $('#job-' + pos1).html(content);
 
@@ -390,8 +393,7 @@ $(document).ready(function () {
                     if (user_pos == 0) {
                         $('#player-0')[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
                         $('#player-0')[0].children[0].children[0].children[0].children[0].children[0].className = "status " + current_user_act;
-                    }
-                    else {
+                    } else {
                         $('#player-' + user_pos)[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
                         $('#player-' + user_pos)[0].children[0].children[0].children[0].children[0].children[0].className = "status " + current_user_act;
                     }
@@ -408,7 +410,10 @@ $(document).ready(function () {
             }
             target_pos = data['move'];
 
-            permission = {'check': data['check'], 'raise': data['raise']};
+            permission = {
+                'check': data['check'],
+                'raise': data['raise']
+            };
 
             $.ajax({
                 type: 'post',
@@ -434,12 +439,11 @@ $(document).ready(function () {
                             $('#raise_calue_disp').html($('#raise_value')[0].value);
                         }
                         start_timer();
-                    }
-                    else {
+                    } else {
                         start_timer_fake();
                     }
                     $('#player-' + user_pos)
-                    .css('background', 'linear-gradient(0deg, rgba(255,255,255,1), rgba(255,255,255,0))');
+                        .css('background', 'linear-gradient(0deg, rgba(255,255,255,1), rgba(255,255,255,0))');
                 }
             })
         }
@@ -486,7 +490,7 @@ $(document).ready(function () {
                     }
 
                     content = "Winner is";
-                    for (j = 0; j < winner_pos.length; j++){
+                    for (j = 0; j < winner_pos.length; j++) {
                         winner_pos_j = parseInt(winner_pos[j]) - parseInt(login_user_pos);
 
                         if (winner_pos_j < 0) winner_pos_j += 9;
@@ -495,17 +499,16 @@ $(document).ready(function () {
                             for (i = 0; i < winner_cards[0].length; i++) {
                                 if (winner_cards[0][i] < 5) {
                                     $('#desk-' + (winner_cards[0][i])).css('background-color', 'rgba(254,238,117,1)');
-                                }
-                                else {
+                                } else {
                                     $('#card-' + winner_pos_j + '-' + (winner_cards[0][i] - 4)).css('background-color', 'rgba(253,252,202,1)');
                                 }
                             }
                         }
 
                         $('#player-' + winner_pos_j)
-                        .css(
-                            'background',
-                            'linear-gradient(0deg, rgba(254,238,117,0.5), rgba(253,252,202,0))');
+                            .css(
+                                'background',
+                                'linear-gradient(0deg, rgba(254,238,117,0.5), rgba(253,252,202,0))');
 
                         content += " " + winner_name;
                     }
@@ -573,15 +576,13 @@ $(document).ready(function () {
                         if (owner_position - 1 == login_user_pos) {
                             $('#message').html('Ready to start: please start the game');
                             $('#start_game')[0].disabled = false;
-                        }
-                        else {
+                        } else {
                             $('#message').html('Waiting for the owner to start the game');
                             $('#start_game')[0].disabled = true;
                         }
                     }
                 })
-            }
-            else {
+            } else {
                 $('#message').html('Waiting for more players');
                 $('#start_game')[0].disabled = true;
             }
@@ -609,9 +610,7 @@ $(document).ready(function () {
         }
 
         if (data['get_out']) {
-            window.location.replace('goto_lobby');
+            window.location.replace('/lobby');
         }
-
-
     };
 });

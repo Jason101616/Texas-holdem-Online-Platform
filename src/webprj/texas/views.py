@@ -427,6 +427,3 @@ def update_button(request):
     context = {'desks': desks}
     return render(
         request, 'json/desks.json', context, content_type='application/json')
-
-def goto_lobby(request):
-    return redirect(reverse('lobby'))
