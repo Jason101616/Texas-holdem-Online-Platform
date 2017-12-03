@@ -1,4 +1,4 @@
-var COUNT_DOWN = 10;
+var COUNT_DOWN = 30;
 var timer = COUNT_DOWN;
 var timeout;
 
@@ -14,7 +14,7 @@ function start_timer() {
         timer = COUNT_DOWN;
         var message = {'message' : 'timeout'};
         socket.send(JSON.stringify(message));
-        $('#message').html('Timeout: automatically fold!');
+        //$('#message').html('Timeout: automatically fold!');
     } 
 }
 
@@ -385,9 +385,11 @@ $(document).ready(function () {
 
                     if (user_pos == 0) {
                         $('#player-0')[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
+                        $('#player-0')[0].children[0].children[0].children[0].children[0].children[0].className = "status " + current_user_act;
                     } 
                     else {
                         $('#player-' + user_pos)[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
+                        $('#player-' + user_pos)[0].children[0].children[0].children[0].children[0].children[0].className = "status " + current_user_act;
                     } 
                 }
             })
