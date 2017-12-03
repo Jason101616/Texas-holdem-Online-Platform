@@ -35,12 +35,14 @@
         <li class = "nav"><a class = "navhref" href = {% url 'profile' %}>Profile</a></li>
         <li class = "nav"><a class = "navhref" href = {% url 'lobby' %}>Game Lobby</a></li>
     </ul>
-    <ul class = "nbar">
+    <!--<ul class = "nbar">
         <li class = "navtitle">
             <h4>Room ID: {{ deskname }}</h4>
             <br>
         </li>
-    </ul>
+    </ul>-->
+
+    
 
     <div class="row clearfix">
         <div class = "col-1"></div>
@@ -48,7 +50,10 @@
             <br><br>
             <button id = 'leave_room' class = "smallbtn button-block pad">Leave Room</button>
         </div>
-        <div class = "col-6"></div>
+        <div class = "col-6">
+            <br><br>
+            <h1 class = "brown">Room ID: {{ deskname }}</h1>
+        </div>
         <div class = "col-2">
             <br><br>
             <button id = 'start_game' class = "smallbtn button-block pad">Start Game</button>

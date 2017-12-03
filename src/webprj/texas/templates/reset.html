@@ -1,29 +1,72 @@
-<p class = "font5">Please enter your username and email.</p>
-<form action = {% url 'forgetpassword' %} method = "post">
-    <div class="form-group">
-        {% if errors %}
-        {% for e in errors %}
-        <div class = "error">
-            <p>* &nbsp; {{ e }}</p>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="This is a online Texas Hold'em application.">
+    <meta name="author" content="Du Zhang, Shuangning Liu, Yupeng Zhang">
+
+    <meta charset="UTF-8">
+    <title>Texas Hold'em</title>
+
+    <link rel = "stylesheet" href = "{% static "css/bootstrap.min.css" %}">
+    <link rel='stylesheet' href="{% static "css/googleapis.css" %}">
+    <link rel="stylesheet" href="{% static "css/normalize.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <link rel = "stylesheet" href = "{% static "css/mystyle.css" %}">
+</head>
+
+<body>
+
+    <ul class = "nbar">
+        <li class = "navtitle">
+            Texas Hold'em
+        </li>
+    </ul>
+    <ul class = "nbar font20">
+        <li class = "nav"><a class = "navhref" href = {% url 'logout' %}>Log out</a></li>
+        <li class = "nav"><a class = "navhref" href = {% url 'tutorial' %}>Tutorial</a></li>
+        <li class = "nav"><a class = "navhref" href = {% url 'profile' %}>Profile</a></li>
+        <li class = "nav"><a class = "navhref" href = {% url 'lobby' %}>Game Lobby</a></li>
+    </ul>
+
+    <div class="row clearfix">
+        <div class = "col-2"></div>
+        <div class = "col-5">
+            <br><br>
+            <p class = "font5">Please enter your username and email.</p>
+            <hr>
+            <form action = {% url 'forgetpassword' %} method = "post">
+                <div class="form-group">
+                    {% if errors %}
+                    {% for e in errors %}
+                    <div class = "error">
+                        <p>* &nbsp; {{ e }}</p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% for e in form.non_field_errors %}
+                    <div class = "error">
+                        <p>* &nbsp; {{ e }}</p>
+                    </div>
+                    {% endfor %}
+                    {% for field in form.visible_fields %}
+                    <div class = 'wide30per'>
+                        <p class = "formtext">{{ field }}</p>
+                        <p class = "error">{{ field.errors }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <br>
+                <div class = "btnbox right">
+                    <button type="submit" class="smallbtn wide180">Send Confirmation</button>
+                </div>
+                {% csrf_token %}
+            </form>
         </div>
-        {% endfor %}
-        {% endif %}
-        {% for e in form.non_field_errors %}
-        <div class = "error">
-            <p>* &nbsp; {{ e }}</p>
-        </div>
-        {% endfor %}
-        {% for field in form.visible_fields %}
-        <div class = 'wide30per'>
-            <p>{{ field.label_tag }}</p>
-            <p class = "formtext">{{ field }}</p>
-            <p class = "error">{{ field.errors }}</p>
-        </div>
-        {% endfor %}
     </div>
-    <br>
-    <div class = "btnbox">
-        <button type="submit" class="butn wide180">Send Confirmation</button>
-    </div>
-    {% csrf_token %}
-</form>
+</body>
+

@@ -54,8 +54,8 @@ class DeskForm(forms.ModelForm):
         return cleaned_data
 
 class Reset_password(forms.Form):
-    username = forms.CharField(max_length = 420)
-    email = forms.EmailField()
+    username = forms.CharField(max_length = 420, widget = forms.TextInput(attrs = {'placeholder' : 'Username'}))
+    email = forms.EmailField(widget = forms.TextInput(attrs = {'placeholder' : 'Email'}))
 
     def clean(self):
         cleaned_data = super(Reset_password, self).clean()
@@ -78,8 +78,8 @@ class Reset_password(forms.Form):
         return email
 
 class Register_password(forms.Form):
-    password1 = forms.CharField(max_length=50, widget = forms.PasswordInput, label = "* Password")
-    password2 = forms.CharField(max_length=50, widget = forms.PasswordInput, label = "* Confirm Password")
+    password1 = forms.CharField(max_length=50, widget = forms.PasswordInput(attrs = {'placeholder' : 'Set a password'}), label = "* Password")
+    password2 = forms.CharField(max_length=50, widget = forms.PasswordInput(attrs = {'placeholder' : 'Confirm password'}), label = "* Confirm Password")
 
     def clean(self):
         cleaned_data = super(Register_password, self).clean()

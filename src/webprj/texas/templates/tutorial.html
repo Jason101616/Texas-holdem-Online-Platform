@@ -29,11 +29,11 @@
 	<ul class = "nbar font20">
 		{% if logged_in %}
 			<li class = "nav"><a class = "navhref" href = {% url 'logout' %}>Log out</a></li>
-			<li class = "nav"><a class = "navhref" href = {% url 'tutorial' %}><span class = "creamy">Tutorial</span></a></li>
+			<li class = "nav"><a class = "navhref" href = {% url 'tutorial' %}><div class = "creamy">Tutorial</div></a></li>
 			<li class = "nav"><a class = "navhref" href = {% url 'profile' %}>Profile</a></li>
 			<li class = "nav"><a class = "navhref" href = {% url 'lobby' %}>Game Lobby</a></li>
 		{% else %}
-			<li class = "nav"><a class = "navhref" href = {% url 'tutorial' %}><span class = "creamy">Tutorial</span></a></li>
+			<li class = "nav"><a class = "navhref" href = {% url 'tutorial' %}><div class = "creamy">Tutorial</div></a></li>
 			<li class = "nav"><a class = "navhref" href = "#About">About</a></li>
 			<li class = "nav"><a class = "navhref" href = {% url 'home' %}>Home</a></li>
 		{% endif %}
@@ -176,6 +176,7 @@
 			</div>
 
 			<p>Upon conclusion of all wagering, all remaining players in the hand reveal their cards in turn, beginning with the last aggressor. The winner is the player with the best five card hand made with any combination of the seven possible cards: the two hold cards and five community cards.</p>
+			<br><br><br><br><br><br><br><br><br><br><br><br>
 		</div>
 		<div class = "col-1"></div>
 	</div>
