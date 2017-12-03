@@ -452,7 +452,6 @@ def winner_logic(cur_desk):
         # winner list is a sorted list, each element is a list contain user postions
         winner_list, results = river_compare(cur_desk)
         print(winner_list)
-        # for test, just give the first person in the queue
         # winner = User_Game_play.objects.get(desk=cur_desk, position=winner_pos[0])
         assign_winner(cur_desk, winner_list)
         return
@@ -465,7 +464,7 @@ def winner_logic(cur_desk):
         print(winner_list)
         # for test, just give the first person in the queue
         assign_winner(cur_desk, winner_list)
-        cards_of_the_desk = cur_desk.five_cards_of_desk
+        cards_of_the_desk = cur_desk.five_cards_of_desk.split(" ")
         # send the cards of current desk to all users
         content = {'desk_cards': cards_of_the_desk}
         Group(cur_desk.desk_name).send({'text': json.dumps(content)})
