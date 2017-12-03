@@ -775,6 +775,7 @@ def ws_msg(message):
         print("next_user before judge logic: ", next_user)
         judge_logic(next_user, this_desk)
     except:
+        print("unexcepted error occur in ws_msg. Please see the log")
         traceback.print_exc()
         reset_all()
 
@@ -783,254 +784,272 @@ def ws_msg(message):
 @transaction.atomic
 @channel_session_user_from_http
 def ws_add(message):
-    public_name = message['path'].strip('/').split('/')[-1]
-    print(message['path'].strip('/').split('/')[-1])
-    desk = Desk_info.objects.get(desk_name=public_name)
+    try:
+        public_name = message['path'].strip('/').split('/')[-1]
+        print(message['path'].strip('/').split('/')[-1])
+        desk = Desk_info.objects.get(desk_name=public_name)
 
-    # max compacity
-    max_capacity = desk.capacity
+        # max compacity
+        max_capacity = desk.capacity
 
-    # Add them to the public group
-    Group(desk.desk_name).add(message.reply_channel)
+        # Add them to the public group
+        Group(desk.desk_name).add(message.reply_channel)
 
-    if desk.is_start:
-        # Reject the incoming connection
+        if desk.is_start:
+            # Reject the incoming connection
+            message.reply_channel.send({"accept": True})
+            content = {'is_start': 'yes'}
+            Group(public_name).send({'text': json.dumps(content)})
+            Group(public_name).discard(message.reply_channel)
+            return
+
+        if desk.current_capacity == 0:
+            # Reject the incoming connection
+            message.reply_channel.send({"accept": True})
+            content = {'is_full': 'yes'}
+            desk_manipulation.disable_desk(desk)
+            Group(public_name).send({'text': json.dumps(content)})
+            Group(public_name).discard(message.reply_channel)
+            return
+
+        this_user = get_object_or_404(User, username=message.user.username)
+        this_user_info = User_info.objects.get(user=this_user)
+
+        this_position = int(desk.position_queue[0])
+        desk.position_queue = desk.position_queue[1:]
+        # print(this_user_info)
+
+        # Allocate a postion to the user
+        player = User_Game_play(
+            user=this_user_info, desk=desk, position=this_position)
+        player.desk = desk
+        player.save()
+
+        player = User_Game_play.objects.get(user=this_user_info)
+        print("created player")
+        print(player)
+
+        if desk.current_capacity == max_capacity:
+            desk.owner = this_user_info
+
+        desk.current_capacity -= 1
+        print(desk.current_capacity)
+
+        # Accept the incoming connection
         message.reply_channel.send({"accept": True})
-        content = {'is_start': 'yes'}
-        Group(public_name).send({'text': json.dumps(content)})
-        Group(public_name).discard(message.reply_channel)
-        return
 
-    if desk.current_capacity == 0:
-        # Reject the incoming connection
-        message.reply_channel.send({"accept": True})
-        content = {'is_full': 'yes'}
-        desk_manipulation.disable_desk(desk)
-        Group(public_name).send({'text': json.dumps(content)})
-        Group(public_name).discard(message.reply_channel)
-        return
+        # Add them to the public group
+        Group(public_name).add(message.reply_channel)
 
-    this_user = get_object_or_404(User, username=message.user.username)
-    this_user_info = User_info.objects.get(user=this_user)
+        # Add the user to the private group
+        position_name = public_name + str(player.position)
+        Group(position_name).add(message.reply_channel)
+        player.save()
+        desk.save()
 
-    this_position = int(desk.position_queue[0])
-    desk.position_queue = desk.position_queue[1:]
-    # print(this_user_info)
-
-    # Allocate a postion to the user
-    player = User_Game_play(
-        user=this_user_info, desk=desk, position=this_position)
-    player.desk = desk
-    player.save()
-
-    player = User_Game_play.objects.get(user=this_user_info)
-    print("created player")
-    print(player)
-
-    if desk.current_capacity == max_capacity:
-        desk.owner = this_user_info
-
-    desk.current_capacity -= 1
-    print(desk.current_capacity)
-
-    # Accept the incoming connection
-    message.reply_channel.send({"accept": True})
-
-    # Add them to the public group
-    Group(public_name).add(message.reply_channel)
-
-    # Add the user to the private group
-    position_name = public_name + str(player.position)
-    Group(position_name).add(message.reply_channel)
-    player.save()
-    desk.save()
-
-    # Boardcast to all player
-    content = {
-        'new_player': message.user.username,
-        'position': player.position
-    }
-    Group(public_name).send({'text': json.dumps(content)})
-
-    # If current player is 2 or more, owner can start the game
-    content = {}
-    if desk.current_capacity <= max_capacity - 2:
-        this_player = User_Game_play.objects.get(user=desk.owner)
-        content["owner"] = this_player.position + 1
-        content['can_start'] = 'yes'
-        Group(public_name).send({'text': json.dumps(content)})
-    else:
-        this_player = User_Game_play.objects.get(user=desk.owner)
-        content["owner"] = this_player.position + 1
-        content['can_start'] = 'no'
+        # Boardcast to all player
+        content = {
+            'new_player': message.user.username,
+            'position': player.position
+        }
         Group(public_name).send({'text': json.dumps(content)})
 
-    print('c:%d,m:%d,f:%d,o:%s,p:%s' %
-          (desk.current_capacity, desk.capacity, desk.is_start, desk.owner,
-           player.position))
+        # If current player is 2 or more, owner can start the game
+        content = {}
+        if desk.current_capacity <= max_capacity - 2:
+            this_player = User_Game_play.objects.get(user=desk.owner)
+            content["owner"] = this_player.position + 1
+            content['can_start'] = 'yes'
+            Group(public_name).send({'text': json.dumps(content)})
+        else:
+            this_player = User_Game_play.objects.get(user=desk.owner)
+            content["owner"] = this_player.position + 1
+            content['can_start'] = 'no'
+            Group(public_name).send({'text': json.dumps(content)})
 
-    print("after enter: ", desk)
+        print('c:%d,m:%d,f:%d,o:%s,p:%s' %
+              (desk.current_capacity, desk.capacity, desk.is_start, desk.owner,
+               player.position))
+
+        print("after enter: ", desk)
+    except:
+        print("unexcepted error occur in ws_add. Please see the log")
+        traceback.print_exc()
+        reset_all()
 
 
 # Connected to websocket.disconnect
 @transaction.atomic
 @channel_session_user
 def ws_disconnect(message):
-    print('disconnect!')
-    # Disconnect
-    print(message.user)
-    # get desk
-    public_name = message['path'].strip('/').split('/')[-1]
-    print(message['path'].strip('/').split('/')[-1])
-    desk = Desk_info.objects.get(desk_name=public_name)
-    max_capacity = desk.capacity
-    this_user_info = User_info.objects.get(user=message.user)
-    this_player = User_Game_play.objects.get(user=this_user_info)
+    try:
+        print('disconnect!')
+        # Disconnect
+        print(message.user)
+        # get desk
+        public_name = message['path'].strip('/').split('/')[-1]
+        print(message['path'].strip('/').split('/')[-1])
+        desk = Desk_info.objects.get(desk_name=public_name)
+        max_capacity = desk.capacity
+        this_user_info = User_info.objects.get(user=message.user)
+        this_player = User_Game_play.objects.get(user=this_user_info)
 
-    if not desk.is_start:
-        desk.current_capacity += 1
-        print("current:", desk.current_capacity)
+        if not desk.is_start:
+            desk.current_capacity += 1
+            print("current:", desk.current_capacity)
 
-        # decide is_start
-        if desk.current_capacity >= desk.capacity - 1:
-            desk.is_start = False
+            # decide is_start
+            if desk.current_capacity >= desk.capacity - 1:
+                desk.is_start = False
 
-        # decide owner
-        owner_position = -1
-        if desk.owner == this_user_info:
-            players = User_Game_play.objects.filter(desk=desk)
-            print(players)
-            if len(players) == 1:
-                # if this is the last user, desk.owner = None
-                desk.owner = None
-            else:
-                # if still have people in the current desk, give the owner to him
-                for player in players:
-                    if player != this_player:
-                        desk.owner = player.user
-                        owner_position = player.position
-                        break
+            # decide owner
+            owner_position = -1
+            if desk.owner == this_user_info:
+                players = User_Game_play.objects.filter(desk=desk)
+                print(players)
+                if len(players) == 1:
+                    # if this is the last user, desk.owner = None
+                    desk.owner = None
+                else:
+                    # if still have people in the current desk, give the owner to him
+                    for player in players:
+                        if player != this_player:
+                            desk.owner = player.user
+                            owner_position = player.position
+                            break
 
-        # retrieve position queue
-        desk.position_queue += str(this_player.position)
-        print("after leave: ", desk)
+            # retrieve position queue
+            desk.position_queue += str(this_player.position)
+            print("after leave: ", desk)
 
-        # send the new owner to public
-        if owner_position != -1:
-            content = {"owner": owner_position + 1}
-            # If current player is 1, owner can not start the game
-            if desk.current_capacity == max_capacity - 1:
-                content['can_start'] = 'no'
-                Group(public_name).send({'text': json.dumps(content)})
-            else:
-                content['can_start'] = 'yes'
-                Group(public_name).send({'text': json.dumps(content)})
+            # send the new owner to public
+            if owner_position != -1:
+                content = {"owner": owner_position + 1}
+                # If current player is 1, owner can not start the game
+                if desk.current_capacity == max_capacity - 1:
+                    content['can_start'] = 'no'
+                    Group(public_name).send({'text': json.dumps(content)})
+                else:
+                    content['can_start'] = 'yes'
+                    Group(public_name).send({'text': json.dumps(content)})
 
-        # Boardcast to all player
-        content = {
-            'leave_player': message.user.username,
-            'position': this_player.position
-        }
-        Group(public_name).send({'text': json.dumps(content)})
-
-        # delete User_Game_play
-        User_Game_play.objects.get(user=this_user_info).delete()
-        Group(desk.desk_name).discard(message.reply_channel)
-
-        desk.save()
-
-        if desk.current_capacity == desk.capacity:
-            print("delete desk")
-            delete_desk(desk)
-            return
-
-        print("test_leave")
-        active_users_list = []
-        for player in User_Game_play.objects.filter(
-                desk=desk).order_by('position'):
-            active_users_list.append(int(player.position))
-        content = {'active_players': active_users_list}
-        Group(public_name).send({'text': json.dumps(content)})
-        return
-    else:
-        # if the user leave room during the game
-        this_player.is_fold = True
-        this_player.save()
-
-        desk.current_capacity += 1
-        desk.save()
-        if desk.current_capacity == desk.capacity:
-            delete_desk(desk)
-            return
-
-        # decide owner
-        if desk.owner == this_user_info:
-            players = User_Game_play.objects.filter(desk=desk)
-            print(players)
-            if len(players) == 1:
-                # if this is the last user, desk.owner = None
-                desk.owner = None
-            else:
-                # if still have people in the current desk, give the owner to him
-                for player in players:
-                    if player != this_player:
-                        desk.owner = player.user
-                        break
-
-        # retrieve position queue
-        desk.position_queue += str(this_player.position)
-        print("after leave: ", desk)
-        desk.save()
-
-        if int(desk.player_queue[
-                desk.player_queue_pointer]) == this_player.position:
-            next_pos_queue = get_next_pos(this_player.position,
-                                          desk.player_queue)
-            desk.player_queue = desk.player_queue[:desk.player_queue_pointer] + \
-                                desk.player_queue[desk.player_queue_pointer + 1:]
-            desk.player_queue_pointer -= 1
-            this_player.status = 1
-            if next_pos_queue > 0:
-                next_pos_queue -= 1
-            this_player.save()
-            desk.save()
-            this_user_info.save()
-
-            desk.player_queue_pointer = next_pos_queue
-            next_pos_desk = int(desk.player_queue[next_pos_queue])
-            print('next_pos_desk: ', next_pos_desk)
-            next_user = User_Game_play.objects.get(
-                desk=desk, position=next_pos_desk)
-
+            # Boardcast to all player
             content = {
-                'cur_user_pos': this_player.position + 1,
-                'cur_user_chips': this_user_info.chips,
-                'total_chips_current_game': desk.pool,
-                'cur_user_chips_this_game': this_player.chips_pay_in_this_game,
-                'act': 'quit'
+                'leave_player': message.user.username,
+                'position': this_player.position
             }
             Group(public_name).send({'text': json.dumps(content)})
-            this_user_info.save()
-            this_player.save()
+
+            # delete User_Game_play
+            User_Game_play.objects.get(user=this_user_info).delete()
+            Group(desk.desk_name).discard(message.reply_channel)
+
             desk.save()
-            print(content)
-            judge_logic(next_user, desk)
+
+            if desk.current_capacity == desk.capacity:
+                print("delete desk")
+                delete_desk(desk)
+                return
+
+            print("test_leave")
+            active_users_list = []
+            for player in User_Game_play.objects.filter(
+                    desk=desk).order_by('position'):
+                active_users_list.append(int(player.position))
+            content = {'active_players': active_users_list}
+            Group(public_name).send({'text': json.dumps(content)})
+            return
+        else:
+            # if the user leave room during the game
+            this_player.is_fold = True
+            this_player.save()
+
+            desk.current_capacity += 1
+            desk.save()
+            if desk.current_capacity == desk.capacity:
+                delete_desk(desk)
+                return
+
+            # decide owner
+            if desk.owner == this_user_info:
+                players = User_Game_play.objects.filter(desk=desk)
+                print(players)
+                if len(players) == 1:
+                    # if this is the last user, desk.owner = None
+                    desk.owner = None
+                else:
+                    # if still have people in the current desk, give the owner to him
+                    for player in players:
+                        if player != this_player:
+                            desk.owner = player.user
+                            break
+
+            # retrieve position queue
+            desk.position_queue += str(this_player.position)
+            print("after leave: ", desk)
+            desk.save()
+
+            if int(desk.player_queue[
+                    desk.player_queue_pointer]) == this_player.position:
+                next_pos_queue = get_next_pos(this_player.position,
+                                              desk.player_queue)
+                desk.player_queue = desk.player_queue[:desk.player_queue_pointer] + \
+                                    desk.player_queue[desk.player_queue_pointer + 1:]
+                desk.player_queue_pointer -= 1
+                this_player.status = 1
+                if next_pos_queue > 0:
+                    next_pos_queue -= 1
+                this_player.save()
+                desk.save()
+                this_user_info.save()
+
+                desk.player_queue_pointer = next_pos_queue
+                next_pos_desk = int(desk.player_queue[next_pos_queue])
+                print('next_pos_desk: ', next_pos_desk)
+                next_user = User_Game_play.objects.get(
+                    desk=desk, position=next_pos_desk)
+
+                content = {
+                    'cur_user_pos':
+                    this_player.position + 1,
+                    'cur_user_chips':
+                    this_user_info.chips,
+                    'total_chips_current_game':
+                    desk.pool,
+                    'cur_user_chips_this_game':
+                    this_player.chips_pay_in_this_game,
+                    'act':
+                    'quit'
+                }
+                Group(public_name).send({'text': json.dumps(content)})
+                this_user_info.save()
+                this_player.save()
+                desk.save()
+                print(content)
+                judge_logic(next_user, desk)
+    except:
+        print("unexcepted error occur in ws_disconnect. Please see the log")
+        traceback.print_exc()
+        reset_all()
 
 
 @transaction.atomic
 def reset_all():
-    for desk in Desk_info.objects.all():
-        cur_desk_users = User_Game_play.objects.filter(desk=desk)
-        public_name = desk.desk_name
-        # delete the users who do not has enough chips
-        for user in cur_desk_users:
-            Group(public_name + str(user.position)).send({
-                'text':
-                json.dumps({
-                    'get_out': 'yes'
+    try:
+        for desk in Desk_info.objects.all():
+            cur_desk_users = User_Game_play.objects.filter(desk=desk)
+            public_name = desk.desk_name
+            # delete the users who do not has enough chips
+            for user in cur_desk_users:
+                Group(public_name + str(user.position)).send({
+                    'text':
+                    json.dumps({
+                        'get_out': 'yes'
+                    })
                 })
-            })
-        try:
-            desk.delete()
-        except:
-            pass
+            try:
+                desk.delete()
+            except:
+                pass
+    except:
+        print("unexpected errors occur in reset_all")
