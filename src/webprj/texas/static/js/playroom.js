@@ -243,9 +243,8 @@ $(document).ready(function () {
                 $('#player-' + i)[0].children[0].children[0].children[0].children[0].children[1].innerHTML = '';
             }
 
-            $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML = 'Betting: 0';
-            for (i = 1; i < 9; i++) {
-                $('#player-' + i)[0].children[1].children[1].innerHTML = 'Betting: 0';
+            for (i = 0; i < 9; i++) {
+                $('#chips-' + i + '-2').html("Betting: 0");
             }
 
             $.ajax({
@@ -258,13 +257,7 @@ $(document).ready(function () {
                             position = data.players[i]['position'];
                             chips = data.players[i]['chips'];
 
-                            if (position == 0) {
-                                $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML =
-                                'Total chips: ' + chips;
-                            } else {
-                                $('#player-' + position)[0].children[1].children[0].innerHTML =
-                                'Total chips: ' + chips;
-                            }
+                            $('#chips-' + position + '-1').html("Total chips: " + chips);
                         }
                     }
                 }
@@ -287,10 +280,9 @@ $(document).ready(function () {
                             $('#player-' + position)[0].children[0].children[0].children[0].children[0].children[2].innerHTML = username;
                             //$('#player-' + position)[0].style.visibility = 'visible';
                             $('#player-' + position)[0].style.display = '';
-                            $('#player-' + position)[0].children[1].children[0].innerHTML =
-                            'Total chips: ' + chips;
-                            $('#player-' + position)[0].children[1].children[1].innerHTML =
-                            'Betting: 0';
+
+                            $('#chips-' + position + '-1').html("Total chips: " + chips);
+                            $('#chips-' + position + '-2').html("Betting: 0");
                         }
                     }
                 }
@@ -329,43 +321,29 @@ $(document).ready(function () {
                 data: '',
                 success: function (data) {
                     pos1 = data['big_blind'];
-                    if (pos1 == 0) {
-                        $('#player-0')[0].children[0].children[0].children[0].children[1].innerHTML +=
-                        '[big blind]<br>\n';
-                        $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML =
-                        'Total chips: ' + big_blind_chips;
-                        $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML =
-                        'Betting: ' + big_blind_betting;
-                    }
-                    else {
-                        $('#player-' + pos1)[0].children[0].children[0].children[0].children[0].children[1].innerHTML += '[big blind]<br>\n';
-                        $('#player-' + pos1)[0].children[1].children[0].innerHTML = 'Total chips: ' + big_blind_chips;
-                        $('#player-' + pos1)[0].children[1].children[1].innerHTML = 'Betting: ' + big_blind_betting;
-                    }
-
                     pos2 = data['small_blind'];
-                    if (pos2 == 0) {
-                        $('#player-' + pos2)[0].children[0].children[0].children[0].children[1].innerHTML +=
-                        '[small blind]<br>\n';
-                        $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML =
-                        'Total chips: ' + small_blind_chips;
-                        $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML =
-                        'Betting: ' + small_blind_betting;
-                    }
-                    else {
-                        $('#player-' + pos2)[0].children[0].children[0].children[0].children[0].children[1].innerHTML += '[small blind]<br>\n';
-                        $('#player-' + pos2)[0].children[1].children[0].innerHTML = 'Total chips: ' + small_blind_chips;
-                        $('#player-' + pos2)[0].children[1].children[1].innerHTML = 'Betting: ' + small_blind_betting;
-                    }
+                    pos3 = data['dealer'];
 
-                    pos3 = data['dealer']
-                    if (pos3 == 0) {
-                        $('#player-' + pos3)[0].children[0].children[0].children[0].children[1].innerHTML +=
-                        '[dealer]<br>\n';
+                    if (pos1 == pos3) {
+                        content = "<span class = 'label label-bgbl'>big blind</span>&nbsp;";
+                        content += "<span class = 'label label-dealer'>dealer</span>";
+                        $('#job-' + pos1).html(content);
                     }
                     else {
-                        $('#player-' + pos3)[0].children[0].children[0].children[0].children[0].children[1].innerHTML += '[dealer]<br>\n';
+                        content = "<span class = 'label label-bgbl'>big blind</span>";
+                        $('#job-' + pos1).html(content);
                     }
+                    $('#chips-' + pos1 + '-1').html("Total chips: " + big_blind_chips);
+                    $('#chips-' + pos1 + '-2').html("Betting: " + big_blind_betting);
+
+                    content = "<span class = 'label label-dealer'>dealer</span>";
+                    $('#job-' + pos3).html(content);
+
+                    content = "<span class = 'label label-smbl'>small blind</span>";
+                    $('#job-' + pos2).html(content);
+
+                    $('#chips-' + pos2 + '-1').html("Total chips: " + small_blind_chips);
+                    $('#chips-' + pos2 + '-2').html("Betting: " + small_blind_betting);
                 }
             })
         }
@@ -392,21 +370,13 @@ $(document).ready(function () {
                     if (user_pos < 0) user_pos += 9;
 
                     // update chip information
+                    $('#chips-' + user_pos + '-1').html("Total chips: " + total_new);
+                    $('#chips-' + user_pos + '-2').html("Betting: " + chip_new);
+
                     if (user_pos == 0) {
-
-                        $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML =
-                        'Total chips: ' + total_new;
-                        $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML =
-                        'Betting: ' + chip_new;
-
                         $('#player-0')[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
-
-                    } else {
-                        $('#player-' + user_pos)[0].children[1].children[0].innerHTML =
-                        'Total chips: ' + total_new;
-                        $('#player-' + user_pos)[0].children[1].children[1].innerHTML =
-                        'Betting: ' + chip_new;
-
+                    } 
+                    else {
                         $('#player-' + user_pos)[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
                     } 
                 }
@@ -585,10 +555,9 @@ $(document).ready(function () {
             for (i = 1; i < 3; i++) {
                 $('#card-0-' + i).html('');
             }
-            $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML =
-            'Total chips: ' + data['cur_user_chips'];
-            $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML =
-            'Betting: 0';
+            $('#chips-0-1').html('Total chips: ' + data['cur_user_chips']);
+            $('#chips-0-2').html('Betting: 0');
+
             $('#player-0')[0].children[0].children[0].children[0].children[1].innerHTML = '';
             $('#player-0')[0].children[0].children[0].children[0].children[0].innerHTML = '';
             $('#player-0').css('background', 'rgba(255,255,255,0)');

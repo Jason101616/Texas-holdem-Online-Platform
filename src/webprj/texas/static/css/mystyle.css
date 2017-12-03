@@ -266,3 +266,48 @@ h3 {
 .wid250 {
 	width: 250px;
 }
+
+.label {
+	display: inline;
+	padding: .2em .6em .3em;
+	font-size: 75%;
+	font-weight: 700;
+	line-height: 1;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: .25em
+}
+
+.label-dealer {
+	background-color: rgb(188,101,79)
+}
+
+.label-dealer[href]:focus, .label-dealer[href]:hover {
+	background-color: #5e5e5e
+}
+
+.label-smbl {
+	background-color: rgb(220,162,65)
+}
+
+.label-smbl[href]:focus, .label-smbl[href]:hover {
+	background-color: #5e5e5e
+}
+
+.label-bgbl {
+	background-color: rgb(194,120,49)
+}
+
+.label-bgbl[href]:focus, .label-bgbl[href]:hover {
+	background-color: #5e5e5e
+}
+
+.label-chips {
+	background-color: rgb(157,135,56)
+}
+
+.label-chips[href]:focus, .label-chips[href]:hover {
+	background-color: #5e5e5e
+}
