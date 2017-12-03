@@ -346,7 +346,7 @@ def assign_winner(desk, winner_list, results=None):
 
     # get the cards of current desk
     desk_cards = desk.five_cards_of_desk
-    desk_cards.split(' ')
+    desk_cards = desk_cards.split(' ')
     for index, string in enumerate(desk_cards):
         desk_cards[index] = int(string)
 
@@ -360,7 +360,7 @@ def assign_winner(desk, winner_list, results=None):
         # update win and lose game number
         cur_winner.user.game_win += 1
         cur_winner_cards = cur_winner.user_cards
-        cur_winner_cards.split(' ')
+        cur_winner_cards = cur_winner_cards.split(' ')
         for index, string in enumerate(cur_winner_cards):
             cur_winner_cards[index] = int(string)
         all_cards = desk_cards + cur_winner_cards
@@ -369,7 +369,7 @@ def assign_winner(desk, winner_list, results=None):
                 if result[0] == pos:
                     cur_ans = []
                     type = result[1][2]
-                    for card in results[1][3]:
+                    for card in result[1][3]:
                         cur_ans.append(all_cards.index(card))
                     win_cards_index.append(cur_ans)
                     break
@@ -489,7 +489,7 @@ def winner_logic(cur_desk):
         winner_list, results = river_compare(cur_desk)
         print(winner_list)
         # for test, just give the first person in the queue
-        assign_winner(cur_desk, winner_list)
+        assign_winner(cur_desk, winner_list, results)
         cards_of_the_desk = cur_desk.five_cards_of_desk.split(" ")
         # send the cards of current desk to all users
         content = {'desk_cards': cards_of_the_desk}
