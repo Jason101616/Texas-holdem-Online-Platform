@@ -17,6 +17,7 @@ from django.urls import reverse
 from threading import Timer
 
 time_out = 30
+big_blind_min = 200
 @transaction.atomic
 def delete_desk(desk):
     desk.delete()
@@ -223,7 +224,7 @@ def give_control(player_position, this_desk):
             'timer': 0
         }
         print(content)
-        Group(str(this_desk.desk_name)).send({'text': json.dumps(content)})
+        Group(this_desk.desk_name).send({'text': json.dumps(content)})
 
         # save the modified model, send the public group which user should move the next round
         this_user.save()
@@ -242,7 +243,7 @@ def give_control(player_position, this_desk):
         raise_amount = this_user.user.chips - this_desk.current_largest_chips_this_game
     content['raise'] = [can_raise, [this_desk.current_round_largest_chips, raise_amount]]
     content['timer'] = time_out
-    Group(str(this_desk.desk_name)).send({'text': json.dumps(content)})
+    Group(this_desk.desk_name).send({'text': json.dumps(content)})
 
 
 def find_next_player(desk, player):
@@ -371,8 +372,12 @@ def assign_winner(desk, winner_list):
 
     Group(public_name).send({'text': json.dumps(content)})
     print("assign_winner success")
-    # delete all disconnect user and ready to restart
+    # delete the users who do not has enough chips
+    for user in cur_desk_users:
+        if user.user.chips < big_blind_min:
+            Group(public_name + str(user.position)).send({'text': json.dumps('get_out')})
 
+    # delete all disconnect user and ready to restart
     t = Timer(10.0, start_next_game, [desk, desk.desk_name])
     t.start()
 
@@ -393,7 +398,7 @@ def start_next_game(this_desk, public_name):
         this_desk.save()
         cur_user_chips = User_Game_play.objects.get(desk=this_desk).user.chips
         content = {'restart': 'no', 'cur_user_chips': cur_user_chips}
-        Group(str(this_desk.desk_name)).send({'text': json.dumps(content)})
+        Group(this_desk.desk_name).send({'text': json.dumps(content)})
 
     active_users_list = []
     for player in User_Game_play.objects.filter(desk=this_desk).order_by('position'):
@@ -409,9 +414,8 @@ def start_next_game(this_desk, public_name):
             desk=this_desk, position=first_player_position)
         first_move_user.status = 1
         first_move_user.save()
-        # '+1' added by lsn
         content = {}
-        content['move'] = int(first_player_position) + 1
+        content['move'] = int(first_player_position) + 1    # '+1' added by lsn
         can_check, can_raise, raise_amount = True, False, 0
         if first_move_user.user.chips < this_desk.current_largest_chips_this_game - first_move_user.chips_pay_in_this_game:
             can_check = False
@@ -846,7 +850,6 @@ def ws_disconnect(message):
     print(message['path'].strip('/').split('/')[-1])
     desk = Desk_info.objects.get(desk_name=public_name)
     max_capacity = desk.capacity
-    # Group(public_name).discard(message.reply_channel)
     this_user_info = User_info.objects.get(user=message.user)
     this_player = User_Game_play.objects.get(user=this_user_info)
 
