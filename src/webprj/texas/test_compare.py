@@ -331,10 +331,10 @@ print(transfer(my))
 #print(highest(transfer(my)))
 
 # input: [(1,[12,23,34,45,12])] 0:A, 1:2,...
-all_user_card = [(1, [12, 23, 24, 34, 45, 49,
-                      50]), (2, [12, 23, 24, 34, 45, 11,
-                                 13]), (3, [12, 23, 24, 34, 45, 42, 46]),
-                 (4, [12, 23, 24, 34, 45, 49, 50])]
+# all_user_card = [(1, [12, 23, 24, 34, 45, 49,
+#                       50]), (2, [12, 23, 24, 34, 45, 11,
+#                                  13]), (3, [12, 23, 24, 34, 45, 42, 46]),
+#                  (4, [12, 23, 24, 34, 45, 49, 50])]
 
 
 def decide_winner_all(all_user_card):
@@ -380,4 +380,4 @@ def decide_winner_all(all_user_card):
     return winner_sort_list, tmp_results
 
 
-print(decide_winner_all(all_user_card))
+# print(decide_winner_all(all_user_card))
