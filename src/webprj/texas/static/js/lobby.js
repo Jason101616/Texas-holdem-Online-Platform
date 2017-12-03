@@ -45,6 +45,8 @@ $(document).ready(function () {
         }
     });
 
+    updateChanges();
+
     $(function () {
         $('#newplay').popover({
             html: true,
