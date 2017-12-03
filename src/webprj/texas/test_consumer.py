@@ -90,6 +90,8 @@ def start_logic(public_name):
     print(users_of_cur_desk)
     active_users_queue = ''
     for user in users_of_cur_desk:
+        user.user.game_played += 1
+        user.user.save()
         active_users_queue += str(user.position)
     cur_desk.player_queue = active_users_queue
     print('active_users_queue:', active_users_queue)  # test
@@ -178,7 +180,8 @@ def start_logic(public_name):
         'dealer': [dealer.user.user.username, dealer.position],
         'big_blind': [big_blind.user.user.username, big_blind.position, big_blind_min, big_blind.user.chips],
         'small_blind': [small_blind.user.user.username, small_blind.position,small_blind_min,small_blind.user.chips],
-        'start_game': 1
+        'start_game': 1,
+        'total_chips': big_blind_min + small_blind_min
     }
     Group(cur_desk.desk_name).send({'text': json.dumps(content)})
 
@@ -378,6 +381,10 @@ def assign_winner(desk, winner_list):
     winner_username = []
     for pos in winner_pos_list:
         cur_winner = User_Game_play.objects.get(desk=desk, position=pos)
+        # update win and lose game number
+        cur_winner.user.game_win += 1
+        cur_winner.user.game_lose = cur_winner.user.game_played - cur_winner.user.game_win
+        cur_winner.user.save()
         winner_username.append(cur_winner.user.user.username)
     content = {
         'winner_pos': winner_pos_list,
