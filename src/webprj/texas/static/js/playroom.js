@@ -537,7 +537,7 @@ $(document).ready(function () {
             for (i = 0; i < 5; i++) {
                 $('#desk-' + i).html('');
             }
-            for (i = 0; i < 2; i++) {
+            for (i = 1; i < 3; i++) {
                 $('#card-0-' + i).html('');
             }
             $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML =
@@ -545,7 +545,10 @@ $(document).ready(function () {
             $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML =
             'Betting: 0';
             $('#player-0')[0].children[0].children[0].children[0].children[1].innerHTML = '';
-
+            $('#player-0')[0].children[0].children[0].children[0].children[0].innerHTML = '';
+            $('#player-0').css('background', 'rgba(255,255,255,0)');
+            $('#message').html('Waiting for more players');
+            $('#chips').html('<br>');
         }
     };
 });
