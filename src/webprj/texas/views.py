@@ -194,7 +194,13 @@ def chips(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
-        user_info = User_info.objects.get(user=user)
+        user_info = User_info.objects.filter(user=user)
+        if len(user_info) != 1:
+            context['message'] = 'Link is invalid.'
+            context['title'] = 'Invalid Link'
+            return render(request, 'message.html', context)
+
+        user_info = user_info[0]
         user_info.chips = user_info.chips + 10000
         user_info.save()
         context[
@@ -247,10 +253,16 @@ def lobby(request):
 def profile(request):
     context = {}
     context['user'] = request.user
-    profile = User_info.objects.get(user=request.user)
+    profile = User_info.objects.filter(user=request.user)
+    if len(profile) != 1:
+        context['message'] = 'Link is invalid.'
+        context['title'] = 'Invalid Link'
+        return render(request, 'message.html', context)
+
+    profile = profile[0]
     context['profile'] = profile
     context['loses'] = profile.game_played - profile.game_win
-    context['winning_rate'] = round(float(profile.game_win) / float(profile.game_played), 3)
+    context['winning_rate'] = round(float(profile.game_win) / float(profile.game_played), 3) if profile.game_played != 0 else 0.000
     return render(request, 'profile.html', context)
 
 
@@ -274,7 +286,7 @@ def playroom(request, deskname):
     context['deskname'] = deskname
     if request.method != 'GET':
         print("invalid request!")
-        return
+        return redirect(reverse('lobby'))
     if desk.is_start:
         request.session[
             'errors'] = 'Error: Permission denied: there is an ongoing game in this room, please try another.'
@@ -373,7 +385,6 @@ def get_position(request):
 @login_required
 @transaction.atomic
 def newplay(request):
-    print("enter newplay")
     if request.method == 'POST':
         print("post in newplay")
         user_info = get_object_or_404(User_info, user=request.user)
@@ -385,15 +396,21 @@ def newplay(request):
             request.session['errors'] = "* Error: Desk name is invalid"
             return redirect(reverse('lobby'))
 
-        user_info = User_info.objects.get(user=request.user)
+        user_info = User_info.objects.filter(user=request.user)
+        if len(user_info) != 1:
+            context['message'] = 'Link is invalid.'
+            context['title'] = 'Invalid Link'
+            return render(request, 'message.html', context)
+        user_info = user_info[0]
+
         if user_info.chips < big_blind_min:
             return redirect(reverse('lobby'))
 
         room_id = str(desk_form.cleaned_data['desk_name'])
-        this_user_info = User_info.objects.get(user=request.user)
+
         new_desk = Desk_info(
             desk_name=str(desk_form.cleaned_data['desk_name']),
-            owner=this_user_info)
+            owner=user_info)
         new_desk.save()
         return redirect(reverse('playroom', kwargs={'deskname': room_id}))
     print("return lobby")
