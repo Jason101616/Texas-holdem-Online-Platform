@@ -42,11 +42,9 @@ function stop_timer() {
 
 function click_hold() {
     stop_timer();
-    console.log('click hold');
     var message = {
         'message': 'hold'
     };
-    console.log(message);
     socket.send(JSON.stringify(message));
     clear_status();
 }
@@ -56,7 +54,6 @@ function click_fold() {
     var message = {
         'message': 'fold'
     };
-    console.log(message);
     socket.send(JSON.stringify(message));
     clear_status();
 }
@@ -361,8 +358,8 @@ $(document).ready(function () {
         if (data['cur_user_pos']) {
             stop_timer();
 
-            $('#chips')
-            .html('Chips in the pool: ' + data['total_chips_current_game']);
+            $('#chips').html('Chips in the pool: ' + data['total_chips_current_game']);
+            
 
             total_new = data['cur_user_chips'];
             chip_new = data['cur_user_chips_this_game'];
@@ -375,7 +372,7 @@ $(document).ready(function () {
                 data: '',
                 success: function (data) {
 
-                    $('#message').html(current_user_act);
+                    $('#message').html(toUpperCase(current_user_act));
 
                     login_user_pos = data['position'];
                     user_pos = parseInt(current_user_target_pos) - 1 - parseInt(login_user_pos);
@@ -398,6 +395,7 @@ $(document).ready(function () {
                         'Betting: ' + chip_new;
 
                         $('#player-' + user_pos)[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
+                        $('#message').html(current_user_act.toUpperCase());
                     }
                 }
             })
