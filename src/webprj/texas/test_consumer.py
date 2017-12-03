@@ -350,9 +350,10 @@ def assign_winner(desk, winner_list, results=None):
     for index, string in enumerate(desk_cards):
         desk_cards[index] = int(string)
 
-    type = ''
     winner_pos_list = winner_list[0]
     winner_username = []
+    # find win cards index and type
+    type = ''
     win_cards_index = []
     for pos in winner_pos_list:
         cur_winner = User_Game_play.objects.get(desk=desk, position=pos)
