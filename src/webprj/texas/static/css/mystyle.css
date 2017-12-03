@@ -304,11 +304,19 @@ h3 {
 	background-color: #5e5e5e
 }
 
-.label-chips {
-	background-color: rgb(157,135,56)
+.label-chips1 {
+	background-color: rgb(160,158,127)
 }
 
-.label-chips[href]:focus, .label-chips[href]:hover {
+.label-chips1[href]:focus, .label-chips1[href]:hover {
+	background-color: #5e5e5e
+}
+
+.label-chips2 {
+	background-color: rgb(217,177,86)
+}
+
+.label-chips2[href]:focus, .label-chips2[href]:hover {
 	background-color: #5e5e5e
 }
 
