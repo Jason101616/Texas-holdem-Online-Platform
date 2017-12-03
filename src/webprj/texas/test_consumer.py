@@ -126,7 +126,7 @@ def start_logic(public_name):
         content = {'user_cards': user.user_cards}
         Group(public_name + str(user.position)).send({
             'text':
-            json.dumps(content)
+                json.dumps(content)
         })
 
     # tell the public channel, who is dealer, who is big blind, who is small blind
@@ -141,9 +141,9 @@ def start_logic(public_name):
             small_blind_min, small_blind.user.chips
         ],
         'start_game':
-        1,
+            1,
         'total_chips':
-        big_blind_min + small_blind_min
+            big_blind_min + small_blind_min
     }
     Group(cur_desk.desk_name).send({'text': json.dumps(content)})
 
@@ -363,9 +363,27 @@ def assign_winner(desk, winner_list):
     Group(public_name).send({'text': json.dumps(content)})
     print("assign_winner success")
 
+    # get our all invalid users
+    t_getout = Timer(5.0, get_out, [desk])
+    t_getout.start()
+
     # delete all disconnect user and ready to restart
     t = Timer(10.0, start_next_game, [desk, desk.desk_name])
     t.start()
+
+
+def get_out(this_desk):
+    cur_desk_users = User_Game_play.objects.filter(desk=this_desk)
+    public_name = this_desk.desk_name
+    # delete the users who do not has enough chips
+    for user in cur_desk_users:
+        if user.user.chips < big_blind_min:
+            Group(public_name + str(user.position)).send({
+                'text':
+                    json.dumps({
+                        'get_out': 'yes'
+                    })
+            })
 
 
 def start_next_game(this_desk, public_name):
@@ -385,16 +403,6 @@ def start_next_game(this_desk, public_name):
         cur_user_chips = User_Game_play.objects.get(desk=this_desk).user.chips
         content = {'restart': 'no', 'cur_user_chips': cur_user_chips}
         Group(this_desk.desk_name).send({'text': json.dumps(content)})
-
-    # delete the users who do not has enough chips
-    for user in cur_desk_users:
-        if user.user.chips < big_blind_min:
-            Group(public_name + str(user.position)).send({
-                'text':
-                json.dumps({
-                    'get_out': 'yes'
-                })
-            })
 
     active_users_list = []
     for player in User_Game_play.objects.filter(
@@ -921,7 +929,7 @@ def ws_disconnect(message):
         print("after leave: ", desk)
         desk.save()
         if int(desk.player_queue[
-                desk.player_queue_pointer]) == this_player.position:
+                   desk.player_queue_pointer]) == this_player.position:
             next_pos_queue = get_next_pos(this_player.position,
                                           desk.player_queue)
             desk.player_queue = desk.player_queue[:desk.player_queue_pointer] + \
