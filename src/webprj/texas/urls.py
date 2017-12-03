@@ -11,11 +11,11 @@ urlpatterns = [
     url(r'^profile/$', views.profile, name='profile'),
 
     url(r'newplay/$', views.newplay, name = 'newplay'),
-    url(r'update_button', views.update_button),
+    url(r'update_button$', views.update_button),
 
-    url(r'addplayer', views.addplayer, name = 'addplayer'),
-    url(r'get_position', views.get_position, name = 'get_position'),
-    url(r'getjob/(?P<pos_big>\w+)/(?P<pos_small>\w+)/(?P<pos_dealer>\w+)', views.getjob, name = 'getjob'),
+    url(r'addplayer$', views.addplayer, name = 'addplayer'),
+    url(r'get_position$', views.get_position, name = 'get_position'),
+    url(r'getjob/(?P<pos_big>\w+)/(?P<pos_small>\w+)/(?P<pos_dealer>\w+)$', views.getjob, name = 'getjob'),
     url(r'playroom/(?P<deskname>\w+)$', views.playroom, name='playroom'),
 
     url(r'activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
