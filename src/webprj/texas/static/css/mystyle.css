@@ -62,7 +62,11 @@ p {
 
 .center{
 	text-align: center;
-	margin: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding: 0;
 }
 
 .right {
@@ -310,4 +314,11 @@ h3 {
 
 .label-chips[href]:focus, .label-chips[href]:hover {
 	background-color: #5e5e5e
+}
+
+.player_wrapper {
+	padding: 30px;
+	border-radius: 35px;
+	background-color: rgba(255,255,255,0);
+	background-clip: padding-box;
 }
