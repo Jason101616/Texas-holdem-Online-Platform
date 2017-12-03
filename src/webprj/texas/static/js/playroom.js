@@ -230,6 +230,11 @@ $(document).ready(function () {
                 $('#player-' + i)[0].children[0].children[0].children[0].children[0].children[1].innerHTML = '';
             }
 
+            $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML = 'Betting: 0';
+            for (i = 1; i < 9; i++) {
+                $('#player-' + i)[0].children[1].children[1].innerHTML = 'Betting: 0';
+            }
+
             $.ajax({
                 type: 'post',
                 url: 'addplayer',
@@ -243,13 +248,9 @@ $(document).ready(function () {
                             if (position == 0) {
                                 $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML =
                                 'Total chips: ' + chips;
-                                $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML =
-                                'Betting: 0';
                             } else {
                                 $('#player-' + position)[0].children[1].children[0].innerHTML =
                                 'Total chips: ' + chips;
-                                $('#player-' + position)[0].children[1].children[1].innerHTML =
-                                'Betting: 0';
                             }
                         }
                     }
@@ -304,6 +305,11 @@ $(document).ready(function () {
         }
 
         if (data['big_blind'] && data['small_blind'] && data['dealer']) {
+            $('#chips').html('Chips in the pool: ' + data['total_chips']);
+            big_blind_betting = data['big_blind'][2];
+            big_blind_chips = data['big_blind'][3];
+            small_blind_betting = data['small_blind'][2];
+            small_blind_chips = data['small_blind'][3];
             $.ajax({
                 type: 'post',
                 url: 'getjob/' + data['big_blind'][1] + '/' + data['small_blind'][1] +
@@ -312,21 +318,32 @@ $(document).ready(function () {
                 success: function (data) {
                     pos1 = data['big_blind'];
                     if (pos1 == 0) {
-                        $('#player-' + pos1)[0].children[0].children[0].children[0].children[1].innerHTML +=
+                        $('#player-0')[0].children[0].children[0].children[0].children[1].innerHTML +=
                         '[big blind]<br>\n';
+                        $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML =
+                        'Total chips: ' + big_blind_chips;
+                        $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML =
+                        'Betting: ' + big_blind_betting;
                     }
                     else {
-                        $('#player-' + pos1)[0].children[0].children[0].children[0].children[0].children[1].innerHTML +=
-                        '[big blind]<br>\n';
+                        $('#player-' + pos1)[0].children[0].children[0].children[0].children[0].children[1].innerHTML += '[big blind]<br>\n';
+                        $('#player-' + pos1)[0].children[1].children[0].innerHTML = 'Total chips: ' + big_blind_chips;
+                        $('#player-' + pos1)[0].children[1].children[1].innerHTML = 'Betting: ' + big_blind_betting;
                     }
 
                     pos2 = data['small_blind'];
                     if (pos2 == 0) {
                         $('#player-' + pos2)[0].children[0].children[0].children[0].children[1].innerHTML +=
                         '[small blind]<br>\n';
+                        $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML =
+                        'Total chips: ' + small_blind_chips;
+                        $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML =
+                        'Betting: ' + small_blind_betting;
                     }
                     else {
                         $('#player-' + pos2)[0].children[0].children[0].children[0].children[0].children[1].innerHTML += '[small blind]<br>\n';
+                        $('#player-' + pos2)[0].children[1].children[0].innerHTML = 'Total chips: ' + small_blind_chips;
+                        $('#player-' + pos2)[0].children[1].children[1].innerHTML = 'Betting: ' + small_blind_betting;
                     }
 
                     pos3 = data['dealer']
