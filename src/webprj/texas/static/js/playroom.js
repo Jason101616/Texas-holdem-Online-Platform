@@ -236,8 +236,8 @@ $(document).ready(function () {
             $('#start_game')[0].disabled = true;
             $('#message').html('Game started!');
 
-            $('#player-0')[0].children[0].children[0].children[0].children[0].innerHTML = '';
-            $('#player-0')[0].children[0].children[0].children[0].children[1].innerHTML = '';
+            $('#player-0')[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '';
+            $('#player-0')[0].children[0].children[0].children[0].children[0].children[1].innerHTML = '';
             for (i = 1; i < 9; i++) {
                 $('#player-' + i)[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '';
                 $('#player-' + i)[0].children[0].children[0].children[0].children[0].children[1].innerHTML = '';
@@ -285,8 +285,10 @@ $(document).ready(function () {
                             if (position == 0) continue;
 
                             chips = data.players[i]['chips'];
-                            $('#player-' + position)[0].children[0].children[0].children[0].children[0].children[2].innerHTML = username;
-                            //$('#player-' + position)[0].style.visibility = 'visible';
+                            if (i != 0) {
+                                $('#player-' + position)[0].children[0].children[0].children[0].children[0].children[2].innerHTML = username;
+                            }
+                            
                             $('#player-' + position)[0].style.display = '';
 
                             $('#chips-' + position + '-1').html("Total chips: " + chips);
@@ -382,7 +384,7 @@ $(document).ready(function () {
                     $('#chips-' + user_pos + '-2').html("Betting: " + chip_new);
 
                     if (user_pos == 0) {
-                        $('#player-0')[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
+                        $('#player-0')[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
                     } 
                     else {
                         $('#player-' + user_pos)[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
@@ -510,8 +512,8 @@ $(document).ready(function () {
         if (data['active_players']) {
             player_list = data['active_players'];
             if (player_list.length == 1) {
-                $('#player-0')[0].children[0].children[0].children[0].children[0].innerHTML = '';
-                $('#player-0')[0].children[0].children[0].children[0].children[1].innerHTML = '';
+                $('#player-0')[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '';
+                $('#player-0')[0].children[0].children[0].children[0].children[0].children[1].innerHTML = '';
                 for (i = 1; i < 9; i++) {
                     $('#player-' + i)[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '';
                     $('#player-' + i)[0].children[0].children[0].children[0].children[0].children[1].innerHTML = '';
@@ -592,8 +594,8 @@ $(document).ready(function () {
             $('#chips-0-1').html('Total chips: ' + data['cur_user_chips']);
             $('#chips-0-2').html('Betting: 0');
 
-            $('#player-0')[0].children[0].children[0].children[0].children[1].innerHTML = '';
-            $('#player-0')[0].children[0].children[0].children[0].children[0].innerHTML = '';
+            $('#player-0')[0].children[0].children[0].children[0].children[0].children[1].innerHTML = '';
+            $('#player-0')[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '';
             $('#player-0').css('background', 'rgba(255,255,255,0)');
             $('#message').html('Waiting for more players');
             $('#chips').html('<br>');

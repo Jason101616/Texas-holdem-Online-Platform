@@ -57,8 +57,8 @@
                 <table class = "center">
                     <tr>
                         <td class = "pad30">
-                            <div id = "player-3">
-                                <table id = "player-3" class = "player">
+                            <div id = "player-3" class = "player_wrapper">
+                                <table class = "player">
                                     <tr>
                                         <td class = "height70" colspan="2">
                                             <p class = "status"></p>
@@ -78,8 +78,8 @@
                             </div>
                         </td>
                         <td class = "pad30">
-                            <div id = "player-4">
-                                <table id = "player-4" class = "player">
+                            <div id = "player-4" class = "player_wrapper">
+                                <table class = "player">
                                     <tr>
                                         <td class = "height70" colspan="2">
                                             <p class = "status"></p>
@@ -99,8 +99,8 @@
                             </div>
                         </td>
                         <td class = "pad30">
-                            <div id = "player-5">
-                                <table id = "player-5" class = "player">
+                            <div id = "player-5" class = "player_wrapper">
+                                <table class = "player">
                                     <tr>
                                         <td class = "height70" colspan="2">
                                             <p class = "status"></p>
@@ -120,8 +120,8 @@
                             </div>
                         </td>
                         <td class = "pad30">
-                            <div id = "player-6">
-                                <table id = "player-6" class = "player">
+                            <div id = "player-6" class = "player_wrapper">
+                                <table class = "player">
                                     <tr>
                                         <td class = "height70" colspan="2">
                                             <p class = "status"></p>
@@ -146,7 +146,7 @@
             <table class = "center">
                 <tr>
                     <td class = "pad30">
-                        <div id = "player-2">
+                        <div id = "player-2" class = "player_wrapper">
                             <table class = "player">
                                 <tr>
                                     <td class = "height70" colspan="2">
@@ -185,8 +185,8 @@
                         </div>
                     </td>
                     <td class = "pad30">
-                        <div id = "player-7">
-                            <table id = "player-7" class = "player">
+                        <div id = "player-7" class = "player_wrapper">
+                            <table class = "player">
                                 <tr>
                                     <td class = "height70" colspan="2">
                                         <p class = "status"></p>
@@ -208,8 +208,8 @@
                 </tr>
                 <tr>
                     <td class = "pad30">
-                        <div id = "player-1">
-                            <table id = "player-1" class = "player">
+                        <div id = "player-1" class = "player_wrapper">
+                            <table class = "player">
                                 <tr>
                                     <td class = "height70" colspan="2">
                                         <p class = "status"></p>
@@ -231,8 +231,8 @@
                     </td>
                     <td></td>
                     <td class = "pad30">
-                        <div id = "player-8">
-                            <table id = "player-8" class = "player">
+                        <div id = "player-8" class = "player_wrapper">
+                            <table class = "player">
                                 <tr>
                                     <td class = "height70" colspan="2">
                                         <p class = "status"></p>
@@ -253,22 +253,24 @@
                     </td>
                 </tr>
             </table>
-            <div class = "center">
-                <table id = "player-0" class = "center">
-                    <tr>
-                        <td>
-                            <p class = "status"></p>
-                            <p class = "job" id = "job-0"></p>
-                            <p class = "font30">{{ user }}</p>&nbsp;&nbsp;
-                        </td>
-                        <td><div id = "card-0-1" class = "card_wrapper"></div></td>
-                        <td><div id = "card-0-2" class = "card_wrapper"></div></td>
-                        <td class = "left">
-                            <span class = 'label label-chips' id = "chips-0-1">Total chips: {{ user_chips }}</span>&nbsp;
-                            <span class = 'label label-chips' id = "chips-0-2">Betting: 0</span>
-                        </div>
-                    </tr>
-                </table>
+            <div class = "center boxes">
+                <div id = "player-0" class = "player_wrapper">
+                    <table class = "center">
+                        <tr>
+                            <td>
+                                <p class = "status"></p>
+                                <p class = "job" id = "job-0"></p>
+                                <p class = "font30">{{ user }}</p>&nbsp;&nbsp;
+                            </td>
+                            <td><div id = "card-0-1" class = "card_wrapper"></div></td>
+                            <td><div id = "card-0-2" class = "card_wrapper"></div></td>
+                            <td class = "left">
+                                <span class = 'label label-chips' id = "chips-0-1">Total chips: {{ user_chips }}</span>&nbsp;
+                                <span class = 'label label-chips' id = "chips-0-2">Betting: 0</span>
+                            </div>
+                        </tr>
+                    </table>
+                </td>
             </div>
             <br><br>
         </div>
