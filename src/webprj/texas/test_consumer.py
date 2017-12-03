@@ -1005,6 +1005,7 @@ def ws_disconnect(message):
                 desk.save()
                 this_user_info.save()
 
+                print('in disconnect:', next_pos_queue, desk.player_queue, desk.player_queue_pointer)
                 desk.player_queue_pointer = next_pos_queue
                 next_pos_desk = int(desk.player_queue[next_pos_queue])
                 print('next_pos_desk: ', next_pos_desk)

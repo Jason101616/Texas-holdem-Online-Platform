@@ -38,7 +38,7 @@ def signup(request):
     context['form'] = signupform
     context['errors'] = []
 
-    if len(User.objects.filter(username = request.POST['username'])) > 0:
+    if len(User.objects.filter(username=request.POST['username'])) > 0:
         context['errors'].append('Error: username is already taken')
         return render(request, 'signup.html', context)
 
@@ -262,7 +262,9 @@ def profile(request):
     profile = profile[0]
     context['profile'] = profile
     context['loses'] = profile.game_played - profile.game_win
-    context['winning_rate'] = round(float(profile.game_win) / float(profile.game_played), 3) if profile.game_played != 0 else 0.000
+    context['winning_rate'] = round(
+        float(profile.game_win) / float(profile.game_played),
+        3) if profile.game_played != 0 else 0.000
     return render(request, 'profile.html', context)
 
 
@@ -293,6 +295,9 @@ def playroom(request, deskname):
     elif user_info.chips < big_blind_min:
         print('cannot get into the room')
         request.session['errors'] = 'Error: You don\'t have enough chips'
+    elif len(User_Game_play.objects.filter(desk=desk, user=user_info)) > 0:
+        print('you are already in the game')
+        request.session['errors'] = 'you are already in the game'
     else:
         return render(request, 'playroom.html', context)
     return redirect(reverse('lobby'))
