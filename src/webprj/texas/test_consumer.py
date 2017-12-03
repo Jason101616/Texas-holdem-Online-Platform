@@ -375,7 +375,7 @@ def assign_winner(desk, winner_list):
     # delete the users who do not has enough chips
     for user in cur_desk_users:
         if user.user.chips < big_blind_min:
-            Group(public_name + str(user.position)).send({'text': json.dumps('get_out')})
+            Group(public_name + str(user.position)).send({'text': json.dumps({'get_out': 'yes'})})
 
     # delete all disconnect user and ready to restart
     t = Timer(10.0, start_next_game, [desk, desk.desk_name])
