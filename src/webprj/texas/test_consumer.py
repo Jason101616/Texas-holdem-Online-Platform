@@ -1001,7 +1001,7 @@ def ws_disconnect(message):
                     desk.player_queue_pointer -= 1
                 else:
                     desk.player_queue_pointer = len(desk.player_queue) - 1
-                    
+
                 this_player.status = 1
                 if next_pos_queue > 0:
                     next_pos_queue -= 1
