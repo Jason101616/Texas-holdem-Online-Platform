@@ -336,14 +336,14 @@ def assign_winner(desk, winner_list):
     public_name = desk.desk_name
     all_user_cards = {}
     # if a user win because of all other people fold, there is no need to show the cards of all people
-    if len(cur_desk_users) > 1:
-        for user in cur_desk_users:
+    for user in cur_desk_users:
+        if len(desk.player_queue) > 1:
             all_user_cards[user.position] = user.user_cards
-            # reset all users' chips_pay_in_this_game
-            user.chips_pay_in_this_game = 0
-            # reset status
-            user.status = 0
-            user.save()
+        # reset all users' chips_pay_in_this_game
+        user.chips_pay_in_this_game = 0
+        # reset status
+        user.status = 0
+        user.save()
 
     winner_pos_list = winner_list[0]
     winner_username = []
