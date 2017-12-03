@@ -8,13 +8,15 @@ from django.db.models.signals import post_save
 from django.utils import timezone
 import datetime
 
+
+
 # Create your models here.
 class User_info(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    chips = models.IntegerField(default=10000)
-    game_played = models.IntegerField(default = 0)
-    game_win = models.IntegerField(default = 0)
-    game_lose = models.IntegerField(default = 0)
+    game_played = models.IntegerField(default=0)
+    game_win = models.IntegerField(default=0)
+    game_lose = models.IntegerField(default=0)
+    game_lose = models.IntegerField(default=0)
 
     def __str__(self):
         return "username: %s, chips: %d" % (self.user.username, self.chips)
