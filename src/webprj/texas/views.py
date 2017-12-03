@@ -273,7 +273,8 @@ def playroom(request, deskname):
         print("invalid request!")
         return
     if desk.is_start:
-        request.session['errors'] = 'Error: Permission denied: there is an ongoing game in this room, please try another.'
+        request.session[
+            'errors'] = 'Error: Permission denied: there is an ongoing game in this room, please try another.'
     elif user_info.chips < big_blind_min:
         print('cannot get into the room')
         request.session['errors'] = 'Error: You don\'t have enough chips'

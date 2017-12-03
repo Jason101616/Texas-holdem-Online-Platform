@@ -25,6 +25,7 @@ small_blind_min = 100
 def delete_desk(desk):
     desk.delete()
 
+
 @transaction.atomic
 def start_logic(public_name):
     print('start signal received!')
@@ -71,7 +72,8 @@ def start_logic(public_name):
     # calculate small_blind and big_blind
     small_blind = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
-    next_pos_in_queue = get_next_pos(int(cur_desk.player_queue[next_pos_in_queue]), cur_desk.player_queue)
+    next_pos_in_queue = get_next_pos(
+        int(cur_desk.player_queue[next_pos_in_queue]), cur_desk.player_queue)
     big_blind = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[next_pos_in_queue]))
 
@@ -122,15 +124,26 @@ def start_logic(public_name):
         user.save()
         print("user after start: ", user)
         content = {'user_cards': user.user_cards}
-        Group(public_name + str(user.position)).send({'text': json.dumps(content)})
+        Group(public_name + str(user.position)).send({
+            'text':
+                json.dumps(content)
+        })
 
     # tell the public channel, who is dealer, who is big blind, who is small blind
     content = {
         'dealer': [dealer.user.user.username, dealer.position],
-        'big_blind': [big_blind.user.user.username, big_blind.position, big_blind_min, big_blind.user.chips],
-        'small_blind': [small_blind.user.user.username, small_blind.position, small_blind_min, small_blind.user.chips],
-        'start_game': 1,
-        'total_chips': big_blind_min + small_blind_min
+        'big_blind': [
+            big_blind.user.user.username, big_blind.position, big_blind_min,
+            big_blind.user.chips
+        ],
+        'small_blind': [
+            small_blind.user.user.username, small_blind.position,
+            small_blind_min, small_blind.user.chips
+        ],
+        'start_game':
+            1,
+        'total_chips':
+            big_blind_min + small_blind_min
     }
     Group(cur_desk.desk_name).send({'text': json.dumps(content)})
 
@@ -209,7 +222,9 @@ def give_control(player_position, this_desk):
     if this_user.user.chips >= this_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game + this_desk.current_round_largest_chips:
         can_raise = True
         raise_amount = this_user.user.chips - this_desk.current_largest_chips_this_game
-    content['raise'] = [can_raise, [this_desk.current_round_largest_chips, raise_amount]]
+    content['raise'] = [
+        can_raise, [this_desk.current_round_largest_chips, raise_amount]
+    ]
     content['timer'] = time_out
     Group(this_desk.desk_name).send({'text': json.dumps(content)})
 
@@ -238,7 +253,8 @@ def judge_logic(next_player, desk):
 
     # if his status is all-in
     if status == -1:
-        print("judge logic all-in", next_player.chips_pay_in_this_game, desk.current_largest_chips_this_game)
+        print("judge logic all-in", next_player.chips_pay_in_this_game,
+              desk.current_largest_chips_this_game)
         if next_player.chips_pay_in_this_game == desk.current_largest_chips_this_game:
             # go to winner_logic
             return winner_logic(desk)
@@ -315,12 +331,14 @@ def assign_winner(desk, winner_list):
     desk.current_round_largest_chips = 0
     desk.save()
 
-    # assign the winner, and show all the cards to all users
+    # FIXME: check whether we need to show all the cards to all users
     cur_desk_users = User_Game_play.objects.filter(desk=desk)
     public_name = desk.desk_name
     all_user_cards = {}
+    # if a user win because of all other people fold, there is no need to show the cards of all people
     for user in cur_desk_users:
-        all_user_cards[user.position] = user.user_cards
+        if len(desk.player_queue) > 1:
+            all_user_cards[user.position] = user.user_cards
         # reset all users' chips_pay_in_this_game
         user.chips_pay_in_this_game = 0
         # reset status
@@ -345,9 +363,27 @@ def assign_winner(desk, winner_list):
     Group(public_name).send({'text': json.dumps(content)})
     print("assign_winner success")
 
+    # get our all invalid users
+    t_getout = Timer(5.0, get_out, [desk])
+    t_getout.start()
+
     # delete all disconnect user and ready to restart
     t = Timer(10.0, start_next_game, [desk, desk.desk_name])
     t.start()
+
+
+def get_out(this_desk):
+    cur_desk_users = User_Game_play.objects.filter(desk=this_desk)
+    public_name = this_desk.desk_name
+    # delete the users who do not has enough chips
+    for user in cur_desk_users:
+        if user.user.chips < big_blind_min:
+            Group(public_name + str(user.position)).send({
+                'text':
+                    json.dumps({
+                        'get_out': 'yes'
+                    })
+            })
 
 
 def start_next_game(this_desk, public_name):
@@ -368,13 +404,9 @@ def start_next_game(this_desk, public_name):
         content = {'restart': 'no', 'cur_user_chips': cur_user_chips}
         Group(this_desk.desk_name).send({'text': json.dumps(content)})
 
-    # delete the users who do not has enough chips
-    for user in cur_desk_users:
-        if user.user.chips < big_blind_min:
-            Group(public_name + str(user.position)).send({'text': json.dumps({'get_out': 'yes'})})
-
     active_users_list = []
-    for player in User_Game_play.objects.filter(desk=this_desk).order_by('position'):
+    for player in User_Game_play.objects.filter(
+            desk=this_desk).order_by('position'):
         if player.user.chips >= big_blind_min:
             active_users_list.append(int(player.position))
 
@@ -398,7 +430,10 @@ def start_next_game(this_desk, public_name):
         if first_move_user.user.chips >= this_desk.current_largest_chips_this_game - first_move_user.chips_pay_in_this_game + this_desk.current_round_largest_chips:
             can_raise = True
             raise_amount = first_move_user.user.chips - this_desk.current_largest_chips_this_game
-        content['raise'] = [can_raise, [this_desk.current_largest_chips_this_game, raise_amount]]
+        content['raise'] = [
+            can_raise,
+            [this_desk.current_largest_chips_this_game, raise_amount]
+        ]
         first_move_user.save()
         Group(public_name).send({'text': json.dumps(content)})
 
@@ -551,7 +586,10 @@ def ws_msg(message):
         if this_user.user.chips >= cur_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game + cur_desk.current_round_largest_chips:
             can_raise = True
             raise_amount = this_user.user.chips - cur_desk.current_largest_chips_this_game
-        content['raise'] = [can_raise, [cur_desk.current_largest_chips_this_game, raise_amount]]
+        content['raise'] = [
+            can_raise,
+            [cur_desk.current_largest_chips_this_game, raise_amount]
+        ]
         this_user.save()
         Group(public_name).send({'text': json.dumps(content)})
         return
@@ -649,13 +687,14 @@ def ws_msg(message):
         this_user_game_play.status = -1
 
         raise_amount = this_user_info.chips - (
-            this_desk.current_largest_chips_this_game - this_user_game_play.chips_pay_in_this_game)
+            this_desk.current_largest_chips_this_game -
+            this_user_game_play.chips_pay_in_this_game)
         if raise_amount > this_desk.current_round_largest_chips:
             this_desk.current_round_largest_chips = raise_amount
         if this_user_info.chips + this_user_game_play.chips_pay_in_this_game > this_desk.current_largest_chips_this_game:
             print('in all_in ...')
             this_desk.current_largest_chips_this_game = this_user_info.chips + this_user_game_play.chips_pay_in_this_game
-        this_user_game_play.chips_pay_in_this_game = this_user_info.chips
+        this_user_game_play.chips_pay_in_this_game += this_user_info.chips
         this_user_info.chips = 0
         next_pos_queue = get_next_pos(this_user_game_play.position,
                                       this_desk.player_queue)
@@ -854,7 +893,8 @@ def ws_disconnect(message):
 
         print("test_leave")
         active_users_list = []
-        for player in User_Game_play.objects.filter(desk=desk).order_by('position'):
+        for player in User_Game_play.objects.filter(
+                desk=desk).order_by('position'):
             active_users_list.append(int(player.position))
         content = {'active_players': active_users_list}
         Group(public_name).send({'text': json.dumps(content)})
@@ -888,7 +928,8 @@ def ws_disconnect(message):
         desk.position_queue += str(this_player.position)
         print("after leave: ", desk)
         desk.save()
-        if int(desk.player_queue[desk.player_queue_pointer]) == this_player.position:
+        if int(desk.player_queue[
+                   desk.player_queue_pointer]) == this_player.position:
             next_pos_queue = get_next_pos(this_player.position,
                                           desk.player_queue)
             desk.player_queue = desk.player_queue[:desk.player_queue_pointer] + \
