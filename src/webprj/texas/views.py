@@ -250,6 +250,7 @@ def profile(request):
     profile = User_info.objects.get(user=request.user)
     context['profile'] = profile
     context['loses'] = profile.game_played - profile.game_win
+    context['winning_rate'] = round(float(profile.game_win) / float(profile.game_played), 3)
     return render(request, 'profile.html', context)
 
 

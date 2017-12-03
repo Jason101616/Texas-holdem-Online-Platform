@@ -126,7 +126,7 @@ def start_logic(public_name):
         content = {'user_cards': user.user_cards}
         Group(public_name + str(user.position)).send({
             'text':
-                json.dumps(content)
+            json.dumps(content)
         })
 
     # tell the public channel, who is dealer, who is big blind, who is small blind
@@ -141,9 +141,9 @@ def start_logic(public_name):
             small_blind_min, small_blind.user.chips
         ],
         'start_game':
-            1,
+        1,
         'total_chips':
-            big_blind_min + small_blind_min
+        big_blind_min + small_blind_min
     }
     Group(cur_desk.desk_name).send({'text': json.dumps(content)})
 
@@ -278,7 +278,7 @@ def judge_logic(next_player, desk):
             give_control(next_player.position, desk)
 
 
-def assign_winner(desk, winner_list):
+def assign_winner(desk, winner_list, results=None):
     print("winner list:", winner_list)
     # update the chips of current desk
     cur_pool = desk.pool
@@ -344,18 +344,44 @@ def assign_winner(desk, winner_list):
         user.status = 0
         user.save()
 
+    # get the cards of current desk
+    desk_cards = desk.five_cards_of_desk
+    desk_cards.split(' ')
+    for index, string in enumerate(desk_cards):
+        desk_cards[index] = int(string)
+
     winner_pos_list = winner_list[0]
     winner_username = []
+    # find win cards index and type
+    type = ''
+    win_cards_index = []
     for pos in winner_pos_list:
         cur_winner = User_Game_play.objects.get(desk=desk, position=pos)
         # update win and lose game number
         cur_winner.user.game_win += 1
+        cur_winner_cards = cur_winner.user_cards
+        cur_winner_cards.split(' ')
+        for index, string in enumerate(cur_winner_cards):
+            cur_winner_cards[index] = int(string)
+        all_cards = desk_cards + cur_winner_cards
+        if results:
+            for result in results:
+                if result[0] == pos:
+                    cur_ans = []
+                    type = result[1][2]
+                    for card in results[1][3]:
+                        cur_ans.append(all_cards.index(card))
+                    win_cards_index.append(cur_ans)
+                    break
         cur_winner.user.save()
         winner_username.append(cur_winner.user.user.username)
+
     content = {
         'winner_pos': winner_pos_list,
         'winner': winner_username,
-        'cards': all_user_cards
+        'cards': all_user_cards,
+        'type': type,
+        'win_cards': win_cards_index
     }
 
     Group(public_name).send({'text': json.dumps(content)})
@@ -366,7 +392,7 @@ def assign_winner(desk, winner_list):
     t_getout.start()
 
     # delete all disconnect user and ready to restart
-    print("old:",desk)
+    print("old:", desk)
     t = Timer(10.0, start_next_game, [desk.desk_name])
     t.start()
 
@@ -379,15 +405,15 @@ def get_out(this_desk):
         if user.user.chips < big_blind_min:
             Group(public_name + str(user.position)).send({
                 'text':
-                    json.dumps({
-                        'get_out': 'yes'
-                    })
+                json.dumps({
+                    'get_out': 'yes'
+                })
             })
 
 
 def start_next_game(public_name):
     this_desk = Desk_info.objects.get(desk_name=public_name)
-    print("new:",this_desk)
+    print("new:", this_desk)
     cur_desk_users = User_Game_play.objects.filter(desk=this_desk)
     player_num = 0
     for user in cur_desk_users:
@@ -453,7 +479,7 @@ def winner_logic(cur_desk):
         winner_list, results = river_compare(cur_desk)
         print(winner_list)
         # winner = User_Game_play.objects.get(desk=cur_desk, position=winner_pos[0])
-        assign_winner(cur_desk, winner_list)
+        assign_winner(cur_desk, winner_list, results)
         return
 
     # if there's only one player whose status is other than fold or all-in
@@ -931,7 +957,7 @@ def ws_disconnect(message):
         desk.save()
 
         if int(desk.player_queue[
-                   desk.player_queue_pointer]) == this_player.position:
+                desk.player_queue_pointer]) == this_player.position:
             next_pos_queue = get_next_pos(this_player.position,
                                           desk.player_queue)
             desk.player_queue = desk.player_queue[:desk.player_queue_pointer] + \
