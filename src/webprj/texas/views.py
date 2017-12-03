@@ -129,7 +129,7 @@ def morechips(request):
 
     if request.user.email == request.POST['email']:
         context['form'] = form
-        context['errors'] = ["You cannot send emails to yourself."]
+        context['errors'] = ["Error: You cannot send emails to yourself."]
         return render(request, 'morechips.html', context)
 
     user = request.user
@@ -266,7 +266,7 @@ def playroom(request, deskname):
         return
     if desk.is_start:
         context['errors'] = [
-            'Permission denied: there is an ongoing game in this room, please try another.'
+            'Error: Permission denied: there is an ongoing game in this room, please try another.'
         ]
     elif user_info.chips < big_blind_min:
         print('cannot get into the room')
@@ -368,10 +368,11 @@ def newplay(request):
         print("post in newplay")
         user_info = get_object_or_404(User_info, user=request.user)
         if user_info.chips < big_blind_min:
-            request.session['errors'] = 'You don\'t have enough chips'
+            request.session['errors'] = 'Error: You don\'t have enough chips'
             return redirect(reverse('lobby'))
         desk_form = DeskForm(request.POST)
         if not desk_form.is_valid():
+            request.session['errors'] = "* Error: Desk name is invalid"
             return redirect(reverse('lobby'))
 
         user_info = User_info.objects.get(user=request.user)
