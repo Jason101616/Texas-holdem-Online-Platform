@@ -16,6 +16,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from threading import Timer
 import traceback
+from sqlite3 import OperationalError
 
 time_out = 30
 big_blind_min = 200
