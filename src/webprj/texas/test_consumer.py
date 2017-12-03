@@ -19,66 +19,11 @@ from threading import Timer
 time_out = 30
 big_blind_min = 200
 small_blind_min = 100
+
+
 @transaction.atomic
 def delete_desk(desk):
     desk.delete()
-
-
-# @transaction.atomic
-# @channel_session_user
-# def disconnect_user(message, username):
-#     print('disconnect!')
-#     # Disconnect
-#     print(username)
-#     # get desk
-#     public_name = message['path'].strip('/').split('/')[-1]
-#     print(message['path'].strip('/').split('/')[-1])
-#     desk = Desk_info.objects.get(desk_name=public_name)
-#     max_capacity = desk.capacity
-#     print('success')
-#     desk.current_capacity += 1
-#
-#     # decide is_start
-#     if desk.current_capacity >= desk.capacity - 1:
-#         desk.is_start = False
-#
-#     # decide owner
-#     this_user_info = User_info.objects.get(user=message.user)
-#     this_player = User_Game_play.objects.get(user=this_user_info)
-#     if desk.owner == this_user_info:
-#         players = User_Game_play.objects.filter(desk=desk)
-#         print(players)
-#         if len(players) == 1:
-#             # if this is the last user, desk.owner = None
-#             desk.owner = None
-#         else:
-#             # if still have people in the current desk, give the owner to him
-#             for player in players:
-#                 if player != this_player:
-#                     desk.owner = player.user
-#                     break
-#
-#     # retrieve position queue
-#     desk.position_queue += str(this_player.position)
-#     print("after leave: ", desk)
-#
-#     # If current player is 1, owner can not start the game
-#     if desk.current_capacity == max_capacity - 1:
-#         content = {'can_start': 'no'}
-#         this_player = User_Game_play.objects.get(user=desk.owner)
-#         print(this_player.position)
-#         Group(str(this_player.position)).send({'text': json.dumps(content)})
-#
-#     # delete User_Game_play
-#     User_Game_play.objects.get(user=this_user_info).delete()
-#     Group(desk.desk_name).discard(message.reply_channel)
-#
-#     desk.save()
-#
-#     if desk.current_capacity == desk.capacity:
-#         delete_desk(desk)
-#     return
-
 
 @transaction.atomic
 def start_logic(public_name):
@@ -112,7 +57,7 @@ def start_logic(public_name):
                 break
         if not find_next:
             dealer_queue_pos = 0
-    print('dealer_queue_pos:', dealer_queue_pos)
+
     dealer = User_Game_play.objects.get(
         desk=cur_desk, position=int(cur_desk.player_queue[dealer_queue_pos]))
 
@@ -148,8 +93,8 @@ def start_logic(public_name):
     cur_desk.current_largest_chips_this_game = big_blind_min
     cur_desk.current_round_largest_chips = small_blind_min
     cur_desk.save()
-    print("small_blind:",small_blind)
-    print("big_bline:",big_blind)
+    print("small_blind:", small_blind)
+    print("big_bline:", big_blind)
 
     users_of_cur_desk = User_Game_play.objects.filter(
         desk=cur_desk).order_by('position')
@@ -183,7 +128,7 @@ def start_logic(public_name):
     content = {
         'dealer': [dealer.user.user.username, dealer.position],
         'big_blind': [big_blind.user.user.username, big_blind.position, big_blind_min, big_blind.user.chips],
-        'small_blind': [small_blind.user.user.username, small_blind.position,small_blind_min,small_blind.user.chips],
+        'small_blind': [small_blind.user.user.username, small_blind.position, small_blind_min, small_blind.user.chips],
         'start_game': 1,
         'total_chips': big_blind_min + small_blind_min
     }
@@ -194,9 +139,10 @@ def start_logic(public_name):
     print("desk after start: ", cur_desk)
     return cur_desk.player_queue[cur_desk.player_queue_pointer]
 
+
 def get_next_pos(cur_pos, player_queue):
     len_queue = len(player_queue)
-    print("len_queue:",len_queue)
+    print("len_queue:", len_queue)
     for index, char in enumerate(player_queue):
         if cur_pos == int(char):
             pos = index
@@ -444,7 +390,7 @@ def start_next_game(this_desk, public_name):
         first_move_user.status = 1
         first_move_user.save()
         content = {}
-        content['move'] = int(first_player_position) + 1    # '+1' added by lsn
+        content['move'] = int(first_player_position) + 1  # '+1' added by lsn
         can_check, can_raise, raise_amount = True, False, 0
         if first_move_user.user.chips < this_desk.current_largest_chips_this_game - first_move_user.chips_pay_in_this_game:
             can_check = False
@@ -588,7 +534,7 @@ def ws_msg(message):
 
         this_user = User_Game_play.objects.get(
             desk=cur_desk, position=first_player_position)
-        print("start_user:",this_user)
+        print("start_user:", this_user)
         this_user.status = 1
 
         cur_desk.is_start = True
@@ -622,7 +568,7 @@ def ws_msg(message):
     this_user_info = User_info.objects.get(user=this_user)
     this_user_game_play = User_Game_play.objects.get(user=this_user_info)
     this_desk = this_user_game_play.desk
-    print("this_user_2:",this_user_game_play)
+    print("this_user_2:", this_user_game_play)
 
     if data['message'] == 'call' or data['message'] == 'check' or data['message'] == 'hold':
         act = 'hold'
@@ -703,7 +649,7 @@ def ws_msg(message):
         this_user_game_play.status = -1
 
         raise_amount = this_user_info.chips - (
-        this_desk.current_largest_chips_this_game - this_user_game_play.chips_pay_in_this_game)
+            this_desk.current_largest_chips_this_game - this_user_game_play.chips_pay_in_this_game)
         if raise_amount > this_desk.current_round_largest_chips:
             this_desk.current_round_largest_chips = raise_amount
         if this_user_info.chips + this_user_game_play.chips_pay_in_this_game > this_desk.current_largest_chips_this_game:
@@ -713,37 +659,6 @@ def ws_msg(message):
         this_user_info.chips = 0
         next_pos_queue = get_next_pos(this_user_game_play.position,
                                       this_desk.player_queue)
-
-    # elif data['message'] == 'timeout_win':
-    #     active_users_list = []
-    #     for player in User_Game_play.objects.filter(desk=this_desk).order_by('position'):
-    #         active_users_list.append(int(player.position))
-    #     content = {'active_players': active_users_list}
-    #     Group(public_name).send({'text': json.dumps(content)})
-    #     if not this_desk.is_start:
-    #         # send a message to front end to renew the desk, send a message indicating the users still in the game
-    #         return
-    #     else:
-    #         print('start_game')
-    #         first_player_position = start_logic(public_name)
-    #         first_move_user = User_Game_play.objects.get(
-    #             desk=this_desk, position=first_player_position)
-    #         first_move_user.status = 1
-    #         first_move_user.save()
-    #         # '+1' added by lsn
-    #         content = {}
-    #         content['move'] = int(first_player_position) + 1
-    #         can_check, can_raise, raise_amount = True, False, 0
-    #         if first_move_user.user.chips < this_desk.current_largest_chips_this_game - first_move_user.chips_pay_in_this_game:
-    #             can_check = False
-    #         content['check'] = can_check
-    #         if first_move_user.user.chips >= this_desk.current_largest_chips_this_game - first_move_user.chips_pay_in_this_game + this_desk.current_round_largest_chips:
-    #             can_raise = True
-    #             raise_amount = first_move_user.user.chips - this_desk.current_largest_chips_this_game
-    #         content['raise'] = [can_raise, [this_desk.current_largest_chips_this_game, raise_amount]]
-    #         first_move_user.save()
-    #         Group(public_name).send({'text': json.dumps(content)})
-    #         return
 
     this_user_game_play.save()
     this_desk.save()
@@ -829,7 +744,6 @@ def ws_add(message):
 
     # Accept the incoming connection
     message.reply_channel.send({"accept": True})
-    message.channel_session['hold_click_cnt'] = 0
 
     # Add them to the public group
     Group(public_name).add(message.reply_channel)
@@ -837,7 +751,6 @@ def ws_add(message):
     # Add the user to the private group
     position_name = public_name + str(player.position)
     Group(position_name).add(message.reply_channel)
-    Group(position_name).send({'text': desk.desk_name})
     player.save()
     desk.save()
 
@@ -860,7 +773,6 @@ def ws_add(message):
         content["owner"] = this_player.position + 1
         content['can_start'] = 'no'
         Group(public_name).send({'text': json.dumps(content)})
-
 
     print('c:%d,m:%d,f:%d,o:%s,p:%s' %
           (desk.current_capacity, desk.capacity, desk.is_start, desk.owner,
@@ -919,7 +831,7 @@ def ws_disconnect(message):
                 content['can_start'] = 'no'
                 Group(public_name).send({'text': json.dumps(content)})
             else:
-                content['can_start']  = 'yes'
+                content['can_start'] = 'yes'
                 Group(public_name).send({'text': json.dumps(content)})
 
         # Boardcast to all player
@@ -980,7 +892,7 @@ def ws_disconnect(message):
             next_pos_queue = get_next_pos(this_player.position,
                                           desk.player_queue)
             desk.player_queue = desk.player_queue[:desk.player_queue_pointer] + \
-                                     desk.player_queue[desk.player_queue_pointer + 1:]
+                                desk.player_queue[desk.player_queue_pointer + 1:]
             desk.player_queue_pointer -= 1
             this_player.status = 1
             if next_pos_queue > 0:
