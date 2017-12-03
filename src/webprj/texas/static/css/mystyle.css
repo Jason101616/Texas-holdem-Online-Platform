@@ -200,7 +200,7 @@ p {
 
 .status {
 	color: rgb(120,100,66);
-	font-size: 15px;
+	font-size: 25px;
 }
 
 .chips {
@@ -312,9 +312,39 @@ h3 {
 	background-color: #5e5e5e
 }
 
+.label-status {
+	background-color: rgb(149,17,18);
+	font-size: 25px;
+}
+
+.label-status[href]:focus, .label-status[href]:hover {
+	background-color: #5e5e5e;
+	font-size: 25px;
+}
+
 .player_wrapper {
 	padding: 15px;
 	border-radius: 10px;
 	background-color: rgba(255,255,255,0);
 	background-clip: padding-box;
+}
+
+.hold {
+	color: rgb(72,128,192); /* blue */
+}
+
+.fold {
+	color: rgb(98,0,167); /* purple */
+}
+
+.raise {
+	color: rgb(118,0,0); /* red */
+}
+
+.all_in {
+	color: rgb(227,125,146); /* pink */
+}
+
+.quit {
+	color: rgb(84, 148, 135); /* green */
 }
