@@ -410,7 +410,6 @@ $(document).ready(function () {
                     user_pos = parseInt(target_pos) - 1 - parseInt(login_user_pos);
                     if (user_pos < 0) user_pos += 9;
 
-                    debugger;
                     if (user_pos == 0) {
                         $('#game_fold')[0].disabled = false;
                         $('#game_allin')[0].disabled = false;
