@@ -18,7 +18,7 @@ from .tokens import account_activation_token
 from texas.forms import *
 from texas.models import *
 
-
+big_blind_min = 200
 # Create your views here.
 def home(request):
     context = {}
@@ -242,17 +242,18 @@ def playroom(request, deskname):
     context['user'] = request.user
     context['user_chips'] = user_info.chips
     context['deskname'] = deskname
-
-    if not desk.is_start:
-        return render(request, 'playroom.html', context)
-
-    if user_game:
-        return render(request, 'playroom.html', context)
-    else:
+    if request.method != 'GET':
+        print("invalid request!")
+        return
+    if desk.is_start:
         context['errors'] = [
-            'Permission denied: there is an ongoing game in this room, please try another.'
-        ]
-        return render(request, 'lobby.html', context)
+            'Permission denied: there is an ongoing game in this room, please try another.']
+    elif user_info.chips < big_blind_min:
+        print('cannot get into the room')
+        context['errors'] = 'You don\'t have enough chips'
+    else:
+        return render(request, 'playroom.html', context)
+    return redirect(reverse('lobby'))
 
 
 @login_required
