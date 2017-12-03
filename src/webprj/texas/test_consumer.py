@@ -372,10 +372,6 @@ def assign_winner(desk, winner_list):
 
     Group(public_name).send({'text': json.dumps(content)})
     print("assign_winner success")
-    # delete the users who do not has enough chips
-    for user in cur_desk_users:
-        if user.user.chips < big_blind_min:
-            Group(public_name + str(user.position)).send({'text': json.dumps({'get_out': 'yes'})})
 
     # delete all disconnect user and ready to restart
     t = Timer(10.0, start_next_game, [desk, desk.desk_name])
@@ -400,9 +396,16 @@ def start_next_game(this_desk, public_name):
         content = {'restart': 'no', 'cur_user_chips': cur_user_chips}
         Group(this_desk.desk_name).send({'text': json.dumps(content)})
 
+    # delete the users who do not has enough chips
+    for user in cur_desk_users:
+        if user.user.chips < big_blind_min:
+            Group(public_name + str(user.position)).send({'text': json.dumps({'get_out': 'yes'})})
+
     active_users_list = []
     for player in User_Game_play.objects.filter(desk=this_desk).order_by('position'):
-        active_users_list.append(int(player.position))
+        if player.user.chips >= big_blind_min:
+            active_users_list.append(int(player.position))
+
     content = {'active_players': active_users_list}
     Group(public_name).send({'text': json.dumps(content)})
     if not this_desk.is_start:
