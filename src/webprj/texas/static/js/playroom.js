@@ -535,6 +535,17 @@ $(document).ready(function () {
             for (i = 1; i < 9; i++) {
                 $('#player-' + i)[0].style.display = 'none'
             }
+            for (i = 0; i < 5; i++) {
+                $('#desk-' + i).html('');
+            }
+            for (i = 0; i < 2; i++) {
+                $('#card-0-' + i).html('');
+            }
+            $('#player-0')[0].children[0].children[0].children[3].children[0].innerHTML =
+            'Total chips: ' + data['cur_user_chips'];
+            $('#player-0')[0].children[0].children[0].children[3].children[1].innerHTML =
+            'Betting: 0';
+
         }
     };
 });
