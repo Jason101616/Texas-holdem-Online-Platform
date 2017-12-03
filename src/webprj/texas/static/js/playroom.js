@@ -216,7 +216,7 @@ $(document).ready(function () {
             'command': 'leave'
         };
         socket.send(JSON.stringify(message));
-        window.location.replace('lobby');
+        window.location.replace('goto_lobby');
     });
 
     $('#start_game').on('click', function (event) {
@@ -609,7 +609,7 @@ $(document).ready(function () {
         }
 
         if (data['get_out']) {
-            window.location.replace('lobby');
+            window.location.replace('goto_lobby');
         }
 
 
