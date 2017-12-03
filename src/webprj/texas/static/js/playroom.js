@@ -485,11 +485,11 @@ $(document).ready(function () {
 
                         if (user_cards && winner_cards[0]) {
                             for (i = 0; i < winner_cards[0].length; i++) {
-                                if (winner_cards[0][i] <= 5) {
-                                    $('#desk-' + (winner_cards[0][i])).css('background-color', 'rgba(254,238,117,0.5)');
+                                if (winner_cards[0][i] < 5) {
+                                    $('#desk-' + (winner_cards[0][i])).css('background-color', 'rgba(254,238,117,1)');
                                 }
                                 else {
-                                    $('#card-' + winner_pos_j + '-' + (winner_cards[0][i] - 4)).css('background-color', 'rgba(254,238,117,0.5)');
+                                    $('#card-' + winner_pos_j + '-' + (winner_cards[0][i] - 4)).css('background-color', 'rgba(254,238,117,1)');
                                 }
                             }
                         }
