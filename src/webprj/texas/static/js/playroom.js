@@ -550,5 +550,9 @@ $(document).ready(function () {
             $('#message').html('Waiting for more players');
             $('#chips').html('<br>');
         }
+
+        if (data['get_out']) {
+            window.location.replace('lobby');
+        }
     };
 });
