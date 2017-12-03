@@ -2,10 +2,6 @@ var COUNT_DOWN = 30;
 var timer = COUNT_DOWN;
 var timeout;
 
-var COUNT_DOWN_win = 5;
-var timer_win = COUNT_DOWN_win;
-var timeout_win;
-
 function start_timer() {
     if (timer >= 0) {
         time_str = '0' + timer;
@@ -22,17 +18,19 @@ function start_timer() {
     } 
 }
 
-function start_timer_win() {
-    if (timer_win >= 0) {
-        timer_win--;
-        timeout_win = setTimeout(start_timer_win, 1000);
+function start_timer_fake() {
+    if (timer >= 0) {
+        time_str = '0' + timer;
+        timer--;
+        time_str = time_str.substring(time_str.length - 2, time_str.length);
+        $('#message').html('00:' + time_str);
+        timeout = setTimeout(start_timer, 1000);
     }
     else {
-        timer_win = COUNT_DOWN_win;
-        var message = {'message' : 'timeout_win'};
-        socket.send(JSON.stringify(message));
+        timer = COUNT_DOWN;
     } 
 }
+
 
 function stop_timer() {
     clearTimeout(timeout);
@@ -372,8 +370,6 @@ $(document).ready(function () {
                 data: '',
                 success: function (data) {
 
-                    $('#message').html(current_user_act.toUpperCase());
-
                     login_user_pos = data['position'];
                     user_pos = parseInt(current_user_target_pos) - 1 - parseInt(login_user_pos);
                     if (user_pos < 0) user_pos += 9;
@@ -395,7 +391,6 @@ $(document).ready(function () {
                         'Betting: ' + chip_new;
 
                         $('#player-' + user_pos)[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '~ ' + current_user_act + ' ~';
-                        $('#message').html(current_user_act.toUpperCase());
                     } 
                 }
             })
@@ -436,10 +431,11 @@ $(document).ready(function () {
                         }
                         start_timer();
                     }
+                    else {
+                        start_timer_fake();
+                    }
                     $('#player-' + user_pos)
-                    .css(
-                        'background',
-                        'linear-gradient(0deg, rgba(255,255,255,1), rgba(255,255,255,0))');
+                    .css('background', 'linear-gradient(0deg, rgba(255,255,255,1), rgba(255,255,255,0))');
                 }
             })
         }
@@ -454,7 +450,6 @@ $(document).ready(function () {
             user_cards = data['cards'];
             winner_pos = data['winner_pos'];
             $('#start_game')[0].disabled = false;
-            $('#message').html('Winner is ' + data['winner'] + '!');
 
             clear_status();
 
@@ -489,6 +484,8 @@ $(document).ready(function () {
                     .css(
                         'background',
                         'linear-gradient(0deg, rgba(254,238,117,0.5), rgba(254,238,117,0))');
+
+                    $('#message').html('Winner is ' + data['winner'] + '!');
                 }
             })
         }

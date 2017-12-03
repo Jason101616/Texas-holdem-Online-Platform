@@ -37,7 +37,7 @@
         <div class = "col-2"></div>
         <div class = "col-5">
             <br><br><br>
-            <p class = "font5">Please enter your friend's email.</p>
+            <p class = "font5">You can request more chips from your friend! Please enter your friend's email to get more chips: </p>
             <hr>
             <form action = {% url 'morechips' %} method = "post">
                 <div class="form-group">
@@ -48,7 +48,7 @@
                     </div>
                     {% endfor %}
                     {% endif %}
-                    {% for e in form.non_field_errors %}
+                    {% for e in form.non_field_errors %} 
                     <div class = "error">
                         <p>* &nbsp; {{ e }}</p>
                     </div>
