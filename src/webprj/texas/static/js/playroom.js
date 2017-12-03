@@ -335,7 +335,7 @@ $(document).ready(function () {
                     if (pos1 == pos3) {
                         content = "<span class = 'label label-bgbl'>big blind</span>&nbsp;";
                         content += "<span class = 'label label-dealer'>dealer</span>";
-                        $('#job-' + pos1).html(content);
+                        $('#job-' + pos1).html(content); 
                     }
                     else {
                         content = "<span class = 'label label-bgbl'>big blind</span>";
@@ -509,6 +509,26 @@ $(document).ready(function () {
 
         if (data['active_players']) {
             player_list = data['active_players'];
+            if (player_list.length == 1) {
+                $('#player-0')[0].children[0].children[0].children[0].children[0].innerHTML = '';
+                $('#player-0')[0].children[0].children[0].children[0].children[1].innerHTML = '';
+                for (i = 1; i < 9; i++) {
+                    $('#player-' + i)[0].children[0].children[0].children[0].children[0].children[0].innerHTML = '';
+                    $('#player-' + i)[0].children[0].children[0].children[0].children[0].children[1].innerHTML = '';
+                }
+
+                for (i = 0; i < 9; i++) {
+                    $('#chips-' + i + '-2').html("Betting: 0");
+                }
+
+                for (i = 0; i < 5; i++) {
+                    $('#desk-' + i).css('background', 'rgba(255,255,255,1)');
+                }
+                for (i = 0; i < 9; i++) {
+                    $('#card-' + i + '-1').css('background', 'rgba(255,255,255,1)');
+                    $('#card-' + i + '-2').css('background', 'rgba(255,255,255,1)');
+                }
+            }
             $.ajax({
                 type: 'post',
                 url: 'get_position',
@@ -582,5 +602,7 @@ $(document).ready(function () {
         if (data['get_out']) {
             window.location.replace('lobby');
         }
+
+
     };
 });
