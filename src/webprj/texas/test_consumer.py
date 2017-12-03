@@ -776,9 +776,6 @@ def ws_msg(message):
         this_desk.save()
         print("next_user before judge logic: ", next_user)
         judge_logic(next_user, this_desk)
-    except OperationalError:
-        print('race condition')
-        traceback.print_exc()
     except:
         print("unexcepted error occur in ws_msg. Please see the log")
         traceback.print_exc()
@@ -877,9 +874,6 @@ def ws_add(message):
                player.position))
 
         print("after enter: ", desk)
-    except OperationalError:
-        print('race condition')
-        traceback.print_exc()
     except:
         print("unexcepted error occur in ws_add. Please see the log")
         traceback.print_exc()
@@ -1035,9 +1029,6 @@ def ws_disconnect(message):
                 desk.save()
                 print(content)
                 judge_logic(next_user, desk)
-    except OperationalError:
-        print('race condition')
-        traceback.print_exc()
     except:
         print("unexcepted error occur in ws_disconnect. Please see the log")
         traceback.print_exc()
