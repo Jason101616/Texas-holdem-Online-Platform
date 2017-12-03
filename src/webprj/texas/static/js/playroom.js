@@ -247,6 +247,14 @@ $(document).ready(function () {
                 $('#chips-' + i + '-2').html("Betting: 0");
             }
 
+            for (i = 0; i < 5; i++) {
+                $('#desk-' + i).css('background', 'rgba(255,255,255,1)');
+            }
+            for (i = 0; i < 9; i++) {
+                $('#card-' + i + '-1').css('background', 'rgba(255,255,255,1)');
+                $('#card-' + i + '-2').css('background', 'rgba(255,255,255,1)');
+            }
+
             $.ajax({
                 type: 'post',
                 url: 'addplayer',
@@ -468,27 +476,34 @@ $(document).ready(function () {
                         }
                     }
 
-                    winner_pos = parseInt(winner_pos) - parseInt(login_user_pos);
+                    content = "Winner is";
+                    debugger;
+                    for (j = 0; j < winner_pos.length; j++){
+                        winner_pos_j = parseInt(winner_pos[j]) - parseInt(login_user_pos);
 
-                    if (winner_pos < 0) winner_pos += 9;
+                        if (winner_pos_j < 0) winner_pos_j += 9;
 
-                    if (user_cards && winner_cards) {
-                        for (i = 0; i < winner_cards.length; i++) {
-                            if (winner_cards[i] <= 5) {
-                                $('#desk-' + (i - 1)).css('background-color', 'rgba(254,238,117,0.5)');
-                            }
-                            else {
-                                $('#card-' + winner_pos + '-' + (i - 5)).css('background-color', 'rgba(254,238,117,0.5)');
+                        if (user_cards && winner_cards[0]) {
+                            for (i = 0; i < winner_cards[0].length; i++) {
+                                if (winner_cards[0][i] <= 5) {
+                                    $('#desk-' + (winner_cards[0][i])).css('background-color', 'rgba(254,238,117,0.5)');
+                                }
+                                else {
+                                    $('#card-' + winner_pos_j + '-' + (winner_cards[0][i] - 4)).css('background-color', 'rgba(254,238,117,0.5)');
+                                }
                             }
                         }
+
+                        $('#player-' + winner_pos_j)
+                        .css(
+                            'background',
+                            'linear-gradient(0deg, rgba(254,238,117,0.5), rgba(254,238,117,0))');
+
+                        content += " " + winner_name;
                     }
 
-                    $('#player-' + winner_pos)
-                    .css(
-                        'background',
-                        'linear-gradient(0deg, rgba(254,238,117,0.5), rgba(254,238,117,0))');
-
-                    $('#message').html('Winner is ' + winner_name + '! ' + winner_type.toUpperCase());
+                    content += "! " + winner_type.toUpperCase();
+                    $('#message').html(content);
                 }
             })
         }
