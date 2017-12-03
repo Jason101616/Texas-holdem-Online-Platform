@@ -901,8 +901,11 @@ def ws_disconnect(message):
         desk.save()
 
         if desk.current_capacity == desk.capacity:
+            print("delete desk")
             delete_desk(desk)
+            return
 
+        print("test_leave")
         active_users_list = []
         for player in User_Game_play.objects.filter(desk=desk).order_by('position'):
             active_users_list.append(int(player.position))
@@ -915,6 +918,10 @@ def ws_disconnect(message):
         this_player.save()
 
         desk.current_capacity += 1
+        desk.save()
+        if desk.current_capacity == desk.capacity:
+            delete_desk(desk)
+            return
 
         # decide owner
         if desk.owner == this_user_info:
