@@ -33,11 +33,16 @@ function start_timer_fake() {
     } 
 }
 
-
 function stop_timer() {
     clearTimeout(timeout);
     $('#message').html('<br>');
     timer = COUNT_DOWN;
+}
+
+function stop_timer_fake() {
+    clearTimeout(timeout_fake);
+    $('#message').html('<br>');
+    timer_fake = COUNT_DOWN;
 }
 
 function click_hold() {
@@ -357,6 +362,7 @@ $(document).ready(function () {
         }
 
         if (data['cur_user_pos']) {
+            stop_timer_fake();
             stop_timer();
 
             $('#chips').html('Chips in the pool: ' + data['total_chips_current_game']);
@@ -394,6 +400,7 @@ $(document).ready(function () {
         }
 
         if (data['move']) {
+            stop_timer_fake();
             stop_timer();
 
             for (i = 0; i < 9; i++) {
