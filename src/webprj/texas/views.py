@@ -129,7 +129,7 @@ def morechips(request):
 
     if request.user.email == request.POST['email']:
         context['form'] = form
-        context['errors'] = "You cannot send emails to yourself."
+        context['errors'] = ["You cannot send emails to yourself."]
         return render(request, 'morechips.html', context)
 
     user = request.user
