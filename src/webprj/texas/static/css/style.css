@@ -187,3 +187,7 @@ textarea {
 .error {
   color: rgb(254,248,84);
 }
+
+.error_red {
+  color: rgb(147,60,48);
+}
