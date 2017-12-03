@@ -256,7 +256,6 @@ def playroom(request, deskname):
     context = {}
     desk = get_object_or_404(Desk_info, desk_name=deskname)
     user_info = get_object_or_404(User_info, user=request.user)
-    user_game = User_Game_play.objects.filter(desk=desk, user=user_info)
 
     context['user'] = request.user
     context['user_chips'] = user_info.chips
@@ -265,9 +264,7 @@ def playroom(request, deskname):
         print("invalid request!")
         return
     if desk.is_start:
-        context['errors'] = [
-            'Permission denied: there is an ongoing game in this room, please try another.'
-        ]
+        request.session['errors'] = 'Permission denied: there is an ongoing game in this room, please try another.'
     elif user_info.chips < big_blind_min:
         print('cannot get into the room')
         request.session['errors'] = 'You don\'t have enough chips'
