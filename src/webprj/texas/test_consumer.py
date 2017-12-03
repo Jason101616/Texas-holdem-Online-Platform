@@ -31,6 +31,7 @@ def delete_desk(desk):
 def start_logic(public_name):
     print('start signal received!')
     # let the user in lowest position be the dealer
+
     cur_desk = Desk_info.objects.get(desk_name=public_name)
     users_of_cur_desk = User_Game_play.objects.filter(
         desk=cur_desk).order_by('position')
@@ -1050,6 +1051,8 @@ def reset_all():
             try:
                 desk.delete()
             except:
-                pass
+                print("unexpected errors occur when delete desk")
+                traceback.print_exc()
     except:
         print("unexpected errors occur in reset_all")
+        traceback.print_exc()
