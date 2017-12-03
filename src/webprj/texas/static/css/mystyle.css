@@ -65,6 +65,16 @@ p {
 	margin: auto;
 }
 
+.right {
+	text-align: right;
+	margin-right: 0;
+}
+
+.left {
+	text-align: left;
+	margin-left: 0;
+}
+
 .font15 {
 	font-size: 15px;
 }
@@ -99,26 +109,27 @@ p {
 }
 
 .desk {
-	width: 800px;
-	height: 250px;
+	width: 1000px;
+	height: 350px;
 	border-radius: 200px;
 	border: 3px solid #179b77;
 	background-color:  rgba(49,107,66, 0.9);
 	margin: auto;
-	margin-top: 0px;
-	margin-bottom: 0px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	padding: 30px;
 }
 
 .player {
 	height: 100px;
-	width: 20%;
+	width: 40%;
 	margin-left: 20%;
 	margin-right: 40%;
 	color: rgb(51,23,12);
-	padding: 0px;
+	padding: 30px;
 }
 
-.card {
+.card_wrapper {
 	width: 45px;
 	height: 60px;
 	background-color: white;
@@ -129,6 +140,49 @@ p {
 	padding: 2px;
 	color: rgb(51,23,12);
 }
+
+.card {
+  float: left;
+  position: relative;
+  margin: 1px 1px 0 0;
+  width: 100%;
+  height: 100%;
+  font: 15px "Times New Roman";
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-shadow: 1px 1px 5px rgba(0,0,0,.3);
+}
+.card:before, .card:after {
+  position: absolute;
+  font-size: 15px;
+  line-height: 1;
+}
+.card:before {
+  top: 10px;
+  left: 10px;
+}
+.card:after {
+  bottom: 10px;
+  right: 10px;
+ -webkit-transform: rotate(180deg);
+}
+
+.heart, .diamond { color: #d00; }
+
+  .two:before,   .two:after { content: '2'; }
+.three:before, .three:after { content: '3'; }
+ .four:before,  .four:after { content: '4'; }
+ .five:before,  .five:after { content: '5'; }
+  .six:before,   .six:after { content: '6'; }
+.seven:before, .seven:after { content: '7'; }
+.eight:before, .eight:after { content: '8'; }
+ .nine:before,  .nine:after { content: '9'; }
+  .ten:before,   .ten:after { content: '10'; }
+ .jack:before,  .jack:after { content: 'J'; }
+.queen:before, .queen:after { content: 'Q'; }
+ .king:before,  .king:after { content: 'K'; }
+  .ace:before,   .ace:after { content: 'A'; }
 
 .smallcard {
 	width: 30px;
@@ -215,4 +269,8 @@ h3 {
 	vertical-align: bottom;
 	padding-left: 60px;
 	padding-top: 40px;
+}
+
+.brown {
+	color: rgb(51,23,12);
 }

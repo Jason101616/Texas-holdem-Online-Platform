@@ -33,30 +33,35 @@
         <li class = "nav"><a class = "navhref" href = {% url 'lobby' %}>Game Lobby</a></li>
     </ul>
     <div class="row clearfix">
-        <div class = "col-1"></div>
-        <div class = "col-10">
+        <div class = "col-4"></div>
+        <div class = "col-4">
             <br><br>
-            <p><h2>User profile</h2></p>
-            <br>
-            <p>Username:</p>
-            <div class="field">
-                <input type="text" required autocomplete="off"/>
-            </div>
+            <h1 class = "brown">~ {{ user.username }} ~</h1>
+            <p class = "center">{{ user.first_name }} {{ user.last_name }}</p>
 
-            <p>Email:</p>
-            <div class="field">
-                <input type="email" required autocomplete="off"/>
-            </div>
+            <hr>
 
-            <p>Password:</p>
-             <div class="field">
-                <input type="password" required autocomplete="off"/>
-            </div>
+            <p>Total chips:</p>
+            <p class = "right">{{ profile.chips }}</p><br>
 
-            <br><br>
-            <button class="smallbtn"/>Edit profile</button>
+            <p>Total number of games played: </p>
+            <p class = "right">{{ profile.game_played }}</p><br>
+
+            <p>Number of wins:</p>
+            <p class = "right">{{ profile.game_win }}</p><br>
+
+            <p>Number of loses:</p>
+            <p class = "right">{{ profile.game_lose }}</p><br>
+
+            <p>Average game score: </p>
+            <p class = "right">{{ profile.average_score }}</p><br>
+            
+            <div class = "center">
+                <span class = "left"><a class = "smallbtn" href = "{% url 'morechips' %}">More chips</a></span>
+                <span class = "right"><a class="smallbtn" href="{% url 'forgetpassword' %}">Change Password</a></span>
+            </div>
         </div>
-        <div class = "col-1"></div>
+        <div class = "col-4"></div>
     </div>
 </div>
 

@@ -5,12 +5,19 @@ from django import forms
 from django.contrib.auth.models import User
 from texas.models import *
 
-
 class SignupForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'password', 'email']
 
+class ChipEmail(forms.Form):
+    email = forms.EmailField()
+    def clean(self):
+        cleaned_data = super(ChipEmail, self).clean()
+        email = self.cleaned_data.get('email')
+        if not email:
+            raise forms.ValidationError('Email is required.')
+        return cleaned_data
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=20, label="Username")

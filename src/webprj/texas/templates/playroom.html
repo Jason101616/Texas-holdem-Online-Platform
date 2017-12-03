@@ -25,13 +25,21 @@
 <body>
 
     <ul class = "nbar">
-        <li class = "navtitle">Texas Hold'em</li>
+        <li class = "navtitle">
+            Texas Hold'em
+        </li>
     </ul>
     <ul class = "nbar font20">
         <li class = "nav"><a class = "navhref" href = {% url 'logout' %}>Log out</a></li>
         <li class = "nav"><a class = "navhref" href = {% url 'tutorial' %}>Tutorial</a></li>
         <li class = "nav"><a class = "navhref" href = {% url 'profile' %}>Profile</a></li>
         <li class = "nav"><a class = "navhref" href = {% url 'lobby' %}>Game Lobby</a></li>
+    </ul>
+    <ul class = "nbar">
+        <li class = "navtitle">
+            <h4>Room ID: {{ deskname }}</h4>
+            <br>
+        </li>
     </ul>
 
     <div class="row clearfix">
@@ -53,88 +61,88 @@
                 <table class = "center">
                     <tr>
                         <td class = "pad30">
-                            <table id = "player-3" class = "player">
-                                <tr>
-                                    <td class = "height70" colspan="2">
-                                        <p class = "status"></p>
-                                        <p class = "job"></p>
-                                        <div>id="player-3"</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><div id = "card-3-1" class = "smallcard"></div></td>
-                                    <td><div id = "card-3-2" class = "smallcard"></div></td>
-                                </tr>
-                                <tr>
-                                    <td colspan = "2" class = "left">
-                                        <p class = "chips">Total chips: XXX</p>
-                                        <p class = "chips">Betting: XXX</p>
-                                    </td>
-                                </tr>
-                            </table>
+                            <div id = "player-3">
+                                <table id = "player-3" class = "player">
+                                    <tr>
+                                        <td class = "height70" colspan="2">
+                                            <p class = "status"></p>
+                                            <p class = "job"></p>
+                                            <div>id="player-3"</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div id = "card-3-1" class = "smallcard"></div></td>
+                                        <td><div id = "card-3-2" class = "smallcard"></div></td>
+                                    </tr>
+                                </table>
+                                <div>
+                                    <span class = "chips">Total chips: XXX</span> | 
+                                    <span class = "chips">Betting: XXX</span>
+                                </div>
+                            </div>
                         </td>
                         <td class = "pad30">
-                            <table id = "player-4" class = "player">
-                                <tr>
-                                    <td class = "height70" colspan="2">
-                                        <p class = "status"></p>
-                                        <p class = "job"></p>
-                                        <div>id="player-4"</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><div id = "card-4-1" class = "smallcard"></div></td>
-                                    <td><div id = "card-4-2" class = "smallcard"></div></td>
-                                </tr>
-                                <tr>
-                                    <td colspan = "2" class = "left">
-                                        <p class = "chips">Total chips: XXX</p>
-                                        <p class = "chips">Betting: XXX</p>
-                                    </td>
-                                </tr>
-                            </table>
+                            <div id = "player-4">
+                                <table id = "player-4" class = "player">
+                                    <tr>
+                                        <td class = "height70" colspan="2">
+                                            <p class = "status"></p>
+                                            <p class = "job"></p>
+                                            <div>id="player-4"</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div id = "card-4-1" class = "smallcard"></div></td>
+                                        <td><div id = "card-4-2" class = "smallcard"></div></td>
+                                    </tr>
+                                </table>    
+                                <div>
+                                    <span class = "chips">Total chips: XXX</span> | 
+                                    <span class = "chips">Betting: XXX</span>
+                                </div>
+                            </div>
                         </td>
                         <td class = "pad30">
-                            <table id = "player-5" class = "player">
-                                <tr>
-                                    <td class = "height70" colspan="2">
-                                        <p class = "status"></p>
-                                        <p class = "job"></p>
-                                        <div>id="player-5"</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><div id = "card-5-1" class = "smallcard"></div></td>
-                                    <td><div id = "card-5-2" class = "smallcard"></div></td>
-                                </tr>
-                                <tr>
-                                    <td colspan = "2" class = "left">
-                                        <p class = "chips">Total chips: XXX</p>
-                                        <p class = "chips">Betting: XXX</p>
-                                    </td>
-                                </tr>
-                            </table>
+                            <div id = "player-5">
+                                <table id = "player-5" class = "player">
+                                    <tr>
+                                        <td class = "height70" colspan="2">
+                                            <p class = "status"></p>
+                                            <p class = "job"></p>
+                                            <div>id="player-5"</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div id = "card-5-1" class = "smallcard"></div></td>
+                                        <td><div id = "card-5-2" class = "smallcard"></div></td>
+                                    </tr>
+                                </table>
+                                <div>
+                                    <span class = "chips">Total chips: XXX</span> | 
+                                    <span class = "chips">Betting: XXX</span>
+                                </div>
+                            </div>
                         </td>
                         <td class = "pad30">
-                            <table id = "player-6" class = "player">
-                                <tr>
-                                    <td class = "height70" colspan="2">
-                                        <p class = "status"></p>
-                                        <p class = "job"></p>
-                                        <div>id="player-6"</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><div id = "card-6-1" class = "smallcard"></div></td>
-                                    <td><div id = "card-6-2" class = "smallcard"></div></td>
-                                </tr>
-                                <tr>
-                                    <td colspan = "2" class = "left">
-                                        <p class = "chips">Total chips: XXX</p>
-                                        <p class = "chips">Betting: XXX</p>
-                                    </td>
-                                </tr>
-                            </table>
+                            <div id = "player-6">
+                                <table id = "player-6" class = "player">
+                                    <tr>
+                                        <td class = "height70" colspan="2">
+                                            <p class = "status"></p>
+                                            <p class = "job"></p>
+                                            <div>id="player-6"</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div id = "card-6-1" class = "smallcard"></div></td>
+                                        <td><div id = "card-6-2" class = "smallcard"></div></td>
+                                    </tr>                                
+                                </table> 
+                                <div>
+                                    <span class = "chips">Total chips: XXX</span> | 
+                                    <span class = "chips">Betting: XXX</span>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -142,108 +150,113 @@
             <table class = "center">
                 <tr>
                     <td class = "pad30">
-                        <table id = "player-2" class = "player">
-                            <tr>
-                                <td class = "height70" colspan="2">
-                                    <p class = "status"></p>
-                                    <p class = "job"></p>
-                                    <div>id="player-2"</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><div id = "card-2-1" class = "smallcard"></div></td>
-                                <td><div id = "card-2-2" class = "smallcard"></div></td>
-                            </tr>
-                            <tr>
-                                <td colspan = "2" class = "left">
-                                    <p class = "chips">Total chips: XXX</p>
-                                    <p class = "chips">Betting: XXX</p>
-                                </td>
-                            </tr>
-                        </table>
+                        <div id = "player-2">
+                            <table class = "player">
+                                <tr>
+                                    <td class = "height70" colspan="2">
+                                        <p class = "status"></p>
+                                        <p class = "job"></p>
+                                        <div>id="player-2"</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><div id = "card-2-1" class = "smallcard"></div></td>
+                                    <td><div id = "card-2-2" class = "smallcard"></div></td>
+                                </tr>
+                            </table>
+                            <div>
+                                <span class = "chips">Total chips: XXX</span> | 
+                                <span class = "chips">Betting: XXX</span>
+                            </div>
+                        </div>
                     </td>
                     <td>
                         <br>
-                    </td>
+                    </td> 
                     <td rowspan = "2">
                         <div class = "desk">  
                             <div id = "message" class = "message">Waiting for more players</div>
                             <table class = "center tablecards">
                                 <tr>
-                                    <th><div id = "desk-0" class = "card"></div></th>
-                                    <th><div id = "desk-1" class = "card"></div></th>
-                                    <th><div id = "desk-2" class = "card"></div></th>
-                                    <th><div id = "desk-3" class = "card"></div></th>
-                                    <th><div id = "desk-4" class = "card"></div></th>
+                                    <th>
+                                        <div id = "desk-0" class = "card_wrapper">
+                                        </div>
+                                    </th>
+                                    <th><div id = "desk-1" class = "card_wrapper"></div></th>
+                                    <th><div id = "desk-2" class = "card_wrapper"></div></th>
+                                    <th><div id = "desk-3" class = "card_wrapper"></div></th>
+                                    <th><div id = "desk-4" class = "card_wrapper"></div></th>
                                 </tr>
                             </table>
+                            <div id = "chips" class = "message"><br></div>
                         </div>
                     </td>
                     <td class = "pad30">
-                        <table id = "player-7" class = "player">
-                            <tr>
-                                <td class = "height70" colspan="2">
-                                    <p class = "status"></p>
-                                    <p class = "job"></p>
-                                    <div>id="player-7"</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><div id = "card-7-1" class = "smallcard"></div></td>
-                                <td><div id = "card-7-2" class = "smallcard"></div></td>
-                            </tr>
-                            <tr>
-                                <td colspan = "2" class = "left">
-                                    <p class = "chips">Total chips: XXX</p>
-                                    <p class = "chips">Betting: XXX</p>
-                                </td>
-                            </tr>
-                        </table>
+                        <div id = "player-7">
+                            <table id = "player-7" class = "player">
+                                <tr>
+                                    <td class = "height70" colspan="2">
+                                        <p class = "status"></p>
+                                        <p class = "job"></p>
+                                        <div>id="player-7"</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><div id = "card-7-1" class = "smallcard"></div></td>
+                                    <td><div id = "card-7-2" class = "smallcard"></div></td>
+                                </tr>
+                            </table>
+                            <div>
+                                <span class = "chips">Total chips: XXX</span> | 
+                                <span class = "chips">Betting: XXX</span>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td class = "pad30">
-                        <table id = "player-1" class = "player">
-                            <tr>
-                                <td class = "height70" colspan="2">
-                                    <p class = "status"></p>
-                                    <p class = "job"></p>
-                                    <div>id="player-1"</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><div id = "card-1-1" class = "smallcard"></div></td>
-                                <td><div id = "card-1-2" class = "smallcard"></div></td>
-                            </tr>
-                            <tr>
-                                <td colspan = "2" class = "left">
-                                    <p class = "chips">Total chips: XXX</p>
-                                    <p class = "chips">Betting: XXX</p>
-                                </td>
-                            </tr>
-                        </table>
+                        <div id = "player-1">
+                            <table id = "player-1" class = "player">
+                                <tr>
+                                    <td class = "height70" colspan="2">
+                                        <p class = "status"></p>
+                                        <p class = "job"></p>
+                                        <div>id="player-1"</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><div id = "card-1-1" class = "smallcard"></div></td>
+                                    <td><div id = "card-1-2" class = "smallcard"></div></td>
+                                </tr>
+
+                            </table> 
+                            <div>
+                                <span class = "chips">Total chips: XXX</span> | 
+                                <span class = "chips">Betting: XXX</span>
+                            </div>
+                        </div>
                     </td>
                     <td></td>
                     <td class = "pad30">
-                        <table id = "player-8" class = "player">
-                            <tr>
-                                <td class = "height70" colspan="2">
-                                    <p class = "status"></p>
-                                    <p class = "job"></p>
-                                    <div>id="player-8"</div> 
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><div id = "card-8-1" class = "smallcard"></div></td>
-                                <td><div id = "card-8-2" class = "smallcard"></div></td>
-                            </tr>
-                            <tr>
-                                <td colspan = "2" class = "left">
-                                    <p class = "chips">Total chips: XXX</p>
-                                    <p class = "chips">Betting: XXX</p>
-                                </td>
-                            </tr>
-                        </table>
+                        <div id = "player-8">
+                            <table id = "player-8" class = "player">
+                                <tr>
+                                    <td class = "height70" colspan="2">
+                                        <p class = "status"></p>
+                                        <p class = "job"></p>
+                                        <div>id="player-8"</div> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><div id = "card-8-1" class = "smallcard"></div></td>
+                                    <td><div id = "card-8-2" class = "smallcard"></div></td>
+                                </tr>
+                            </table>
+                            <div>
+                                <span class = "chips">Total chips: XXX</span> | 
+                                <span class = "chips">Betting: XXX</span>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -255,8 +268,8 @@
                             <p class = "job"></p>
                             <p class = "font30">{{ user }}</p>&nbsp;&nbsp;
                         </td>
-                        <td><div id = "card-0-1" class = "card"></div></td>
-                        <td><div id = "card-0-2" class = "card"></div></td>
+                        <td><div id = "card-0-1" class = "card_wrapper"></div></td>
+                        <td><div id = "card-0-2" class = "card_wrapper"></div></td>
                         <td class = "left">
                             <p class = "chips">Total chips: {{ user_chips }}</p>
                             <p class = "chips">Betting: 0</p>

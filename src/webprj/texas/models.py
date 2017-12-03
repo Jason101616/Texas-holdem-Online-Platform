@@ -11,16 +11,11 @@ import datetime
 # Create your models here.
 class User_info(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=420, blank=True)
-    age = models.IntegerField(blank=True, default=0)
-    profile_picture = models.FileField(
-        upload_to='profile_pictures/', default="profile_pictures/king.jpeg")
-    followings = models.ManyToManyField('self')
-    followers = models.ManyToManyField('self')
-    email_confirmed = models.BooleanField(default=False)
-    gender = models.CharField(max_length=20, blank=True)
-
     chips = models.IntegerField(default=10000)
+    game_played = models.IntegerField(default = 0)
+    game_win = models.IntegerField(default = 0)
+    game_lose = models.IntegerField(default = 0)
+    average_score = models.IntegerField(default = 0)
 
     def __str__(self):
         return "username: %s, chips: %d" % (self.user.username, self.chips)

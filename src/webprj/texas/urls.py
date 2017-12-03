@@ -20,8 +20,13 @@ urlpatterns = [
 
     url(r'activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         views.activate, name='activate'),
+
     url(r'forgetpassword$', views.forgetpassword, name = 'forgetpassword'),
     url(r'reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         views.reset, name='reset'),
     url(r'reset$', views.resetpass, name='resetpass'),
+
+    url(r'morechips$', views.morechips, name = 'morechips'),
+    url(r'chips/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        views.chips, name='chips'),
 ]

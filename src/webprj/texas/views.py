@@ -44,15 +44,6 @@ def signup(request):
     new_user.is_active = False
     new_user.save()
 
-    '''user = authenticate(
-        request,
-        username=signupform.cleaned_data['username'],
-        password=signupform.cleaned_data['password'])
-    if user is not None:
-        login(request, user)
-        return redirect(reverse('lobby'))
-    else:
-        return render(request, 'signup.html')'''
     message = render_to_string('active_email.html', {
         'user':new_user, 
         'domain':request.get_host(),
@@ -114,6 +105,40 @@ def forgetpassword(request):
     context['message'] = 'Please confirm your email address to reset your password.'
     return render(request, 'message.html', context)
 
+def morechips(request):
+    context = {}
+    errors = []
+    context['errors'] = errors
+    if request.method == 'GET':
+        context['form'] = ChipEmail()
+        return render(request, 'morechips.html', context) 
+
+    form = ChipEmail(request.POST)
+    if not form.is_valid():
+        context['form'] = form
+        return render(request, 'morechips.html', context)
+
+    if request.user.email == request.POST['email']:
+        context['form'] = form
+        context['errors'] = "You cannot send emails to yourself."
+        return render(request, 'morechips.html', context)
+
+    user = request.user
+
+    message = render_to_string('get_chips.html', {
+        'user':user, 
+        'domain':request.get_host(),
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': account_activation_token.make_token(user),
+    })
+    mail_subject = 'Help your friend get additional chips.'
+    to_email = request.POST['email']
+    email = EmailMessage(mail_subject, message, to = [to_email])
+    email.send()
+    context['message'] = 'Please ask your friend to confirm the email.'
+    context['title'] = "Confirm email."
+    return render(request, 'message.html', context)
+
 def reset(request, uidb64, token):
     context = {}
     try:
@@ -138,6 +163,25 @@ def resetpass(request):
     user.save()
     login(request, user)
     return HttpResponseRedirect(reverse('lobby'))
+
+def chips(request, uidb64, token):
+    context = {}
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user_info = User_info.objects.get(user = user)
+        user_info.chips = user_info.chips + 10000
+        user_info.save()
+        context['message'] = "You have successfully gained 10000 coins for your friend! Thank you for your help!"
+        context['title'] = "Success"
+        return render(request, 'message.html', context)
+    else:
+        context['message'] = 'Link is invalid.'
+        context['title'] = 'Invalid Link'
+        return render(request, 'message.html', context)
 
 def log_in(request):
     context = {}
@@ -174,6 +218,8 @@ def lobby(request):
 @login_required
 def profile(request):
     context = {}
+    context['user'] = request.user
+    context['profile'] = User_info.objects.get(user = request.user)
     return render(request, 'profile.html', context)
 
 
@@ -195,6 +241,7 @@ def playroom(request, deskname):
 
     context['user'] = request.user
     context['user_chips'] = user_info.chips
+    context['deskname'] = deskname
 
     if not desk.is_start:
         return render(request, 'playroom.html', context)
