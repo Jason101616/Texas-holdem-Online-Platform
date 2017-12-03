@@ -391,7 +391,8 @@ def start_next_game(this_desk, public_name):
     elif player_num == 1:
         this_desk.is_start = False
         this_desk.save()
-        content = {'restart': 'no'}
+        cur_user_chips = User_Game_play.objects.get(desk=this_desk).user.chips
+        content = {'restart': 'no', 'cur_user_chips': cur_user_chips}
         Group(str(this_desk.desk_name)).send({'text': json.dumps(content)})
 
     active_users_list = []
