@@ -247,7 +247,9 @@ def lobby(request):
 def profile(request):
     context = {}
     context['user'] = request.user
-    context['profile'] = User_info.objects.get(user=request.user)
+    profile = User_info.objects.get(user=request.user)
+    context['profile'] = profile
+    context['loses'] = profile.game_played - profile.game_win
     return render(request, 'profile.html', context)
 
 

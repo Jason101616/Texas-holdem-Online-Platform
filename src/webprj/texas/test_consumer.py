@@ -126,7 +126,7 @@ def start_logic(public_name):
         content = {'user_cards': user.user_cards}
         Group(public_name + str(user.position)).send({
             'text':
-                json.dumps(content)
+            json.dumps(content)
         })
 
     # tell the public channel, who is dealer, who is big blind, who is small blind
@@ -141,9 +141,9 @@ def start_logic(public_name):
             small_blind_min, small_blind.user.chips
         ],
         'start_game':
-            1,
+        1,
         'total_chips':
-            big_blind_min + small_blind_min
+        big_blind_min + small_blind_min
     }
     Group(cur_desk.desk_name).send({'text': json.dumps(content)})
 
@@ -375,7 +375,6 @@ def assign_winner(desk, winner_list, results=None):
         cur_winner.user.save()
         winner_username.append(cur_winner.user.user.username)
 
-
     content = {
         'winner_pos': winner_pos_list,
         'winner': winner_username,
@@ -392,7 +391,7 @@ def assign_winner(desk, winner_list, results=None):
     t_getout.start()
 
     # delete all disconnect user and ready to restart
-    print("old:",desk)
+    print("old:", desk)
     t = Timer(10.0, start_next_game, [desk.desk_name])
     t.start()
 
@@ -405,15 +404,15 @@ def get_out(this_desk):
         if user.user.chips < big_blind_min:
             Group(public_name + str(user.position)).send({
                 'text':
-                    json.dumps({
-                        'get_out': 'yes'
-                    })
+                json.dumps({
+                    'get_out': 'yes'
+                })
             })
 
 
 def start_next_game(public_name):
     this_desk = Desk_info.objects.get(desk_name=public_name)
-    print("new:",this_desk)
+    print("new:", this_desk)
     cur_desk_users = User_Game_play.objects.filter(desk=this_desk)
     player_num = 0
     for user in cur_desk_users:
@@ -478,7 +477,6 @@ def winner_logic(cur_desk):
         # winner list is a sorted list, each element is a list contain user postions
         winner_list, results = river_compare(cur_desk)
         print(winner_list)
-        # for test, just give the first person in the queue
         # winner = User_Game_play.objects.get(desk=cur_desk, position=winner_pos[0])
         assign_winner(cur_desk, winner_list, results)
         return
@@ -490,8 +488,8 @@ def winner_logic(cur_desk):
         winner_list, results = river_compare(cur_desk)
         print(winner_list)
         # for test, just give the first person in the queue
-        assign_winner(cur_desk, winner_list, results)
-        cards_of_the_desk = cur_desk.five_cards_of_desk
+        assign_winner(cur_desk, winner_list)
+        cards_of_the_desk = cur_desk.five_cards_of_desk.split(" ")
         # send the cards of current desk to all users
         content = {'desk_cards': cards_of_the_desk}
         Group(cur_desk.desk_name).send({'text': json.dumps(content)})
@@ -958,7 +956,7 @@ def ws_disconnect(message):
         desk.save()
 
         if int(desk.player_queue[
-                   desk.player_queue_pointer]) == this_player.position:
+                desk.player_queue_pointer]) == this_player.position:
             next_pos_queue = get_next_pos(this_player.position,
                                           desk.player_queue)
             desk.player_queue = desk.player_queue[:desk.player_queue_pointer] + \

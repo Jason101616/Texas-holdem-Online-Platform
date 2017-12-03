@@ -468,6 +468,8 @@ $(document).ready(function () {
             user_cards = data['cards'];
             winner_pos = data['winner_pos'];
             winner_name = data['winner'];
+            winner_type = data['type'];
+            winner_cards = data['win_cards'];
             $('#start_game')[0].disabled = false;
 
             clear_status();
@@ -497,16 +499,26 @@ $(document).ready(function () {
                     }
 
                     winner_pos = parseInt(winner_pos) - parseInt(login_user_pos);
-                    /*if (winner_pos == 0) {
-                        start_timer_win();
-                    }*/
+
                     if (winner_pos < 0) winner_pos += 9;
+
+                    if (user_cards && winner_cards) {
+                        for (i = 0; i < winner_cards.length; i++) {
+                            if (winner_cards[i] <= 5) {
+                                $('#desk-' + (i - 1)).css('background-color', 'rgba(254,238,117,0.5)');
+                            }
+                            else {
+                                $('#card-' + winner_pos + '-' + (i - 5)).css('background-color', 'rgba(254,238,117,0.5)');
+                            }
+                        }
+                    }
+
                     $('#player-' + winner_pos)
                     .css(
                         'background',
                         'linear-gradient(0deg, rgba(254,238,117,0.5), rgba(254,238,117,0))');
 
-                    $('#message').html('Winner is ' + winner_name + '!');
+                    $('#message').html('Winner is ' + winner_name + '! ' + winner_type.toUpperCase());
                 }
             })
         }
