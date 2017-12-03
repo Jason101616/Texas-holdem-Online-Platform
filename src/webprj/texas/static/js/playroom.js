@@ -410,6 +410,7 @@ $(document).ready(function () {
                     user_pos = parseInt(target_pos) - 1 - parseInt(login_user_pos);
                     if (user_pos < 0) user_pos += 9;
 
+                    debugger;
                     if (user_pos == 0) {
                         $('#game_fold')[0].disabled = false;
                         $('#game_allin')[0].disabled = false;
@@ -424,6 +425,7 @@ $(document).ready(function () {
                             $('#raise_value')[0].value = $('#raise_value')[0].min;
                             $('#raise_calue_disp').html($('#raise_value')[0].value);
                         }
+                        console.log("timer!" + (target_pos - 1) + ' ' + login_user_pos);
                         start_timer();
                     }
                     else {
