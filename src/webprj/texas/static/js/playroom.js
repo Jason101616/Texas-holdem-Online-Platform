@@ -264,7 +264,7 @@ $(document).ready(function () {
 
             $.ajax({
                 type: 'post',
-                url: 'addplayer',
+                url: '/addplayer',
                 data: '',
                 success: function (data) {
                     if (data.players) {
@@ -282,7 +282,7 @@ $(document).ready(function () {
         if (data['new_player']) {
             $.ajax({
                 type: 'post',
-                url: 'addplayer',
+                url: '/addplayer',
                 data: data['new_player'],
                 success: function (data) {
                     if (data.players) {
@@ -333,7 +333,7 @@ $(document).ready(function () {
             small_blind_chips = data['small_blind'][3];
             $.ajax({
                 type: 'post',
-                url: 'getjob/' + data['big_blind'][1] + '/' + data['small_blind'][1] +
+                url: '/getjob/' + data['big_blind'][1] + '/' + data['small_blind'][1] +
                     '/' + data['dealer'][1],
                 data: '',
                 success: function (data) {
@@ -378,7 +378,7 @@ $(document).ready(function () {
 
             $.ajax({
                 type: 'post',
-                url: 'get_position',
+                url: '/get_position',
                 data: '',
                 success: function (data) {
 
@@ -417,7 +417,7 @@ $(document).ready(function () {
 
             $.ajax({
                 type: 'post',
-                url: 'get_position',
+                url: '/get_position',
                 data: '',
                 success: function (data) {
                     login_user_pos = data['position'];
@@ -467,7 +467,7 @@ $(document).ready(function () {
 
             $.ajax({
                 type: 'post',
-                url: 'get_position',
+                url: '/get_position',
                 data: '',
                 success: function (data) {
                     login_user_pos = data['position'];
@@ -543,7 +543,7 @@ $(document).ready(function () {
             }
             $.ajax({
                 type: 'post',
-                url: 'get_position',
+                url: '/get_position',
                 data: '',
                 success: function (data) {
                     login_user_pos = data['position'];
@@ -569,7 +569,7 @@ $(document).ready(function () {
             if (data['can_start'] == 'yes') {
                 $.ajax({
                     type: 'post',
-                    url: 'get_position',
+                    url: '/get_position',
                     data: '',
                     success: function (data) {
                         login_user_pos = data['position'];
