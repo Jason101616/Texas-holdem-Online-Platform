@@ -208,10 +208,14 @@ def log_in(request):
 @login_required
 def lobby(request):
     context = {}
+    if 'errors' in request.session:
+        context['errors'] = request.session['errors']
+        del request.session['errors']
     desk_form = DeskForm()
     context['desk_form'] = desk_form
     desks = Desk_info.objects.all()
     context['desks'] = desks
+
     return render(request, 'lobby.html', context)
 
 
@@ -250,7 +254,7 @@ def playroom(request, deskname):
             'Permission denied: there is an ongoing game in this room, please try another.']
     elif user_info.chips < big_blind_min:
         print('cannot get into the room')
-        context['errors'] = 'You don\'t have enough chips'
+        request.session['errors'] = 'You don\'t have enough chips'
     else:
         return render(request, 'playroom.html', context)
     return redirect(reverse('lobby'))
@@ -333,7 +337,11 @@ def get_position(request):
 def newplay(request):
     print("enter newplay")
     if request.method == 'POST':
-        print ("post")
+        print ("post in newplay")
+        user_info = get_object_or_404(User_info, user=request.user)
+        if user_info.chips < big_blind_min:
+            request.session['errors'] = 'You don\'t have enough chips'
+            return redirect(reverse('lobby'))
         desk_form = DeskForm(request.POST)
         if not desk_form.is_valid():
             return redirect(reverse('lobby'))
