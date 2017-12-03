@@ -331,7 +331,6 @@ def assign_winner(desk, winner_list):
     desk.current_round_largest_chips = 0
     desk.save()
 
-    # FIXME: check whether we need to show all the cards to all users
     cur_desk_users = User_Game_play.objects.filter(desk=desk)
     public_name = desk.desk_name
     all_user_cards = {}
@@ -351,7 +350,6 @@ def assign_winner(desk, winner_list):
         cur_winner = User_Game_play.objects.get(desk=desk, position=pos)
         # update win and lose game number
         cur_winner.user.game_win += 1
-        cur_winner.user.game_lose = cur_winner.user.game_played - cur_winner.user.game_win
         cur_winner.user.save()
         winner_username.append(cur_winner.user.user.username)
     content = {
