@@ -278,7 +278,7 @@ def judge_logic(next_player, desk):
             give_control(next_player.position, desk)
 
 
-def assign_winner(desk, winner_list):
+def assign_winner(desk, winner_list, results=None):
     print("winner list:", winner_list)
     # update the chips of current desk
     cur_pool = desk.pool
@@ -344,18 +344,44 @@ def assign_winner(desk, winner_list):
         user.status = 0
         user.save()
 
+    # get the cards of current desk
+    desk_cards = desk.five_cards_of_desk
+    desk_cards.split(' ')
+    for index, string in enumerate(desk_cards):
+        desk_cards[index] = int(string)
+
+    type = ''
     winner_pos_list = winner_list[0]
     winner_username = []
+    win_cards_index = []
     for pos in winner_pos_list:
         cur_winner = User_Game_play.objects.get(desk=desk, position=pos)
         # update win and lose game number
         cur_winner.user.game_win += 1
+        cur_winner_cards = cur_winner.user_cards
+        cur_winner_cards.split(' ')
+        for index, string in enumerate(cur_winner_cards):
+            cur_winner_cards[index] = int(string)
+        all_cards = desk_cards + cur_winner_cards
+        if results:
+            for result in results:
+                if result[0] == pos:
+                    cur_ans = []
+                    type = result[1][2]
+                    for card in results[1][3]:
+                        cur_ans.append(all_cards.index(card))
+                    win_cards_index.append(cur_ans)
+                    break
         cur_winner.user.save()
         winner_username.append(cur_winner.user.user.username)
+
+
     content = {
         'winner_pos': winner_pos_list,
         'winner': winner_username,
-        'cards': all_user_cards
+        'cards': all_user_cards,
+        'type': type,
+        'win_cards': win_cards_index
     }
 
     Group(public_name).send({'text': json.dumps(content)})
@@ -454,7 +480,7 @@ def winner_logic(cur_desk):
         print(winner_list)
         # for test, just give the first person in the queue
         # winner = User_Game_play.objects.get(desk=cur_desk, position=winner_pos[0])
-        assign_winner(cur_desk, winner_list)
+        assign_winner(cur_desk, winner_list, results)
         return
 
     # if there's only one player whose status is other than fold or all-in
@@ -464,7 +490,7 @@ def winner_logic(cur_desk):
         winner_list, results = river_compare(cur_desk)
         print(winner_list)
         # for test, just give the first person in the queue
-        assign_winner(cur_desk, winner_list)
+        assign_winner(cur_desk, winner_list, results)
         cards_of_the_desk = cur_desk.five_cards_of_desk
         # send the cards of current desk to all users
         content = {'desk_cards': cards_of_the_desk}
