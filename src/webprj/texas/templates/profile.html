@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{% static "css/normalize.min.css" %}">
     <link rel="stylesheet" href="{% static "css/style.css" %}">
     <link rel = "stylesheet" href = "{% static "css/mystyle.css" %}">
+    <link rel = "stylesheet" href = "{% static "css/profile.css" %}">
 </head>
 
 <body>
@@ -39,21 +40,49 @@
             <h1 class = "brown">~ {{ user.username }} ~</h1>
             <p class = "center">{{ user.first_name }} {{ user.last_name }}</p>
             <p class = "center">{{ user.email }}</p>
+            <br />
 
-            <hr>
+    <div class="table-responsive-vertical shadow-z-1">
+      <!-- Table starts here -->
+      <table id="table" class="table table-striped table-hover table-mc-light-green">
+        <thead>
+          <tr>
+            <th> Property </th>
+            <th> Statistics </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-title="Property">Total Chips </td>
+            <td data-title="Statistics">{{ profile.chips }}</td>
+          </tr>
 
-            <p>Total chips:</p>
-            <p class = "right">{{ profile.chips }}</p><br>
+          <tr>
+            <td data-title="Property">Total number of games played </td>
+            <td data-title="Statistics">{{ profile.game_played }}</td>
+          </tr>
 
-            <p>Total number of games played: </p>
-            <p class = "right">{{ profile.game_played }}</p><br>
+          <tr>
+            <td data-title="Property">Number of wins </td>
+            <td data-title="Statistics">{{ profile.game_win }}</td>
+          </tr>
 
-            <p>Number of wins:</p>
-            <p class = "right">{{ profile.game_win }}</p><br>
+          <tr>
+            <td data-title="Property">Number of loses </td>
+            <td data-title="Statistics">{{ loses }}</td>
+          </tr>
 
-            <p>Number of loses:</p>
-            <p class = "right">{{ loses }}</p><br>
-            
+          <tr>
+            <td data-title="Property">Winning Rate </td>
+            <td data-title="Statistics">{{ winning_rate }}</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+
+
             <div class = "center">
                 <span class = "left"><a class = "smallbtn" href = "{% url 'morechips' %}">More chips</a></span>
                 <span class = "right"><a class="smallbtn" href="{% url 'forgetpassword' %}">Change Password</a></span>
