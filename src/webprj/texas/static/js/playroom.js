@@ -188,7 +188,7 @@ $(document).ready(function () {
             value = 'K' + value;
             break;
             default:
-            value = num + value;
+            value = num + value; 
             break;
         }
         return value;
@@ -466,9 +466,9 @@ $(document).ready(function () {
                     }
 
                     winner_pos = parseInt(winner_pos) - parseInt(login_user_pos);
-                    if (winner_pos == 0) {
+                    /*if (winner_pos == 0) {
                         start_timer_win();
-                    }
+                    }*/
                     if (winner_pos < 0) winner_pos += 9;
                     $('#player-' + winner_pos)
                     .css(
