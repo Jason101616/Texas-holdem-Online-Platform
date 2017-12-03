@@ -224,7 +224,7 @@ def log_in(request):
 def lobby(request):
     context = {}
     if 'errors' in request.session:
-        context['errors'] = request.session['errors']
+        context['errors'] = [request.session['errors']]
         del request.session['errors']
     desk_form = DeskForm()
     context['desk_form'] = desk_form
