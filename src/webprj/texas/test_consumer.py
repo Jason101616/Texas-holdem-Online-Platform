@@ -587,183 +587,194 @@ def next_phase(cur_desk):
 @transaction.atomic
 @channel_session_user
 def ws_msg(message):
-    public_name = message['path'].strip('/').split('/')[-1]
-    print(message['path'].strip('/').split('/')[-1])
-
     try:
-        data = json.loads(message['text'])
-    except:
-        return
-    print(data)
+        public_name = message['path'].strip('/').split('/')[-1]
+        print(message['path'].strip('/').split('/')[-1])
 
-    # the owner start the game
-    if 'start_game' in data:
-        print('start_game')
-        first_player_position = start_logic(public_name)
+        try:
+            data = json.loads(message['text'])
+        except:
+            return
+        print(data)
 
-        cur_desk = Desk_info.objects.get(desk_name=public_name)
+        # the owner start the game
+        if 'start_game' in data:
+            print('start_game')
+            first_player_position = start_logic(public_name)
 
-        this_user = User_Game_play.objects.get(
-            desk=cur_desk, position=first_player_position)
-        print("start_user:", this_user)
-        this_user.status = 1
+            cur_desk = Desk_info.objects.get(desk_name=public_name)
 
-        cur_desk.is_start = True
-        cur_desk.save()
+            this_user = User_Game_play.objects.get(
+                desk=cur_desk, position=first_player_position)
+            print("start_user:", this_user)
+            this_user.status = 1
 
-        # '+1' added by lsn
-        content = {}
-        # position + 1
-        content['move'] = int(first_player_position) + 1
-        can_check, can_raise, raise_amount = True, False, 0
-        if this_user.user.chips < cur_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game:
-            can_check = False
-        content['check'] = can_check
-        if this_user.user.chips >= cur_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game + cur_desk.current_round_largest_chips:
-            can_raise = True
-            raise_amount = this_user.user.chips - cur_desk.current_largest_chips_this_game
-        content['raise'] = [
-            can_raise,
-            [cur_desk.current_largest_chips_this_game, raise_amount]
-        ]
-        this_user.save()
-        Group(public_name).send({'text': json.dumps(content)})
-        return
+            cur_desk.is_start = True
+            cur_desk.save()
 
-    # The player click leave room
-    if 'command' in data:
-        if data['command'] == 'leave':
-            print(message.user.username)
-            # disconnect_user(message, message.user.username)
+            # '+1' added by lsn
+            content = {}
+            # position + 1
+            content['move'] = int(first_player_position) + 1
+            can_check, can_raise, raise_amount = True, False, 0
+            if this_user.user.chips < cur_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game:
+                can_check = False
+            content['check'] = can_check
+            if this_user.user.chips >= cur_desk.current_largest_chips_this_game - this_user.chips_pay_in_this_game + cur_desk.current_round_largest_chips:
+                can_raise = True
+                raise_amount = this_user.user.chips - cur_desk.current_largest_chips_this_game
+            content['raise'] = [
+                can_raise,
+                [cur_desk.current_largest_chips_this_game, raise_amount]
+            ]
+            this_user.save()
+            Group(public_name).send({'text': json.dumps(content)})
             return
 
-    # get this_user, this_user_info, this_user_game_play, this_desk
-    this_user = get_object_or_404(User, username=message.user.username)
-    this_user_info = User_info.objects.get(user=this_user)
-    this_user_game_play = User_Game_play.objects.get(user=this_user_info)
-    this_desk = this_user_game_play.desk
-    print("this_user_2:", this_user_game_play)
+        # The player click leave room
+        if 'command' in data:
+            if data['command'] == 'leave':
+                print(message.user.username)
+                # disconnect_user(message, message.user.username)
+                return
 
-    if data['message'] == 'call' or data['message'] == 'check' or data['message'] == 'hold':
-        act = 'hold'
-        # current user put more chips
-        print('current largest chips this game:',
-              this_desk.current_largest_chips_this_game)
-        print('current largest chips this round:',
-              this_desk.current_round_largest_chips)
-        print('this user chips pay in this game:',
-              this_user_game_play.chips_pay_in_this_game)
-        this_user_info.chips -= (this_desk.current_largest_chips_this_game -
-                                 this_user_game_play.chips_pay_in_this_game)
+        # get this_user, this_user_info, this_user_game_play, this_desk
+        this_user = get_object_or_404(User, username=message.user.username)
+        this_user_info = User_info.objects.get(user=this_user)
+        this_user_game_play = User_Game_play.objects.get(user=this_user_info)
+        this_desk = this_user_game_play.desk
+        print("this_user_2:", this_user_game_play)
 
-        this_desk.pool += (this_desk.current_largest_chips_this_game -
-                           this_user_game_play.chips_pay_in_this_game)
-        this_user_game_play.chips_pay_in_this_game = this_desk.current_largest_chips_this_game
-        this_user_game_play.status = 1
-        next_pos_queue = get_next_pos(this_user_game_play.position,
-                                      this_desk.player_queue)
-        print('current largest chips this game:',
-              this_desk.current_largest_chips_this_game)
-        print('current largest chips this round:',
-              this_desk.current_round_largest_chips)
-        print('this user chips pay in this game:',
-              this_user_game_play.chips_pay_in_this_game)
+        if data['message'] == 'call' or data['message'] == 'check' or data['message'] == 'hold':
+            act = 'hold'
+            # current user put more chips
+            print('current largest chips this game:',
+                  this_desk.current_largest_chips_this_game)
+            print('current largest chips this round:',
+                  this_desk.current_round_largest_chips)
+            print('this user chips pay in this game:',
+                  this_user_game_play.chips_pay_in_this_game)
+            this_user_info.chips -= (
+                this_desk.current_largest_chips_this_game -
+                this_user_game_play.chips_pay_in_this_game)
 
-    elif data['message'] == 'fold' or data['message'] == 'timeout':
-        act = 'fold'
-        # update the queue
-        next_pos_queue = get_next_pos(this_user_game_play.position,
-                                      this_desk.player_queue)
-        this_desk.player_queue = this_desk.player_queue[:this_desk.player_queue_pointer] + \
-                                 this_desk.player_queue[this_desk.player_queue_pointer + 1:]
-        print("queue after fold:", this_desk.player_queue)
-        this_desk.player_queue_pointer -= 1
-        this_user_game_play.status = 1
-        if next_pos_queue > 0:
-            next_pos_queue -= 1
+            this_desk.pool += (this_desk.current_largest_chips_this_game -
+                               this_user_game_play.chips_pay_in_this_game)
+            this_user_game_play.chips_pay_in_this_game = this_desk.current_largest_chips_this_game
+            this_user_game_play.status = 1
+            next_pos_queue = get_next_pos(this_user_game_play.position,
+                                          this_desk.player_queue)
+            print('current largest chips this game:',
+                  this_desk.current_largest_chips_this_game)
+            print('current largest chips this round:',
+                  this_desk.current_round_largest_chips)
+            print('this user chips pay in this game:',
+                  this_user_game_play.chips_pay_in_this_game)
 
-    elif data['message'] == 'raise':
-        act = 'raise'
-        print('current largest chips this game:',
-              this_desk.current_largest_chips_this_game)
-        print('current largest chips this round:',
-              this_desk.current_round_largest_chips)
-        print('this user chips pay in this game:',
-              this_user_game_play.chips_pay_in_this_game)
-        this_user_info.chips -= (this_desk.current_largest_chips_this_game -
-                                 this_user_game_play.chips_pay_in_this_game)
+        elif data['message'] == 'fold' or data['message'] == 'timeout':
+            act = 'fold'
+            # update the queue
+            next_pos_queue = get_next_pos(this_user_game_play.position,
+                                          this_desk.player_queue)
+            this_desk.player_queue = this_desk.player_queue[:this_desk.player_queue_pointer] + \
+                                    this_desk.player_queue[this_desk.player_queue_pointer + 1:]
+            print("queue after fold:", this_desk.player_queue)
+            this_desk.player_queue_pointer -= 1
+            this_user_game_play.status = 1
+            if next_pos_queue > 0:
+                next_pos_queue -= 1
 
-        this_desk.pool += (this_desk.current_largest_chips_this_game -
-                           this_user_game_play.chips_pay_in_this_game)
-        this_user_game_play.chips_pay_in_this_game = this_desk.current_largest_chips_this_game
+        elif data['message'] == 'raise':
+            act = 'raise'
+            print('current largest chips this game:',
+                  this_desk.current_largest_chips_this_game)
+            print('current largest chips this round:',
+                  this_desk.current_round_largest_chips)
+            print('this user chips pay in this game:',
+                  this_user_game_play.chips_pay_in_this_game)
+            this_user_info.chips -= (
+                this_desk.current_largest_chips_this_game -
+                this_user_game_play.chips_pay_in_this_game)
 
-        chips_add = int(data['value'])
-        # current user put more chips
-        this_user_info.chips -= chips_add
-        this_user_game_play.chips_pay_in_this_game += chips_add
-        this_desk.current_largest_chips_this_game = this_user_game_play.chips_pay_in_this_game
-        this_desk.pool += chips_add
-        if chips_add < this_desk.current_round_largest_chips:
-            print(
-                "Invaid!!!, chips_add < this_desk.current_round_largest_chips")
-        this_desk.current_round_largest_chips = int(data['value'])
-        next_pos_queue = get_next_pos(this_user_game_play.position,
-                                      this_desk.player_queue)
-        this_user_game_play.status = 1
-        print('current largest chips this game',
-              this_desk.current_largest_chips_this_game)
-        print('current largest chips this round',
-              this_desk.current_round_largest_chips)
-        print('this user chips pay in this game',
-              this_user_game_play.chips_pay_in_this_game)
+            this_desk.pool += (this_desk.current_largest_chips_this_game -
+                               this_user_game_play.chips_pay_in_this_game)
+            this_user_game_play.chips_pay_in_this_game = this_desk.current_largest_chips_this_game
 
-    elif data['message'] == 'all_in':
-        act = 'all_in'
-        this_desk.pool += this_user_info.chips
-        this_user_game_play.status = -1
+            chips_add = int(data['value'])
+            # current user put more chips
+            this_user_info.chips -= chips_add
+            this_user_game_play.chips_pay_in_this_game += chips_add
+            this_desk.current_largest_chips_this_game = this_user_game_play.chips_pay_in_this_game
+            this_desk.pool += chips_add
+            if chips_add < this_desk.current_round_largest_chips:
+                print(
+                    "Invaid!!!, chips_add < this_desk.current_round_largest_chips"
+                )
+            this_desk.current_round_largest_chips = int(data['value'])
+            next_pos_queue = get_next_pos(this_user_game_play.position,
+                                          this_desk.player_queue)
+            this_user_game_play.status = 1
+            print('current largest chips this game',
+                  this_desk.current_largest_chips_this_game)
+            print('current largest chips this round',
+                  this_desk.current_round_largest_chips)
+            print('this user chips pay in this game',
+                  this_user_game_play.chips_pay_in_this_game)
 
-        raise_amount = this_user_info.chips - (
-            this_desk.current_largest_chips_this_game -
-            this_user_game_play.chips_pay_in_this_game)
-        if raise_amount > this_desk.current_round_largest_chips:
-            this_desk.current_round_largest_chips = raise_amount
-        if this_user_info.chips + this_user_game_play.chips_pay_in_this_game > this_desk.current_largest_chips_this_game:
-            print('in all_in ...')
-            this_desk.current_largest_chips_this_game = this_user_info.chips + this_user_game_play.chips_pay_in_this_game
-        this_user_game_play.chips_pay_in_this_game += this_user_info.chips
-        this_user_info.chips = 0
-        next_pos_queue = get_next_pos(this_user_game_play.position,
-                                      this_desk.player_queue)
-    else:
-        print("unknown message")
-        return
+        elif data['message'] == 'all_in':
+            act = 'all_in'
+            this_desk.pool += this_user_info.chips
+            this_user_game_play.status = -1
 
-    this_user_game_play.save()
-    this_desk.save()
-    this_user_info.save()
+            raise_amount = this_user_info.chips - (
+                this_desk.current_largest_chips_this_game -
+                this_user_game_play.chips_pay_in_this_game)
+            if raise_amount > this_desk.current_round_largest_chips:
+                this_desk.current_round_largest_chips = raise_amount
+            if this_user_info.chips + this_user_game_play.chips_pay_in_this_game > this_desk.current_largest_chips_this_game:
+                print('in all_in ...')
+                this_desk.current_largest_chips_this_game = this_user_info.chips + this_user_game_play.chips_pay_in_this_game
+            this_user_game_play.chips_pay_in_this_game += this_user_info.chips
+            this_user_info.chips = 0
+            next_pos_queue = get_next_pos(this_user_game_play.position,
+                                          this_desk.player_queue)
+        else:
+            print("unknown message")
+            return
 
-    this_desk.player_queue_pointer = next_pos_queue
-    next_pos_desk = int(this_desk.player_queue[next_pos_queue])
-    print('next_pos_desk: ', next_pos_desk)
-    next_user = User_Game_play.objects.get(
-        desk=this_desk, position=next_pos_desk)
+        this_user_game_play.save()
+        this_desk.save()
+        this_user_info.save()
 
-    content = {
-        'cur_user_pos': this_user_game_play.position + 1,
-        'cur_user_chips': this_user_info.chips,
-        'total_chips_current_game': this_desk.pool,
-        'cur_user_chips_this_game': this_user_game_play.chips_pay_in_this_game,
-        'act': act
-    }
-    print(content)
-    Group(public_name).send({'text': json.dumps(content)})
+        this_desk.player_queue_pointer = next_pos_queue
+        next_pos_desk = int(this_desk.player_queue[next_pos_queue])
+        print('next_pos_desk: ', next_pos_desk)
+        next_user = User_Game_play.objects.get(
+            desk=this_desk, position=next_pos_desk)
 
-    # save the modified model, send the public group which user should move the next round
-    this_user_info.save()
-    this_user_game_play.save()
-    this_desk.save()
-    print("next_user before judge logic: ", next_user)
-    judge_logic(next_user, this_desk)
+        content = {
+            'cur_user_pos':
+            this_user_game_play.position + 1,
+            'cur_user_chips':
+            this_user_info.chips,
+            'total_chips_current_game':
+            this_desk.pool,
+            'cur_user_chips_this_game':
+            this_user_game_play.chips_pay_in_this_game,
+            'act':
+            act
+        }
+        print(content)
+        Group(public_name).send({'text': json.dumps(content)})
+
+        # save the modified model, send the public group which user should move the next round
+        this_user_info.save()
+        this_user_game_play.save()
+        this_desk.save()
+        print("next_user before judge logic: ", next_user)
+        judge_logic(next_user, this_desk)
+    except:
+        reset_all()
 
 
 # Connected to websocket.connect
@@ -1002,3 +1013,18 @@ def ws_disconnect(message):
             desk.save()
             print(content)
             judge_logic(next_user, desk)
+
+
+@transaction.atomic
+def reset_all():
+    for desk in Desk_info.objects.all():
+        cur_desk_users = User_Game_play.objects.filter(desk=desk)
+        public_name = desk.desk_name
+        # delete the users who do not has enough chips
+        for user in cur_desk_users:
+            Group(public_name + str(user.position)).send({
+                'text':
+                json.dumps({
+                    'get_out': 'yes'
+                })
+            })
