@@ -148,7 +148,11 @@ def start_logic(public_name):
     cur_desk.current_largest_chips_this_game = big_blind_min
     cur_desk.current_round_largest_chips = small_blind_min
     cur_desk.save()
+    print("small_blind:",small_blind)
+    print("big_bline:",big_blind)
 
+    users_of_cur_desk = User_Game_play.objects.filter(
+        desk=cur_desk).order_by('position')
     # give every users 2 cards
     cards = test_compare.shuffle_card(len(users_of_cur_desk))
 
@@ -584,6 +588,7 @@ def ws_msg(message):
 
         this_user = User_Game_play.objects.get(
             desk=cur_desk, position=first_player_position)
+        print("start_user:",this_user)
         this_user.status = 1
 
         cur_desk.is_start = True
@@ -617,6 +622,7 @@ def ws_msg(message):
     this_user_info = User_info.objects.get(user=this_user)
     this_user_game_play = User_Game_play.objects.get(user=this_user_info)
     this_desk = this_user_game_play.desk
+    print("this_user_2:",this_user_game_play)
 
     if data['message'] == 'call' or data['message'] == 'check' or data['message'] == 'hold':
         act = 'hold'

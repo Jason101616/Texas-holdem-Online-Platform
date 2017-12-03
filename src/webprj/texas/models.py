@@ -77,8 +77,8 @@ class User_Game_play(models.Model):
     is_fold = models.BooleanField(default=False)
 
     def __str__(self):
-        return "desk_name: %s, username: %s, position: %d, user_cards: %s, status: %d"%\
-               (self.desk.desk_name, self.user.user.username, self.position, self.user_cards, self.status)
+        return "desk_name: %s, username: %s, position: %d, user_cards: %s, status: %d, chips_pay_in_this_game: %d"%\
+               (self.desk.desk_name, self.user.user.username, self.position, self.user_cards, self.status, self.chips_pay_in_this_game)
 
 
 class Game_info(models.Model):
