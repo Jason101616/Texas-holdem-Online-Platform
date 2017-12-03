@@ -1,4 +1,4 @@
-var COUNT_DOWN = 30;
+var COUNT_DOWN = 10;
 var timer = COUNT_DOWN;
 var timeout;
 

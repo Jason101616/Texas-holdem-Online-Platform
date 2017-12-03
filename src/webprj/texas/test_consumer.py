@@ -31,6 +31,7 @@ def delete_desk(desk):
 def start_logic(public_name):
     print('start signal received!')
     # let the user in lowest position be the dealer
+
     cur_desk = Desk_info.objects.get(desk_name=public_name)
     users_of_cur_desk = User_Game_play.objects.filter(
         desk=cur_desk).order_by('position')
@@ -283,7 +284,6 @@ def judge_logic(next_player, desk):
             give_control(next_player.position, desk)
 
 
-@transaction.atomic
 def assign_winner(desk, winner_list, results=None):
     print("winner list:", winner_list)
     # update the chips of current desk
@@ -399,6 +399,7 @@ def assign_winner(desk, winner_list, results=None):
 
     # delete all disconnect user and ready to restart
     print("old:", desk)
+    desk.save()
     t = Timer(10.0, start_next_game, [desk.desk_name])
     t.start()
 
@@ -418,7 +419,6 @@ def get_out(this_desk):
             })
 
 
-@transaction.atomic
 def start_next_game(public_name):
     this_desk = Desk_info.objects.get(desk_name=public_name)
     print("new:", this_desk)
@@ -471,6 +471,7 @@ def start_next_game(public_name):
         ]
         first_move_user.save()
         Group(public_name).send({'text': json.dumps(content)})
+    return
 
 
 @transaction.atomic
@@ -1050,6 +1051,8 @@ def reset_all():
             try:
                 desk.delete()
             except:
-                pass
+                print("unexpected errors occur when delete", desk.desk_name, "desk")
+                traceback.print_exc()
     except:
         print("unexpected errors occur in reset_all")
+        traceback.print_exc()
