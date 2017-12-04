@@ -68,7 +68,6 @@ function click_allin() {
     var message = {
         'message': 'all_in'
     }
-    console.log(message);
     socket.send(JSON.stringify(message));
     clear_status();
 }
@@ -80,7 +79,6 @@ function click_raise() {
         'message': 'raise',
         'value': val
     };
-    console.log(message);
     socket.send(JSON.stringify(message));
     clear_status();
 }
@@ -102,8 +100,6 @@ function clear_status() {
 }
 
 $(document).ready(function () {
-    console.log(window.location.pathname);
-    console.log(window.location.host);
     socket =
         new WebSocket('ws://' + window.location.host + window.location.pathname);
 
@@ -234,9 +230,7 @@ $(document).ready(function () {
     });
 
     socket.onmessage = function (message) {
-
-        console.log(message.data);
-
+        
         var data = JSON.parse(message.data);
 
         if (data['start_game']) {
