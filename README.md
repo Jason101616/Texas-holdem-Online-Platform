@@ -1,6 +1,16 @@
-This repository is for your course final project. Your project team
-should complete all project work using this repository.
+# reference
 
-Before your project demo, add to this file a link to your deployed
-web site:  
-[http://54.173.97.76/](http://54.173.97.76/)
+#### User interface:
+
+- https://www.w3schools.com/css/tryit.asp?filename=trycss_navbar_horizontal_black
+
+#### Rules of Texas Hold'em
+
+- https://www.youtube.com/watch?v=cnm_V7A-G6c
+- https://vegasclick.com/games/texasholdem
+
+#### Django Channels
+
+- https://channels.readthedocs.io/en/stable/inshort.html
+- https://www.sourcelair.com/blog/articles/115/django-channels-chat
+

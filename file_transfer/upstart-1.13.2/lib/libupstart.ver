@@ -1,7 +1,0 @@
-LIBUPSTART_1.0.0 {
-	global:
-		upstart_*;
-		job_*;
-	local:
-		*;
-};
